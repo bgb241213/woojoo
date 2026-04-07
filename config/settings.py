@@ -94,44 +94,38 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Storage: local dev → media/, production → Cloudflare R2
-# Django 4.2+ uses STORAGES dict; DEFAULT_FILE_STORAGE / STATICFILES_STORAGE are deprecated
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
+
 if not DEBUG:
+    # R2 credentials (read by django-storages via AWS_* settings)
+    AWS_ACCESS_KEY_ID        = os.environ.get('R2_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY    = os.environ.get('R2_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME  = os.environ.get('R2_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL      = os.environ.get('R2_ENDPOINT_URL')
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
+    AWS_S3_FILE_OVERWRITE    = False
+    AWS_QUERYSTRING_AUTH     = False
+    # Cloudflare R2 does not support ACLs — bucket public access via R2 dashboard
+    AWS_DEFAULT_ACL          = None
+
     _r2_domain = (
         os.environ.get('R2_CUSTOM_DOMAIN', '')
         .replace('https://', '')
         .replace('http://', '')
         .rstrip('/')
     )
-    STORAGES = {
-        'default': {
-            'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
-            'OPTIONS': {
-                'access_key':    os.environ.get('R2_ACCESS_KEY_ID'),
-                'secret_key':    os.environ.get('R2_SECRET_ACCESS_KEY'),
-                'bucket_name':   os.environ.get('R2_BUCKET_NAME'),
-                'endpoint_url':  os.environ.get('R2_ENDPOINT_URL'),
-                'signature_version': 's3v4',
-                'default_acl':   'public-read',
-                'file_overwrite': False,
-                'querystring_auth': False,
-                **({"custom_domain": _r2_domain} if _r2_domain else {}),
-            },
-        },
-        'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-        },
-    }
     if _r2_domain:
+        AWS_S3_CUSTOM_DOMAIN = _r2_domain
         MEDIA_URL = f"https://{_r2_domain}/"
-else:
-    STORAGES = {
-        'default': {
-            'BACKEND': 'django.core.files.storage.FileSystemStorage',
-        },
-        'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-        },
-    }
+
+    STORAGES['default']['BACKEND'] = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # django-jazzmin
 JAZZMIN_SETTINGS = {
