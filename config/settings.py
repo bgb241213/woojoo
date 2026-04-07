@@ -86,7 +86,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (local dev)
 MEDIA_URL = '/media/'
@@ -95,26 +94,44 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Storage: local dev → media/, production → Cloudflare R2
+# Django 4.2+ uses STORAGES dict; DEFAULT_FILE_STORAGE / STATICFILES_STORAGE are deprecated
 if not DEBUG:
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_ACCESS_KEY_ID       = os.environ.get('R2_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY   = os.environ.get('R2_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('R2_BUCKET_NAME')
-    AWS_S3_ENDPOINT_URL     = os.environ.get('R2_ENDPOINT_URL')
-    AWS_S3_SIGNATURE_VERSION = 's3v4'
-    AWS_DEFAULT_ACL         = 'public-read'
-    AWS_S3_FILE_OVERWRITE   = False
-    AWS_QUERYSTRING_AUTH    = False
-    # http:// / https:// 접두어, 끝 슬래시 모두 제거해서 순수 도메인만 추출
     _r2_domain = (
         os.environ.get('R2_CUSTOM_DOMAIN', '')
         .replace('https://', '')
         .replace('http://', '')
         .rstrip('/')
     )
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+            'OPTIONS': {
+                'access_key':    os.environ.get('R2_ACCESS_KEY_ID'),
+                'secret_key':    os.environ.get('R2_SECRET_ACCESS_KEY'),
+                'bucket_name':   os.environ.get('R2_BUCKET_NAME'),
+                'endpoint_url':  os.environ.get('R2_ENDPOINT_URL'),
+                'signature_version': 's3v4',
+                'default_acl':   'public-read',
+                'file_overwrite': False,
+                'querystring_auth': False,
+                **({"custom_domain": _r2_domain} if _r2_domain else {}),
+            },
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
     if _r2_domain:
-        AWS_S3_CUSTOM_DOMAIN = _r2_domain
         MEDIA_URL = f"https://{_r2_domain}/"
+else:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
 
 # django-jazzmin
 JAZZMIN_SETTINGS = {
