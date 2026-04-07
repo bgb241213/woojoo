@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+{% block title %}장비 비교 - 우주렌탈{% endblock %}
+{% block nav_compare %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, #1E3A5F, #254d7a);
+    color: #fff;
+    padding: 50px 0 40px;
+  }
+  .selector-card {
+    border: 2px dashed #c8d8e8;
+    border-radius: 12px;
+    padding: 1.5rem;
+    background: #f8fbff;
+    transition: border-color .2s;
+  }
+  .selector-card:focus-within { border-color: #1E3A5F; }
+  .selector-card label { font-weight: 600; color: #1E3A5F; }
+  .vs-badge {
+    width: 48px; height: 48px;
+    background: #1E3A5F;
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    margin: auto;
+  }
+  .compare-table th {
+    background: #f0f5fa;
+    color: #1E3A5F;
+    font-weight: 600;
+    width: 22%;
+    vertical-align: middle;
+    font-size: 0.9rem;
+  }
+  .compare-table td {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  .compare-table .equip-header {
+    background: #1E3A5F;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .equip-img-cell {
+    height: 160px;
+    background: linear-gradient(135deg, #e8f0f8, #cfe0f0);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .equip-img-cell img { max-height: 160px; max-width: 100%; object-fit: contain; }
+  .equip-img-cell .placeholder-icon { font-size: 3rem; color: #7aa3c4; }
+  #compare-result { display: none; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h2 class="fw-bold mb-1">장비 비교</h2>
+    <p class="mb-0" style="opacity:.8;">두 장비의 스펙을 나란히 비교해보세요</p>
+  </div>
+</section>
+
+<div class="container py-5">
+
+  <!-- 장비 선택 -->
+  <div class="row align-items-center g-3 mb-4">
+    <div class="col-md-5">
+      <div class="selector-card">
+        <label class="form-label"><i class="fas fa-truck me-1"></i>왼쪽 장비</label>
+        <select class="form-select mb-2" id="left-category" onchange="loadEquipments('left')">
+          <option value="">-- 미터급 선택 --</option>
+          {% for value, label in category_choices %}
+          <option value="{{ value }}"
+            {% if left and left.category == value %}selected{% endif %}>
+            {{ label }}
+          </option>
+          {% endfor %}
+        </select>
+        <select class="form-select" id="left-equipment">
+          <option value="">-- 장비 선택 --</option>
+          {% if left %}
+          <option value="{{ left.pk }}" selected>{{ left.name }}</option>
+          {% endif %}
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2 text-center">
+      <div class="vs-badge">VS</div>
+    </div>
+    <div class="col-md-5">
+      <div class="selector-card">
+        <label class="form-label"><i class="fas fa-truck me-1"></i>오른쪽 장비</label>
+        <select class="form-select mb-2" id="right-category" onchange="loadEquipments('right')">
+          <option value="">-- 미터급 선택 --</option>
+          {% for value, label in category_choices %}
+          <option value="{{ value }}"
+            {% if right and right.category == value %}selected{% endif %}>
+            {{ label }}
+          </option>
+          {% endfor %}
+        </select>
+        <select class="form-select" id="right-equipment">
+          <option value="">-- 장비 선택 --</option>
+          {% if right %}
+          <option value="{{ right.pk }}" selected>{{ right.name }}</option>
+          {% endif %}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mb-5">
+    <button class="btn btn-navy btn-lg px-5" onclick="doCompare()">
+      <i class="fas fa-balance-scale me-2"></i>비교하기
+    </button>
+  </div>
+
+  <!-- 비교 결과 -->
+  <div id="compare-result">
+    {% if left and right %}
+    <div class="table-responsive">
+      <table class="table table-bordered compare-table">
+        <thead>
+          <tr>
+            <th class="compare-table">항목</th>
+            <th class="equip-header">{{ left.name }}</th>
+            <th class="equip-header">{{ right.name }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>장비 이미지</th>
+            <td>
+              <div class="equip-img-cell mx-auto" style="max-width:200px;">
+                {% if left.image %}
+                  <img src="{{ left.image.url }}" alt="{{ left.name }}">
+                {% else %}
+                  <span class="placeholder-icon"><i class="fas fa-truck-loading"></i></span>
+                {% endif %}
+              </div>
+            </td>
+            <td>
+              <div class="equip-img-cell mx-auto" style="max-width:200px;">
+                {% if right.image %}
+                  <img src="{{ right.image.url }}" alt="{{ right.name }}">
+                {% else %}
+                  <span class="placeholder-icon"><i class="fas fa-truck-loading"></i></span>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          <tr><th>장비명</th><td class="fw-bold">{{ left.name }}</td><td class="fw-bold">{{ right.name }}</td></tr>
+          <tr><th>타입</th><td>{{ left.get_type_display }}</td><td>{{ right.get_type_display }}</td></tr>
+          <tr><th>작업가능높이</th><td>{{ left.max_work_height }}</td><td>{{ right.max_work_height }}</td></tr>
+          <tr><th>발판최대높이</th><td>{{ left.max_platform_height }}</td><td>{{ right.max_platform_height }}</td></tr>
+          <tr><th>작업대크기</th><td>{{ left.platform_size }}</td><td>{{ right.platform_size }}</td></tr>
+          <tr><th>장비크기</th><td>{{ left.equipment_size }}</td><td>{{ right.equipment_size }}</td></tr>
+          <tr><th>장비무게</th><td>{{ left.equipment_weight }}</td><td>{{ right.equipment_weight }}</td></tr>
+          <tr><th>적재가능중량</th><td>{{ left.max_load }}</td><td>{{ right.max_load }}</td></tr>
+          <tr><th>동력</th><td>{{ left.power_type }}</td><td>{{ right.power_type }}</td></tr>
+          <tr>
+            <th>견적 신청</th>
+            <td>
+              <a href="{% url 'quotes:form' %}" class="btn btn-warning btn-sm fw-bold px-3">
+                <i class="fas fa-file-alt me-1"></i>견적신청
+              </a>
+            </td>
+            <td>
+              <a href="{% url 'quotes:form' %}" class="btn btn-warning btn-sm fw-bold px-3">
+                <i class="fas fa-file-alt me-1"></i>견적신청
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 안내 (비교 전) -->
+  {% if not left or not right %}
+  <div id="compare-guide" class="text-center py-4 text-muted">
+    <i class="fas fa-balance-scale fa-3x mb-3 d-block" style="color:#c8d8e8;"></i>
+    <p class="fs-5">미터급과 장비를 선택한 후 [비교하기]를 클릭하세요.</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Show result table if both selected on load
+  document.addEventListener('DOMContentLoaded', () => {
+    {% if left and right %}
+      document.getElementById('compare-result').style.display = 'block';
+    {% endif %}
+    // Restore dropdowns if pre-selected (from URL params)
+    const params = new URLSearchParams(window.location.search);
+    const leftId  = params.get('left');
+    const rightId = params.get('right');
+
+    const leftCat  = document.getElementById('left-category').value;
+    const rightCat = document.getElementById('right-category').value;
+
+    if (leftCat && leftId)  repopulate('left',  leftCat,  leftId);
+    if (rightCat && rightId) repopulate('right', rightCat, rightId);
+  });
+
+  async function repopulate(side, category, selectedId) {
+    const select = document.getElementById(side + '-equipment');
+    const resp = await fetch(`/equipment/api/by-category/?category=${category}`);
+    const data = await resp.json();
+    select.innerHTML = '<option value="">-- 장비 선택 --</option>';
+    data.equipments.forEach(eq => {
+      const opt = document.createElement('option');
+      opt.value = eq.id;
+      opt.textContent = eq.name;
+      if (String(eq.id) === String(selectedId)) opt.selected = true;
+      select.appendChild(opt);
+    });
+  }
+
+  async function loadEquipments(side) {
+    const category = document.getElementById(side + '-category').value;
+    const select   = document.getElementById(side + '-equipment');
+    select.innerHTML = '<option value="">-- 장비 선택 --</option>';
+    if (!category) return;
+    const resp = await fetch(`/equipment/api/by-category/?category=${category}`);
+    const data = await resp.json();
+    data.equipments.forEach(eq => {
+      const opt = document.createElement('option');
+      opt.value = eq.id;
+      opt.textContent = eq.name;
+      select.appendChild(opt);
+    });
+  }
+
+  function doCompare() {
+    const left  = document.getElementById('left-equipment').value;
+    const right = document.getElementById('right-equipment').value;
+    if (!left || !right) {
+      alert('두 장비를 모두 선택해주세요.');
+      return;
+    }
+    window.location.href = `/equipment/compare/?left=${left}&right=${right}`;
+  }
+</script>
+{% endblock %}

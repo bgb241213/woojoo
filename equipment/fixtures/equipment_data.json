@@ -1,0 +1,582 @@
+[
+  {
+    "model": "equipment.equipment",
+    "pk": 1,
+    "fields": {
+      "name": "JLG1230ES",
+      "category": "5m",
+      "type": "vertical",
+      "image": "",
+      "description": "",
+      "max_work_height": "5.7m",
+      "max_platform_height": "3.66m",
+      "equipment_weight": "800kg",
+      "max_load": "227kg",
+      "equipment_size": "1.36 x 0.76 x 1.66m",
+      "platform_size": "0.84 x 0.68m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 2,
+    "fields": {
+      "name": "LGMG SS0407",
+      "category": "6m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "5.6m",
+      "max_platform_height": "3.6m",
+      "equipment_weight": "880kg",
+      "max_load": "240kg",
+      "equipment_size": "1.35 x 0.76 x 1.8m",
+      "platform_size": "1.35 x 0.7m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 3,
+    "fields": {
+      "name": "JCPT0607DCS",
+      "category": "6m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "5.6m",
+      "max_platform_height": "3.6m",
+      "equipment_weight": "880kg",
+      "max_load": "240kg",
+      "equipment_size": "1.44 x 0.76 x 1.8m",
+      "platform_size": "1.29 x 0.7m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 4,
+    "fields": {
+      "name": "JLG ES1530L",
+      "category": "6m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "6.4m",
+      "max_platform_height": "4.5m",
+      "equipment_weight": "880kg",
+      "max_load": "227kg",
+      "equipment_size": "1.33 x 0.76 x 1.8m",
+      "platform_size": "1.3 x 0.6m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 5,
+    "fields": {
+      "name": "SJ3215",
+      "category": "6m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "6.4m",
+      "max_platform_height": "4.57m",
+      "equipment_weight": "1,120kg",
+      "max_load": "227kg",
+      "equipment_size": "1.78 x 0.81 x 1.88m",
+      "platform_size": "1.63 x 0.66m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 6,
+    "fields": {
+      "name": "SJ3219",
+      "category": "7m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "7.62m",
+      "max_platform_height": "5.79m",
+      "equipment_weight": "1,312kg",
+      "max_load": "227kg",
+      "equipment_size": "1.78 x 0.81 x 1.99m",
+      "platform_size": "1.63 x 0.66m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 7,
+    "fields": {
+      "name": "JLG ES1932",
+      "category": "7m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "7.6m",
+      "max_platform_height": "5.8m",
+      "equipment_weight": "1,565kg",
+      "max_load": "230kg",
+      "equipment_size": "1.7 x 0.81 x 2.1m",
+      "platform_size": "1.59 x 0.64m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 8,
+    "fields": {
+      "name": "JLG1932R",
+      "category": "7m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "7.8m",
+      "max_platform_height": "5.8m",
+      "equipment_weight": "1,193kg",
+      "max_load": "250kg",
+      "equipment_size": "1.74 x 0.81 x 1.99m",
+      "platform_size": "1.59 x 0.64m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 9,
+    "fields": {
+      "name": "JLG1930ES",
+      "category": "7m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "7.72m",
+      "max_platform_height": "5.72m",
+      "equipment_weight": "1,229kg",
+      "max_load": "227kg",
+      "equipment_size": "1.87 x 0.76 x 2.02m",
+      "platform_size": "1.87 x 0.76m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 10,
+    "fields": {
+      "name": "JCPT0807AC",
+      "category": "7m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "7.8m",
+      "max_platform_height": "5.8m",
+      "equipment_weight": "1,630kg",
+      "max_load": "230kg",
+      "equipment_size": "1.86 x 0.76 x 2.15m",
+      "platform_size": "1.67 x 0.74m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 11,
+    "fields": {
+      "name": "LGMG AS0607E",
+      "category": "7m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "7.8m",
+      "max_platform_height": "5.8m",
+      "equipment_weight": "1,420kg",
+      "max_load": "230kg",
+      "equipment_size": "1.86 x 0.76 x 2.14m",
+      "platform_size": "1.63 x 0.74m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 12,
+    "fields": {
+      "name": "SJ3220",
+      "category": "8m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "7.92m",
+      "max_platform_height": "6.1m",
+      "equipment_weight": "1,592kg",
+      "max_load": "408kg",
+      "equipment_size": "2.32 x 0.81 x 1.97m",
+      "platform_size": "2.13 x 0.71m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 13,
+    "fields": {
+      "name": "JLG2032ES",
+      "category": "8m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "7.92m",
+      "max_platform_height": "6.1m",
+      "equipment_weight": "1,638kg",
+      "max_load": "363kg",
+      "equipment_size": "2.3 x 0.81 x 2.2m",
+      "platform_size": "2.3 x 0.76m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 14,
+    "fields": {
+      "name": "SJ3226",
+      "category": "10m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "9.8m",
+      "max_platform_height": "7.92m",
+      "equipment_weight": "1,876kg",
+      "max_load": "227kg",
+      "equipment_size": "2.32 x 0.81 x 2.15m",
+      "platform_size": "2.13 x 0.71m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 15,
+    "fields": {
+      "name": "JLG2632ES",
+      "category": "10m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "9.6m",
+      "max_platform_height": "7.8m",
+      "equipment_weight": "2,103kg",
+      "max_load": "227kg",
+      "equipment_size": "2.3 x 0.81 x 2.33m",
+      "platform_size": "2.3 x 0.76m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 16,
+    "fields": {
+      "name": "JCPT1008AC",
+      "category": "10m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "10m",
+      "max_platform_height": "8m",
+      "equipment_weight": "2,230kg",
+      "max_load": "230kg",
+      "equipment_size": "2.48 x 0.83 x 2.36m",
+      "platform_size": "2.27 x 0.81m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 17,
+    "fields": {
+      "name": "SJ4626",
+      "category": "10m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "9.8m",
+      "max_platform_height": "7.92m",
+      "equipment_weight": "2,132kg",
+      "max_load": "454kg",
+      "equipment_size": "2.31 x 1.17 x 2.15m",
+      "platform_size": "2.13 x 1.07m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 18,
+    "fields": {
+      "name": "LGMG AS0812",
+      "category": "10m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "10m",
+      "max_platform_height": "8m",
+      "equipment_weight": "2,430kg",
+      "max_load": "450kg",
+      "equipment_size": "2.42 x 1.18 x 2.3m",
+      "platform_size": "2.26 x 1.12m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 19,
+    "fields": {
+      "name": "JCPT1012AC",
+      "category": "10m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "10m",
+      "max_platform_height": "8m",
+      "equipment_weight": "2,710kg",
+      "max_load": "450kg",
+      "equipment_size": "2.48 x 1.15 x 2.36m",
+      "platform_size": "2.27 x 1.12m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 20,
+    "fields": {
+      "name": "JLG ES3246",
+      "category": "12m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "11.6m",
+      "max_platform_height": "9.7m",
+      "equipment_weight": "2,257kg",
+      "max_load": "318kg",
+      "equipment_size": "2.4 x 1.17 x 2.22m",
+      "platform_size": "2.5 x 1.12m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 21,
+    "fields": {
+      "name": "JLG3246ES",
+      "category": "12m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "11.68m",
+      "max_platform_height": "9.68m",
+      "equipment_weight": "2,279kg",
+      "max_load": "454kg",
+      "equipment_size": "2.5 x 1.17 x 2.36m",
+      "platform_size": "2.5 x 1.12m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 22,
+    "fields": {
+      "name": "SJ4632",
+      "category": "12m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "11.6m",
+      "max_platform_height": "9.8m",
+      "equipment_weight": "2,302kg",
+      "max_load": "318kg",
+      "equipment_size": "2.32 x 1.17 x 2.22m",
+      "platform_size": "2.13 x 1.07m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 23,
+    "fields": {
+      "name": "LGMG AS1012",
+      "category": "12m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "12m",
+      "max_platform_height": "10m",
+      "equipment_weight": "3,000kg",
+      "max_load": "320kg",
+      "equipment_size": "2.47 x 1.18 x 2.43m",
+      "platform_size": "2.26 x 1.12m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 24,
+    "fields": {
+      "name": "JCPT1212AC",
+      "category": "12m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "12m",
+      "max_platform_height": "10m",
+      "equipment_weight": "3,060kg",
+      "max_load": "320kg",
+      "equipment_size": "2.48 x 1.15 x 2.49m",
+      "platform_size": "2.27 x 1.12m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 25,
+    "fields": {
+      "name": "LGMG AS1212",
+      "category": "14m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "14m",
+      "max_platform_height": "12m",
+      "equipment_weight": "3,160kg",
+      "max_load": "320kg",
+      "equipment_size": "2.47 x 1.18 x 2.56m",
+      "platform_size": "2.26 x 1.12m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 26,
+    "fields": {
+      "name": "JCPT1412AC",
+      "category": "14m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "13.8m",
+      "max_platform_height": "11.8m",
+      "equipment_weight": "2,990kg",
+      "max_load": "320kg",
+      "equipment_size": "2.48 x 1.19 x 2.62m",
+      "platform_size": "2.27 x 1.12m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 27,
+    "fields": {
+      "name": "XE140W",
+      "category": "14m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "14m",
+      "max_platform_height": "12m",
+      "equipment_weight": "3,245kg",
+      "max_load": "350kg",
+      "equipment_size": "2.42 x 1.2 x 2.51m",
+      "platform_size": "2.3 x 1.15m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 28,
+    "fields": {
+      "name": "JLG4069LE",
+      "category": "14m",
+      "type": "scissor",
+      "image": "",
+      "description": "",
+      "max_work_height": "14.2m",
+      "max_platform_height": "12.2m",
+      "equipment_weight": "5,216kg",
+      "max_load": "360kg",
+      "equipment_size": "3.15 x 1.75 x 2.83m",
+      "platform_size": "2.92 x 1.65m",
+      "power_type": "배터리",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "equipment.equipment",
+    "pk": 29,
+    "fields": {
+      "name": "Z45",
+      "category": "15m_boom",
+      "type": "boom",
+      "image": "",
+      "description": "",
+      "max_work_height": "15.86m",
+      "max_platform_height": "13.86m",
+      "equipment_weight": "6,515kg",
+      "max_load": "227kg",
+      "equipment_size": "6.65 x 2.29 x 2.13m",
+      "platform_size": "0.76 x 1.83m",
+      "power_type": "디젤",
+      "is_active": true,
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  }
+]

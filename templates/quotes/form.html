@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% block title %}견적 신청 - 우주렌탈{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, #1E3A5F, #254d7a);
+    color: #fff;
+    padding: 50px 0 40px;
+  }
+  .section-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.07);
+    margin-bottom: 1.5rem;
+  }
+  .section-card .card-header {
+    background-color: #1E3A5F;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1rem 1.5rem;
+  }
+  .section-card .card-body { padding: 1.5rem; }
+  .item-card {
+    border: 1px solid #dce8f4;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    background: #f8fbff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .item-name { font-weight: 600; color: #1E3A5F; }
+  .item-qty  { color: #555; font-size: 0.9rem; }
+  label.required::after { content: ' *'; color: #dc3545; }
+  .error-msg { color: #dc3545; font-size: 0.82rem; margin-top: 3px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h2 class="fw-bold mb-1">견적 신청</h2>
+    <p class="mb-0" style="opacity:.8;">필요한 장비와 정보를 입력해주시면 담당자가 연락드립니다.</p>
+  </div>
+</section>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+
+      {% if errors.items %}
+      <div class="alert alert-danger d-flex align-items-center gap-2 mb-4">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ errors.items }}</span>
+      </div>
+      {% endif %}
+
+      <form method="post" id="quote-form" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="items_json" id="items-json" value="">
+
+        <!-- 섹션 1: 장비 선택 -->
+        <div class="card section-card">
+          <div class="card-header">
+            <i class="fas fa-truck me-2"></i>장비 선택
+          </div>
+          <div class="card-body">
+            <div class="row g-3 align-items-end">
+              <div class="col-sm-4">
+                <label class="form-label fw-semibold">미터급</label>
+                <select class="form-select" id="cat-select" onchange="loadEquipments()">
+                  <option value="">-- 미터급 선택 --</option>
+                  {% for value, label in category_choices %}
+                  <option value="{{ value }}">{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label fw-semibold">장비</label>
+                <select class="form-select" id="eq-select">
+                  <option value="">-- 장비 선택 --</option>
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <label class="form-label fw-semibold">수량</label>
+                <input type="number" class="form-control" id="qty-input" value="1" min="1" max="99">
+              </div>
+              <div class="col-sm-2">
+                <button type="button" class="btn btn-navy w-100" onclick="addItem()">
+                  <i class="fas fa-plus me-1"></i>추가
+                </button>
+              </div>
+            </div>
+
+            <!-- 선택된 장비 목록 -->
+            <div id="item-list" class="mt-4"></div>
+            <p id="item-empty" class="text-muted small mt-3 mb-0">
+              <i class="fas fa-info-circle me-1"></i>장비를 선택하면 여기에 표시됩니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- 섹션 2: 고객 정보 -->
+        <div class="card section-card">
+          <div class="card-header">
+            <i class="fas fa-user me-2"></i>고객 정보
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label required">회사명</label>
+                <input type="text" name="company_name" class="form-control {% if errors.company_name %}is-invalid{% endif %}"
+                       value="{{ post.company_name|default:'' }}" placeholder="회사명을 입력하세요">
+                {% if errors.company_name %}<div class="error-msg">{{ errors.company_name }}</div>{% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label required">담당자명</label>
+                <input type="text" name="name" class="form-control {% if errors.name %}is-invalid{% endif %}"
+                       value="{{ post.name|default:'' }}" placeholder="담당자 이름">
+                {% if errors.name %}<div class="error-msg">{{ errors.name }}</div>{% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label required">연락처</label>
+                <input type="tel" name="phone" class="form-control {% if errors.phone %}is-invalid{% endif %}"
+                       value="{{ post.phone|default:'' }}" placeholder="010-0000-0000">
+                {% if errors.phone %}<div class="error-msg">{{ errors.phone }}</div>{% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label required">이메일</label>
+                <input type="email" name="email" class="form-control {% if errors.email %}is-invalid{% endif %}"
+                       value="{{ post.email|default:'' }}" placeholder="example@company.com">
+                {% if errors.email %}<div class="error-msg">{{ errors.email }}</div>{% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label">사업자번호 <span class="text-muted fw-normal">(선택)</span></label>
+                <input type="text" name="business_number" class="form-control"
+                       value="{{ post.business_number|default:'' }}" placeholder="000-00-00000">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션 3: 렌탈 정보 -->
+        <div class="card section-card">
+          <div class="card-header">
+            <i class="fas fa-calendar-alt me-2"></i>렌탈 정보
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label required">렌탈 시작일</label>
+                <input type="date" name="start_date" class="form-control {% if errors.start_date %}is-invalid{% endif %}"
+                       value="{{ post.start_date|default:'' }}" id="start-date">
+                {% if errors.start_date %}<div class="error-msg">{{ errors.start_date }}</div>{% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label required">렌탈 종료일</label>
+                <input type="date" name="end_date" class="form-control {% if errors.end_date %}is-invalid{% endif %}"
+                       value="{{ post.end_date|default:'' }}" id="end-date">
+                {% if errors.end_date %}<div class="error-msg">{{ errors.end_date }}</div>{% endif %}
+              </div>
+              <div class="col-12">
+                <label class="form-label required">배송지 주소</label>
+                <textarea name="delivery_address" rows="2"
+                          class="form-control {% if errors.delivery_address %}is-invalid{% endif %}"
+                          placeholder="장비를 배송받을 현장 주소를 입력하세요">{{ post.delivery_address|default:'' }}</textarea>
+                {% if errors.delivery_address %}<div class="error-msg">{{ errors.delivery_address }}</div>{% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label">예산 <span class="text-muted fw-normal">(선택, 원)</span></label>
+                <input type="number" name="budget" class="form-control"
+                       value="{{ post.budget|default:'' }}" placeholder="예) 1000000">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션 4: 추가 요청사항 -->
+        <div class="card section-card">
+          <div class="card-header">
+            <i class="fas fa-comment-dots me-2"></i>추가 요청사항 <span style="font-weight:400;opacity:.7;">(선택)</span>
+          </div>
+          <div class="card-body">
+            <textarea name="message" rows="4" class="form-control"
+                      placeholder="특별한 요청사항이나 궁금한 점을 자유롭게 적어주세요.">{{ post.message|default:'' }}</textarea>
+          </div>
+        </div>
+
+        <div class="text-end">
+          <button type="submit" class="btn btn-warning btn-lg fw-bold px-5 py-3" onclick="return prepareSubmit()">
+            <i class="fas fa-paper-plane me-2"></i>견적 신청하기
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  let items = [];
+
+  // Set today as min date for start_date
+  document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('start-date').min = today;
+    document.getElementById('start-date').addEventListener('change', e => {
+      document.getElementById('end-date').min = e.target.value;
+    });
+    renderItems();
+  });
+
+  async function loadEquipments() {
+    const category = document.getElementById('cat-select').value;
+    const select   = document.getElementById('eq-select');
+    select.innerHTML = '<option value="">-- 장비 선택 --</option>';
+    if (!category) return;
+    const resp = await fetch(`/equipment/api/by-category/?category=${category}`);
+    const data = await resp.json();
+    data.equipments.forEach(eq => {
+      const opt = document.createElement('option');
+      opt.value = eq.id;
+      opt.textContent = eq.name;
+      select.appendChild(opt);
+    });
+  }
+
+  function addItem() {
+    const sel = document.getElementById('eq-select');
+    const qty = parseInt(document.getElementById('qty-input').value) || 1;
+    if (!sel.value) { alert('장비를 선택해주세요.'); return; }
+    if (qty < 1)    { alert('수량은 1 이상이어야 합니다.'); return; }
+
+    const existing = items.find(i => String(i.equipment_id) === String(sel.value));
+    if (existing) {
+      existing.quantity += qty;
+    } else {
+      items.push({
+        equipment_id: sel.value,
+        name: sel.options[sel.selectedIndex].text,
+        quantity: qty,
+      });
+    }
+    renderItems();
+    // Reset selectors
+    document.getElementById('cat-select').value = '';
+    document.getElementById('eq-select').innerHTML = '<option value="">-- 장비 선택 --</option>';
+    document.getElementById('qty-input').value = '1';
+  }
+
+  function removeItem(idx) {
+    items.splice(idx, 1);
+    renderItems();
+  }
+
+  function renderItems() {
+    const list  = document.getElementById('item-list');
+    const empty = document.getElementById('item-empty');
+    if (!items.length) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = items.map((item, i) => `
+      <div class="item-card">
+        <div>
+          <span class="item-name">${item.name}</span>
+          <span class="item-qty ms-3">× ${item.quantity}대</span>
+        </div>
+        <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeItem(${i})">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function prepareSubmit() {
+    if (!items.length) {
+      alert('장비를 1개 이상 선택해주세요.');
+      return false;
+    }
+    document.getElementById('items-json').value = JSON.stringify(items);
+    return true;
+  }
+</script>
+{% endblock %}

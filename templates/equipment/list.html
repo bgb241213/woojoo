@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}장비 목록 - 우주렌탈{% endblock %}
+{% block nav_equipment %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, #1E3A5F, #254d7a);
+    color: #fff;
+    padding: 50px 0 40px;
+  }
+  .tab-filter .btn {
+    border-radius: 20px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all .2s;
+  }
+  .tab-filter .btn.active {
+    background-color: #1E3A5F;
+    border-color: #1E3A5F;
+    color: #fff;
+  }
+  .tab-filter .btn:not(.active) {
+    background-color: #fff;
+    border-color: #dee2e6;
+    color: #495057;
+  }
+  .tab-filter .btn:not(.active):hover {
+    background-color: #e8f0f8;
+    border-color: #1E3A5F;
+    color: #1E3A5F;
+  }
+  .equip-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    transition: transform .2s, box-shadow .2s;
+    height: 100%;
+  }
+  .equip-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.13); }
+  .equip-card .img-wrap {
+    height: 190px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e8f0f8, #cfe0f0);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .equip-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .equip-card .img-wrap .placeholder-icon { font-size: 3.5rem; color: #7aa3c4; }
+  .spec-row { font-size: 0.85rem; color: #555; padding: 2px 0; }
+  .spec-row strong { color: #1E3A5F; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h2 class="fw-bold mb-1">장비 목록</h2>
+    <p class="mb-0" style="opacity:.8;">고소작업장비 전체 라인업을 확인하세요</p>
+  </div>
+</section>
+
+<div class="container py-5">
+
+  <!-- 탭 필터 -->
+  <div class="tab-filter d-flex flex-wrap gap-2 mb-5">
+    <a href="{% url 'equipment:list' %}"
+       class="btn {% if not selected_category %}active{% endif %}">
+      전체
+    </a>
+    {% for value, label in category_choices %}
+    <a href="?category={{ value }}"
+       class="btn {% if selected_category == value %}active{% endif %}">
+      {{ label }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- 장비 목록 -->
+  {% if equipments %}
+  <div class="row g-4">
+    {% for eq in equipments %}
+    <div class="col-sm-6 col-lg-4">
+      <div class="equip-card card">
+        <div class="img-wrap">
+          {% if eq.image %}
+            <img src="{{ eq.image.url }}" alt="{{ eq.name }}">
+          {% else %}
+            <span class="placeholder-icon"><i class="fas fa-truck-loading"></i></span>
+          {% endif %}
+        </div>
+        <div class="card-body pb-2">
+          <div class="d-flex gap-2 mb-2 flex-wrap">
+            <span class="badge" style="background:#1E3A5F;">{{ eq.get_category_display }}</span>
+            <span class="badge bg-secondary">{{ eq.get_type_display }}</span>
+          </div>
+          <h6 class="fw-bold mb-3">{{ eq.name }}</h6>
+          <div class="spec-row"><strong>작업가능높이</strong>&nbsp; {{ eq.max_work_height }}</div>
+          <div class="spec-row"><strong>적재가능중량</strong>&nbsp; {{ eq.max_load }}</div>
+          <div class="spec-row"><strong>동력</strong>&nbsp; {{ eq.power_type }}</div>
+        </div>
+        <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+          <a href="{% url 'equipment:detail' eq.pk %}" class="btn btn-navy btn-sm w-100">
+            <i class="fas fa-info-circle me-1"></i>상세보기
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="text-center py-5">
+    <i class="fas fa-search fa-3x text-muted mb-3 d-block"></i>
+    <p class="text-muted fs-5">해당 카테고리의 장비가 없습니다.</p>
+    <a href="{% url 'equipment:list' %}" class="btn btn-navy mt-2">전체 장비 보기</a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
