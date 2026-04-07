@@ -105,8 +105,16 @@ if not DEBUG:
     AWS_DEFAULT_ACL         = 'public-read'
     AWS_S3_FILE_OVERWRITE   = False
     AWS_QUERYSTRING_AUTH    = False
-    AWS_S3_CUSTOM_DOMAIN    = os.environ.get('R2_CUSTOM_DOMAIN', '').replace('https://', '')
-    MEDIA_URL               = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+    # http:// / https:// 접두어, 끝 슬래시 모두 제거해서 순수 도메인만 추출
+    _r2_domain = (
+        os.environ.get('R2_CUSTOM_DOMAIN', '')
+        .replace('https://', '')
+        .replace('http://', '')
+        .rstrip('/')
+    )
+    if _r2_domain:
+        AWS_S3_CUSTOM_DOMAIN = _r2_domain
+        MEDIA_URL = f"https://{_r2_domain}/"
 
 # django-jazzmin
 JAZZMIN_SETTINGS = {

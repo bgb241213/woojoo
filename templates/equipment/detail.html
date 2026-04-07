@@ -42,7 +42,9 @@
     <div class="col-md-5">
       <div class="detail-img-wrap shadow-sm">
         {% if equipment.image %}
-          <img src="{{ equipment.image.url }}" alt="{{ equipment.name }}">
+          <img src="{{ equipment.image.url }}" alt="{{ equipment.name }}"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <span class="placeholder-icon" style="display:none;"><i class="fas fa-truck-loading"></i></span>
         {% else %}
           <span class="placeholder-icon"><i class="fas fa-truck-loading"></i></span>
         {% endif %}

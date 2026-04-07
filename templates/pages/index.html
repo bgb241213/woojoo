@@ -134,7 +134,11 @@
       <div class="col-sm-6 col-lg-3">
         <div class="equip-card card h-100">
           {% if eq.image %}
-            <img src="{{ eq.image.url }}" alt="{{ eq.name }}">
+            <img src="{{ eq.image.url }}" alt="{{ eq.name }}"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="card-img-placeholder" style="display:none;">
+              <i class="fas fa-truck-loading"></i>
+            </div>
           {% else %}
             <div class="card-img-placeholder">
               <i class="fas fa-truck-loading"></i>

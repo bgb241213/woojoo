@@ -86,7 +86,9 @@
       <div class="equip-card card">
         <div class="img-wrap">
           {% if eq.image %}
-            <img src="{{ eq.image.url }}" alt="{{ eq.name }}">
+            <img src="{{ eq.image.url }}" alt="{{ eq.name }}"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <span class="placeholder-icon" style="display:none;"><i class="fas fa-truck-loading"></i></span>
           {% else %}
             <span class="placeholder-icon"><i class="fas fa-truck-loading"></i></span>
           {% endif %}
