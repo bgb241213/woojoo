@@ -464,26 +464,19 @@ if (typeof particlesJS !== 'undefined') {
   particlesJS('cta-particles', particleConfig);
 }
 
-/* ── CountUp with IntersectionObserver ─────────────────────── */
-const countEls = document.querySelectorAll('.count-up');
-if (countEls.length && typeof CountUp !== 'undefined') {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.dataset.target, 10);
-        const cu = new CountUp.CountUp(el, target, {
-          duration: 2,
-          useEasing: true,
-          useGrouping: false,
-        });
-        cu.start();
-        observer.unobserve(el);
-      }
+/* ── CountUp on DOMContentLoaded ────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function () {
+  const countEls = document.querySelectorAll('.count-up');
+  if (!countEls.length || typeof countUp === 'undefined') return;
+  countEls.forEach(function (el) {
+    const target = parseInt(el.dataset.target, 10);
+    const cu = new countUp.CountUp(el, target, {
+      duration: 2.5,
+      useEasing: true,
+      useGrouping: false,
     });
-  }, { threshold: 0.5 });
-
-  countEls.forEach(el => observer.observe(el));
-}
+    if (!cu.error) cu.start();
+  });
+});
 </script>
 {% endblock %}
