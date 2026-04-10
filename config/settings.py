@@ -17,7 +17,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.railway.app',
 ]
 
-
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -82,29 +81,26 @@ TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
 USE_TZ = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ---------------------------------------------------------------------------
 # Static files
+# ---------------------------------------------------------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# Media files (local dev)
+# ---------------------------------------------------------------------------
+# Media & Storage
+# Django 4.2+ uses STORAGES dict (DEFAULT_FILE_STORAGE is deprecated)
+# Local dev  → filesystem (media/ folder)
+# Production → Cloudflare R2 via django-storages S3Boto3Storage
+# ---------------------------------------------------------------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Storage: local dev → media/, production → Cloudflare R2
-STORAGES = {
-    'default': {
-        'BACKEND': 'django.core.files.storage.FileSystemStorage',
-    },
-    'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-    },
-}
-
 if not DEBUG:
-    # R2 credentials (read by django-storages via AWS_* settings)
+    # --- Cloudflare R2 credentials (read by django-storages via AWS_* names) ---
     AWS_ACCESS_KEY_ID        = os.environ.get('R2_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY    = os.environ.get('R2_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME  = os.environ.get('R2_BUCKET_NAME')
@@ -112,7 +108,7 @@ if not DEBUG:
     AWS_S3_SIGNATURE_VERSION = 's3v4'
     AWS_S3_FILE_OVERWRITE    = False
     AWS_QUERYSTRING_AUTH     = False
-    # Cloudflare R2 does not support ACLs — bucket public access via R2 dashboard
+    # R2 does not support S3 ACLs — set bucket public access via R2 dashboard
     AWS_DEFAULT_ACL          = None
 
     _r2_domain = (
@@ -125,9 +121,27 @@ if not DEBUG:
         AWS_S3_CUSTOM_DOMAIN = _r2_domain
         MEDIA_URL = f"https://{_r2_domain}/"
 
-    STORAGES['default']['BACKEND'] = 'storages.backends.s3boto3.S3Boto3Storage'
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
+else:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
 
+# ---------------------------------------------------------------------------
 # django-jazzmin
+# ---------------------------------------------------------------------------
 JAZZMIN_SETTINGS = {
     'site_title': '우주렌탈 관리자',
     'site_header': '우주렌탈 관리자',
@@ -136,7 +150,6 @@ JAZZMIN_SETTINGS = {
     'copyright': '우주렌탈',
     'show_sidebar': True,
     'navigation_expanded': True,
-    # 메뉴 순서: 견적 관리 → 장비 관리
     'order_with_respect_to': [
         'quotes',
         'equipment',
