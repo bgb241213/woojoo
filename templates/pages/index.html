@@ -26,7 +26,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(31,40,111,0.75) 0%, rgba(31,40,111,0.45) 100%);
+  background: linear-gradient(135deg, rgba(15,20,50,0.35) 0%, rgba(15,20,50,0.20) 100%);
 }
 .hero-content {
   position: absolute;
@@ -464,19 +464,27 @@ if (typeof particlesJS !== 'undefined') {
   particlesJS('cta-particles', particleConfig);
 }
 
-/* ── CountUp on DOMContentLoaded ────────────────────────────── */
+/* ── CountUp with IntersectionObserver ─────────────────────── */
 document.addEventListener('DOMContentLoaded', function () {
   const countEls = document.querySelectorAll('.count-up');
   if (!countEls.length || typeof countUp === 'undefined') return;
-  countEls.forEach(function (el) {
-    const target = parseInt(el.dataset.target, 10);
-    const cu = new countUp.CountUp(el, target, {
-      duration: 2.5,
-      useEasing: true,
-      useGrouping: false,
+
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.target, 10);
+      const cu = new countUp.CountUp(el, target, {
+        duration: 3,
+        useEasing: true,
+        useGrouping: false,
+      });
+      if (!cu.error) cu.start();
+      observer.unobserve(el);
     });
-    if (!cu.error) cu.start();
-  });
+  }, { threshold: 0.3 });
+
+  countEls.forEach(function (el) { observer.observe(el); });
 });
 </script>
 {% endblock %}
