@@ -7,6 +7,10 @@
   const navbar = document.querySelector('.navbar-main');
   if (!navbar) return;
 
+  // Only apply scroll toggle on pages that start transparent (e.g. index hero)
+  // Pages that start with navbar-scrolled (no hero) keep it scrolled always.
+  if (!navbar.classList.contains('navbar-transparent')) return;
+
   const SCROLL_THRESHOLD = 100;
 
   function updateNavbar() {

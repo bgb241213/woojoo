@@ -65,5 +65,13 @@ class EquipmentByCategoryAPI(View):
         qs = Equipment.objects.filter(is_active=True)
         if category:
             qs = qs.filter(category=category)
-        data = [{'id': e.id, 'name': e.name} for e in qs]
+        data = []
+        for e in qs:
+            image_url = None
+            if e.image:
+                try:
+                    image_url = e.image.url
+                except Exception:
+                    pass
+            data.append({'id': e.id, 'name': e.name, 'image_url': image_url})
         return JsonResponse({'equipments': data})

@@ -1,66 +1,91 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}견적 신청 완료 - 우주렌탈{% endblock %}
+{% block navbar_class %}navbar-scrolled{% endblock %}
 
 {% block extra_css %}
 <style>
-  .complete-wrap {
-    min-height: 65vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-  }
-  .complete-box {
-    text-align: center;
-    max-width: 520px;
-    width: 100%;
-  }
-  .check-circle {
-    width: 90px; height: 90px;
-    background: linear-gradient(135deg, #1E3A5F, #254d7a);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 2rem;
-    font-size: 2.5rem;
-    color: #fff;
-    box-shadow: 0 8px 24px rgba(30,58,95,.3);
-  }
-  .contact-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #f0f5fa;
-    border: 1px solid #c8d8e8;
-    border-radius: 30px;
-    padding: 0.5rem 1.5rem;
-    font-size: 1.05rem;
-    color: #1E3A5F;
-    font-weight: 600;
-    margin: 1.2rem 0 2rem;
-  }
+.complete-wrap {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+.complete-box {
+  text-align: center;
+  max-width: 540px;
+  width: 100%;
+}
+.check-circle {
+  width: 96px; height: 96px;
+  background: linear-gradient(135deg, var(--color-accent), #c94030);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 2rem;
+  font-size: 2.6rem;
+  color: #fff;
+  box-shadow: 0 12px 32px rgba(230,80,60,.3);
+}
+.complete-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+.complete-desc {
+  color: var(--color-text-sub);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+.contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-bg-sub);
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.65rem 2rem;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+  margin: 1.5rem 0 2.5rem;
+  transition: all .2s;
+}
+.contact-badge:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+.contact-badge i { color: var(--color-accent); }
+.contact-badge:hover i { color: #fff; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="complete-wrap">
-  <div class="complete-box">
+  <div class="complete-box" data-aos="fade-up">
     <div class="check-circle">
       <i class="fas fa-check"></i>
     </div>
-    <h2 class="fw-bold mb-3" style="color:#1E3A5F;">견적 신청이 완료되었습니다</h2>
-    <p class="text-muted fs-5 mb-2">
-      영업일 기준 1~2일 내에 담당자가 연락드리겠습니다.
+    <div class="complete-title">견적 신청이 완료되었습니다</div>
+    <p class="complete-desc">
+      영업일 기준 1~2일 내에 담당자가<br>연락드리겠습니다.
     </p>
-    <p class="text-muted mb-0">급하신 경우 아래 번호로 직접 연락주세요.</p>
-    <a href="tel:01054432848" class="contact-badge text-decoration-none">
+    <p class="complete-desc mt-1">급하신 경우 아래 번호로 직접 연락주세요.</p>
+
+    <a href="tel:01054432848" class="contact-badge">
       <i class="fas fa-phone"></i>
       010-5443-2848
     </a>
+
     <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <a href="{% url 'pages:index' %}" class="btn btn-navy btn-lg px-4">
+      <a href="{% url 'pages:index' %}" class="btn btn-secondary-cta btn-lg px-4">
         <i class="fas fa-home me-2"></i>홈으로 돌아가기
       </a>
-      <a href="{% url 'equipment:list' %}" class="btn btn-outline-secondary btn-lg px-4">
+      <a href="{% url 'equipment:list' %}" class="btn btn-outline-cta btn-lg px-4">
         <i class="fas fa-list me-2"></i>장비 더 보기
       </a>
     </div>
