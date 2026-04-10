@@ -56,7 +56,7 @@
             <a class="nav-link {% block nav_equipment %}{% endblock %}" href="{% url 'equipment:list' %}">장비렌탈</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% block nav_sales %}{% endblock %}" href="/sales/">장비판매</a>
+            <a class="nav-link {% block nav_sales %}{% endblock %}" href="{% url 'sales:list' %}">장비판매</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% block nav_compare %}{% endblock %}" href="{% url 'equipment:compare' %}">장비비교</a>
@@ -106,7 +106,7 @@
           <div class="fw-600 mb-2" style="color:#E5E7EB; font-size:0.9rem;">바로가기</div>
           <ul class="list-unstyled footer-info mb-0">
             <li><a href="{% url 'equipment:list' %}"><i class="fas fa-angle-right me-1"></i>장비렌탈</a></li>
-            <li><a href="/sales/"><i class="fas fa-angle-right me-1"></i>장비판매</a></li>
+            <li><a href="{% url 'sales:list' %}"><i class="fas fa-angle-right me-1"></i>장비판매</a></li>
             <li><a href="{% url 'equipment:compare' %}"><i class="fas fa-angle-right me-1"></i>장비비교</a></li>
             <li><a href="{% url 'quotes:form' %}"><i class="fas fa-angle-right me-1"></i>견적신청</a></li>
             <li><a href="{% url 'pages:about' %}"><i class="fas fa-angle-right me-1"></i>회사소개</a></li>

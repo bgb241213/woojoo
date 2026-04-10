@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ equipment.name }} 판매 - 우주렌탈{% endblock %}
+{% block nav_sales %}active{% endblock %}
+{% block navbar_class %}navbar-scrolled{% endblock %}
+
+{% block extra_css %}
+<style>
+.detail-wrap { padding-top: 100px; padding-bottom: 80px; }
+
+.img-panel {
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fdf0ee, #f8d5cf);
+  min-height: 420px;
+  display: flex; align-items: center; justify-content: center;
+  position: sticky;
+  top: 100px;
+}
+.img-panel img { width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block; }
+.img-panel .placeholder-icon { font-size: 6rem; color: #e8a99f; }
+
+/* Spec grid */
+.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) { .spec-grid { grid-template-columns: 1fr; } }
+.spec-card {
+  background: var(--color-bg-sub);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.spec-card .spec-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: rgba(230,80,60,0.10);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem;
+  color: var(--color-accent);
+}
+.spec-card .spec-label { font-size: 0.75rem; color: var(--color-text-sub); line-height: 1; }
+.spec-card .spec-value { font-size: 0.9rem; font-weight: 600; color: var(--color-text); margin-top: 2px; }
+
+/* Sticky action bar (mobile) */
+.action-bar {
+  position: sticky; bottom: 0;
+  background: #fff;
+  border-top: 1px solid var(--color-border);
+  padding: 1rem 0; z-index: 50;
+  box-shadow: 0 -4px 20px rgba(31,40,111,0.08);
+}
+@media (min-width: 992px) {
+  .action-bar { position: static; box-shadow: none; border: none; padding: 0; background: transparent; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container detail-wrap">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4" data-aos="fade-right">
+    <ol class="breadcrumb" style="font-size:0.85rem;">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}" class="text-decoration-none" style="color:var(--color-text-sub);">홈</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sales:list' %}" class="text-decoration-none" style="color:var(--color-text-sub);">장비 판매</a></li>
+      <li class="breadcrumb-item active" style="color:var(--color-accent);">{{ equipment.name }}</li>
+    </ol>
+  </nav>
+
+  <div class="row g-5 align-items-start">
+
+    <!-- Left: Image -->
+    <div class="col-lg-7" data-aos="fade-right">
+      <div class="img-panel shadow-sm">
+        {% if equipment.image %}
+          <img src="{{ equipment.image.url }}" alt="{{ equipment.name }}"
+               onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
+        {% else %}
+          <img src="{% static 'images/장비카드썸네일용.jpg' %}" alt="{{ equipment.name }}"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <span class="placeholder-icon" style="display:none;"><i class="fas fa-truck-loading"></i></span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Right: Info -->
+    <div class="col-lg-5" data-aos="fade-left">
+
+      <!-- Sale badge + badges + name -->
+      <div class="mb-3">
+        <span class="badge mb-2 px-3 py-2" style="background:var(--color-accent); font-size:0.85rem; border-radius:999px;">
+          <i class="fas fa-tag me-1"></i>판매 가능 장비
+        </span>
+        <div class="d-flex gap-2 flex-wrap mb-2">
+          <span class="badge badge-primary fs-6 px-3 py-2">{{ equipment.get_category_display }}</span>
+          <span class="badge bg-secondary fs-6 px-3 py-2">{{ equipment.get_type_display }}</span>
+        </div>
+      </div>
+
+      <h2 class="fw-bold mb-2" style="color:var(--color-primary); font-size:1.9rem;">{{ equipment.name }}</h2>
+      {% if equipment.description %}
+      <p style="color:var(--color-text-sub); font-size:0.95rem; line-height:1.75;" class="mb-4">{{ equipment.description }}</p>
+      {% endif %}
+
+      <!-- Spec Grid -->
+      <p class="section-label mb-3">장비 스펙</p>
+      <div class="spec-grid mb-4">
+        <div class="spec-card">
+          <div class="spec-icon"><i class="fas fa-ruler-vertical"></i></div>
+          <div><div class="spec-label">작업가능높이</div><div class="spec-value">{{ equipment.max_work_height }}</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon"><i class="fas fa-level-up-alt"></i></div>
+          <div><div class="spec-label">발판최대높이</div><div class="spec-value">{{ equipment.max_platform_height }}</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon"><i class="fas fa-th-large"></i></div>
+          <div><div class="spec-label">작업대크기</div><div class="spec-value">{{ equipment.platform_size }}</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+          <div><div class="spec-label">장비크기</div><div class="spec-value">{{ equipment.equipment_size }}</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon"><i class="fas fa-weight-hanging"></i></div>
+          <div><div class="spec-label">장비무게</div><div class="spec-value">{{ equipment.equipment_weight }}</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon"><i class="fas fa-box"></i></div>
+          <div><div class="spec-label">적재가능중량</div><div class="spec-value">{{ equipment.max_load }}</div></div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-icon"><i class="fas fa-bolt"></i></div>
+          <div><div class="spec-label">동력</div><div class="spec-value">{{ equipment.power_type }}</div></div>
+        </div>
+      </div>
+
+      <!-- Desktop buttons -->
+      <div class="d-none d-lg-flex flex-column gap-2">
+        <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta btn-lg w-100 py-3">
+          <i class="fas fa-phone me-2"></i>구매 견적 문의하기
+        </a>
+        <a href="{% url 'sales:list' %}" class="btn btn-outline-cta btn-lg w-100">
+          <i class="fas fa-arrow-left me-2"></i>목록으로 돌아가기
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile sticky action bar -->
+<div class="action-bar d-lg-none">
+  <div class="container d-flex gap-2">
+    <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta flex-grow-1 py-2">
+      <i class="fas fa-phone me-1"></i>구매 문의
+    </a>
+    <a href="{% url 'sales:list' %}" class="btn btn-outline-cta px-3">
+      <i class="fas fa-list"></i>
+    </a>
+  </div>
+</div>
+{% endblock %}

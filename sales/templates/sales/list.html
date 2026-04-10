@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}장비 판매 - 우주렌탈{% endblock %}
+{% block nav_sales %}active{% endblock %}
+{% block navbar_class %}navbar-scrolled{% endblock %}
+
+{% block extra_css %}
+<style>
+.page-hero {
+  background: linear-gradient(135deg, #E6503C 0%, #d44330 50%, #bf3523 100%);
+  padding: 80px 0 60px;
+}
+.page-hero h1 { font-size: 2.4rem; font-weight: 700; color: #fff; }
+.page-hero p  { color: rgba(255,255,255,.85); font-size: 1.05rem; }
+
+/* Card */
+.equip-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform .25s, box-shadow .25s;
+  background: #fff;
+  height: 100%;
+  display: flex; flex-direction: column;
+}
+.equip-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card-hover); }
+.equip-card .img-wrap {
+  height: 220px; overflow: hidden;
+  background: linear-gradient(135deg, #fdf0ee, #f8d5cf);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.equip-card .img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .4s ease;
+}
+.equip-card:hover .img-wrap img { transform: scale(1.05); }
+.equip-card .placeholder-icon { font-size: 3.5rem; color: #e8a99f; }
+
+/* Sale badge overlay */
+.sale-badge-wrap {
+  position: absolute;
+  top: 12px; left: 12px;
+}
+.badge-sale {
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3em 0.75em;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+/* Spec rows */
+.spec-item { font-size: 0.82rem; color: var(--color-text-sub); display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+.spec-item i { width: 14px; color: var(--color-accent); }
+
+/* Coral outline button */
+.btn-coral-outline {
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-accent);
+  background: transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: all .2s;
+}
+.btn-coral-outline:hover { background: var(--color-accent); color: #fff; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<section class="page-hero">
+  <div class="container" data-aos="fade-up">
+    <h1 class="mb-2">장비 판매</h1>
+    <p class="mb-0">우수한 품질의 고소작업장비를 직접 구매하세요</p>
+  </div>
+</section>
+
+<div class="container py-5">
+
+  {% if equipments %}
+  <div class="row g-4">
+    {% for eq in equipments %}
+    <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+      <div class="equip-card">
+
+        <!-- Image -->
+        <div class="img-wrap">
+          {% if eq.image %}
+            <img src="{{ eq.image.url }}" alt="{{ eq.name }}"
+                 onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
+          {% else %}
+            <img src="{% static 'images/장비카드썸네일용.jpg' %}" alt="{{ eq.name }}"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <span class="placeholder-icon" style="display:none;"><i class="fas fa-truck-loading"></i></span>
+          {% endif %}
+          <div class="sale-badge-wrap">
+            <span class="badge-sale"><i class="fas fa-tag me-1"></i>판매</span>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body pb-2 flex-grow-1">
+          <div class="d-flex gap-2 mb-2 flex-wrap">
+            <span class="badge" style="background:var(--color-primary);">{{ eq.get_category_display }}</span>
+            <span class="badge bg-secondary">{{ eq.get_type_display }}</span>
+          </div>
+          <h6 class="fw-bold mb-3" style="color:var(--color-primary);">{{ eq.name }}</h6>
+          <div class="spec-item"><i class="fas fa-ruler-vertical"></i><span><strong>작업가능높이</strong> {{ eq.max_work_height }}</span></div>
+          <div class="spec-item"><i class="fas fa-weight-hanging"></i><span><strong>적재가능중량</strong> {{ eq.max_load }}</span></div>
+          <div class="spec-item"><i class="fas fa-bolt"></i><span><strong>동력</strong> {{ eq.power_type }}</span></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3 d-flex gap-2">
+          <a href="{% url 'sales:detail' eq.pk %}" class="btn btn-coral-outline flex-grow-1">
+            <i class="fas fa-info-circle me-1"></i>상세보기
+          </a>
+          <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta flex-grow-1">
+            <i class="fas fa-phone me-1"></i>구매 문의
+          </a>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="text-center py-5" data-aos="fade-up">
+    <i class="fas fa-box-open fa-3x mb-3 d-block" style="color:var(--color-border);"></i>
+    <p class="text-muted fs-5">현재 판매 중인 장비가 없습니다.</p>
+    <a href="{% url 'equipment:list' %}" class="btn btn-secondary-cta mt-2">렌탈 장비 보기</a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
