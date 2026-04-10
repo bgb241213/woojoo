@@ -1,162 +1,404 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}우주렌탈 - 고소작업장비 렌탈 전문{% endblock %}
+{% block title %}우주렌탈 - 고소작업장비 렌탈·판매 전문{% endblock %}
 {% block nav_home %}active{% endblock %}
+{% block navbar_class %}navbar-transparent{% endblock %}
 
 {% block extra_css %}
 <style>
-  .hero {
-    background: linear-gradient(135deg, #1E3A5F 0%, #254d7a 60%, #1a6fa0 100%);
-    color: #fff;
-    padding: 100px 0 80px;
-  }
-  .hero h1 { font-size: 2.6rem; font-weight: 800; line-height: 1.3; }
-  .hero p { font-size: 1.15rem; opacity: .85; }
-  .stat-card {
-    border: none;
-    border-radius: 12px;
-    text-align: center;
-    padding: 2rem 1rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,.08);
-    transition: transform .2s;
-  }
-  .stat-card:hover { transform: translateY(-4px); }
-  .stat-number { font-size: 2.4rem; font-weight: 800; color: #1E3A5F; }
-  .stat-label  { color: #666; font-size: 0.95rem; margin-top: 4px; }
-  .feature-icon {
-    width: 60px; height: 60px;
-    background: #e8f0f8;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1rem;
-    font-size: 1.5rem;
-    color: #1E3A5F;
-  }
-  .equip-card {
-    border: none;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 16px rgba(0,0,0,.08);
-    transition: transform .2s, box-shadow .2s;
-  }
-  .equip-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,.13); }
-  .equip-card .card-img-placeholder {
-    height: 200px;
-    background: linear-gradient(135deg, #e8f0f8, #cfe0f0);
-    display: flex; align-items: center; justify-content: center;
-    color: #7aa3c4;
-    font-size: 3rem;
-  }
-  .equip-card img { height: 200px; object-fit: cover; width: 100%; }
-  .cta-banner {
-    background: linear-gradient(135deg, #1E3A5F, #254d7a);
-    color: #fff;
-    padding: 70px 0;
-  }
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.hero-swiper {
+  width: 100%;
+  height: 100%;
+}
+.hero-swiper .swiper-slide {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+.hero-swiper .swiper-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(31,40,111,0.75) 0%, rgba(31,40,111,0.45) 100%);
+}
+.hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1rem;
+}
+.hero-content h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+}
+.hero-content .hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: rgba(255,255,255,0.88);
+  margin-top: 1rem;
+  letter-spacing: 0.03em;
+}
+.hero-content .hero-btns {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+/* Swiper pagination dots */
+.hero-section .swiper-pagination-bullet {
+  background: rgba(255,255,255,0.5);
+  opacity: 1;
+  width: 10px; height: 10px;
+}
+.hero-section .swiper-pagination-bullet-active {
+  background: #fff;
+  width: 28px;
+  border-radius: 5px;
+}
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  gap: 0.4rem;
+}
+.scroll-indicator .bounce {
+  animation: bounce 1.8s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
+}
+
+/* ── Particles container ────────────────────────────────────── */
+#hero-particles, #cta-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+/* ── Stats ─────────────────────────────────────────────────── */
+.stats-section {
+  padding: 80px 0;
+  background: var(--color-bg);
+}
+.stat-card {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card-hover);
+}
+.stat-number {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+.stat-unit {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+.stat-label {
+  font-size: 0.95rem;
+  color: var(--color-text-sub);
+  margin-top: 0.75rem;
+}
+
+/* ── Features ──────────────────────────────────────────────── */
+.features-section {
+  padding: 80px 0;
+  background: var(--color-bg-sub);
+}
+.feature-icon-wrap {
+  width: 64px; height: 64px;
+  background: rgba(31,40,111,0.08);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-size: 1.6rem;
+  color: var(--color-primary);
+  transition: background 0.25s, color 0.25s;
+}
+.feature-card:hover .feature-icon-wrap {
+  background: var(--color-accent);
+  color: #fff;
+}
+.feature-card {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s, box-shadow 0.25s;
+  height: 100%;
+}
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* ── Equipment Grid ─────────────────────────────────────────── */
+.equip-section {
+  padding: 80px 0;
+  background: var(--color-bg);
+}
+.equip-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s, box-shadow 0.25s;
+  height: 100%;
+  background: #fff;
+}
+.equip-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+}
+.equip-card .img-wrap {
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #eef1f8, #dde3f3);
+  display: flex; align-items: center; justify-content: center;
+}
+.equip-card .img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.equip-card:hover .img-wrap img {
+  transform: scale(1.05);
+}
+.equip-card .placeholder-icon {
+  font-size: 3.5rem; color: #a8b8d8;
+}
+
+/* ── CTA Banner ─────────────────────────────────────────────── */
+.cta-section {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0;
+  background: var(--color-primary);
+}
+.cta-section .cta-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: #fff;
+}
+.cta-section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+}
+.cta-section p {
+  font-size: 1.05rem;
+  opacity: 0.85;
+  margin-top: 0.75rem;
+}
 </style>
 {% endblock %}
 
 {% block content %}
 
-<!-- Hero -->
-<section class="hero">
-  <div class="container text-center">
-    <h1 class="mb-3">안전한 고소작업,<br>우주렌탈과 함께</h1>
-    <p class="mb-5">20년 경력의 고소작업장비 렌탈 전문기업 | 500여대 보유</p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <a href="{% url 'quotes:form' %}" class="btn btn-warning btn-lg fw-bold px-4 py-3">
+<!-- ── 1. Hero ────────────────────────────────────────────── -->
+<section class="hero-section">
+
+  <!-- Swiper -->
+  <div class="swiper hero-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest1.jpg' %}');"></div>
+      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest2.jpg' %}');"></div>
+      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest3.jpg' %}');"></div>
+      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest4.jpg' %}');"></div>
+      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest5.jpg' %}');"></div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <!-- Particles -->
+  <div id="hero-particles"></div>
+
+  <!-- Hero Text -->
+  <div class="hero-content">
+    <p class="section-label" style="color:rgba(255,255,255,0.7); margin-bottom:0.5rem;">WOOJOO RENTAL</p>
+    <h1>안전한 고소작업,<br>우주렌탈과 함께</h1>
+    <p class="hero-sub">20년 경력&nbsp;|&nbsp;500여대 보유&nbsp;|&nbsp;전국 납품</p>
+    <div class="hero-btns">
+      <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta btn-lg px-4 py-3">
         <i class="fas fa-file-alt me-2"></i>견적 신청하기
       </a>
       <a href="{% url 'equipment:list' %}" class="btn btn-outline-light btn-lg px-4 py-3">
-        <i class="fas fa-truck me-2"></i>장비 보러가기
+        <i class="fas fa-truck me-2"></i>장비 둘러보기
       </a>
     </div>
   </div>
+
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <i class="fas fa-chevron-down bounce"></i>
+  </div>
 </section>
 
-<!-- 핵심 수치 -->
-<section class="py-5 bg-white">
+<!-- ── 2. Stats ────────────────────────────────────────────── -->
+<section class="stats-section">
   <div class="container">
     <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
         <div class="stat-card">
-          <div class="stat-number">20년+</div>
-          <div class="stat-label">고소작업장비 렌탈 업력</div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="stat-card">
-          <div class="stat-number">500여대</div>
+          <div class="stat-number">
+            <span class="count-up" data-target="500">0</span><span class="stat-unit">+</span>
+          </div>
           <div class="stat-label">다양한 장비 보유</div>
         </div>
       </div>
-      <div class="col-md-4">
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
         <div class="stat-card">
-          <div class="stat-number">전국</div>
-          <div class="stat-label">빠른 납품 서비스</div>
+          <div class="stat-number">
+            <span class="count-up" data-target="20">0</span><span class="stat-unit">+</span>
+          </div>
+          <div class="stat-label">고소작업장비 렌탈 업력 (년)</div>
         </div>
       </div>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="stat-card">
+          <div class="stat-number">
+            <span class="count-up" data-target="100">0</span><span class="stat-unit">%</span>
+          </div>
+          <div class="stat-label">고객 만족 서비스</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- 서비스 특징 -->
-<section class="py-5" style="background:#f8f9fa;">
+<!-- ── 3. Features ─────────────────────────────────────────── -->
+<section class="features-section">
   <div class="container">
-    <h2 class="text-center section-title mb-5">왜 우주렌탈인가요?</h2>
-    <div class="row g-4 text-center">
-      <div class="col-md-4">
-        <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
-        <h5 class="fw-bold">빠른 납품</h5>
-        <p class="text-muted">필요한 장비를 신속하게 현장으로 배송합니다. 고객의 일정에 맞춘 유연한 서비스를 제공합니다.</p>
+    <div class="text-center mb-5" data-aos="fade-up">
+      <p class="section-label">WHY WOOJOO</p>
+      <h2 class="section-title">왜 우주렌탈인가요?</h2>
+      <p class="section-subtitle">20년 경험이 만든 신뢰, 고객의 현장을 먼저 생각합니다</p>
+    </div>
+    <div class="row g-4">
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="fas fa-shipping-fast"></i>
+          </div>
+          <h5 class="fw-700 mb-2" style="color:var(--color-primary);">빠른 납품</h5>
+          <p class="text-muted mb-0" style="font-size:0.92rem; line-height:1.7;">
+            필요한 장비를 신속하게 현장으로 배송합니다.<br>
+            고객의 일정에 맞춘 유연한 서비스를 제공합니다.
+          </p>
+        </div>
       </div>
-      <div class="col-md-4">
-        <div class="feature-icon"><i class="fas fa-tools"></i></div>
-        <h5 class="fw-bold">전문 장비</h5>
-        <p class="text-muted">5M급부터 15M급 굴절형까지 다양한 고소작업장비를 보유하고 있어 모든 현장에 대응합니다.</p>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="fas fa-tools"></i>
+          </div>
+          <h5 class="fw-700 mb-2" style="color:var(--color-primary);">전문 장비</h5>
+          <p class="text-muted mb-0" style="font-size:0.92rem; line-height:1.7;">
+            5M급부터 15M급 굴절형까지 다양한 고소작업장비를<br>
+            보유하고 있어 모든 현장에 대응합니다.
+          </p>
+        </div>
       </div>
-      <div class="col-md-4">
-        <div class="feature-icon"><i class="fas fa-won-sign"></i></div>
-        <h5 class="fw-bold">가격 경쟁력</h5>
-        <p class="text-muted">20년 이상의 운영 경험을 바탕으로 합리적인 가격에 최고의 품질을 제공합니다.</p>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="fas fa-hand-holding-usd"></i>
+          </div>
+          <h5 class="fw-700 mb-2" style="color:var(--color-primary);">가격 경쟁력</h5>
+          <p class="text-muted mb-0" style="font-size:0.92rem; line-height:1.7;">
+            20년 이상의 운영 경험을 바탕으로<br>
+            합리적인 가격에 최고의 품질을 제공합니다.
+          </p>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- 장비 미리보기 -->
+<!-- ── 4. Equipment Preview ────────────────────────────────── -->
 {% if featured %}
-<section class="py-5 bg-white">
+<section class="equip-section">
   <div class="container">
-    <h2 class="text-center section-title mb-5">주요 장비</h2>
+    <div class="d-flex align-items-end justify-content-between mb-5" data-aos="fade-up">
+      <div>
+        <p class="section-label">EQUIPMENT</p>
+        <h2 class="section-title mb-0">보유 장비</h2>
+      </div>
+      <a href="{% url 'equipment:list' %}" class="btn btn-outline-cta px-3 py-2" style="font-size:0.9rem;">
+        전체 보기 <i class="fas fa-arrow-right ms-1"></i>
+      </a>
+    </div>
+
     <div class="row g-4">
       {% for eq in featured %}
-      <div class="col-sm-6 col-lg-3">
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
         <div class="equip-card card h-100">
-          {% if eq.image %}
-            <img src="{{ eq.image.url }}" alt="{{ eq.name }}"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-            <div class="card-img-placeholder" style="display:none;">
-              <i class="fas fa-truck-loading"></i>
-            </div>
-          {% else %}
-            <div class="card-img-placeholder">
-              <i class="fas fa-truck-loading"></i>
-            </div>
-          {% endif %}
+          <div class="img-wrap">
+            {% if eq.image %}
+              <img src="{{ eq.image.url }}" alt="{{ eq.name }}"
+                   onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
+            {% else %}
+              <img src="{% static 'images/장비카드썸네일용.jpg' %}" alt="{{ eq.name }}"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <span class="placeholder-icon" style="display:none;"><i class="fas fa-truck-loading"></i></span>
+            {% endif %}
+          </div>
           <div class="card-body">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge badge-category">{{ eq.get_category_display }}</span>
+            <div class="d-flex gap-2 mb-2 flex-wrap">
+              <span class="badge badge-primary">{{ eq.get_category_display }}</span>
               <span class="badge bg-secondary">{{ eq.get_type_display }}</span>
             </div>
-            <h6 class="fw-bold mb-2">{{ eq.name }}</h6>
-            <div class="text-muted small">
-              <div><i class="fas fa-ruler-vertical me-1 text-navy"></i>작업높이: {{ eq.max_work_height }}</div>
-              <div><i class="fas fa-weight-hanging me-1 text-navy"></i>적재중량: {{ eq.max_load }}</div>
-            </div>
+            <h6 class="fw-700 mb-2">{{ eq.name }}</h6>
+            <div class="spec-row"><i class="fas fa-ruler-vertical me-1" style="color:var(--color-primary);"></i>작업높이: {{ eq.max_work_height }}</div>
+            <div class="spec-row"><i class="fas fa-weight-hanging me-1" style="color:var(--color-primary);"></i>적재중량: {{ eq.max_load }}</div>
           </div>
           <div class="card-footer bg-transparent border-0 pb-3">
-            <a href="{% url 'equipment:detail' eq.pk %}" class="btn btn-navy btn-sm w-100">
+            <a href="{% url 'equipment:detail' eq.pk %}" class="btn btn-secondary-cta btn-sm w-100">
               자세히 보기
             </a>
           </div>
@@ -164,26 +406,84 @@
       </div>
       {% endfor %}
     </div>
-    <div class="text-center mt-5">
-      <a href="{% url 'equipment:list' %}" class="btn btn-navy btn-lg px-5">
-        <i class="fas fa-list me-2"></i>더 많은 장비 보기
-      </a>
-    </div>
   </div>
 </section>
 {% endif %}
 
-<!-- CTA 배너 -->
-<section class="cta-banner text-center">
-  <div class="container">
-    <h2 class="fw-bold mb-3">지금 바로 견적을 신청하세요</h2>
-    <p class="mb-4" style="opacity:.85;font-size:1.1rem;">
-      필요한 장비와 기간을 알려주시면 담당자가 빠르게 연락드립니다.
-    </p>
-    <a href="{% url 'quotes:form' %}" class="btn btn-warning btn-lg fw-bold px-5 py-3">
+<!-- ── 5. CTA Banner ───────────────────────────────────────── -->
+<section class="cta-section">
+  <div id="cta-particles"></div>
+  <div class="container cta-content">
+    <p class="section-label" style="color:rgba(255,255,255,0.6);">GET A QUOTE</p>
+    <h2>지금 바로 견적을 신청하세요</h2>
+    <p>필요한 장비와 기간을 알려주시면 담당자가 빠르게 연락드립니다.</p>
+    <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta btn-lg px-5 py-3 mt-3">
       <i class="fas fa-paper-plane me-2"></i>견적 신청하기
     </a>
   </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+/* ── Hero Swiper ────────────────────────────────────────────── */
+new Swiper('.hero-swiper', {
+  loop: true,
+  effect: 'fade',
+  fadeEffect: { crossFade: true },
+  speed: 1000,
+  autoplay: { delay: 5000, disableOnInteraction: false },
+  pagination: { el: '.swiper-pagination', clickable: true },
+});
+
+/* ── Particles ──────────────────────────────────────────────── */
+const particleConfig = {
+  particles: {
+    number: { value: 80, density: { enable: true, value_area: 800 } },
+    color: { value: '#ffffff' },
+    shape: { type: 'circle' },
+    opacity: { value: 0.25, random: true },
+    size: { value: 3, random: true },
+    line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.12, width: 1 },
+    move: { enable: true, speed: 1.5, direction: 'none', random: true, out_mode: 'out' },
+  },
+  interactivity: {
+    detect_on: 'canvas',
+    events: {
+      onhover: { enable: true, mode: 'grab' },
+      onclick: { enable: false },
+    },
+    modes: { grab: { distance: 140, line_linked: { opacity: 0.4 } } },
+  },
+  retina_detect: true,
+};
+
+if (typeof particlesJS !== 'undefined') {
+  particlesJS('hero-particles', particleConfig);
+  particlesJS('cta-particles', particleConfig);
+}
+
+/* ── CountUp with IntersectionObserver ─────────────────────── */
+const countEls = document.querySelectorAll('.count-up');
+if (countEls.length && typeof CountUp !== 'undefined') {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const cu = new CountUp.CountUp(el, target, {
+          duration: 2,
+          useEasing: true,
+          useGrouping: false,
+        });
+        cu.start();
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  countEls.forEach(el => observer.observe(el));
+}
+</script>
 {% endblock %}
