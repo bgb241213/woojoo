@@ -100,8 +100,9 @@
           </div>
           <h6 class="fw-bold mb-3">{{ eq.name }}</h6>
           <div class="spec-row"><strong>작업가능높이</strong>&nbsp; {{ eq.max_work_height }}</div>
-          <div class="spec-row"><strong>적재가능중량</strong>&nbsp; {{ eq.max_load }}</div>
-          <div class="spec-row"><strong>동력</strong>&nbsp; {{ eq.power_type }}</div>
+          <div class="spec-row"><strong>발판최대높이</strong>&nbsp; {{ eq.max_platform_height }}</div>
+          <div class="spec-row"><strong>장비크기</strong>&nbsp; {{ eq.equipment_size }}</div>
+          <div class="spec-row"><strong>장비무게</strong>&nbsp; {{ eq.equipment_weight }}</div>
         </div>
         <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
           <a href="{% url 'equipment:detail' eq.pk %}" class="btn btn-navy btn-sm w-100">
