@@ -126,10 +126,38 @@ Railway 대시보드 → 프로젝트 → **Variables** 탭에서 아래 항목 
 ## 배포 (Railway)
 
 GitHub 레포지토리와 Railway를 연동하면 `main` 브랜치 push 시 자동 배포됩니다.
-배포 시 아래 명령이 자동 실행됩니다:
+배포 시 아래 명령이 자동 실행됩니다 (Procfile 기준):
 
 ```bash
 python manage.py migrate
+python manage.py loaddata equipment_data   # 장비 데이터 복원
 python manage.py collectstatic --noinput
+python manage.py ensure_admin             # 관리자 계정 자동 생성
 gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+```
+
+> Railway는 SQLite를 사용하므로 배포 시마다 DB가 초기화됩니다.
+> `loaddata`로 장비 목록을 자동 복원하고, `ensure_admin`으로 관리자 계정을 재생성합니다.
+
+### Railway 추가 환경변수 (어드민 자동 생성용)
+
+| 변수명 | 예시 값 |
+|--------|---------|
+| `DJANGO_SUPERUSER_USERNAME` | `admin` |
+| `DJANGO_SUPERUSER_PASSWORD` | `your-password` |
+| `DJANGO_SUPERUSER_EMAIL` | `admin@example.com` |
+
+### 장비 데이터 변경 후 배포 절차
+
+장비 스펙 수정, is_for_sale 변경 등 데이터를 바꾼 뒤에는 반드시 fixture를 갱신하세요.
+
+```bash
+# 1. 로컬 DB에서 최신 데이터 덤프
+python manage.py dumpdata equipment.Equipment \
+  --indent 2 --output equipment/fixtures/equipment_data.json
+
+# 2. 커밋 후 push (Railway 자동 배포 트리거)
+git add equipment/fixtures/equipment_data.json
+git commit -m "Update fixtures"
+git push
 ```
