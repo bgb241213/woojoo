@@ -1,0 +1,296 @@
+/* ============================================================
+   우주렌탈 — Design System
+   ============================================================ */
+
+/* ── CSS Variables ─────────────────────────────────────────── */
+:root {
+  --color-primary:  #1F286F;
+  --color-accent:   #E6503C;
+  --color-bg:       #FFFFFF;
+  --color-bg-sub:   #F5F6FA;
+  --color-text:     #1A1A2E;
+  --color-text-sub: #6B7280;
+  --color-border:   #E5E7EB;
+  --shadow-card:    0 4px 20px rgba(31, 40, 111, 0.08);
+  --shadow-card-hover: 0 12px 40px rgba(31, 40, 111, 0.16);
+  --radius-card:    12px;
+  --transition:     0.25s ease;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+body {
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+.container {
+  max-width: 1280px;
+}
+
+/* ── Navigation ─────────────────────────────────────────────── */
+.navbar-main {
+  transition: background-color var(--transition), box-shadow var(--transition);
+  padding: 0.75rem 0;
+}
+
+/* Transparent state (top of page) */
+.navbar-main.navbar-transparent {
+  background-color: transparent;
+}
+.navbar-main.navbar-transparent .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.navbar-main.navbar-transparent .navbar-brand {
+  color: #fff !important;
+}
+.navbar-main.navbar-transparent .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* Scrolled state */
+.navbar-main.navbar-scrolled {
+  background-color: #fff !important;
+  box-shadow: 0 2px 20px rgba(31, 40, 111, 0.10);
+}
+.navbar-main.navbar-scrolled .nav-link {
+  color: var(--color-text) !important;
+}
+.navbar-main.navbar-scrolled .navbar-brand {
+  color: var(--color-primary) !important;
+}
+
+/* Nav links */
+.navbar-main .nav-link {
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.9rem;
+  transition: color var(--transition);
+  position: relative;
+}
+.navbar-main .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0.9rem;
+  right: 0.9rem;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+.navbar-main .nav-link:hover::after,
+.navbar-main .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* CTA button in nav */
+.btn-nav-cta {
+  background-color: var(--color-accent);
+  color: #fff !important;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 0.45rem 1.2rem;
+  font-size: 0.9rem;
+  transition: background-color var(--transition), transform var(--transition);
+  white-space: nowrap;
+}
+.btn-nav-cta:hover {
+  background-color: #cf3a28;
+  transform: translateY(-1px);
+}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn-primary-cta {
+  background-color: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  padding: 0.75rem 2rem;
+  transition: background-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.btn-primary-cta:hover {
+  background-color: #cf3a28;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(230, 80, 60, 0.35);
+}
+
+.btn-secondary-cta {
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  transition: background-color var(--transition), transform var(--transition);
+}
+.btn-secondary-cta:hover {
+  background-color: #17205a;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-outline-cta {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 0.7rem 1.8rem;
+  transition: all var(--transition);
+}
+.btn-outline-cta:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* Legacy alias (used in existing templates) */
+.btn-navy {
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color var(--transition);
+}
+.btn-navy:hover {
+  background-color: #17205a;
+  color: #fff;
+}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card-woojoo {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.card-woojoo:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+}
+.card-woojoo .card-img-wrap {
+  overflow: hidden;
+  height: 200px;
+  background: linear-gradient(135deg, #eef1f8, #dde3f3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-woojoo .card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.card-woojoo:hover .card-img-wrap img {
+  transform: scale(1.05);
+}
+.card-woojoo .placeholder-icon {
+  font-size: 3.5rem;
+  color: #a8b8d8;
+}
+
+/* ── Badges ─────────────────────────────────────────────────── */
+.badge-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+.badge-accent {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+.badge-category {
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.75rem;
+}
+
+/* ── Section Titles ─────────────────────────────────────────── */
+.section-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.25;
+}
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-sub);
+  margin-top: 0.5rem;
+}
+.section-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Spec Table ─────────────────────────────────────────────── */
+.spec-table th {
+  background-color: var(--color-bg-sub);
+  color: var(--color-primary);
+  font-weight: 600;
+  width: 40%;
+  vertical-align: middle;
+}
+.spec-table td {
+  vertical-align: middle;
+}
+
+/* ── Spec Row (card) ─────────────────────────────────────────── */
+.spec-row {
+  font-size: 0.83rem;
+  color: var(--color-text-sub);
+  padding: 2px 0;
+}
+.spec-row strong {
+  color: var(--color-primary);
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.footer-main {
+  background-color: #111827;
+  color: #9CA3AF;
+  padding: 3rem 0 1.5rem;
+}
+.footer-main .footer-brand {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.footer-main .footer-info {
+  font-size: 0.85rem;
+  line-height: 2;
+}
+.footer-main a {
+  color: #9CA3AF;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.footer-main a:hover {
+  color: #fff;
+}
+.footer-main .footer-divider {
+  border-color: rgba(255, 255, 255, 0.08);
+  margin: 1.5rem 0 1rem;
+}
+.footer-main .footer-copy {
+  font-size: 0.8rem;
+  color: #4B5563;
+}
+
+/* ── AOS overrides ───────────────────────────────────────────── */
+[data-aos] {
+  pointer-events: none;
+}
+[data-aos].aos-animate {
+  pointer-events: auto;
+}

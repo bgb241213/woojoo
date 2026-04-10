@@ -4,126 +4,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}우주렌탈 - 고소작업장비 렌탈 전문{% endblock %}</title>
+  <title>{% block title %}우주렌탈 - 고소작업장비 렌탈·판매 전문{% endblock %}</title>
+
+  <!-- Google Fonts: Noto Sans KR -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --navy: #1E3A5F;
-      --navy-dark: #152b47;
-      --navy-light: #254d7a;
-    }
-    body {
-      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-      color: #333;
-    }
-    /* Navbar */
-    .navbar-woojoo {
-      background-color: var(--navy);
-    }
-    .navbar-woojoo .navbar-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #fff !important;
-    }
-    .navbar-woojoo .navbar-brand img {
-      height: 38px;
-      object-fit: contain;
-    }
-    .navbar-woojoo .nav-link {
-      color: rgba(255,255,255,.85) !important;
-      font-weight: 500;
-      padding: 0.5rem 0.85rem;
-      transition: color .2s;
-    }
-    .navbar-woojoo .nav-link:hover,
-    .navbar-woojoo .nav-link.active {
-      color: #fff !important;
-    }
-    .navbar-woojoo .btn-quote {
-      background-color: #f0a500;
-      color: #fff;
-      font-weight: 700;
-      border: none;
-      border-radius: 6px;
-      padding: 0.4rem 1.1rem;
-      transition: background .2s;
-    }
-    .navbar-woojoo .btn-quote:hover {
-      background-color: #d4910a;
-      color: #fff;
-    }
-    /* Footer */
-    footer {
-      background-color: var(--navy-dark);
-      color: #b0bec5;
-      padding: 2.5rem 0 1.5rem;
-    }
-    footer .footer-brand {
-      color: #fff;
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    footer .footer-info {
-      font-size: 0.85rem;
-      line-height: 1.9;
-    }
-    footer .footer-divider {
-      border-color: rgba(255,255,255,.1);
-      margin: 1.5rem 0 1rem;
-    }
-    footer .footer-copy {
-      font-size: 0.8rem;
-      color: #78909c;
-    }
-    /* Utilities */
-    .btn-navy {
-      background-color: var(--navy);
-      color: #fff;
-      border: none;
-    }
-    .btn-navy:hover {
-      background-color: var(--navy-light);
-      color: #fff;
-    }
-    .badge-category {
-      background-color: var(--navy);
-      color: #fff;
-      font-size: 0.75rem;
-      padding: 0.25em 0.6em;
-    }
-    .section-title {
-      color: var(--navy);
-      font-weight: 700;
-    }
-  </style>
+
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
   {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-woojoo sticky-top shadow-sm">
+  <!-- ── Navigation ───────────────────────────────────────── -->
+  <nav class="navbar navbar-expand-lg navbar-main fixed-top {% block navbar_class %}navbar-transparent{% endblock %}">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'pages:index' %}">
-        <img src="{% static 'images/logo.png' %}" alt="우주렌탈 로고"
+
+      <!-- Brand -->
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-700 text-decoration-none" href="{% url 'pages:index' %}">
+        <img src="{% static 'images/logo.png' %}" alt="우주렌탈 로고" height="36"
+             style="object-fit:contain;"
              onerror="this.style.display='none'">
-        우주렌탈
+        <span style="font-weight:700; font-size:1.15rem;">우주렌탈</span>
       </a>
-      <button class="navbar-toggler border-0" type="button"
-              data-bs-toggle="collapse" data-bs-target="#mainNav">
+
+      <!-- Hamburger -->
+      <button class="navbar-toggler border-0 shadow-none" type="button"
+              data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="메뉴">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+      <!-- Menu -->
       <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-1">
           <li class="nav-item">
             <a class="nav-link {% block nav_home %}{% endblock %}" href="{% url 'pages:index' %}">홈</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% block nav_equipment %}{% endblock %}" href="{% url 'equipment:list' %}">장비소개</a>
+            <a class="nav-link {% block nav_equipment %}{% endblock %}" href="{% url 'equipment:list' %}">장비렌탈</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% block nav_sales %}{% endblock %}" href="/sales/">장비판매</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% block nav_compare %}{% endblock %}" href="{% url 'equipment:compare' %}">장비비교</a>
@@ -131,58 +64,92 @@
           <li class="nav-item">
             <a class="nav-link {% block nav_about %}{% endblock %}" href="{% url 'pages:about' %}">회사소개</a>
           </li>
-          <li class="nav-item ms-lg-2">
-            <a class="btn-quote px-3 py-2 rounded text-decoration-none d-inline-block"
-               href="{% url 'quotes:form' %}">
-              <i class="fas fa-file-alt me-1"></i>견적신청
-            </a>
-          </li>
         </ul>
+
+        <!-- CTA Button -->
+        <a href="{% url 'quotes:form' %}" class="btn-nav-cta ms-lg-3 text-decoration-none d-inline-block">
+          <i class="fas fa-file-alt me-1"></i>견적신청
+        </a>
       </div>
     </div>
   </nav>
 
-  <!-- Main content -->
+  <!-- ── Main Content ─────────────────────────────────────── -->
   <main>
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Footer -->
-  <footer>
+  <!-- ── Footer ───────────────────────────────────────────── -->
+  <footer class="footer-main">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-6 mb-3 mb-lg-0">
+      <div class="row g-4">
+        <!-- Company info -->
+        <div class="col-lg-5">
           <div class="footer-brand">
-            <i class="fas fa-building me-2"></i>우주렌탈
+            <i class="fas fa-cube me-2" style="color:var(--color-accent);"></i>우주렌탈
           </div>
           <div class="footer-info">
-            <div><strong style="color:#cfd8dc">대표</strong> 박성조 &nbsp;|&nbsp; <strong style="color:#cfd8dc">사업자번호</strong> 326-88-01739</div>
-            <div><strong style="color:#cfd8dc">주소</strong> 경기도 고양시 덕양구 호국로1254번길 130-5(신원동)</div>
+            <div><span style="color:#D1D5DB">대표</span> 박성조 &nbsp;|&nbsp; <span style="color:#D1D5DB">사업자번호</span> 326-88-01739</div>
+            <div><span style="color:#D1D5DB">주소</span> 경기도 고양시 덕양구 호국로1254번길 130-5(신원동)</div>
             <div>
-              <strong style="color:#cfd8dc">전화</strong>
-              <a href="tel:01054432848" class="text-decoration-none" style="color:#b0bec5">010-5443-2848</a>
+              <span style="color:#D1D5DB">전화</span>
+              <a href="tel:01054432848">010-5443-2848</a>
               &nbsp;|&nbsp;
-              <strong style="color:#cfd8dc">이메일</strong>
-              <a href="mailto:woojoo66666@daum.net" class="text-decoration-none" style="color:#b0bec5">woojoo66666@daum.net</a>
+              <span style="color:#D1D5DB">이메일</span>
+              <a href="mailto:woojoo66666@daum.net">woojoo66666@daum.net</a>
             </div>
           </div>
         </div>
-        <div class="col-lg-6 text-lg-end">
+
+        <!-- Quick links -->
+        <div class="col-lg-3">
+          <div class="fw-600 mb-2" style="color:#E5E7EB; font-size:0.9rem;">바로가기</div>
+          <ul class="list-unstyled footer-info mb-0">
+            <li><a href="{% url 'equipment:list' %}"><i class="fas fa-angle-right me-1"></i>장비렌탈</a></li>
+            <li><a href="/sales/"><i class="fas fa-angle-right me-1"></i>장비판매</a></li>
+            <li><a href="{% url 'equipment:compare' %}"><i class="fas fa-angle-right me-1"></i>장비비교</a></li>
+            <li><a href="{% url 'quotes:form' %}"><i class="fas fa-angle-right me-1"></i>견적신청</a></li>
+            <li><a href="{% url 'pages:about' %}"><i class="fas fa-angle-right me-1"></i>회사소개</a></li>
+          </ul>
+        </div>
+
+        <!-- Strengths -->
+        <div class="col-lg-4">
+          <div class="fw-600 mb-2" style="color:#E5E7EB; font-size:0.9rem;">우주렌탈 강점</div>
           <div class="footer-info">
-            <div><i class="fas fa-truck me-1"></i> 500여대 보유</div>
-            <div><i class="fas fa-award me-1"></i> 20년 이상 전문 렌탈사</div>
-            <div><i class="fas fa-phone me-1"></i> 빠른 납품 서비스</div>
+            <div><i class="fas fa-truck me-2" style="color:var(--color-accent);"></i>500여대 장비 보유</div>
+            <div><i class="fas fa-award me-2" style="color:var(--color-accent);"></i>20년 이상 전문 렌탈사</div>
+            <div><i class="fas fa-shipping-fast me-2" style="color:var(--color-accent);"></i>전국 빠른 납품 서비스</div>
           </div>
         </div>
       </div>
+
       <hr class="footer-divider">
       <div class="footer-copy text-center">
-        © 2024 우주렌탈. All rights reserved.
+        © 2025 우주렌탈. All rights reserved.
       </div>
     </div>
   </footer>
 
+  <!-- ── Scripts ───────────────────────────────────────────── -->
+  <!-- Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Swiper -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <!-- CountUp.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.6.0/countUp.umd.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="{% static 'js/main.js' %}"></script>
+
   {% block extra_js %}{% endblock %}
 </body>
 </html>
