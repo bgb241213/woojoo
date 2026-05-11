@@ -197,9 +197,12 @@
         </div>
       </div>
 
-      <!-- Action buttons (desktop: inline, mobile: sticky bar) -->
+      <!-- Action buttons (desktop) -->
       <div class="d-none d-lg-flex flex-column gap-2">
-        <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta btn-lg w-100 py-3">
+        <button type="button" class="btn btn-primary-cta btn-lg w-100 py-3" onclick="handleInquiry()">
+          <i class="fas fa-phone me-2"></i>이 장비에 대해 문의하기
+        </button>
+        <a href="{% url 'quotes:form' %}" class="btn btn-secondary-cta btn-lg w-100">
           <i class="fas fa-file-alt me-2"></i>이 장비로 견적신청
         </a>
         <a href="{% url 'equipment:compare' %}?left={{ equipment.pk }}" class="btn btn-outline-cta btn-lg w-100">
@@ -213,12 +216,29 @@
 <!-- Mobile sticky action bar -->
 <div class="action-bar d-lg-none">
   <div class="container d-flex gap-2">
-    <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta flex-grow-1 py-2">
+    <button type="button" class="btn btn-primary-cta flex-grow-1 py-2" onclick="handleInquiry()">
+      <i class="fas fa-phone me-1"></i>문의하기
+    </button>
+    <a href="{% url 'quotes:form' %}" class="btn btn-secondary-cta flex-grow-1 py-2">
       <i class="fas fa-file-alt me-1"></i>견적신청
     </a>
     <a href="{% url 'equipment:compare' %}?left={{ equipment.pk }}" class="btn btn-outline-cta px-3">
       <i class="fas fa-balance-scale"></i>
     </a>
+  </div>
+</div>
+
+<!-- Inquiry Modal -->
+<div class="modal fade" id="inquiryModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:16px; border:none;">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold" id="inquiryModalTitle" style="color:var(--color-primary);"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="inquiryModalBody"></div>
+      <div class="modal-footer border-0 pt-0" id="inquiryModalFooter"></div>
+    </div>
   </div>
 </div>
 
@@ -230,6 +250,57 @@ function setMainImage(thumb, url) {
   setTimeout(() => { mainImg.src = url; mainImg.style.opacity = '1'; }, 150);
   document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
   thumb.classList.add('active');
+}
+
+function handleInquiry() {
+  const hour = new Date().getHours();
+  const isOpen = hour >= 7 && hour < 17;
+  const modal = new bootstrap.Modal(document.getElementById('inquiryModal'));
+
+  if (isOpen) {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    document.getElementById('inquiryModalTitle').textContent = '장비 문의';
+    if (isMobile) {
+      document.getElementById('inquiryModalBody').innerHTML = `
+        <p style="color:var(--color-text-sub); margin-bottom:0;">031-973-6661로 전화 연결됩니다. 계속하시겠습니까?</p>`;
+      document.getElementById('inquiryModalFooter').innerHTML = `
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+        <button class="btn btn-primary-cta px-4" onclick="window.location.href='tel:031-973-6661'">
+          <i class="fas fa-phone me-1"></i>전화하기
+        </button>`;
+    } else {
+      document.getElementById('inquiryModalBody').innerHTML = `
+        <p style="color:var(--color-text-sub); margin-bottom:0.75rem;">아래 번호로 전화 주세요.</p>
+        <div style="font-size:2rem; font-weight:700; color:var(--color-primary); letter-spacing:0.05em; margin-bottom:0.5rem;">
+          031-973-6661
+        </div>`;
+      document.getElementById('inquiryModalFooter').innerHTML = `
+        <button class="btn btn-outline-secondary" onclick="copyPhone(this)">
+          <i class="fas fa-copy me-1"></i>복사하기
+        </button>
+        <button class="btn btn-primary-cta px-4" data-bs-dismiss="modal">닫기</button>`;
+    }
+  } else {
+    document.getElementById('inquiryModalTitle').textContent = '영업시간 안내';
+    document.getElementById('inquiryModalBody').innerHTML = `
+      <p style="color:var(--color-text-sub);">
+        영업시간(오전 7시 ~ 오후 5시)이 종료되었습니다.<br>
+        견적 신청을 남겨주시면 다음 영업일에 연락드리겠습니다.
+      </p>`;
+    document.getElementById('inquiryModalFooter').innerHTML = `
+      <button class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+      <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta px-4">
+        <i class="fas fa-file-alt me-1"></i>견적 신청하기
+      </a>`;
+  }
+  modal.show();
+}
+
+function copyPhone(btn) {
+  navigator.clipboard.writeText('031-973-6661').then(() => {
+    btn.innerHTML = '<i class="fas fa-check me-1"></i>복사됨';
+    btn.disabled = true;
+  });
 }
 </script>
 {% endblock %}
