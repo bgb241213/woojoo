@@ -17,11 +17,13 @@
 .equip-card {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
+  overflow: visible;
   box-shadow: var(--shadow-card);
   transition: transform .25s, box-shadow .25s;
   background: #fff;
   display: flex; flex-direction: column;
 }
+.equip-card .card-body { flex-shrink: 0; overflow: visible; }
 .equip-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card-hover); }
 .equip-card .img-wrap {
   aspect-ratio: 1 / 1; overflow: hidden;
