@@ -32,6 +32,21 @@ class QuoteRequest(models.Model):
         return f'{self.company_name} - {self.name} ({self.created_at.strftime("%Y-%m-%d")})'
 
 
+class CallbackRequest(models.Model):
+    phone      = models.CharField(max_length=20, verbose_name='전화번호')
+    message    = models.TextField(blank=True, verbose_name='문의 내용')
+    is_called  = models.BooleanField(default=False, verbose_name='전화 완료')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='신청일시')
+
+    class Meta:
+        verbose_name = '콜백 신청'
+        verbose_name_plural = '콜백 신청 목록'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.phone} ({self.created_at.strftime("%Y-%m-%d %H:%M")})'
+
+
 class QuoteItem(models.Model):
     quote     = models.ForeignKey(QuoteRequest, on_delete=models.CASCADE, related_name='items', verbose_name='견적')
     equipment = models.ForeignKey(Equipment, on_delete=models.PROTECT, verbose_name='장비')

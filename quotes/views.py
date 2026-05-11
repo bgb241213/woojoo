@@ -3,8 +3,12 @@ import datetime
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from equipment.models import Equipment
-from .models import QuoteRequest, QuoteItem
+from .models import QuoteRequest, QuoteItem, CallbackRequest
 
 
 class QuoteCreateView(View):
@@ -112,3 +116,22 @@ class QuoteCreateView(View):
 
 class QuoteCompleteView(TemplateView):
     template_name = 'quotes/complete.html'
+
+
+@method_decorator(require_POST, name='dispatch')
+class CallbackCreateView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'error': '잘못된 요청입니다.'}, status=400)
+
+        phone = data.get('phone', '').strip()
+        if not phone:
+            return JsonResponse({'success': False, 'error': '전화번호를 입력해주세요.'}, status=400)
+
+        CallbackRequest.objects.create(
+            phone=phone,
+            message=data.get('message', '').strip(),
+        )
+        return JsonResponse({'success': True})

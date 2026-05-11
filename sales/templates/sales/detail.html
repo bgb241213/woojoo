@@ -137,9 +137,9 @@
 
       <!-- Desktop buttons -->
       <div class="d-none d-lg-flex flex-column gap-2">
-        <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta btn-lg w-100 py-3">
-          <i class="fas fa-phone me-2"></i>구매 견적 문의하기
-        </a>
+        <button type="button" class="btn btn-primary-cta btn-lg w-100 py-3" onclick="handlePurchaseInquiry()">
+          <i class="fas fa-phone me-2"></i>구매 문의하기
+        </button>
         <a href="{% url 'sales:list' %}" class="btn btn-outline-cta btn-lg w-100">
           <i class="fas fa-arrow-left me-2"></i>목록으로 돌아가기
         </a>
@@ -148,15 +148,164 @@
   </div>
 </div>
 
+{% if equipment.daangn_url %}
+<!-- Daangn Section -->
+<div class="container pb-5" data-aos="fade-up">
+  <div style="background:#fff8f3; border:1px solid #ffe0cc; border-radius:16px; padding:2rem; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
+    <div style="font-size:3rem; line-height:1;">🥕</div>
+    <div class="flex-grow-1">
+      <div style="font-weight:700; font-size:1.1rem; color:var(--color-text); margin-bottom:0.25rem;">당근마켓에서도 구매 가능합니다</div>
+      <div style="color:var(--color-text-sub); font-size:0.9rem;">당근마켓에서 해당 장비의 판매글을 확인해보세요.</div>
+    </div>
+    <a href="{{ equipment.daangn_url }}" target="_blank" rel="noopener noreferrer"
+       style="background:#FF6F0F; color:#fff; border:none; border-radius:10px; padding:0.75rem 1.5rem; font-weight:700; font-size:0.95rem; text-decoration:none; white-space:nowrap;">
+      당근마켓에서 보기 →
+    </a>
+  </div>
+</div>
+{% endif %}
+
 <!-- Mobile sticky action bar -->
 <div class="action-bar d-lg-none">
   <div class="container d-flex gap-2">
-    <a href="{% url 'quotes:form' %}" class="btn btn-primary-cta flex-grow-1 py-2">
+    <button type="button" class="btn btn-primary-cta flex-grow-1 py-2" onclick="handlePurchaseInquiry()">
       <i class="fas fa-phone me-1"></i>구매 문의
-    </a>
+    </button>
     <a href="{% url 'sales:list' %}" class="btn btn-outline-cta px-3">
       <i class="fas fa-list"></i>
     </a>
   </div>
 </div>
+
+<!-- Purchase Inquiry Modal -->
+<div class="modal fade" id="purchaseModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:16px; border:none;">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold" id="purchaseModalTitle" style="color:var(--color-primary);"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="purchaseModalBody"></div>
+      <div class="modal-footer border-0 pt-0" id="purchaseModalFooter"></div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+const CALLBACK_URL = "{% url 'quotes:callback' %}";
+const CSRF_TOKEN = "{{ csrf_token }}";
+
+function handlePurchaseInquiry() {
+  const now = new Date();
+  const hour = now.getHours();
+  const isOpen = hour >= 7 && hour < 17;
+  const modal = new bootstrap.Modal(document.getElementById('purchaseModal'));
+
+  if (isOpen) {
+    showOpenModal(modal);
+  } else {
+    showClosedModal(modal);
+  }
+  modal.show();
+}
+
+function showOpenModal(modal) {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  document.getElementById('purchaseModalTitle').textContent = '구매 문의';
+
+  if (isMobile) {
+    document.getElementById('purchaseModalBody').innerHTML = `
+      <p style="color:var(--color-text-sub); margin-bottom:0;">031-973-6661로 전화 연결됩니다. 계속하시겠습니까?</p>
+    `;
+    document.getElementById('purchaseModalFooter').innerHTML = `
+      <button class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+      <button class="btn btn-primary-cta px-4" onclick="window.location.href='tel:031-973-6661'">
+        <i class="fas fa-phone me-1"></i>전화하기
+      </button>
+    `;
+  } else {
+    document.getElementById('purchaseModalBody').innerHTML = `
+      <p style="color:var(--color-text-sub); margin-bottom:0.75rem;">아래 번호로 전화 주세요.</p>
+      <div style="font-size:2rem; font-weight:700; color:var(--color-primary); letter-spacing:0.05em; margin-bottom:0.5rem;">
+        031-973-6661
+      </div>
+    `;
+    document.getElementById('purchaseModalFooter').innerHTML = `
+      <button class="btn btn-outline-secondary" onclick="copyPhone(this)">
+        <i class="fas fa-copy me-1"></i>복사하기
+      </button>
+      <button class="btn btn-primary-cta px-4" data-bs-dismiss="modal">닫기</button>
+    `;
+  }
+}
+
+function copyPhone(btn) {
+  navigator.clipboard.writeText('031-973-6661').then(() => {
+    btn.innerHTML = '<i class="fas fa-check me-1"></i>복사됨';
+    btn.disabled = true;
+  });
+}
+
+function showClosedModal(modal) {
+  document.getElementById('purchaseModalTitle').textContent = '영업시간 안내';
+  document.getElementById('purchaseModalBody').innerHTML = `
+    <p style="color:var(--color-text-sub); margin-bottom:1rem;">
+      영업시간(오전 7시 ~ 오후 5시)이 종료되었습니다.<br>
+      전화번호를 남겨주시면 다음 영업일에 연락드리겠습니다.
+    </p>
+    <div class="mb-3">
+      <label class="form-label fw-600" style="font-size:0.9rem;">전화번호 <span style="color:var(--color-accent);">*</span></label>
+      <input type="tel" id="callbackPhone" class="form-control" placeholder="010-0000-0000" required>
+    </div>
+    <div class="mb-2">
+      <label class="form-label fw-600" style="font-size:0.9rem;">문의 내용 <span style="color:var(--color-text-sub); font-weight:400;">(선택)</span></label>
+      <textarea id="callbackMessage" class="form-control" rows="3" placeholder="궁금한 점을 남겨주세요."></textarea>
+    </div>
+  `;
+  document.getElementById('purchaseModalFooter').innerHTML = `
+    <button class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+    <button class="btn btn-primary-cta px-4" onclick="submitCallback()">
+      <i class="fas fa-paper-plane me-1"></i>신청하기
+    </button>
+  `;
+}
+
+function submitCallback() {
+  const phone = document.getElementById('callbackPhone').value.trim();
+  if (!phone) {
+    document.getElementById('callbackPhone').classList.add('is-invalid');
+    return;
+  }
+  const message = document.getElementById('callbackMessage')?.value.trim() || '';
+
+  fetch(CALLBACK_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': CSRF_TOKEN,
+    },
+    body: JSON.stringify({ phone, message }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById('purchaseModalTitle').textContent = '신청 완료';
+      document.getElementById('purchaseModalBody').innerHTML = `
+        <div class="text-center py-2">
+          <i class="fas fa-check-circle fa-3x mb-3" style="color:#28a745;"></i>
+          <p class="mb-0" style="color:var(--color-text);">등록되었습니다.<br>내일 연락드리겠습니다.</p>
+        </div>
+      `;
+      document.getElementById('purchaseModalFooter').innerHTML = `
+        <button class="btn btn-primary-cta px-5" data-bs-dismiss="modal">닫기</button>
+      `;
+    } else {
+      alert(data.error || '오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  })
+  .catch(() => alert('오류가 발생했습니다. 다시 시도해주세요.'));
+}
+</script>
+{% endblock %}
 {% endblock %}

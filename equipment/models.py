@@ -32,6 +32,7 @@ class Equipment(models.Model):
     equipment_size      = models.CharField(max_length=100, verbose_name='장비크기')
     platform_size       = models.CharField(max_length=100, verbose_name='작업대크기')
     power_type          = models.CharField(max_length=50, verbose_name='동력')
+    daangn_url          = models.URLField(blank=True, verbose_name='당근마켓 URL')
     is_active           = models.BooleanField(default=True, verbose_name='노출 여부')
     is_for_sale         = models.BooleanField(default=False, verbose_name='판매 가능')
     created_at          = models.DateTimeField(auto_now_add=True, verbose_name='등록일')

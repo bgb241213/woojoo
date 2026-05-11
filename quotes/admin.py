@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import QuoteRequest, QuoteItem
+from .models import QuoteRequest, QuoteItem, CallbackRequest
 
 
 class QuoteItemInline(admin.TabularInline):
@@ -33,3 +33,12 @@ class QuoteRequestAdmin(admin.ModelAdmin):
             'fields': ('status', 'created_at'),
         }),
     )
+
+
+@admin.register(CallbackRequest)
+class CallbackRequestAdmin(admin.ModelAdmin):
+    list_display   = ('phone', 'message', 'is_called', 'created_at')
+    list_editable  = ('is_called',)
+    list_filter    = ('is_called', 'created_at')
+    ordering       = ('-created_at',)
+    readonly_fields = ('created_at',)
