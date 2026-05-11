@@ -30,8 +30,8 @@ class EquipmentAdmin(admin.ModelAdmin):
                 'power_type',
             ),
         }),
-        ('판매 설정', {
-            'fields': ('is_active', 'is_for_sale', 'daangn_url', 'created_at'),
+        ('설정', {
+            'fields': ('is_active', 'is_for_sale', 'created_at'),
         }),
     )
 
