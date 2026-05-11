@@ -6,14 +6,15 @@
 
 {% block extra_css %}
 <style>
-.page-hero {
-  background: linear-gradient(135deg, #1F286F 0%, #2a3580 60%, #1a6fa0 100%);
-  padding: 100px 0 60px;
+/* ── Hero ───────────────────────────────────────────────── */
+.about-hero {
+  background: linear-gradient(135deg, #1F286F 0%, #2a3580 55%, #1a6fa0 100%);
+  padding: 120px 0 70px;
 }
-.page-hero h1 { font-size: 2.4rem; font-weight: 700; color: #fff; }
-.page-hero p  { color: rgba(255,255,255,.82); font-size: 1.05rem; }
+.about-hero h1 { font-size: 2.6rem; font-weight: 800; color: #fff; line-height: 1.3; }
+.about-hero p  { color: rgba(255,255,255,.82); font-size: 1.1rem; }
 
-/* Stats */
+/* ── Stats ──────────────────────────────────────────────── */
 .stat-card {
   background: #fff;
   border: 1px solid var(--color-border);
@@ -29,78 +30,115 @@
   background: rgba(31,40,111,.08);
   border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem;
-  color: var(--color-primary);
+  font-size: 1.4rem; color: var(--color-primary);
   margin: 0 auto 1rem;
 }
-.stat-number {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--color-primary);
-  line-height: 1;
-}
-.stat-suffix { font-size: 1.2rem; color: var(--color-accent); font-weight: 800; }
-.stat-label  { color: var(--color-text-sub); font-size: 0.9rem; margin-top: 6px; }
+.stat-number { font-size: 2.4rem; font-weight: 800; color: var(--color-primary); line-height: 1; }
+.stat-suffix  { font-size: 1.3rem; color: var(--color-accent); font-weight: 800; }
+.stat-label   { color: var(--color-text-sub); font-size: 0.9rem; margin-top: 6px; }
 
-/* CEO section */
+/* ── CEO / Intro ────────────────────────────────────────── */
 .ceo-img-wrap {
-  border-radius: 20px;
-  overflow: hidden;
+  border-radius: 20px; overflow: hidden;
   background: linear-gradient(135deg, #eef1f8, #dde3f3);
-  min-height: 340px;
+  min-height: 360px;
   display: flex; align-items: center; justify-content: center;
 }
-.ceo-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .ceo-img-wrap .placeholder-icon { font-size: 5rem; color: #a8b8d8; }
-.ceo-text { line-height: 1.9; color: var(--color-text-sub); font-size: 0.97rem; }
+.ceo-text { line-height: 1.95; color: var(--color-text-sub); font-size: 0.97rem; }
 .ceo-sign {
-  margin-top: 1.5rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  font-size: 1rem;
-  padding-top: 1rem;
-  border-top: 2px solid var(--color-border);
+  margin-top: 1.5rem; font-weight: 700; color: var(--color-primary);
+  font-size: 1rem; padding-top: 1rem; border-top: 2px solid var(--color-border);
 }
 
-/* Info table */
-.info-table th {
-  background: var(--color-bg-sub);
-  color: var(--color-primary);
-  font-weight: 600;
-  width: 28%;
-  vertical-align: middle;
-  font-size: 0.9rem;
+/* ── AS Section (navy) ──────────────────────────────────── */
+.as-section { background: #1F286F; padding: 80px 0 0; }
+.as-card {
+  background: #fff; border-radius: 16px;
+  padding: 2rem 1.5rem; text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,.15);
+  height: 100%;
+  transition: transform .25s;
 }
-.info-table td { vertical-align: middle; font-size: 0.9rem; }
+.as-card:hover { transform: translateY(-6px); }
+.as-icon {
+  width: 64px; height: 64px;
+  background: rgba(31,40,111,.08);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; color: var(--color-primary);
+  margin: 0 auto 1.25rem;
+}
+.as-card h5 { color: var(--color-primary); font-weight: 700; margin-bottom: .5rem; }
+.as-card p  { color: var(--color-text-sub); font-size: 0.9rem; line-height: 1.75; margin: 0; }
+.as-banner {
+  background: var(--color-accent);
+  margin-top: 3rem; padding: 1.75rem 2rem;
+  text-align: center;
+}
+.as-banner h4 { color: #fff; font-weight: 800; font-size: 1.25rem; margin-bottom: .4rem; }
+.as-banner p  { color: rgba(255,255,255,.85); font-size: 0.92rem; margin: 0; }
+
+/* ── Process ────────────────────────────────────────────── */
+.process-section { background: var(--color-bg-sub); padding: 80px 0; }
+.process-step {
+  text-align: center;
+  position: relative;
+}
+.process-num {
+  width: 56px; height: 56px;
+  background: var(--color-primary);
+  color: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; font-weight: 800;
+  margin: 0 auto 1rem;
+}
+.process-icon {
+  font-size: 1.6rem; color: var(--color-primary); margin-bottom: .75rem;
+}
+.process-title { font-weight: 700; color: var(--color-text); font-size: .95rem; margin-bottom: .4rem; }
+.process-desc  { color: var(--color-text-sub); font-size: .82rem; line-height: 1.6; }
+.process-arrow {
+  position: absolute; top: 28px; right: -20px;
+  font-size: 1.4rem; color: var(--color-accent);
+  display: flex; align-items: center;
+}
+@media (max-width: 767px) { .process-arrow { display: none; } }
+
+/* ── Info table ─────────────────────────────────────────── */
+.info-table th {
+  background: var(--color-bg-sub); color: var(--color-primary);
+  font-weight: 600; width: 28%; vertical-align: middle; font-size: .9rem;
+}
+.info-table td { vertical-align: middle; font-size: .9rem; }
 .info-table td a { color: var(--color-text); text-decoration: none; }
 .info-table td a:hover { color: var(--color-primary); }
 
-/* CTA section */
+/* ── CTA ────────────────────────────────────────────────── */
 .about-cta {
   background: linear-gradient(135deg, #1F286F 0%, #2a3580 100%);
-  border-radius: 20px;
-  padding: 3rem 2rem;
-  text-align: center;
-  color: #fff;
+  border-radius: 20px; padding: 3rem 2rem;
+  text-align: center; color: #fff;
 }
 </style>
 {% endblock %}
 
 {% block content %}
 
-<!-- Hero -->
-<section class="page-hero">
+<!-- ── 1. Hero ────────────────────────────────────────────── -->
+<section class="about-hero">
   <div class="container" data-aos="fade-up">
-    <h1 class="mb-2">회사 소개</h1>
-    <p class="mb-0">고소작업장비 렌탈의 전문 기업, 우주렌탈</p>
+    <p class="section-label mb-3" style="color:rgba(255,255,255,.6);">WOOJOO RENTAL</p>
+    <h1 class="mb-3">20년 경력의<br>고소작업장비 전문기업</h1>
+    <p class="mb-0">렌탈부터 판매, 무상 AS까지 원스톱 서비스</p>
   </div>
 </section>
 
-<!-- Stats -->
+<!-- ── 2. Stats ───────────────────────────────────────────── -->
 <section class="py-5" style="background:var(--color-bg-sub);">
   <div class="container">
     <div class="row g-4 justify-content-center" data-aos="fade-up">
-      <div class="col-sm-4">
+      <div class="col-sm-4 col-6">
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-award"></i></div>
           <div class="stat-number">
@@ -109,7 +147,7 @@
           <div class="stat-label">렌탈 전문 경력</div>
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 col-6">
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-handshake"></i></div>
           <div class="stat-number">
@@ -122,39 +160,25 @@
   </div>
 </section>
 
-<!-- CEO greeting -->
+<!-- ── 3. 회사 소개글 ─────────────────────────────────────── -->
 <section class="py-5 bg-white">
   <div class="container">
     <div class="row g-5 align-items-center">
 
-      <!-- CEO image -->
-      <div class="col-lg-5" data-aos="fade-right">
-        <div class="ceo-img-wrap shadow-sm">
-          <span class="placeholder-icon"><i class="fas fa-user-tie"></i></span>
-        </div>
-      </div>
-
-      <!-- Greeting text -->
-      <div class="col-lg-7" data-aos="fade-left">
+      <div class="col-lg-7" data-aos="fade-right">
         <p class="section-label mb-2">대표 인사말</p>
         <h2 class="fw-bold mb-4" style="color:var(--color-primary); font-size:1.75rem;">
           안전하고 효율적인<br>고소작업 환경을 약속드립니다
         </h2>
         <div class="ceo-text">
-          <p>
-            안녕하십니까,<br>
-            우주렌탈 홈페이지를 찾아주셔서 진심으로 감사드립니다.
-          </p>
+          <p>안녕하십니까,<br>우주렌탈 홈페이지를 찾아주셔서 진심으로 감사드립니다.</p>
           <p>
             우주렌탈은 고소작업대 렌탈의 전문 기업으로서, 다양한 현장에서 안전하고 효율적인
             고소작업 환경을 제공하기 위해 노력하고 있습니다.
-            고소작업대는 작업자의 안전을 보장하면서도 생산성을 높일 수 있는 필수 장비입니다.
-            저희는 이러한 장비를 필요한 순간에 신속하고 안전하게 공급하여
-            고객 여러분의 성공적인 프로젝트에 기여하는 것을 목표로 하고 있습니다.
           </p>
-          <p class="mb-0">
-            저희 우주렌탈은 철저한 장비 관리와 빠른 공급 서비스로 고객의 신뢰에 부응하기 위해
-            최선을 다하고 있으며, 고객 만족을 최우선으로 하는 서비스를 제공하겠습니다.
+          <p>
+            저희 우주렌탈은 철저한 장비 관리와 빠른 공급 서비스로 고객의 신뢰에
+            부응하기 위해 최선을 다하고 있습니다.
             우주렌탈과 함께라면 언제나 안전하고 효율적인 작업 환경을 경험하실 수 있음을 약속드립니다.
           </p>
         </div>
@@ -164,16 +188,119 @@
         </div>
       </div>
 
+      <div class="col-lg-5" data-aos="fade-left">
+        <div class="ceo-img-wrap shadow-sm">
+          <span class="placeholder-icon"><i class="fas fa-user-tie"></i></span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- Company info table -->
-<section class="py-5" style="background:var(--color-bg-sub);">
+<!-- ── 4. AS 서비스 강조 (네이비) ────────────────────────── -->
+<section class="as-section">
+  <div class="container">
+
+    <div class="text-center mb-5" data-aos="fade-up">
+      <p class="section-label mb-2" style="color:rgba(255,255,255,.6);">AFTER SERVICE</p>
+      <h2 class="fw-bold mb-2" style="color:#fff; font-size:2rem;">우주렌탈 무상 AS 서비스</h2>
+      <p style="color:rgba(255,255,255,.75); font-size:1rem;">장비 구매 후에도 우주렌탈이 함께합니다</p>
+    </div>
+
+    <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-md-4">
+        <div class="as-card">
+          <div class="as-icon"><i class="fas fa-truck-fast"></i></div>
+          <h5>신속 출동 AS</h5>
+          <p>장비 이상 발생 시 전문 기술진이 신속하게 현장에 출동합니다</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="as-card">
+          <div class="as-icon"><i class="fas fa-gears"></i></div>
+          <h5>정품 부품 보유</h5>
+          <p>모든 취급 장비의 정품 부품을 상시 보유하여 빠른 수리가 가능합니다</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="as-card">
+          <div class="as-icon"><i class="fas fa-headset"></i></div>
+          <h5>전문 기술 상담</h5>
+          <p>렌탈 및 구매 후에도 전문 기술진의 지속적인 상담을 제공합니다</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 무상 AS 강조 배너 -->
+    <div class="as-banner" data-aos="fade-up" data-aos-delay="200">
+      <h4><i class="fas fa-shield-alt me-2"></i>구매한 모든 장비에 무상 AS를 제공합니다</h4>
+      <p>부품 교체 비용 외 수리 공임 무상 제공</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── 5. AS 프로세스 ─────────────────────────────────────── -->
+<section class="process-section">
+  <div class="container">
+
+    <div class="text-center mb-5" data-aos="fade-up">
+      <p class="section-label mb-2">HOW IT WORKS</p>
+      <h2 class="fw-bold" style="color:var(--color-primary); font-size:1.75rem;">AS 서비스 프로세스</h2>
+    </div>
+
+    <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+
+      <div class="col-6 col-md-3">
+        <div class="process-step">
+          <div class="process-num">1</div>
+          <div class="process-icon"><i class="fas fa-phone-alt"></i></div>
+          <div class="process-title">문의 접수</div>
+          <div class="process-desc">전화 또는 온라인으로<br>AS 접수</div>
+          <div class="process-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="process-step">
+          <div class="process-num">2</div>
+          <div class="process-icon"><i class="fas fa-user-cog"></i></div>
+          <div class="process-title">기술진 배정</div>
+          <div class="process-desc">담당 기술진<br>즉시 배정</div>
+          <div class="process-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="process-step">
+          <div class="process-num">3</div>
+          <div class="process-icon"><i class="fas fa-truck"></i></div>
+          <div class="process-title">현장 출동</div>
+          <div class="process-desc">고객 현장으로<br>신속 출동</div>
+          <div class="process-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="process-step">
+          <div class="process-num">4</div>
+          <div class="process-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="process-title">수리 완료</div>
+          <div class="process-desc">정품 부품으로<br>완벽 수리</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── 6. 회사 정보 ───────────────────────────────────────── -->
+<section class="py-5 bg-white">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8" data-aos="fade-up">
-        <p class="section-label text-center mb-2">회사 정보</p>
+        <p class="section-label text-center mb-2">COMPANY INFO</p>
         <h2 class="fw-bold text-center mb-4" style="color:var(--color-primary); font-size:1.5rem;">기업 개요</h2>
         <div class="table-responsive shadow-sm rounded-3 overflow-hidden">
           <table class="table table-bordered info-table mb-0">
@@ -206,6 +333,10 @@
                 <th><i class="fas fa-id-card me-2"></i>사업자번호</th>
                 <td>326-88-01739</td>
               </tr>
+              <tr>
+                <th><i class="fas fa-clock me-2"></i>영업시간</th>
+                <td>오전 7:00 ~ 오후 5:00</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -214,40 +345,8 @@
   </div>
 </section>
 
-<!-- CTA -->
+<!-- ── CTA ───────────────────────────────────────────────── -->
 <section class="py-5" style="background:var(--color-bg-sub);">
-  <div class="container">
-    <div class="text-center mb-5" data-aos="fade-up">
-      <p class="section-label">AFTER SERVICE</p>
-      <h2 class="section-title">우주렌탈 서비스</h2>
-    </div>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
-        <div class="stat-card text-center p-4">
-          <div class="mb-3" style="font-size:2rem; color:var(--color-accent);"><i class="fas fa-tools"></i></div>
-          <h5 class="fw-bold mb-2" style="color:var(--color-primary);">신속한 AS</h5>
-          <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.7;">장비 이상 발생 시 전문 기술진이<br>신속하게 출동합니다</p>
-        </div>
-      </div>
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="stat-card text-center p-4">
-          <div class="mb-3" style="font-size:2rem; color:var(--color-accent);"><i class="fas fa-cogs"></i></div>
-          <h5 class="fw-bold mb-2" style="color:var(--color-primary);">정품 부품</h5>
-          <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.7;">모든 장비의 정품 부품을 보유하고<br>있어 빠른 교체가 가능합니다</p>
-        </div>
-      </div>
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="stat-card text-center p-4">
-          <div class="mb-3" style="font-size:2rem; color:var(--color-accent);"><i class="fas fa-headset"></i></div>
-          <h5 class="fw-bold mb-2" style="color:var(--color-primary);">기술 지원</h5>
-          <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.7;">렌탈 및 구매 후에도 지속적인<br>기술 상담을 제공합니다</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="py-5 bg-white">
   <div class="container" data-aos="fade-up">
     <div class="about-cta">
       <p class="mb-2" style="color:rgba(255,255,255,.75); font-size:0.95rem;">지금 바로 시작하세요</p>
@@ -269,7 +368,6 @@
 
 {% block extra_js %}
 <script>
-/* CountUp on DOMContentLoaded */
 document.addEventListener('DOMContentLoaded', function () {
   const counters = document.querySelectorAll('.countup');
   if (!counters.length || typeof countUp === 'undefined') return;
