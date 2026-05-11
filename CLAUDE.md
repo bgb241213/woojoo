@@ -65,24 +65,19 @@ B2B 고객(건설사, 시공업체 등)이 장비를 탐색하고 견적을 신�
 
 ### CDN 목록 (base.html에 포함)
 ```html
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Swiper.js -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<!-- AOS.js -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<!-- Particles.js -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<!-- CountUp.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.6.0/countUp.umd.min.js"></script>
 ```
 
 ### 인터랙션 명세
 - 히어로 슬라이드쇼: Swiper.js, 5초 자동전환, fade 효과, 하단 도트
 - 파티클: 흰색 점 80개, 마우스 반응, 히어로+견적 배너에 적용
-- 카운트업: Intersection Observer 트리거, 2초 카운트 (500+대, 20+년)
+- 카운트업: Intersection Observer 트리거, 3초 카운트
 - 스크롤 애니메이션: AOS data-aos="fade-up", duration 600ms, 카드마다 100ms delay
 - 네비게이션: 스크롤 전 투명+흰텍스트, 스크롤 100px 후 흰배경+네이비텍스트+그림자
 
@@ -94,15 +89,17 @@ woojoo/
   config/
     settings.py / urls.py / wsgi.py
   equipment/               # 렌탈 장비
-    models.py / views.py / urls.py / admin.py
+    models.py              # Equipment, EquipmentImage
+    views.py / urls.py / admin.py
     templates/equipment/
       list.html / detail.html / compare.html
-  sales/                   # 판매 장비 (신규)
+  sales/                   # 판매 장비
     views.py / urls.py
     templates/sales/
       list.html / detail.html
   quotes/                  # 견적
-    models.py / views.py / urls.py / admin.py / forms.py
+    models.py              # QuoteRequest, QuoteItem, CallbackRequest
+    views.py / urls.py / admin.py / forms.py
     templates/quotes/
       form.html / complete.html
   pages/                   # 정적 페이지
@@ -112,8 +109,8 @@ woojoo/
   templates/
     base.html
   static/
-    css/main.css           # CSS 변수 및 커스텀 스타일
-    js/main.js             # 공통 JS
+    css/main.css
+    js/main.js
     images/
       logo.png
       hero/
@@ -132,28 +129,22 @@ woojoo/
 | `/equipment/<id>/` | 장비 렌탈 상세 |
 | `/equipment/compare/` | 장비 비교 |
 | `/equipment/api/by-category/` | 카테고리별 장비 JSON |
-| `/sales/` | 장비 판매 목록 (신규) |
-| `/sales/<id>/` | 장비 판매 상세 (신규) |
+| `/sales/` | 장비 판매 목록 |
+| `/sales/<id>/` | 장비 판매 상세 |
 | `/quote/` | 견적 신청 |
 | `/quote/complete/` | 견적 완료 |
+| `/quote/callback/` | 콜백 신청 (영업시간 외) |
 | `/admin/` | 어드민 |
-
----
-
-## 판매 장비 (5종)
-Equipment 모델의 is_for_sale=True 필드로 구분.
-판매 장비 모델명: JLG1230ES(1인승), SJ3219, JLG1932R, SJ3220, SJ4632
 
 ---
 
 ## 데이터 모델
 
-### Equipment
+### Equipment (장비 - 렌탈/판매 공통)
 ```python
 name                = CharField(100)
 category            = CharField(choices)   # 미터급
 type                = CharField(choices)   # 타입
-image               = ImageField
 description         = TextField(blank=True)
 max_work_height     = CharField(50)        # 작업가능높이
 max_platform_height = CharField(50)        # 발판최대높이
@@ -163,11 +154,25 @@ equipment_size      = CharField(100)       # 장비크기
 platform_size       = CharField(100)       # 작업대크기
 power_type          = CharField(50)        # 동력
 is_active           = BooleanField(True)
-is_for_sale         = BooleanField(False)  # 판매 가능 여부 (신규 필드)
+is_for_sale         = BooleanField(False)  # 판매 가능 여부
 created_at          = DateTimeField(auto)
 ```
 
-### QuoteRequest
+### EquipmentImage (장비 다중 이미지) ← 신규
+```python
+equipment   = ForeignKey(Equipment, on_delete=CASCADE, related_name='images')
+image       = ImageField(upload_to='equipment/')
+image_type  = CharField(choices=[('rental','렌탈용'),('sales','판매용')])
+order       = PositiveIntegerField(default=0)  # 이미지 순서
+created_at  = DateTimeField(auto)
+
+class Meta:
+    ordering = ['order']
+```
+※ 렌탈 페이지와 판매 페이지에서 각각 다른 이미지 사용 가능
+※ 어드민에서 인라인으로 여러 장 업로드
+
+### QuoteRequest (견적 신청)
 ```python
 company_name     = CharField(200)
 name             = CharField(100)
@@ -183,12 +188,21 @@ status           = CharField(choices)   # 대기/검토중/완료/취소
 created_at       = DateTimeField(auto)
 ```
 
-### QuoteItem
+### QuoteItem (견적 장비 항목)
 ```python
 quote     = ForeignKey(QuoteRequest, CASCADE)
 equipment = ForeignKey(Equipment, PROTECT)
 quantity  = PositiveIntegerField
 ```
+
+### CallbackRequest (콜백 신청) ← 신규
+```python
+phone      = CharField(20)             # 고객 전화번호
+message    = TextField(blank=True)     # 문의 내용 (선택)
+is_called  = BooleanField(False)       # 전화 완료 여부
+created_at = DateTimeField(auto)       # 신청 일시
+```
+※ 어드민에서 is_called로 완료 처리
 
 ---
 
@@ -205,38 +219,104 @@ TYPE_CHOICES = [
 
 ---
 
-## 장비 데이터 (29개)
-형식: (모델명, 카테고리, 타입, 동력, 작업가능높이, 발판최대높이, 장비무게, 적재가능중량, 장비크기, 작업대크기, is_for_sale)
+## 판매 장비 (5종)
+Equipment 모델의 is_for_sale=True 필드로 구분.
+판매 장비 모델명: JLG1230ES(1인승), SJ3219, JLG1932R, SJ3220, SJ4632
+
+---
+
+## 주요 기능 명세
+
+### 1. 장비 다중 이미지 슬라이더
+- 장비 목록 카드: 이미지 여러 장이면 Swiper 슬라이더로 넘길 수 있게
+- 장비 상세 페이지: 메인 이미지 + 썸네일 갤러리
+- 렌탈 페이지: image_type='rental' 이미지만 표시
+- 판매 페이지: image_type='sales' 이미지만 표시
+- 이미지 없으면 static/images/장비카드썸네일용.jpg 표시
+
+### 2. 판매 사진 비율
+- 판매 페이지(/sales/) 장비 카드 이미지: aspect-ratio 1:1 적용
+- 렌탈 페이지는 기존 비율 유지
+
+### 3. 구매문의 전화 연결 (영업시간 제한)
 ```
-JLG1230ES       5m       vertical  배터리  5.7m   3.66m  800kg    227kg  1.36x0.76x1.66m  0.84x0.68m   True(판매)
-LGMG SS0407     6m       scissor   배터리  5.6m   3.6m   880kg    240kg  1.35x0.76x1.8m   1.35x0.7m    False
-JCPT0607DCS     6m       scissor   배터리  5.6m   3.6m   880kg    240kg  1.44x0.76x1.8m   1.29x0.7m    False
-JLG ES1530L     6m       scissor   배터리  6.4m   4.5m   880kg    227kg  1.33x0.76x1.8m   1.3x0.6m     False
-SJ3215          6m       scissor   배터리  6.4m   4.57m  1120kg   227kg  1.78x0.81x1.88m  1.63x0.66m   False
-SJ3219          7m       scissor   배터리  7.62m  5.79m  1312kg   227kg  1.78x0.81x1.99m  1.63x0.66m   True(판매)
-JLG ES1932      7m       scissor   배터리  7.6m   5.8m   1565kg   230kg  1.7x0.81x2.1m    1.59x0.64m   False
-JLG1932R        7m       scissor   배터리  7.8m   5.8m   1193kg   250kg  1.74x0.81x1.99m  1.59x0.64m   True(판매)
-JLG1930ES       7m       scissor   배터리  7.72m  5.72m  1229kg   227kg  1.87x0.76x2.02m  1.87x0.76m   False
-JCPT0807AC      7m       scissor   배터리  7.8m   5.8m   1630kg   230kg  1.86x0.76x2.15m  1.67x0.74m   False
-LGMG AS0607E    7m       scissor   배터리  7.8m   5.8m   1420kg   230kg  1.86x0.76x2.14m  1.63x0.74m   False
-SJ3220          8m       scissor   배터리  7.92m  6.1m   1592kg   408kg  2.32x0.81x1.97m  2.13x0.71m   True(판매)
-JLG2032ES       8m       scissor   배터리  7.92m  6.1m   1638kg   363kg  2.3x0.81x2.2m    2.3x0.76m    False
-SJ3226          10m      scissor   배터리  9.8m   7.92m  1876kg   227kg  2.32x0.81x2.15m  2.13x0.71m   False
-JLG2632ES       10m      scissor   배터리  9.6m   7.8m   2103kg   227kg  2.3x0.81x2.33m   2.3x0.76m    False
-JCPT1008AC      10m      scissor   배터리  10m    8m     2230kg   230kg  2.48x0.83x2.36m  2.27x0.81m   False
-SJ4626          10m      scissor   배터리  9.8m   7.92m  2132kg   454kg  2.31x1.17x2.15m  2.13x1.07m   False
-LGMG AS0812     10m      scissor   배터리  10m    8m     2430kg   450kg  2.42x1.18x2.3m   2.26x1.12m   False
-JCPT1012AC      10m      scissor   배터리  10m    8m     2710kg   450kg  2.48x1.15x2.36m  2.27x1.12m   False
-JLG ES3246      12m      scissor   배터리  11.6m  9.7m   2257kg   318kg  2.4x1.17x2.22m   2.5x1.12m    False
-JLG3246ES       12m      scissor   배터리  11.68m 9.68m  2279kg   454kg  2.5x1.17x2.36m   2.5x1.12m    False
-SJ4632          12m      scissor   배터리  11.6m  9.8m   2302kg   318kg  2.32x1.17x2.22m  2.13x1.07m   True(판매)
-LGMG AS1012     12m      scissor   배터리  12m    10m    3000kg   320kg  2.47x1.18x2.43m  2.26x1.12m   False
-JCPT1212AC      12m      scissor   배터리  12m    10m    3060kg   320kg  2.48x1.15x2.49m  2.27x1.12m   False
-LGMG AS1212     14m      scissor   배터리  14m    12m    3160kg   320kg  2.47x1.18x2.56m  2.26x1.12m   False
-JCPT1412AC      14m      scissor   배터리  13.8m  11.8m  2990kg   320kg  2.48x1.19x2.62m  2.27x1.12m   False
-XE140W          14m      scissor   배터리  14m    12m    3245kg   350kg  2.42x1.2x2.51m   2.3x1.15m    False
-JLG4069LE       14m      scissor   배터리  14.2m  12.2m  5216kg   360kg  3.15x1.75x2.83m  2.92x1.65m   False
-Z45             15m_boom boom      디젤    15.86m 13.86m 6515kg   227kg  6.65x2.29x2.13m  0.76x1.83m   False
+영업시간: 오전 7:00 ~ 오후 5:00
+
+[구매 문의하기] 버튼 클릭 시:
+  ↓
+현재 시간 체크 (JavaScript)
+  ↓
+영업시간 내 (07:00~17:00):
+  → 모달 표시: "대표에게 전화 연결합니다. 031-973-6661"
+  → [확인] 클릭 시 tel:031-973-6661 로 바로 연결
+  ↓
+영업시간 외 (17:00~07:00):
+  → 모달 표시: "영업시간(오전 7시~오후 5시)이 종료되었습니다.
+               전화번호를 남겨주시면 다음 영업일에 연락드리겠습니다."
+  → 전화번호 입력 폼 표시
+  → 제출 시 CallbackRequest DB에 저장
+  → 완료 메시지: "전화번호가 등록되었습니다. 내일 연락드리겠습니다."
+```
+
+### 4. 당근마켓 판매글 섹션
+- 판매 상세 페이지(/sales/<id>/) 하단에 추가
+- 해당 장비의 당근마켓 판매글 링크 버튼
+- 당근마켓 로고 + "당근마켓에서도 구매 가능합니다" 문구
+- 링크는 어드민에서 장비별로 입력 가능하도록
+  (Equipment 모델에 daangn_url = URLField(blank=True) 추가)
+
+### 5. AS/서비스/부품 강조
+- 메인 페이지 서비스 특징 섹션에 AS/부품 카드 추가
+- 판매 상세 페이지에 AS 안내 섹션 추가
+- 회사 소개 페이지에 AS/서비스 섹션 강조
+
+### 6. 회사 소개 페이지 리뉴얼
+- 현재보다 더 풍성하고 신뢰감 있는 구성
+- 구체적 방향은 별도 논의 필요
+
+---
+
+## 개발 예정 작업 목록 (우선순위 순)
+
+### 즉시 작업 (간단)
+- [ ] "500대" 문구 전체 삭제
+- [ ] 판매 사진 1:1 비율 CSS 적용
+
+### 단기 작업 (보통)
+- [ ] 구매문의 전화 모달 + 영업시간 체크 JS
+- [ ] CallbackRequest 모델 추가 + 어드민 등록
+- [ ] 콜백 신청 뷰/템플릿 추가
+- [ ] 당근마켓 URL 필드 Equipment 모델에 추가
+- [ ] 판매 상세 하단 당근마켓 섹션
+- [ ] AS/서비스/부품 강조 섹션
+
+### 중기 작업 (복잡)
+- [ ] EquipmentImage 모델 추가 + 마이그레이션
+- [ ] 어드민 EquipmentImage 인라인 설정
+- [ ] 장비 목록 카드 Swiper 슬라이더 적용
+- [ ] 장비 상세 갤러리 적용
+- [ ] 렌탈/판매 이미지 분리 로직
+- [ ] 회사 소개 페이지 리뉴얼
+
+---
+
+## 배포 관련
+
+### 배포 전 필수 작업 (장비 데이터 변경 시)
+```bash
+# 1. Railway 최신 데이터 덤프
+railway run python manage.py dumpdata equipment.Equipment \
+  --indent 2 --output equipment/fixtures/equipment_data.json
+
+# 2. 커밋 후 push
+git add equipment/fixtures/equipment_data.json
+git commit -m "Update fixtures"
+git push
+```
+
+### Procfile
+```
+web: python manage.py migrate && python manage.py loaddata equipment_data && python manage.py collectstatic --noinput && python manage.py ensure_admin && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
 ```
 
 ---
@@ -245,8 +325,11 @@ Z45             15m_boom boom      디젤    15.86m 13.86m 6515kg   227kg  6.65x
 ```
 회사명: 우주렌탈 | 대표자: 박성조
 주소: 경기도 고양시 덕양구 호국로1254번길 130-5(신원동)
-전화: 031-973-6661 | 팩스: 02-381-3660 | 이메일: woojoo66666@daum.net
-사업자번호: 326-88-01739 | 보유장비: 500여대 | 경력: 20년 이상
+전화: 031-973-6661 | 팩스: 02-381-3660
+이메일: woojoo66666@daum.net
+사업자번호: 326-88-01739
+경력: 20년 이상
+영업시간: 오전 7:00 ~ 오후 5:00
 ```
 
 ## 회사 소개글
@@ -262,17 +345,29 @@ Z45             15m_boom boom      디젤    15.86m 13.86m 6515kg   227kg  6.65x
 
 ---
 
-## 배포 설정
-- 플랫폼: Railway | DB: SQLite | 이미지: Cloudflare R2 | 정적파일: whitenoise
-- Procfile: python manage.py migrate && python manage.py collectstatic --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+## 네비게이션 메뉴
+```
+홈 | 회사소개 | 장비렌탈 | 장비판매 | 장비비교
+```
+우측에 [견적신청] 코랄 버튼 고정.
+
+---
 
 ## 어드민
 - django-jazzmin 사용
 - Equipment: list_display(name,category,type,is_for_sale,is_active), fieldsets 그룹화
+  EquipmentImage 인라인 추가 (image, image_type, order)
 - QuoteRequest: list_display, list_filter, search_fields, QuoteItem 인라인
+- CallbackRequest: list_display(phone,created_at,is_called), list_editable(is_called)
 
 ## 코딩 규칙
 - 주석/변수명: 영어 | 사용자 텍스트: 한국어
 - 뷰: 클래스 기반(CBV) 원칙
 - 모델 변경 시 makemigrations → migrate 필수
 - 새 기능: urls.py 연결까지 완료 후 보고
+
+## 테스트 이미지 경로
+```
+히어로: static/images/hero/herotest1.jpg ~ herotest5.jpg
+장비 기본 썸네일: static/images/장비카드썸네일용.jpg
+```
