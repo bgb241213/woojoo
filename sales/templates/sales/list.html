@@ -17,14 +17,21 @@
 .equip-card {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  overflow: visible;
   box-shadow: var(--shadow-card);
   transition: transform .25s, box-shadow .25s;
   background: #fff;
   display: flex; flex-direction: column;
 }
-.equip-card .card-body { flex-shrink: 0; overflow: visible; }
 .equip-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card-hover); }
+.equip-body {
+  padding: 1rem 1rem 0.5rem;
+  flex: 0 0 auto;
+}
+.equip-footer {
+  padding: 0 1rem 1rem;
+  display: flex; gap: 0.5rem;
+  margin-top: auto;
+}
 .equip-card .img-wrap {
   aspect-ratio: 1 / 1; overflow: hidden;
   border-radius: 12px 12px 0 0;
@@ -129,7 +136,7 @@
         </div>
 
         <!-- Body -->
-        <div class="card-body pb-2 flex-grow-1">
+        <div class="equip-body">
           <div class="d-flex gap-2 mb-2 flex-wrap">
             <span class="badge" style="background:var(--color-primary);">{{ eq.get_category_display }}</span>
             <span class="badge bg-secondary">{{ eq.get_type_display }}</span>
@@ -141,7 +148,7 @@
         </div>
 
         <!-- Footer -->
-        <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3 d-flex gap-2">
+        <div class="equip-footer">
           <a href="{% url 'sales:detail' eq.pk %}" class="btn btn-coral-outline flex-grow-1">
             <i class="fas fa-info-circle me-1"></i>상세보기
           </a>
