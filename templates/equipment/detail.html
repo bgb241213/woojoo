@@ -199,13 +199,13 @@
 
       <!-- Action buttons (desktop) -->
       <div class="d-none d-lg-flex flex-column gap-2">
-        <button type="button" class="btn btn-primary-cta btn-lg w-100 py-3" onclick="handleInquiry()">
+        <button type="button" class="btn btn-primary-cta w-100 py-3" style="font-size:1rem;" onclick="handleInquiry()">
           <i class="fas fa-phone me-2"></i>이 장비에 대해 문의하기
         </button>
-        <a href="{% url 'quotes:form' %}" class="btn btn-secondary-cta btn-lg w-100">
+        <a href="{% url 'quotes:form' %}" class="btn btn-secondary-cta w-100 py-3" style="font-size:1rem;">
           <i class="fas fa-file-alt me-2"></i>이 장비로 견적신청
         </a>
-        <a href="{% url 'equipment:compare' %}?left={{ equipment.pk }}" class="btn btn-outline-cta btn-lg w-100">
+        <a href="{% url 'equipment:compare' %}?left={{ equipment.pk }}" class="btn btn-outline-cta w-100 py-3" style="font-size:1rem;">
           <i class="fas fa-balance-scale me-2"></i>장비 비교하기
         </a>
       </div>
