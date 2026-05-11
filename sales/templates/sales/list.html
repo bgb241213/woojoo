@@ -31,6 +31,12 @@
   display: flex; align-items: center; justify-content: center;
   position: relative;
 }
+.card-swiper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.card-swiper .swiper-slide { height: 100%; }
+.card-swiper .swiper-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card-swiper .swiper-pagination { bottom: 6px; }
+.card-swiper .swiper-pagination-bullet { background: rgba(255,255,255,.8); opacity: 1; }
+.card-swiper .swiper-pagination-bullet-active { background: #fff; }
 .equip-card .img-wrap img {
   width: 100%; height: 100%; object-fit: cover;
   transition: transform .4s ease;
@@ -91,7 +97,24 @@
 
         <!-- Image -->
         <div class="img-wrap">
-          {% if eq.image %}
+          {% if eq.sales_images %}
+            {% if eq.sales_images|length > 1 %}
+            <div class="swiper card-swiper">
+              <div class="swiper-wrapper">
+                {% for img in eq.sales_images %}
+                <div class="swiper-slide">
+                  <img src="{{ img.image.url }}" alt="{{ eq.name }}"
+                       onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
+                </div>
+                {% endfor %}
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+            {% else %}
+            <img src="{{ eq.sales_images.0.image.url }}" alt="{{ eq.name }}"
+                 onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
+            {% endif %}
+          {% elif eq.image %}
             <img src="{{ eq.image.url }}" alt="{{ eq.name }}"
                  onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
           {% else %}
@@ -140,4 +163,15 @@
   {% endif %}
 
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.card-swiper').forEach(el => {
+  new Swiper(el, {
+    loop: true,
+    pagination: { el: el.querySelector('.swiper-pagination'), clickable: true },
+  });
+});
+</script>
 {% endblock %}

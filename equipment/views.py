@@ -1,7 +1,8 @@
 from django.views.generic import ListView, DetailView, View
 from django.http import JsonResponse
 from django.shortcuts import render
-from .models import Equipment
+from django.db.models import Prefetch
+from .models import Equipment, EquipmentImage
 
 
 class EquipmentListView(ListView):
@@ -11,7 +12,13 @@ class EquipmentListView(ListView):
 
     def get_queryset(self):
         category = self.request.GET.get('category')
-        qs = Equipment.objects.filter(is_active=True)
+        qs = Equipment.objects.filter(is_active=True).prefetch_related(
+            Prefetch(
+                'images',
+                queryset=EquipmentImage.objects.filter(image_type='rental').order_by('order'),
+                to_attr='rental_images',
+            )
+        )
         if category:
             qs = qs.filter(category=category)
         return qs
@@ -29,7 +36,18 @@ class EquipmentDetailView(DetailView):
     context_object_name = 'equipment'
 
     def get_queryset(self):
-        return Equipment.objects.filter(is_active=True)
+        return Equipment.objects.filter(is_active=True).prefetch_related(
+            Prefetch(
+                'images',
+                queryset=EquipmentImage.objects.filter(image_type='rental').order_by('order'),
+                to_attr='rental_images',
+            )
+        )
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['rental_images'] = self.object.rental_images
+        return ctx
 
 
 class EquipmentCompareView(View):

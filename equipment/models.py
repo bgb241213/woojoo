@@ -43,3 +43,24 @@ class Equipment(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class EquipmentImage(models.Model):
+    IMAGE_TYPE_CHOICES = [
+        ('rental', '렌탈용'),
+        ('sales',  '판매용'),
+    ]
+
+    equipment  = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='images', verbose_name='장비')
+    image      = models.ImageField(upload_to='equipment/', verbose_name='이미지')
+    image_type = models.CharField(max_length=10, choices=IMAGE_TYPE_CHOICES, verbose_name='이미지 용도')
+    order      = models.PositiveIntegerField(default=0, verbose_name='순서')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = '장비 이미지'
+        verbose_name_plural = '장비 이미지 목록'
+        ordering = ['order']
+
+    def __str__(self):
+        return f'{self.equipment.name} - {self.get_image_type_display()} ({self.order})'

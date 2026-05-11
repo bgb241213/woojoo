@@ -1,6 +1,12 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Equipment
+from .models import Equipment, EquipmentImage
+
+
+class EquipmentImageInline(admin.TabularInline):
+    model  = EquipmentImage
+    extra  = 3
+    fields = ['image', 'image_type', 'order']
 
 
 @admin.register(Equipment)
@@ -14,6 +20,7 @@ class EquipmentAdmin(admin.ModelAdmin):
 
     # ── 상세 폼 ───────────────────────────────────────
     readonly_fields = ('created_at', 'image_preview')
+    inlines = [EquipmentImageInline]
 
     fieldsets = (
         ('기본 정보', {
