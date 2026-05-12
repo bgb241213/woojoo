@@ -13,14 +13,8 @@ class Command(BaseCommand):
             return
 
         username = os.environ.get('DJANGO_SUPERUSER_USERNAME', 'admin')
-        password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
-        email    = os.environ.get('DJANGO_SUPERUSER_EMAIL', '')
-
-        if not password:
-            self.stdout.write(self.style.WARNING(
-                'DJANGO_SUPERUSER_PASSWORD not set — skipping admin creation.'
-            ))
-            return
+        password = os.environ.get('DJANGO_SUPERUSER_PASSWORD', 'admin1234')
+        email    = os.environ.get('DJANGO_SUPERUSER_EMAIL', 'admin@woojoo.com')
 
         User.objects.create_superuser(username=username, email=email, password=password)
         self.stdout.write(self.style.SUCCESS(f'Superuser "{username}" created.'))
