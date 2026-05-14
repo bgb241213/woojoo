@@ -11,10 +11,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-change-in-pro
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-ALLOWED_HOSTS += ['.railway.app']
+ALLOWED_HOSTS += ['.railway.app', 'woojoorental.co.kr', 'www.woojoorental.co.kr']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.railway.app',
+    'https://woojoorental.co.kr',
+    'https://www.woojoorental.co.kr',
 ]
 
 INSTALLED_APPS = [
