@@ -13,87 +13,72 @@
 .page-hero h1 { font-size: 2.4rem; font-weight: 700; color: #fff; }
 .page-hero p  { color: rgba(255,255,255,.82); font-size: 1.05rem; }
 
-/* Tab filter */
-.tab-filter { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.tab-filter .tab-btn {
-  border-radius: 999px;
-  padding: 0.4rem 1.15rem;
-  font-size: 0.88rem;
-  font-weight: 500;
-  border: 1.5px solid var(--color-border);
-  background: #fff;
-  color: var(--color-text-sub);
+/* Category grid filter */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1.5px solid #1F286F;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.cat-cell {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px;
+  text-align: center;
   cursor: pointer;
-  transition: all .2s;
-  text-decoration: none;
+  background: #fff;
+  color: #1F286F;
+  border-right: 1.5px solid #1F286F;
+  border-bottom: 1.5px solid #1F286F;
+  transition: background .2s, color .2s;
+  user-select: none;
 }
-.tab-filter .tab-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-.tab-filter .tab-btn.active {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
-  color: #fff;
-}
+.cat-cell:nth-child(3n) { border-right: none; }
+.cat-cell:nth-child(n+4) { border-bottom: none; }
+.cat-cell:hover:not(.active) { background: rgba(31,40,111,0.08); }
+.cat-cell.active { background: #1F286F; color: #fff; }
 
 /* Card */
-.equip-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  transition: transform .25s, box-shadow .25s;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-}
-.equip-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card-hover); }
+.card-list-wrap { max-width: 700px; margin: 0 auto; }
+.equip-card { background: transparent; }
+.card-col { border-bottom: 1px solid var(--color-border); padding: 40px 0; }
+.card-col:first-child { padding-top: 0; }
+.card-col:last-child { border-bottom: none; }
+
+/* Image */
 .equip-card .img-wrap {
   aspect-ratio: 1 / 1;
   width: 100%;
   overflow: hidden;
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
   background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
   position: relative;
 }
-.equip-card .img-wrap img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform .4s ease;
-}
-.equip-card:hover .img-wrap img { transform: scale(1.05); }
+.equip-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .equip-card .placeholder-icon { font-size: 3.5rem; color: #a8b8d8; }
 
 /* Card swiper */
 .card-swiper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 .card-swiper .swiper-slide { height: 100%; }
-.card-swiper .swiper-slide img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
-.equip-card:hover .card-swiper .swiper-slide img { transform: scale(1.05); }
+.card-swiper .swiper-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .card-swiper .swiper-pagination { bottom: 6px; }
 .card-swiper .swiper-pagination-bullet { background: rgba(255,255,255,.8); opacity: 1; }
 .card-swiper .swiper-pagination-bullet-active { background: #fff; }
-.equip-card .card-body { padding: 1rem 1rem 0.5rem; flex-grow: 1; }
-.equip-card .card-footer { padding: 0.75rem 1rem 1rem; }
 
-/* Spec rows */
-.spec-item { font-size: 0.82rem; color: var(--color-text-sub); display: flex; align-items: center; gap: 6px; padding: 2px 0; }
-.spec-item i { width: 14px; color: var(--color-primary); }
+/* Card body */
+.equip-card .card-body { padding: 1.25rem 0 0; }
+.equip-card .card-footer { padding: 1rem 0 0; border-top: none; background: transparent; }
 
-/* Outline coral button */
-.btn-coral-outline {
-  border: 1.5px solid var(--color-accent);
-  color: var(--color-accent);
-  background: transparent;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.88rem;
-  transition: all .2s;
-}
-.btn-coral-outline:hover {
-  background: var(--color-accent);
-  color: #fff;
-}
+/* Spec table */
+.card-spec-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.card-spec-table tr { border-bottom: 1px solid var(--color-border); }
+.card-spec-table tr:last-child { border-bottom: none; }
+.card-spec-table td { padding: 13px 0; vertical-align: middle; }
+.card-spec-table .spec-label { font-size: 21px; color: #6B7280; text-align: left; }
+.card-spec-table .spec-value { font-size: 24px; font-weight: 700; color: #1A1A2E; text-align: right; }
 
 /* Card fade transition */
 .card-grid { transition: opacity .25s; }
@@ -113,22 +98,23 @@
 
 <div class="container py-5">
 
-  <!-- Tab Filter -->
-  <div class="tab-filter mb-5" data-aos="fade-up">
-    <a href="{% url 'equipment:list' %}"
-       class="tab-btn {% if not selected_category %}active{% endif %}">전체</a>
-    {% for value, label in category_choices %}
-    <a href="?category={{ value }}"
-       class="tab-btn {% if selected_category == value %}active{% endif %}">{{ label }}</a>
-    {% endfor %}
+  <!-- Category Grid Filter -->
+  <div class="cat-grid mb-5" data-aos="fade-up">
+    <div class="cat-cell active" data-filter="5m,6m">5~6M급</div>
+    <div class="cat-cell" data-filter="7m">7M급</div>
+    <div class="cat-cell" data-filter="8m">8M급</div>
+    <div class="cat-cell" data-filter="10m">10M급</div>
+    <div class="cat-cell" data-filter="12m">12M급</div>
+    <div class="cat-cell" data-filter="14m">14M급</div>
   </div>
 
   <!-- Card Grid -->
   {% if equipments %}
-  <div class="row g-4 card-grid">
+  <div class="d-flex flex-column gap-4 card-grid">
     {% for eq in equipments %}
-    <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 | add:'0' }}00">
+    <div class="card-col card-list-wrap" data-category="{{ eq.category }}" data-aos="fade-up">
       <div class="equip-card">
+
         <!-- Image -->
         <div class="img-wrap">
           {% if eq.rental_images %}
@@ -159,24 +145,33 @@
         </div>
 
         <!-- Body -->
-        <div class="card-body pb-2 flex-grow-1">
+        <div class="card-body">
           <div class="d-flex gap-2 mb-2 flex-wrap">
             <span class="badge badge-primary">{{ eq.get_category_display }}</span>
             <span class="badge bg-secondary">{{ eq.get_type_display }}</span>
           </div>
-          <h6 class="fw-bold mb-3" style="color:var(--color-primary);">{{ eq.name }}</h6>
-          <div class="spec-item"><i class="fas fa-ruler-vertical"></i><span><strong>작업가능높이</strong> {{ eq.max_work_height }}</span></div>
-          <div class="spec-item"><i class="fas fa-level-up-alt"></i><span><strong>발판최대높이</strong> {{ eq.max_platform_height }}</span></div>
-          <div class="spec-item"><i class="fas fa-expand-arrows-alt"></i><span><strong>장비크기</strong> {{ eq.equipment_size }}</span></div>
-          <div class="spec-item"><i class="fas fa-weight-hanging"></i><span><strong>장비무게</strong> {{ eq.equipment_weight }}</span></div>
+          <h3 class="fw-bold mb-0" style="color:var(--color-primary);">{{ eq.name }}</h3>
+          <table class="card-spec-table">
+            <tr><td class="spec-label">작업가능높이</td><td class="spec-value">{{ eq.max_work_height }}</td></tr>
+            <tr><td class="spec-label">발판최대높이</td><td class="spec-value">{{ eq.max_platform_height }}</td></tr>
+            <tr><td class="spec-label">작업대크기</td><td class="spec-value">{{ eq.platform_size }}</td></tr>
+            <tr><td class="spec-label">장비크기</td><td class="spec-value">{{ eq.equipment_size }}</td></tr>
+            <tr><td class="spec-label">장비무게</td><td class="spec-value">{{ eq.equipment_weight }}</td></tr>
+            <tr><td class="spec-label">적재가능중량</td><td class="spec-value">{{ eq.max_load }}</td></tr>
+            <tr><td class="spec-label">동력</td><td class="spec-value">{{ eq.power_type }}</td></tr>
+          </table>
         </div>
 
         <!-- Footer -->
-        <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
-          <a href="{% url 'equipment:detail' eq.pk %}" class="btn btn-coral-outline w-100">
-            <i class="fas fa-info-circle me-1"></i>상세보기
+        <div class="card-footer d-flex gap-2">
+          <a href="{% url 'quotes:form' %}?equipment={{ eq.pk }}" class="btn btn-primary-cta flex-grow-1">
+            이 장비로 견적신청
+          </a>
+          <a href="{% url 'equipment:compare' %}?left={{ eq.pk }}" class="btn btn-outline-cta">
+            장비 비교하기
           </a>
         </div>
+
       </div>
     </div>
     {% endfor %}
@@ -186,7 +181,6 @@
   <div class="text-center py-5" data-aos="fade-up">
     <i class="fas fa-search fa-3x mb-3 d-block" style="color:var(--color-border);"></i>
     <p class="text-muted fs-5">해당 카테고리의 장비가 없습니다.</p>
-    <a href="{% url 'equipment:list' %}" class="btn btn-secondary-cta mt-2">전체 장비 보기</a>
   </div>
   {% endif %}
 
@@ -195,10 +189,33 @@
 
 {% block extra_js %}
 <script>
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    const grid = document.querySelector('.card-grid');
-    if (grid) grid.classList.add('fading');
+const catCells = document.querySelectorAll('.cat-cell');
+const cardCols = document.querySelectorAll('.card-col');
+const cardGrid = document.querySelector('.card-grid');
+
+// Apply default filter (5~6M급) on page load
+(function() {
+  const defaultFilters = ['5m', '6m'];
+  cardCols.forEach(col => {
+    col.style.display = defaultFilters.includes(col.dataset.category) ? '' : 'none';
+  });
+})();
+
+catCells.forEach(cell => {
+  cell.addEventListener('click', function() {
+    const wasActive = this.classList.contains('active');
+    catCells.forEach(c => c.classList.remove('active'));
+
+    const filters = wasActive ? [] : this.dataset.filter.split(',');
+    if (!wasActive) this.classList.add('active');
+
+    if (cardGrid) cardGrid.classList.add('fading');
+    setTimeout(() => {
+      cardCols.forEach(col => {
+        col.style.display = (filters.length === 0 || filters.includes(col.dataset.category)) ? '' : 'none';
+      });
+      if (cardGrid) cardGrid.classList.remove('fading');
+    }, 250);
   });
 });
 
