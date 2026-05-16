@@ -71,6 +71,16 @@
 /* Card body */
 .equip-card .card-body { padding: 1.25rem 0 0; }
 .equip-card .card-footer { padding: 1rem 0 0; border-top: none; background: transparent; }
+.equip-name {
+  display: block;
+  background: rgba(31,40,111,0.14);
+  color: var(--color-primary);
+  border-left: 4px solid var(--color-primary);
+  padding: 10px 20px;
+  border-radius: 0 8px 8px 0;
+  margin-top: 4px;
+  font-size: 2rem;
+}
 
 /* Spec table */
 .card-spec-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
@@ -146,11 +156,7 @@
 
         <!-- Body -->
         <div class="card-body">
-          <div class="d-flex gap-2 mb-2 flex-wrap">
-            <span class="badge badge-primary">{{ eq.get_category_display }}</span>
-            <span class="badge bg-secondary">{{ eq.get_type_display }}</span>
-          </div>
-          <h3 class="fw-bold mb-0" style="color:var(--color-primary);">{{ eq.name }}</h3>
+          <h2 class="fw-bold mb-0 equip-name">{{ eq.name }}</h2>
           <table class="card-spec-table">
             <tr><td class="spec-label">작업가능높이</td><td class="spec-value">{{ eq.max_work_height }}</td></tr>
             <tr><td class="spec-label">발판최대높이</td><td class="spec-value">{{ eq.max_platform_height }}</td></tr>
