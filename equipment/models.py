@@ -10,7 +10,6 @@ class Equipment(models.Model):
         ('10m',      '10M급'),
         ('12m',      '12M급'),
         ('14m',      '14M급'),
-        ('15m_boom', '15M급 굴절형'),
     ]
 
     TYPE_CHOICES = [

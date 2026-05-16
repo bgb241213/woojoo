@@ -12,12 +12,17 @@
 .gallery-main {
   border-radius: 16px;
   overflow: hidden;
-  background: linear-gradient(135deg, #fdf0ee, #f8d5cf);
+  background: #ffffff;
+  border: 1px solid #E5E7EB;
   min-height: 420px;
   display: flex; align-items: center; justify-content: center;
   position: sticky; top: 100px;
 }
 .gallery-main img { width: 100%; min-height: 420px; object-fit: cover; display: block; transition: opacity .2s; }
+@media (max-width: 991px) {
+  .gallery-main { position: static; margin: 0 auto; }
+  .col-lg-7 { text-align: center; }
+}
 .gallery-main .placeholder-icon { font-size: 6rem; color: #e8a99f; }
 .gallery-thumbs { margin-top: 0.75rem; }
 .gallery-thumb {
@@ -29,25 +34,12 @@
 .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Spec grid */
-.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-@media (max-width: 480px) { .spec-grid { grid-template-columns: 1fr; } }
-.spec-card {
-  background: var(--color-bg-sub);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 0.85rem 1rem;
-  display: flex; align-items: center; gap: 0.75rem;
-}
-.spec-card .spec-icon {
-  width: 36px; height: 36px; flex-shrink: 0;
-  background: rgba(230,80,60,0.10);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.95rem;
-  color: var(--color-accent);
-}
-.spec-card .spec-label { font-size: 0.75rem; color: var(--color-text-sub); line-height: 1; }
-.spec-card .spec-value { font-size: 0.9rem; font-weight: 600; color: var(--color-text); margin-top: 2px; }
+.spec-table { width: 100%; border-collapse: collapse; }
+.spec-table tr { border-bottom: 1px solid var(--color-border); }
+.spec-table tr:last-child { border-bottom: none; }
+.spec-table td { padding: 14px 0; vertical-align: middle; }
+.spec-table .spec-label { font-size: 16px; color: #6B7280; text-align: left; }
+.spec-table .spec-value { font-size: 18px; font-weight: 700; color: #1A1A2E; text-align: right; }
 
 /* Sticky action bar (mobile) */
 .action-bar {
@@ -122,38 +114,17 @@
       <p style="color:var(--color-text-sub); font-size:0.95rem; line-height:1.75;" class="mb-4">{{ equipment.description }}</p>
       {% endif %}
 
-      <!-- Spec Grid -->
+      <!-- Spec Table -->
       <p class="section-label mb-3">장비 스펙</p>
-      <div class="spec-grid mb-4">
-        <div class="spec-card">
-          <div class="spec-icon"><i class="fas fa-ruler-vertical"></i></div>
-          <div><div class="spec-label">작업가능높이</div><div class="spec-value">{{ equipment.max_work_height }}</div></div>
-        </div>
-        <div class="spec-card">
-          <div class="spec-icon"><i class="fas fa-level-up-alt"></i></div>
-          <div><div class="spec-label">발판최대높이</div><div class="spec-value">{{ equipment.max_platform_height }}</div></div>
-        </div>
-        <div class="spec-card">
-          <div class="spec-icon"><i class="fas fa-th-large"></i></div>
-          <div><div class="spec-label">작업대크기</div><div class="spec-value">{{ equipment.platform_size }}</div></div>
-        </div>
-        <div class="spec-card">
-          <div class="spec-icon"><i class="fas fa-expand-arrows-alt"></i></div>
-          <div><div class="spec-label">장비크기</div><div class="spec-value">{{ equipment.equipment_size }}</div></div>
-        </div>
-        <div class="spec-card">
-          <div class="spec-icon"><i class="fas fa-weight-hanging"></i></div>
-          <div><div class="spec-label">장비무게</div><div class="spec-value">{{ equipment.equipment_weight }}</div></div>
-        </div>
-        <div class="spec-card">
-          <div class="spec-icon"><i class="fas fa-box"></i></div>
-          <div><div class="spec-label">적재가능중량</div><div class="spec-value">{{ equipment.max_load }}</div></div>
-        </div>
-        <div class="spec-card">
-          <div class="spec-icon"><i class="fas fa-bolt"></i></div>
-          <div><div class="spec-label">동력</div><div class="spec-value">{{ equipment.power_type }}</div></div>
-        </div>
-      </div>
+      <table class="spec-table mb-4">
+        <tr><td class="spec-label">작업가능높이</td><td class="spec-value">{{ equipment.max_work_height }}</td></tr>
+        <tr><td class="spec-label">발판최대높이</td><td class="spec-value">{{ equipment.max_platform_height }}</td></tr>
+        <tr><td class="spec-label">작업대크기</td><td class="spec-value">{{ equipment.platform_size }}</td></tr>
+        <tr><td class="spec-label">장비크기</td><td class="spec-value">{{ equipment.equipment_size }}</td></tr>
+        <tr><td class="spec-label">장비무게</td><td class="spec-value">{{ equipment.equipment_weight }}</td></tr>
+        <tr><td class="spec-label">적재가능중량</td><td class="spec-value">{{ equipment.max_load }}</td></tr>
+        <tr><td class="spec-label">동력</td><td class="spec-value">{{ equipment.power_type }}</td></tr>
+      </table>
 
       <!-- Desktop buttons -->
       <div class="d-none d-lg-flex flex-column gap-2">

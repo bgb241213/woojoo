@@ -210,7 +210,7 @@ created_at = DateTimeField(auto)       # 신청 일시
 ```python
 CATEGORY_CHOICES = [
     ('5m', '5M급'), ('6m', '6M급'), ('7m', '7M급'), ('8m', '8M급'),
-    ('10m', '10M급'), ('12m', '12M급'), ('14m', '14M급'), ('15m_boom', '15M급 굴절형'),
+    ('10m', '10M급'), ('12m', '12M급'), ('14m', '14M급'),
 ]
 TYPE_CHOICES = [
     ('scissor', '시저'), ('boom', '굴절'), ('vertical', '버티칼'), ('other', '기타'),

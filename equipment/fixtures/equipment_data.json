@@ -586,26 +586,5 @@
     "is_for_sale": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
-},
-{
-  "model": "equipment.equipment",
-  "pk": 29,
-  "fields": {
-    "name": "Z45",
-    "category": "15m_boom",
-    "type": "boom",
-    "image": "",
-    "description": "",
-    "max_work_height": "15.86m",
-    "max_platform_height": "13.86m",
-    "equipment_weight": "6,515kg",
-    "max_load": "227kg",
-    "equipment_size": "6.65 x 2.29 x 2.13m",
-    "platform_size": "0.76 x 1.83m",
-    "power_type": "디젤",
-    "is_active": true,
-    "is_for_sale": false,
-    "created_at": "2024-01-01T00:00:00Z"
-  }
 }
 ]
