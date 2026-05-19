@@ -13,6 +13,17 @@
 .page-hero h1 { font-size: 2.4rem; font-weight: 700; color: #fff; }
 .page-hero p  { color: rgba(255,255,255,.82); font-size: 1.05rem; }
 
+/* Category sticky bar */
+.cat-filter-bar {
+  position: sticky;
+  top: 70px;
+  z-index: 200;
+  background: #fff;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 12px rgba(31,40,111,0.08);
+  padding: 14px 0;
+}
+
 /* Category grid filter */
 .cat-grid {
   display: grid;
@@ -20,6 +31,8 @@
   border: 1.5px solid #1F286F;
   border-radius: 12px;
   overflow: hidden;
+  max-width: 700px;
+  margin: 0 auto;
 }
 .cat-cell {
   font-size: 16px;
@@ -40,8 +53,9 @@
 .cat-cell.active { background: #1F286F; color: #fff; }
 
 /* Card */
-.card-list-wrap { max-width: 700px; margin: 0 auto; }
-.equip-card { background: transparent; }
+.card-list-wrap { width: 100%; max-width: 700px; margin: 0 auto; box-sizing: border-box; }
+.equip-card { width: 100%; background: transparent; box-sizing: border-box; }
+.card-right { display: flex; flex-direction: column; min-width: 0; }
 .card-col { border-bottom: 1px solid var(--color-border); padding: 40px 0; }
 .card-col:first-child { padding-top: 0; }
 .card-col:last-child { border-bottom: none; }
@@ -50,15 +64,28 @@
 .equip-card .img-wrap {
   aspect-ratio: 1 / 1;
   width: 100%;
+  max-width: 100%;
   overflow: hidden;
   background: #ffffff;
   border: 1px solid var(--color-border);
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   position: relative;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
-.equip-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.equip-card .img-wrap img { width: 100%; height: 100%; max-width: 100%; object-fit: cover; display: block; }
 .equip-card .placeholder-icon { font-size: 3.5rem; color: #a8b8d8; }
+
+/* PC: side-by-side layout */
+@media (min-width: 768px) {
+  .card-list-wrap { max-width: 960px; }
+  .equip-card { display: flex; flex-direction: row; align-items: flex-start; gap: 2.5rem; }
+  .equip-card .img-wrap { width: 320px; min-width: 320px; height: 320px; flex-shrink: 0; }
+  .card-right { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .equip-card .card-body { padding-top: 0; flex: 1; }
+  .equip-card .card-footer { margin-top: 1rem; }
+}
 
 /* Card swiper */
 .card-swiper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -106,17 +133,21 @@
   </div>
 </section>
 
-<div class="container py-5">
-
-  <!-- Category Grid Filter -->
-  <div class="cat-grid mb-5" data-aos="fade-up">
-    <div class="cat-cell active" data-filter="5m,6m">5~6M급</div>
-    <div class="cat-cell" data-filter="7m">7M급</div>
-    <div class="cat-cell" data-filter="8m">8M급</div>
-    <div class="cat-cell" data-filter="10m">10M급</div>
-    <div class="cat-cell" data-filter="12m">12M급</div>
-    <div class="cat-cell" data-filter="14m">14M급</div>
+<!-- Sticky Category Filter Bar -->
+<div class="cat-filter-bar">
+  <div class="container">
+    <div class="cat-grid">
+      <div class="cat-cell active" data-filter="5m,6m">5~6M급</div>
+      <div class="cat-cell" data-filter="7m">7M급</div>
+      <div class="cat-cell" data-filter="8m">8M급</div>
+      <div class="cat-cell" data-filter="10m">10M급</div>
+      <div class="cat-cell" data-filter="12m">12M급</div>
+      <div class="cat-cell" data-filter="14m">14M급</div>
+    </div>
   </div>
+</div>
+
+<div class="container py-5">
 
   <!-- Card Grid -->
   {% if equipments %}
@@ -154,28 +185,28 @@
           {% endif %}
         </div>
 
-        <!-- Body -->
-        <div class="card-body">
-          <h2 class="fw-bold mb-0 equip-name">{{ eq.name }}</h2>
-          <table class="card-spec-table">
-            <tr><td class="spec-label">작업가능높이</td><td class="spec-value">{{ eq.max_work_height }}</td></tr>
-            <tr><td class="spec-label">발판최대높이</td><td class="spec-value">{{ eq.max_platform_height }}</td></tr>
-            <tr><td class="spec-label">작업대크기</td><td class="spec-value">{{ eq.platform_size }}</td></tr>
-            <tr><td class="spec-label">장비크기</td><td class="spec-value">{{ eq.equipment_size }}</td></tr>
-            <tr><td class="spec-label">장비무게</td><td class="spec-value">{{ eq.equipment_weight }}</td></tr>
-            <tr><td class="spec-label">적재가능중량</td><td class="spec-value">{{ eq.max_load }}</td></tr>
-            <tr><td class="spec-label">동력</td><td class="spec-value">{{ eq.power_type }}</td></tr>
-          </table>
-        </div>
-
-        <!-- Footer -->
-        <div class="card-footer d-flex gap-2">
-          <a href="{% url 'quotes:form' %}?equipment={{ eq.pk }}" class="btn btn-primary-cta flex-grow-1">
-            이 장비로 견적신청
-          </a>
-          <a href="{% url 'equipment:compare' %}?left={{ eq.pk }}" class="btn btn-outline-cta">
-            장비 비교하기
-          </a>
+        <!-- Right: name + spec + buttons -->
+        <div class="card-right">
+          <div class="card-body">
+            <h2 class="fw-bold mb-0 equip-name">{{ eq.name }}</h2>
+            <table class="card-spec-table">
+              <tr><td class="spec-label">작업가능높이</td><td class="spec-value">{{ eq.max_work_height }}</td></tr>
+              <tr><td class="spec-label">발판최대높이</td><td class="spec-value">{{ eq.max_platform_height }}</td></tr>
+              <tr><td class="spec-label">작업대크기</td><td class="spec-value">{{ eq.platform_size }}</td></tr>
+              <tr><td class="spec-label">장비크기</td><td class="spec-value">{{ eq.equipment_size }}</td></tr>
+              <tr><td class="spec-label">장비무게</td><td class="spec-value">{{ eq.equipment_weight }}</td></tr>
+              <tr><td class="spec-label">적재가능중량</td><td class="spec-value">{{ eq.max_load }}</td></tr>
+              <tr><td class="spec-label">동력</td><td class="spec-value">{{ eq.power_type }}</td></tr>
+            </table>
+          </div>
+          <div class="card-footer d-flex gap-2">
+            <a href="{% url 'quotes:form' %}?equipment={{ eq.pk }}" class="btn btn-primary-cta flex-grow-1">
+              이 장비로 견적신청
+            </a>
+            <a href="{% url 'equipment:compare' %}?left={{ eq.pk }}" class="btn btn-outline-cta">
+              장비 비교하기
+            </a>
+          </div>
         </div>
 
       </div>

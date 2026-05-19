@@ -30,14 +30,13 @@
 
   <!-- ── Navigation ───────────────────────────────────────── -->
   <nav class="navbar navbar-expand-lg navbar-main fixed-top {% block navbar_class %}navbar-transparent{% endblock %}">
-    <div class="container">
+    <div class="container-fluid px-4">
 
       <!-- Brand -->
       <a class="navbar-brand d-flex align-items-center gap-2 fw-700 text-decoration-none" href="{% url 'pages:index' %}">
-        <img src="{% static 'images/logo.png' %}" alt="우주렌탈 로고" height="36"
+        <img src="{% static 'images/logo.png' %}" alt="우주렌탈 로고" height="52"
              style="object-fit:contain;"
              onerror="this.style.display='none'">
-        <span style="font-weight:700; font-size:1.15rem;">우주렌탈</span>
       </a>
 
       <!-- Hamburger -->
@@ -48,7 +47,7 @@
 
       <!-- Menu -->
       <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-1">
+        <ul class="navbar-nav ms-auto me-3 align-items-lg-center" id="mainNavList">
           <li class="nav-item">
             <a class="nav-link {% block nav_home %}{% endblock %}" href="{% url 'pages:index' %}">홈</a>
           </li>
@@ -66,10 +65,6 @@
           </li>
         </ul>
 
-        <!-- CTA Button -->
-        <a href="{% url 'quotes:form' %}" class="btn-nav-cta ms-lg-3 text-decoration-none d-inline-block">
-          <i class="fas fa-file-alt me-1"></i>견적신청
-        </a>
       </div>
     </div>
   </nav>

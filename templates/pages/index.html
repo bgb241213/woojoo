@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}우주렌탈 - 고소작업장비 렌탈·판매 전문{% endblock %}
 {% block nav_home %}active{% endblock %}
-{% block navbar_class %}navbar-transparent{% endblock %}
+{% block navbar_class %}navbar-scrolled{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -93,12 +93,7 @@
   50%       { transform: translateY(8px); }
 }
 
-/* ── Particles container ────────────────────────────────────── */
-#hero-particles, #cta-particles {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-}
+
 
 /* ── Stats ─────────────────────────────────────────────────── */
 .stats-section {
@@ -237,9 +232,9 @@
   <!-- Swiper -->
   <div class="swiper hero-swiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest1.jpg' %}');"></div>
-      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest2.jpg' %}');"></div>
-      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest3.jpg' %}');"></div>
+      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest1.jpeg' %}');"></div>
+      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest2.jpeg' %}');"></div>
+      <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest3.jpeg' %}');"></div>
       <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest4.jpg' %}');"></div>
       <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest5.jpg' %}');"></div>
     </div>
@@ -247,13 +242,10 @@
   </div>
 
   <!-- Particles -->
-  <div id="hero-particles"></div>
 
   <!-- Hero Text -->
   <div class="hero-content">
-    <p class="section-label" style="color:rgba(255,255,255,0.7); margin-bottom:0.5rem;">WOOJOO RENTAL</p>
-    <h1>안전한 고소작업,<br>우주렌탈과 함께</h1>
-    <p class="hero-sub">20년 경력&nbsp;|&nbsp;전국 납품 가능</p>
+    <h1>20년 현장 노하우<br>초고속 AS 대응</h1>
     <div class="hero-btns">
       <a href="{% url 'equipment:list' %}" class="btn btn-primary-cta btn-lg px-4 py-3">
         <i class="fas fa-truck me-2"></i>장비 둘러보기
@@ -404,7 +396,6 @@
 
 <!-- ── 5. CTA Banner ───────────────────────────────────────── -->
 <section class="cta-section">
-  <div id="cta-particles"></div>
   <div class="container cta-content">
     <p class="section-label" style="color:rgba(255,255,255,0.6);">GET A QUOTE</p>
     <h2>지금 바로 견적을 신청하세요</h2>
@@ -429,32 +420,7 @@ new Swiper('.hero-swiper', {
   pagination: { el: '.swiper-pagination', clickable: true },
 });
 
-/* ── Particles ──────────────────────────────────────────────── */
-const particleConfig = {
-  particles: {
-    number: { value: 80, density: { enable: true, value_area: 800 } },
-    color: { value: '#ffffff' },
-    shape: { type: 'circle' },
-    opacity: { value: 0.25, random: true },
-    size: { value: 3, random: true },
-    line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.12, width: 1 },
-    move: { enable: true, speed: 1.5, direction: 'none', random: true, out_mode: 'out' },
-  },
-  interactivity: {
-    detect_on: 'canvas',
-    events: {
-      onhover: { enable: true, mode: 'grab' },
-      onclick: { enable: false },
-    },
-    modes: { grab: { distance: 140, line_linked: { opacity: 0.4 } } },
-  },
-  retina_detect: true,
-};
 
-if (typeof particlesJS !== 'undefined') {
-  particlesJS('hero-particles', particleConfig);
-  particlesJS('cta-particles', particleConfig);
-}
 
 /* ── CountUp with IntersectionObserver ─────────────────────── */
 document.addEventListener('DOMContentLoaded', function () {
