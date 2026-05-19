@@ -195,7 +195,10 @@
             <th class="row-label">장비 이미지</th>
             <td>
               <div class="equip-img-cell">
-                {% if left.image %}
+                {% if left.compare_images %}
+                  <img src="{{ left.compare_images.0.image.url }}" alt="{{ left.name }}"
+                       onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
+                {% elif left.image %}
                   <img src="{{ left.image.url }}" alt="{{ left.name }}"
                        onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
                 {% else %}
@@ -205,7 +208,10 @@
             </td>
             <td>
               <div class="equip-img-cell">
-                {% if right.image %}
+                {% if right.compare_images %}
+                  <img src="{{ right.compare_images.0.image.url }}" alt="{{ right.name }}"
+                       onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
+                {% elif right.image %}
                   <img src="{{ right.image.url }}" alt="{{ right.name }}"
                        onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
                 {% else %}
@@ -264,7 +270,7 @@ async function repopulate(side, category, selectedId) {
     const opt = document.createElement('option');
     opt.value = eq.id;
     opt.textContent = eq.name;
-    if (eq.image_url) equipImages[eq.id] = eq.image_url;
+    equipImages[eq.id] = eq.compare_image_url || eq.image_url;
     if (String(eq.id) === String(selectedId)) opt.selected = true;
     select.appendChild(opt);
   });
@@ -282,7 +288,7 @@ async function loadEquipments(side) {
     const opt = document.createElement('option');
     opt.value = eq.id;
     opt.textContent = eq.name;
-    if (eq.image_url) equipImages[eq.id] = eq.image_url;
+    equipImages[eq.id] = eq.compare_image_url || eq.image_url;
     select.appendChild(opt);
   });
   resetThumb(side);

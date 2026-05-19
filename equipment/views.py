@@ -53,6 +53,15 @@ class EquipmentDetailView(DetailView):
 class EquipmentCompareView(View):
     template_name = 'equipment/compare.html'
 
+    def _get_with_compare_image(self, pk):
+        return Equipment.objects.prefetch_related(
+            Prefetch(
+                'images',
+                queryset=EquipmentImage.objects.filter(image_type='compare').order_by('order'),
+                to_attr='compare_images',
+            )
+        ).get(pk=pk, is_active=True)
+
     def get(self, request):
         left_id = request.GET.get('left')
         right_id = request.GET.get('right')
@@ -61,12 +70,12 @@ class EquipmentCompareView(View):
 
         if left_id:
             try:
-                left = Equipment.objects.get(pk=left_id, is_active=True)
+                left = self._get_with_compare_image(left_id)
             except Equipment.DoesNotExist:
                 pass
         if right_id:
             try:
-                right = Equipment.objects.get(pk=right_id, is_active=True)
+                right = self._get_with_compare_image(right_id)
             except Equipment.DoesNotExist:
                 pass
 
@@ -80,7 +89,13 @@ class EquipmentCompareView(View):
 class EquipmentByCategoryAPI(View):
     def get(self, request):
         category = request.GET.get('category', '')
-        qs = Equipment.objects.filter(is_active=True)
+        qs = Equipment.objects.filter(is_active=True).prefetch_related(
+            Prefetch(
+                'images',
+                queryset=EquipmentImage.objects.filter(image_type='compare').order_by('order'),
+                to_attr='compare_images',
+            )
+        )
         if category:
             qs = qs.filter(category=category)
         data = []
@@ -91,5 +106,11 @@ class EquipmentByCategoryAPI(View):
                     image_url = e.image.url
                 except Exception:
                     pass
-            data.append({'id': e.id, 'name': e.name, 'image_url': image_url})
+            compare_image_url = None
+            if e.compare_images:
+                try:
+                    compare_image_url = e.compare_images[0].image.url
+                except Exception:
+                    pass
+            data.append({'id': e.id, 'name': e.name, 'image_url': image_url, 'compare_image_url': compare_image_url})
         return JsonResponse({'equipments': data})

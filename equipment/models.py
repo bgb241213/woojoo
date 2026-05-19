@@ -46,8 +46,9 @@ class Equipment(models.Model):
 
 class EquipmentImage(models.Model):
     IMAGE_TYPE_CHOICES = [
-        ('rental', '렌탈용'),
-        ('sales',  '판매용'),
+        ('rental',  '렌탈용'),
+        ('sales',   '판매용'),
+        ('compare', '비교용'),
     ]
 
     equipment  = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='images', verbose_name='장비')
