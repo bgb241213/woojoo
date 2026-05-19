@@ -7,9 +7,25 @@
 {% block extra_css %}
 <style>
 .page-hero {
-  background: linear-gradient(135deg, #1F286F 0%, #2a3580 60%, #1a6fa0 100%);
-  padding: 100px 0 60px;
+  position: relative;
+  background-color: #1F286F;
+  background-size: cover;
+  background-position: center;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  padding-top: 70px;
 }
+.page-hero .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1F286F 0%, #2a3580 60%, #1a6fa0 100%);
+  z-index: 0;
+}
+.page-hero.has-image .hero-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+.page-hero .container { position: relative; z-index: 1; }
 .page-hero h1 { font-size: 2.4rem; font-weight: 700; color: #fff; }
 .page-hero p  { color: rgba(255,255,255,.82); font-size: 1.05rem; }
 
@@ -88,7 +104,9 @@
 
 {% block content %}
 
-<section class="page-hero">
+<section class="page-hero has-image"
+         style="background-image: url('{% static 'images/background.jpeg' %}')">
+  <div class="hero-overlay"></div>
   <div class="container" data-aos="fade-up">
     <h1 class="mb-2">장비 비교</h1>
     <p class="mb-0">두 장비의 스펙을 나란히 비교해보세요</p>

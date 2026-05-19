@@ -7,9 +7,25 @@
 {% block extra_css %}
 <style>
 .page-hero {
-  background: linear-gradient(135deg, #1F286F 0%, #2a3580 60%, #1a6fa0 100%);
-  padding: 100px 0 60px;
+  position: relative;
+  background-color: #1F286F;
+  background-size: cover;
+  background-position: center;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  padding-top: 70px;
 }
+.page-hero .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1F286F 0%, #2a3580 60%, #1a6fa0 100%);
+  z-index: 0;
+}
+.page-hero.has-image .hero-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+.page-hero .container { position: relative; z-index: 1; }
 .page-hero h1 { font-size: 2.4rem; font-weight: 700; color: #fff; }
 .page-hero p  { color: rgba(255,255,255,.82); font-size: 1.05rem; }
 
@@ -31,7 +47,7 @@
   border: 1.5px solid #1F286F;
   border-radius: 12px;
   overflow: hidden;
-  max-width: 700px;
+  max-width: 960px;
   margin: 0 auto;
 }
 .cat-cell {
@@ -117,6 +133,34 @@
 .card-spec-table .spec-label { font-size: 21px; color: #6B7280; text-align: left; }
 .card-spec-table .spec-value { font-size: 24px; font-weight: 700; color: #1A1A2E; text-align: right; }
 
+/* Touch image */
+.touch-img-section {
+  background: #fff;
+  padding: 2.5rem 0 0;
+}
+.touch-img-wrap {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  user-select: none;
+}
+.touch-img-wrap img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+}
+.touch-zone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 4px;
+}
+.touch-zone:hover { background: rgba(31, 40, 111, 0.10); }
+.touch-zone.no-action { cursor: default; }
+.touch-zone.no-action:hover { background: transparent; }
+
 /* Card fade transition */
 .card-grid { transition: opacity .25s; }
 .card-grid.fading { opacity: 0; }
@@ -126,12 +170,30 @@
 {% block content %}
 
 <!-- Header -->
-<section class="page-hero">
+<section class="page-hero has-image"
+         style="background-image: url('{% static 'images/background.jpeg' %}')">
+  <div class="hero-overlay"></div>
   <div class="container" data-aos="fade-up">
-    <h1 class="mb-2">렌탈 장비</h1>
+    <h1 class="mb-2">장비 렌탈</h1>
     <p class="mb-0">원하는 미터급을 선택해 장비를 확인하세요</p>
   </div>
 </section>
+
+<!-- Touch Image Section -->
+<div class="touch-img-section">
+  <div class="container">
+    <div class="touch-img-wrap">
+      <img src="{% static 'images/touchimg.jpg' %}" alt="장비 높이별 비교">
+      <div class="touch-zone" data-filter="5m,6m" style="left:0%;width:17%;"></div>
+      <div class="touch-zone" data-filter="7m"    style="left:17%;width:14.28%;"></div>
+      <div class="touch-zone" data-filter="8m"    style="left:31.28%;width:14%;"></div>
+      <div class="touch-zone" data-filter="10m"   style="left:45.28%;width:13.5%;"></div>
+      <div class="touch-zone" data-filter="12m"   style="left:58.78%;width:13.78%;"></div>
+      <div class="touch-zone" data-filter="14m"   style="left:72.56%;width:14%;"></div>
+      <div class="touch-zone no-action"            style="left:86.66%;width:14.29%;"></div>
+    </div>
+  </div>
+</div>
 
 <!-- Sticky Category Filter Bar -->
 <div class="cat-filter-bar">
@@ -253,6 +315,17 @@ catCells.forEach(cell => {
       });
       if (cardGrid) cardGrid.classList.remove('fading');
     }, 250);
+  });
+});
+
+// Touch image zone click
+document.querySelectorAll('.touch-zone[data-filter]').forEach(zone => {
+  zone.addEventListener('click', function() {
+    const filter = this.dataset.filter;
+    catCells.forEach(cell => {
+      if (cell.dataset.filter === filter) cell.click();
+    });
+    document.querySelector('.cat-filter-bar').scrollIntoView({ behavior: 'smooth' });
   });
 });
 
