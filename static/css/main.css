@@ -18,11 +18,15 @@
 }
 
 /* ── Base ───────────────────────────────────────────────────── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   color: var(--color-text);
   background-color: var(--color-bg);
-  overflow-x: hidden;
 }
 
 .container {
