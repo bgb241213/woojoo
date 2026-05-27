@@ -69,10 +69,21 @@ body {
   margin-left: 1.25rem;
 }
 
-/* Mobile: keep brand + toggler on one line */
+/* Mobile: center logo, toggler on right */
 @media (max-width: 991.98px) {
   .navbar-main {
     padding: 0.5rem 0 !important;
+  }
+  .navbar-main .container-fluid {
+    justify-content: center;
+    position: relative;
+  }
+  .navbar-main .navbar-brand {
+    margin-left: 0 !important;
+  }
+  .navbar-main .navbar-toggler {
+    position: absolute;
+    right: 1rem;
   }
   .navbar-main .navbar-brand img {
     height: 2rem !important;
