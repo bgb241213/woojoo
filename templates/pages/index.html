@@ -227,11 +227,11 @@
       <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest3.jpeg' %}');"></div>
     </div>
     <div class="swiper-pagination"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
   </div>
 
-  <!-- Particles -->
+  <!-- Navigation (outside swiper to escape stacking context) -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
 
   <!-- Hero Text -->
   <div class="hero-content">
