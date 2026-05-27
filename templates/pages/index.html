@@ -10,7 +10,7 @@
 .hero-section {
   position: relative;
   height: 100vh;
-  min-height: 600px;
+  min-height: 37.5rem;
   overflow: hidden;
 }
 .hero-swiper {
@@ -95,48 +95,13 @@
 
 
 
-/* ── Stats ─────────────────────────────────────────────────── */
-.stats-section {
-  padding: 80px 0;
-  background: var(--color-bg);
-}
-.stat-card {
-  text-align: center;
-  padding: 2.5rem 1.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-card-hover);
-}
-.stat-number {
-  font-size: 3.2rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  line-height: 1;
-}
-.stat-unit {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--color-accent);
-}
-.stat-label {
-  font-size: 0.95rem;
-  color: var(--color-text-sub);
-  margin-top: 0.75rem;
-}
-
 /* ── Features ──────────────────────────────────────────────── */
 .features-section {
-  padding: 80px 0;
+  padding: clamp(2.5rem, 7.02vw, 5rem) 0;
   background: var(--color-bg-sub);
 }
 .feature-icon-wrap {
-  width: 64px; height: 64px;
+  width: clamp(3rem, 5.62vw, 4rem); height: clamp(3rem, 5.62vw, 4rem);
   background: rgba(31,40,111,0.08);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -166,7 +131,7 @@
 
 /* ── Equipment Grid ─────────────────────────────────────────── */
 .equip-section {
-  padding: 80px 0;
+  padding: clamp(2.5rem, 7.02vw, 5rem) 0;
   background: var(--color-bg);
 }
 .equip-card {
@@ -203,7 +168,7 @@
 .cta-section {
   position: relative;
   overflow: hidden;
-  padding: 100px 0;
+  padding: clamp(3rem, 8.78vw, 6.25rem) 0;
   background: var(--color-primary);
 }
 .cta-section .cta-content {
@@ -258,33 +223,6 @@
   <div class="scroll-indicator">
     <span>SCROLL</span>
     <i class="fas fa-chevron-down bounce"></i>
-  </div>
-</section>
-
-<!-- ── 2. Stats ────────────────────────────────────────────── -->
-<section class="stats-section">
-  <div class="container">
-    <div class="row g-4 justify-content-center">
-
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
-        <div class="stat-card">
-          <div class="stat-number">
-            <span class="count-up" data-target="20">0</span><span class="stat-unit">+</span>
-          </div>
-          <div class="stat-label">고소작업장비 렌탈 업력 (년)</div>
-        </div>
-      </div>
-
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="stat-card">
-          <div class="stat-number">
-            <span class="count-up" data-target="600">0</span><span class="stat-unit">+</span>
-          </div>
-          <div class="stat-label">누적 거래처</div>
-        </div>
-      </div>
-
-    </div>
   </div>
 </section>
 
@@ -375,9 +313,9 @@
               <span class="badge badge-primary">{{ eq.get_category_display }}</span>
               <span class="badge bg-secondary">{{ eq.get_type_display }}</span>
             </div>
-            <h6 class="fw-700 mb-2">{{ eq.name }}</h6>
-            <div class="spec-row"><i class="fas fa-ruler-vertical me-1" style="color:var(--color-primary);"></i>작업높이: {{ eq.max_work_height }}</div>
-            <div class="spec-row"><i class="fas fa-weight-hanging me-1" style="color:var(--color-primary);"></i>적재중량: {{ eq.max_load }}</div>
+            <h5 class="fw-700 mb-3" style="font-size:1.1rem;">{{ eq.name }}</h5>
+            <div class="spec-row" style="font-size:0.97rem; font-weight:600;">작업높이: {{ eq.max_work_height }}</div>
+            <div class="spec-row" style="font-size:0.97rem; font-weight:600;">적재중량: {{ eq.max_load }}</div>
           </div>
           <div class="card-footer bg-transparent border-0 pb-3">
             <a href="{% url 'equipment:detail' eq.pk %}" class="btn btn-secondary-cta btn-sm w-100">
@@ -420,27 +358,5 @@ new Swiper('.hero-swiper', {
 
 
 
-/* ── CountUp with IntersectionObserver ─────────────────────── */
-document.addEventListener('DOMContentLoaded', function () {
-  const countEls = document.querySelectorAll('.count-up');
-  if (!countEls.length || typeof countUp === 'undefined') return;
-
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const target = parseInt(el.dataset.target, 10);
-      const cu = new countUp.CountUp(el, target, {
-        duration: 3,
-        useEasing: true,
-        useGrouping: false,
-      });
-      if (!cu.error) cu.start();
-      observer.unobserve(el);
-    });
-  }, { threshold: 0.3 });
-
-  countEls.forEach(function (el) { observer.observe(el); });
-});
 </script>
 {% endblock %}

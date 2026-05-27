@@ -6,7 +6,7 @@
 
 {% block extra_css %}
 <style>
-.detail-wrap { padding-top: 100px; padding-bottom: 80px; }
+.detail-wrap { padding-top: clamp(4rem, 8.78vw, 6.25rem); padding-bottom: clamp(3rem, 7.02vw, 5rem); }
 
 /* Gallery */
 .gallery-main {
@@ -14,21 +14,20 @@
   overflow: hidden;
   background: #ffffff;
   border: 1px solid #E5E7EB;
-  min-height: 420px;
+  min-height: clamp(17.5rem, 36.88vw, 26.25rem);
   max-width: 100%;
   display: flex; align-items: center; justify-content: center;
-  position: sticky; top: 100px;
+  position: sticky; top: clamp(4rem, 8.78vw, 6.25rem);
 }
-.gallery-main img { width: 100%; max-width: 100%; min-height: 420px; object-fit: cover; display: block; transition: opacity .2s; }
+.gallery-main img { width: 100%; max-width: 100%; min-height: clamp(17.5rem, 36.88vw, 26.25rem); object-fit: cover; display: block; transition: opacity .2s; }
 @media (max-width: 991px) {
   .detail-wrap { overflow-x: hidden; }
-  .gallery-main { position: static; margin: 0 auto; min-height: 280px; }
-  .gallery-main img { min-height: 280px; }
+  .gallery-main { position: static; margin: 0 auto; }
 }
 .gallery-main .placeholder-icon { font-size: 6rem; color: #a8b8d8; }
 .gallery-thumbs { margin-top: 0.75rem; }
 .gallery-thumb {
-  width: 72px; height: 56px; border-radius: 8px; overflow: hidden;
+  width: 4.5rem; height: 3.5rem; border-radius: 8px; overflow: hidden;
   border: 2px solid var(--color-border); cursor: pointer;
   transition: border-color .2s; flex-shrink: 0;
 }
@@ -39,9 +38,9 @@
 .spec-table { width: 100%; border-collapse: collapse; }
 .spec-table tr { border-bottom: 1px solid var(--color-border); }
 .spec-table tr:last-child { border-bottom: none; }
-.spec-table td { padding: 14px 0; vertical-align: middle; }
-.spec-table .spec-label { font-size: 20px; color: #000000; text-align: left; }
-.spec-table .spec-value { font-size: 21px; font-weight: 700; color: #1A1A2E; text-align: right; }
+.spec-table td { padding: clamp(0.625rem, 1.23vw, 0.875rem) 0; vertical-align: middle; }
+.spec-table .spec-label { font-size: clamp(0.9rem, 1.76vw, 1.25rem); color: #000000; text-align: left; }
+.spec-table .spec-value { font-size: clamp(0.95rem, 1.84vw, 1.3125rem); font-weight: 700; color: #1A1A2E; text-align: right; }
 
 /* Sticky action bar */
 .action-bar {
