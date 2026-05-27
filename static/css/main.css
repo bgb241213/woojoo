@@ -63,12 +63,12 @@ body {
 /* Mobile: keep brand + toggler on one line */
 @media (max-width: 991.98px) {
   .navbar-main {
-    padding: 0.5rem 0;
+    padding: 0.5rem 0 !important;
   }
   .navbar-main .navbar-brand img {
-    height: 2rem;
-    max-height: 32px;
-    width: auto;
+    height: 2rem !important;
+    max-height: 32px !important;
+    width: auto !important;
   }
 }
 
