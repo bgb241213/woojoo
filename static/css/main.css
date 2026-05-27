@@ -60,6 +60,10 @@ body {
   color: var(--color-primary) !important;
 }
 
+.navbar-main .navbar-brand {
+  margin-left: 1.25rem;
+}
+
 /* Mobile: keep brand + toggler on one line */
 @media (max-width: 991.98px) {
   .navbar-main {
