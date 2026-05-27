@@ -60,15 +60,40 @@
   justify-content: center;
 }
 /* Swiper pagination dots */
+.hero-section .swiper-pagination {
+  z-index: 20;
+}
 .hero-section .swiper-pagination-bullet {
   background: rgba(255,255,255,0.5);
   opacity: 1;
   width: 10px; height: 10px;
+  cursor: pointer;
 }
 .hero-section .swiper-pagination-bullet-active {
   background: #fff;
   width: 28px;
   border-radius: 5px;
+}
+/* Swiper navigation arrows */
+.hero-section .swiper-button-prev,
+.hero-section .swiper-button-next {
+  width: clamp(2.5rem, 3.5vw, 3rem);
+  height: clamp(2.5rem, 3.5vw, 3rem);
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  color: #fff;
+  z-index: 20;
+  transition: background 0.2s;
+}
+.hero-section .swiper-button-prev:hover,
+.hero-section .swiper-button-next:hover {
+  background: rgba(255,255,255,0.38);
+}
+.hero-section .swiper-button-prev::after,
+.hero-section .swiper-button-next::after {
+  font-size: clamp(0.75rem, 1.1vw, 1rem);
+  font-weight: 800;
 }
 /* Scroll indicator */
 .scroll-indicator {
@@ -202,6 +227,8 @@
       <div class="swiper-slide" style="background-image:url('{% static 'images/hero/herotest3.jpeg' %}');"></div>
     </div>
     <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
   </div>
 
   <!-- Particles -->
@@ -354,6 +381,7 @@ new Swiper('.hero-swiper', {
   speed: 1000,
   autoplay: { delay: 5000, disableOnInteraction: false },
   pagination: { el: '.swiper-pagination', clickable: true },
+  navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
 });
 
 
