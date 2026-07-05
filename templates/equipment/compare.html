@@ -1,319 +1,184 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}장비 비교 - 우주렌탈{% endblock %}
-{% block nav_compare %}active{% endblock %}
-{% block navbar_class %}navbar-scrolled{% endblock %}
+{% block nav_compare %}is-active{% endblock %}
+{% block mnav_compare %}is-active{% endblock %}
 
 {% block extra_css %}
 <style>
-.page-hero {
-  position: relative;
-  background-color: #1F286F;
-  background-size: cover;
-  background-position: center;
-  min-height: 20rem;
-  display: flex;
-  align-items: center;
-  padding-top: clamp(3rem, 6.15vw, 4.375rem);
-}
-.page-hero .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #1F286F 0%, #2a3580 60%, #1a6fa0 100%);
-  z-index: 0;
-}
-.page-hero.has-image .hero-overlay {
-  background: rgba(0, 0, 0, 0.4);
-}
-.page-hero .container { position: relative; z-index: 1; }
-.page-hero h1 { font-size: clamp(1.5rem, 3.37vw, 2.4rem); font-weight: 700; color: #fff; }
-.page-hero p  { color: rgba(255,255,255,.82); font-size: clamp(0.9rem, 1.49vw, 1.05rem); }
+.cmp-head { padding: clamp(2.5rem, 5vw, 3.25rem) 0 1.25rem; }
+.cmp-head h1 { margin-top: 0.85rem; }
+.cmp-head .dc-lead { margin-top: 0.85rem; max-width: 600px; }
 
-/* Selector card */
-.selector-card {
-  border: 2px dashed var(--color-border);
-  border-radius: 14px;
-  padding: 1.5rem;
-  background: var(--color-bg-sub);
-  transition: border-color .2s;
-}
-.selector-card:focus-within { border-color: var(--color-primary); }
-.selector-card .selector-label {
-  font-weight: 700;
-  color: var(--color-primary);
-  font-size: 0.95rem;
-  margin-bottom: 0.75rem;
-}
+.cmp-pick { padding: 0 0 0.5rem; }
+.cmp-pick__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.cmp-pick__count { font-size: 1.05rem; color: var(--muted); }
+.cmp-pick__count b { color: var(--navy); font-weight: 800; }
+.cmp-pick__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; }
+@media (max-width: 900px) { .cmp-pick__grid { grid-template-columns: repeat(2, 1fr); } }
+.cmp-item { border: 1px solid var(--hairline); background: #fff; border-radius: 11px; padding: 0.8rem 0.85rem; cursor: pointer; transition: border-color .2s, background .2s; }
+.cmp-item.is-sel { border-color: var(--navy); background: var(--tint); }
+.cmp-item.is-disabled { opacity: 0.4; cursor: not-allowed; }
+.cmp-item__top { display: flex; align-items: center; gap: 0.55rem; }
+.cmp-box { flex: none; width: 18px; height: 18px; border-radius: 5px; border: 1px solid var(--hairline-2); background: #fff; display: flex; align-items: center; justify-content: center; }
+.cmp-item.is-sel .cmp-box { border-color: var(--navy); background: var(--navy); }
+.cmp-item__name { font-size: 1.1rem; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cmp-item__cat { font-size: 0.9rem; color: var(--muted-2); margin-top: 0.4rem; padding-left: 1.6rem; }
 
-/* Thumbnail preview */
-.thumb-preview {
-  width: 100%; height: clamp(7rem, 12.29vw, 8.75rem);
-  border-radius: 10px;
-  overflow: hidden;
-  background: linear-gradient(135deg, #eef1f8, #dde3f3);
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 0.75rem;
-}
-.thumb-preview img { width: 100%; height: 100%; object-fit: cover; }
-.thumb-preview .no-img { font-size: 2.5rem; color: #a8b8d8; }
+.cmp-table-wrap { padding: 1.75rem 0 clamp(2.5rem, 5vw, 3.25rem); }
+.cmp-scroll { overflow-x: auto; border: 1px solid var(--hairline); border-radius: 18px; }
+.cmp-scroll::-webkit-scrollbar { height: 8px; }
+.cmp-scroll::-webkit-scrollbar-thumb { background: var(--hairline-2); border-radius: 999px; }
+.cmp-table { min-width: max-content; }
+.cmp-trow { display: flex; border-bottom: 1px solid var(--hairline); }
+.cmp-trow:last-child { border-bottom: none; }
+.cmp-thead { flex: none; width: 150px; background: #FAFBFD; border-right: 1px solid var(--hairline); display: flex; flex-direction: column; justify-content: center; padding: 0 1.1rem; }
+.cmp-col { flex: 1; min-width: 220px; border-right: 1px solid var(--hairline); }
+.cmp-col:last-child { border-right: none; }
+.cmp-colhead { position: relative; padding: 1.1rem 1.2rem; }
+.cmp-colhead__x { position: absolute; top: 0.9rem; right: 0.9rem; width: 28px; height: 28px; border-radius: 50%; background: #F2F3F8; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); font-size: 1.15rem; }
+.cmp-colhead__tag { font-size: 0.9rem; font-weight: 700; color: var(--muted); }
+.cmp-colhead__name { font-size: 1.5rem; font-weight: 800; color: var(--navy); letter-spacing: -0.01em; margin-top: 0.35rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cmp-colhead__cat { font-size: 0.95rem; color: var(--muted-2); margin-top: 0.2rem; }
+.cmp-thead__label { font-size: 1.2rem; font-weight: 800; color: var(--navy); }
+.cmp-thead__sub { font-size: 0.9rem; color: var(--muted-2); margin-top: 0.25rem; }
+.cmp-photocell { aspect-ratio: 1 / 1; background: #fff; }
+.cmp-photocell__img { width: 100%; height: 100%; background-size: contain; background-position: center bottom; background-repeat: no-repeat; transform-origin: center bottom; }
+.cmp-specrow .cmp-thead { font-size: 1rem; font-weight: 700; color: var(--muted); }
+.cmp-speccell { flex: 1; min-width: 220px; border-right: 1px solid var(--hairline); display: flex; align-items: center; padding: 0 1.2rem; height: 60px; font-size: 1.15rem; font-weight: 600; color: var(--charcoal); }
+.cmp-speccell:last-child { border-right: none; }
+.cmp-speccell.em { font-size: 1.35rem; font-weight: 800; color: var(--navy); }
 
-/* VS badge */
-.vs-badge {
-  width: clamp(2.5rem, 4.56vw, 3.25rem); height: clamp(2.5rem, 4.56vw, 3.25rem);
-  background: var(--color-primary);
-  color: #fff; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 0.95rem;
-  margin: 0 auto;
-  box-shadow: 0 4px 16px rgba(31,40,111,.25);
-}
-
-/* Compare table */
-.compare-table { border-collapse: separate; border-spacing: 0; }
-.compare-table th, .compare-table td { vertical-align: middle; }
-.compare-table .row-label {
-  background: var(--color-bg-sub);
-  color: var(--color-primary);
-  font-weight: 600;
-  font-size: 0.88rem;
-  width: 20%;
-  text-align: center;
-}
-.compare-table .equip-header {
-  background: var(--color-primary);
-  color: #fff;
-  font-weight: 700;
-  font-size: 1rem;
-  text-align: center;
-  padding: 1rem;
-}
-.compare-table td { text-align: center; font-size: 0.92rem; padding: 0.85rem; }
-.equip-img-cell {
-  height: clamp(8rem, 14.05vw, 10rem);
-  background: linear-gradient(135deg, #eef1f8, #dde3f3);
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; overflow: hidden;
-  max-width: 220px; margin: 0 auto;
-}
-.equip-img-cell img { width: 100%; height: 100%; object-fit: cover; }
-.equip-img-cell .placeholder-icon { font-size: 3rem; color: #a8b8d8; }
-
-#compare-result { display: none; }
+.cmp-empty { border: 1px dashed var(--hairline-2); border-radius: 18px; padding: 5rem 1rem; text-align: center; }
+.cmp-empty b { font-size: 1.25rem; color: var(--muted); font-weight: 600; }
+.cmp-empty span { display: block; font-size: 1rem; color: var(--muted-2); margin-top: 0.6rem; }
 </style>
 {% endblock %}
 
 {% block content %}
+<div class="cmp-head dc-container">
+  <div class="eyebrow">사진으로 한눈에</div>
+  <h1 class="dc-h1">장비 비교</h1>
+  <p class="dc-lead">비교할 장비를 최대 3대까지 선택하면 최대 높이·정면·측면 사진을 나란히 놓고 크기와 형태를 직접 비교할 수 있습니다.</p>
+</div>
 
-<section class="page-hero has-image"
-         style="background-image: url('{% static 'images/background.jpeg' %}')">
-  <div class="hero-overlay"></div>
-  <div class="container" data-aos="fade-up">
-    <h1 class="mb-2">장비 비교</h1>
-    <p class="mb-0">두 장비의 스펙을 나란히 비교해보세요</p>
+<div class="cmp-pick dc-container">
+  <div class="cmp-pick__bar">
+    <div class="chips" id="cmpFilter"></div>
+    <div class="cmp-pick__count"><b id="cmpCount">0</b> / 3 선택</div>
   </div>
-</section>
+  <div class="cmp-pick__grid" id="cmpPicker"></div>
+</div>
 
-<div class="container py-5">
-
-  <!-- Selector -->
-  <div class="row align-items-center g-3 mb-4" data-aos="fade-up">
-
-    <!-- Left -->
-    <div class="col-md-5">
-      <div class="selector-card">
-        <div class="selector-label"><i class="fas fa-truck me-2"></i>왼쪽 장비</div>
-        <div class="thumb-preview" id="left-thumb">
-          <span class="no-img"><i class="fas fa-truck-loading"></i></span>
-        </div>
-        <select class="form-select mb-2" id="left-category" onchange="loadEquipments('left')">
-          <option value="">-- 미터급 선택 --</option>
-          {% for value, label in category_choices %}
-          <option value="{{ value }}" {% if left and left.category == value %}selected{% endif %}>{{ label }}</option>
-          {% endfor %}
-        </select>
-        <select class="form-select" id="left-equipment" onchange="updateThumb('left')">
-          <option value="">-- 장비 선택 --</option>
-          {% if left %}<option value="{{ left.pk }}" selected>{{ left.name }}</option>{% endif %}
-        </select>
-      </div>
-    </div>
-
-    <!-- VS -->
-    <div class="col-md-2 text-center">
-      <div class="vs-badge">VS</div>
-    </div>
-
-    <!-- Right -->
-    <div class="col-md-5">
-      <div class="selector-card">
-        <div class="selector-label"><i class="fas fa-truck me-2"></i>오른쪽 장비</div>
-        <div class="thumb-preview" id="right-thumb">
-          <span class="no-img"><i class="fas fa-truck-loading"></i></span>
-        </div>
-        <select class="form-select mb-2" id="right-category" onchange="loadEquipments('right')">
-          <option value="">-- 미터급 선택 --</option>
-          {% for value, label in category_choices %}
-          <option value="{{ value }}" {% if right and right.category == value %}selected{% endif %}>{{ label }}</option>
-          {% endfor %}
-        </select>
-        <select class="form-select" id="right-equipment" onchange="updateThumb('right')">
-          <option value="">-- 장비 선택 --</option>
-          {% if right %}<option value="{{ right.pk }}" selected>{{ right.name }}</option>{% endif %}
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <div class="text-center mb-5" data-aos="fade-up">
-    <button class="btn btn-primary-cta btn-lg px-5 py-3" onclick="doCompare()">
-      <i class="fas fa-balance-scale me-2"></i>비교하기
-    </button>
-  </div>
-
-  <!-- Guide -->
-  {% if not left or not right %}
-  <div id="compare-guide" class="text-center py-5">
-    <i class="fas fa-balance-scale fa-3x mb-3 d-block" style="color:var(--color-border);"></i>
-    <p class="text-muted fs-5">미터급과 장비를 선택한 후 [비교하기]를 클릭하세요.</p>
-  </div>
-  {% endif %}
-
-  <!-- Result table -->
-  <div id="compare-result">
-    {% if left and right %}
-    <div class="table-responsive shadow-sm rounded-3 overflow-hidden" data-aos="fade-up">
-      <table class="table table-bordered compare-table mb-0">
-        <thead>
-          <tr>
-            <th class="row-label">항목</th>
-            <th class="equip-header">{{ left.name }}</th>
-            <th class="equip-header">{{ right.name }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th class="row-label">장비 이미지</th>
-            <td>
-              <div class="equip-img-cell">
-                {% if left.compare_images %}
-                  <img src="{{ left.compare_images.0.image.url }}" alt="{{ left.name }}"
-                       onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
-                {% elif left.image %}
-                  <img src="{{ left.image.url }}" alt="{{ left.name }}"
-                       onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
-                {% else %}
-                  <img src="{% static 'images/장비카드썸네일용.jpg' %}" alt="{{ left.name }}">
-                {% endif %}
-              </div>
-            </td>
-            <td>
-              <div class="equip-img-cell">
-                {% if right.compare_images %}
-                  <img src="{{ right.compare_images.0.image.url }}" alt="{{ right.name }}"
-                       onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
-                {% elif right.image %}
-                  <img src="{{ right.image.url }}" alt="{{ right.name }}"
-                       onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
-                {% else %}
-                  <img src="{% static 'images/장비카드썸네일용.jpg' %}" alt="{{ right.name }}">
-                {% endif %}
-              </div>
-            </td>
-          </tr>
-          <tr><th class="row-label">장비명</th><td class="fw-bold" style="color:var(--color-primary);">{{ left.name }}</td><td class="fw-bold" style="color:var(--color-primary);">{{ right.name }}</td></tr>
-          <tr><th class="row-label">타입</th><td>{{ left.get_type_display }}</td><td>{{ right.get_type_display }}</td></tr>
-          <tr><th class="row-label">작업가능높이</th><td>{{ left.max_work_height }}</td><td>{{ right.max_work_height }}</td></tr>
-          <tr><th class="row-label">발판최대높이</th><td>{{ left.max_platform_height }}</td><td>{{ right.max_platform_height }}</td></tr>
-          <tr><th class="row-label">작업대크기</th><td>{{ left.platform_size }}</td><td>{{ right.platform_size }}</td></tr>
-          <tr><th class="row-label">장비크기</th><td>{{ left.equipment_size }}</td><td>{{ right.equipment_size }}</td></tr>
-          <tr><th class="row-label">장비무게</th><td>{{ left.equipment_weight }}</td><td>{{ right.equipment_weight }}</td></tr>
-          <tr><th class="row-label">적재가능중량</th><td>{{ left.max_load }}</td><td>{{ right.max_load }}</td></tr>
-          <tr><th class="row-label">동력</th><td>{{ left.power_type }}</td><td>{{ right.power_type }}</td></tr>
-          <tr>
-            <th class="row-label">견적 신청</th>
-            <td><a href="{% url 'quotes:form' %}" class="btn btn-primary-cta btn-sm px-3"><i class="fas fa-file-alt me-1"></i>견적신청</a></td>
-            <td><a href="{% url 'quotes:form' %}" class="btn btn-primary-cta btn-sm px-3"><i class="fas fa-file-alt me-1"></i>견적신청</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    {% endif %}
-  </div>
-
+<div class="cmp-table-wrap dc-container">
+  <div id="cmpResult"></div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-/* Equipment image data keyed by pk */
-const equipImages = {};
+const MODELS = {{ models_json|safe }};
 
-document.addEventListener('DOMContentLoaded', () => {
-  {% if left and right %}
-    document.getElementById('compare-result').style.display = 'block';
-  {% endif %}
-  const params = new URLSearchParams(window.location.search);
-  const leftId  = params.get('left');
-  const rightId = params.get('right');
-  const leftCat  = document.getElementById('left-category').value;
-  const rightCat = document.getElementById('right-category').value;
-  if (leftCat && leftId)   repopulate('left',  leftCat,  leftId);
-  if (rightCat && rightId) repopulate('right', rightCat, rightId);
-});
+(function () {
+  const MAX = 3;
+  const FILTERS = ['전체', '렌탈', '판매'];
+  const PHOTO_VIEWS = [
+    { label: '최대 높이', sub: '작업 높이 기준', key: '작업가능높이', mode: 'num', idx: 1 },
+    { label: '정면', sub: '실제 높이 기준', key: '장비크기', mode: 'h', idx: 2 },
+    { label: '측면', sub: '실제 높이 기준', key: '장비크기', mode: 'h', idx: 3 },
+  ];
+  const SPECS = [
+    { label: '작업 높이', key: '작업가능높이', em: true },
+    { label: '적재 중량', key: '적재가능중량' },
+    { label: '장비 무게', key: '장비무게' },
+    { label: '미터급', key: '__cat' },
+    { label: '동력', key: '동력' },
+  ];
 
-async function repopulate(side, category, selectedId) {
-  const select = document.getElementById(side + '-equipment');
-  const resp = await fetch(`/equipment/api/by-category/?category=${category}`);
-  const data = await resp.json();
-  select.innerHTML = '<option value="">-- 장비 선택 --</option>';
-  data.equipments.forEach(eq => {
-    const opt = document.createElement('option');
-    opt.value = eq.id;
-    opt.textContent = eq.name;
-    equipImages[eq.id] = eq.compare_image_url || eq.image_url;
-    if (String(eq.id) === String(selectedId)) opt.selected = true;
-    select.appendChild(opt);
-  });
-  updateThumb(side);
-}
+  let filter = '전체';
+  let selected = MODELS.filter(m => !m.isForSale).slice(0, 2).map(m => m.id);
 
-async function loadEquipments(side) {
-  const category = document.getElementById(side + '-category').value;
-  const select   = document.getElementById(side + '-equipment');
-  select.innerHTML = '<option value="">-- 장비 선택 --</option>';
-  if (!category) { resetThumb(side); return; }
-  const resp = await fetch(`/equipment/api/by-category/?category=${category}`);
-  const data = await resp.json();
-  data.equipments.forEach(eq => {
-    const opt = document.createElement('option');
-    opt.value = eq.id;
-    opt.textContent = eq.name;
-    equipImages[eq.id] = eq.compare_image_url || eq.image_url;
-    select.appendChild(opt);
-  });
-  resetThumb(side);
-}
+  const elFilter = document.getElementById('cmpFilter');
+  const elPicker = document.getElementById('cmpPicker');
+  const elCount = document.getElementById('cmpCount');
+  const elResult = document.getElementById('cmpResult');
 
-function updateThumb(side) {
-  const select = document.getElementById(side + '-equipment');
-  const thumb  = document.getElementById(side + '-thumb');
-  const id = select.value;
-  if (!id) { resetThumb(side); return; }
-  const imgUrl = equipImages[id] || '{% static 'images/장비카드썸네일용.jpg' %}';
-  thumb.innerHTML = `<img src="${imgUrl}" alt="장비 이미지" style="width:100%;height:100%;object-fit:cover;"
-    onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">`;
-}
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const parseNum = s => { const m = String(s || '').match(/-?\d+(\.\d+)?/); return m ? parseFloat(m[0]) : 0; };
+  const sizeH = s => { const p = String(s || '').split(/x|×/i); return p.length ? parseNum(p[p.length - 1]) : 0; };
+  const byId = id => MODELS.find(m => m.id === id);
+  const tag = m => m.isForSale ? '판매' : '렌탈';
+  const dimVal = (m, v) => v.mode === 'h' ? sizeH(m.specs[v.key]) : parseNum(m.specs[v.key]);
+  const specVal = (m, d) => d.key === '__cat' ? m.category : (m.specs[d.key] || '–');
 
-function resetThumb(side) {
-  document.getElementById(side + '-thumb').innerHTML =
-    '<span class="no-img"><i class="fas fa-truck-loading"></i></span>';
-}
+  function toggle(id) {
+    if (selected.includes(id)) selected = selected.filter(x => x !== id);
+    else if (selected.length < MAX) selected.push(id);
+    render();
+  }
 
-function doCompare() {
-  const left  = document.getElementById('left-equipment').value;
-  const right = document.getElementById('right-equipment').value;
-  if (!left || !right) { alert('두 장비를 모두 선택해주세요.'); return; }
-  window.location.href = `/equipment/compare/?left=${left}&right=${right}`;
-}
+  function renderFilter() {
+    elFilter.innerHTML = FILTERS.map(f => `<span class="chip${f === filter ? ' is-active' : ''}" data-f="${f}">${f}</span>`).join('');
+    elFilter.querySelectorAll('.chip').forEach(el => el.addEventListener('click', () => { filter = el.dataset.f; render(); }));
+  }
+  function renderPicker() {
+    const list = MODELS.filter(m => filter === '전체' ? true : (filter === '판매' ? m.isForSale : !m.isForSale));
+    const full = selected.length >= MAX;
+    elPicker.innerHTML = list.map(m => {
+      const sel = selected.includes(m.id);
+      const dis = !sel && full;
+      return `<div class="cmp-item${sel ? ' is-sel' : ''}${dis ? ' is-disabled' : ''}" data-id="${m.id}">
+        <div class="cmp-item__top">
+          <span class="cmp-box">${sel ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>' : ''}</span>
+          <span class="cmp-item__name">${esc(m.name)}</span>
+        </div>
+        <div class="cmp-item__cat">${esc(m.category)} · ${tag(m)}</div>
+      </div>`;
+    }).join('');
+    elPicker.querySelectorAll('.cmp-item').forEach(el => {
+      if (el.classList.contains('is-disabled')) return;
+      el.addEventListener('click', () => toggle(Number(el.dataset.id)));
+    });
+  }
+  function renderTable() {
+    const sel = selected.map(byId).filter(Boolean);
+    elCount.textContent = sel.length;
+    if (sel.length < 2) {
+      elResult.innerHTML = `<div class="cmp-empty"><b>비교할 장비를 2대 이상 선택해 주세요</b><span>위 목록에서 체크하면 사진이 나란히 표시됩니다.</span></div>`;
+      return;
+    }
+    // Header
+    let html = '<div class="cmp-scroll"><div class="cmp-table">';
+    html += '<div class="cmp-trow"><div class="cmp-thead"></div>' + sel.map(m => `
+      <div class="cmp-col"><div class="cmp-colhead">
+        <span class="cmp-colhead__x" data-id="${m.id}">×</span>
+        <div class="cmp-colhead__tag">${tag(m)}</div>
+        <div class="cmp-colhead__name">${esc(m.name)}</div>
+        <div class="cmp-colhead__cat">${esc(m.category)}</div>
+      </div></div>`).join('') + '</div>';
+    // Photo rows (scaled)
+    PHOTO_VIEWS.forEach(v => {
+      const dims = sel.map(m => dimVal(m, v));
+      const maxDim = Math.max.apply(null, dims.concat(0.0001));
+      html += `<div class="cmp-trow"><div class="cmp-thead"><div class="cmp-thead__label">${v.label}</div><div class="cmp-thead__sub">${v.sub}</div></div>` +
+        sel.map((m, i) => {
+          const k = Math.max(0.18, Math.min(1, dims[i] / maxDim));
+          const src = m.photos[v.idx] || m.photos[m.photos.length - 1] || '';
+          return `<div class="cmp-col"><div class="cmp-photocell"><div class="cmp-photocell__img" style="background-image:url('${src}');transform:scale(${k.toFixed(3)});"></div></div></div>`;
+        }).join('') + '</div>';
+    });
+    // Spec strip
+    SPECS.forEach(d => {
+      html += `<div class="cmp-trow cmp-specrow"><div class="cmp-thead">${d.label}</div>` +
+        sel.map(m => `<div class="cmp-speccell${d.em ? ' em' : ''}">${esc(specVal(m, d))}</div>`).join('') + '</div>';
+    });
+    html += '</div></div>';
+    elResult.innerHTML = html;
+    elResult.querySelectorAll('.cmp-colhead__x').forEach(el =>
+      el.addEventListener('click', () => toggle(Number(el.dataset.id))));
+  }
+  function render() { renderFilter(); renderPicker(); renderTable(); }
+  render();
+})();
 </script>
 {% endblock %}

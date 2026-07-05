@@ -1,354 +1,212 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}렌탈 장비 - 우주렌탈{% endblock %}
-{% block nav_equipment %}active{% endblock %}
-{% block navbar_class %}navbar-scrolled{% endblock %}
+{% block title %}장비 렌탈 - 우주렌탈{% endblock %}
+{% block nav_equipment %}is-active{% endblock %}
+{% block mnav_equipment %}is-active{% endblock %}
 
 {% block extra_css %}
 <style>
-.page-hero {
-  position: relative;
-  background-color: #1F286F;
-  background-size: cover;
-  background-position: center;
-  min-height: 20rem;
-  display: flex;
-  align-items: center;
-  padding-top: clamp(3rem, 6.15vw, 4.375rem);
-}
-.page-hero .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #1F286F 0%, #2a3580 60%, #1a6fa0 100%);
-  z-index: 0;
-}
-.page-hero.has-image .hero-overlay {
-  background: rgba(0, 0, 0, 0.4);
-}
-.page-hero .container { position: relative; z-index: 1; }
-.page-hero h1 { font-size: clamp(1.5rem, 3.37vw, 2.4rem); font-weight: 700; color: #fff; }
-.page-hero p  { color: rgba(255,255,255,.82); font-size: clamp(0.9rem, 1.49vw, 1.05rem); }
+.eqp-head { padding: clamp(2.5rem, 5vw, 3.25rem) 0 1.5rem; }
+.eqp-head h1 { margin-top: 0.85rem; }
+.eqp-head .dc-lead { margin-top: 0.85rem; max-width: 560px; }
 
-/* Category sticky bar */
-.cat-filter-bar {
-  position: sticky;
-  top: 4.375rem;
-  z-index: 200;
-  background: #fff;
-  border-bottom: 1px solid var(--color-border);
-  box-shadow: 0 2px 12px rgba(31,40,111,0.08);
-  padding: 14px 0;
-}
+.eqp-tabs { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+.eqp-tabs__row { display: flex; gap: 0.55rem; flex-wrap: wrap; padding: 0.9rem 0; }
+@media (max-width: 767px) { .eqp-tabs__row { flex-wrap: nowrap; overflow-x: auto; } }
 
-/* Category grid filter */
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: 1.5px solid #1F286F;
-  border-radius: 12px;
-  overflow: hidden;
-  max-width: 960px;
-  margin: 0 auto;
-}
-.cat-cell {
-  font-size: clamp(0.8rem, 1.40vw, 1rem);
-  font-weight: 600;
-  padding: clamp(0.625rem, 1.23vw, 0.875rem);
-  text-align: center;
-  cursor: pointer;
-  background: #fff;
-  color: #1F286F;
-  border-right: 1.5px solid #1F286F;
-  border-bottom: 1.5px solid #1F286F;
-  transition: background .2s, color .2s;
-  user-select: none;
-}
-.cat-cell:nth-child(3n) { border-right: none; }
-.cat-cell:nth-child(n+4) { border-bottom: none; }
-.cat-cell:hover:not(.active) { background: rgba(31,40,111,0.08); }
-.cat-cell.active { background: #1F286F; color: #fff; }
+.eqp-chart { padding: 1.4rem 0 0.4rem; }
+.eqp-chart__note { font-size: 1rem; color: var(--muted); margin-bottom: 0.85rem; word-break: keep-all; }
+.eqp-chart__wrap { position: relative; width: 100%; border: 1px solid var(--hairline); border-radius: 14px; overflow: hidden; }
+.eqp-chart__wrap img { display: block; width: 100%; height: auto; }
+.eqp-zone { position: absolute; top: 0; bottom: 0; box-sizing: border-box; border-bottom: 3px solid transparent; transition: background .15s ease, border-color .15s ease; }
+.eqp-zone.clickable { cursor: pointer; }
+.eqp-zone.clickable:hover { background: rgba(31,40,111,.07); border-bottom-color: rgba(31,40,111,.45); }
+.eqp-zone.is-active { background: rgba(31,40,111,.13); border-bottom-color: var(--navy); }
 
-/* Card wrapper — 컨테이너 전체 너비 사용 */
-.card-list-wrap { width: 100%; box-sizing: border-box; }
-.card-col { padding: clamp(1.5rem, 3.51vw, 2.5rem) 0; border-bottom: 1px solid var(--color-border); }
-.card-col:first-child { padding-top: 0; }
-.card-col:last-child { border-bottom: none; }
+.eqp-count { padding: 1.4rem 0 0.4rem; display: flex; align-items: baseline; justify-content: space-between; }
+.eqp-count b { color: var(--navy); font-weight: 800; }
+.eqp-count__cls { font-size: 0.95rem; color: var(--muted-2); }
 
-/* Card */
-.equip-card {
-  width: 100%;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-}
+.eqp-list { padding: 0.5rem 0 clamp(2.5rem, 5vw, 3.25rem); }
+.eqp-row { display: flex; gap: clamp(1.5rem, 3vw, 2.75rem); padding: clamp(1.75rem, 3vw, 2.5rem) 0; border-bottom: 1px solid var(--hairline); align-items: stretch; }
+.eqp-row.is-hidden { display: none; }
 
-/* Image column */
-.equip-img-col {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  flex-shrink: 0;
-  overflow: hidden;
-  background: #f0f2f8;
-  position: relative;
-}
+.eqp-photos { flex: 1; min-width: 0; aspect-ratio: 1 / 1; position: relative; background: #F4F6FB; border-radius: 16px; overflow: hidden; }
+.eqp-photos img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .3s ease; }
+.eqp-photos img.is-active { opacity: 1; }
+.eqp-photos__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #a8b8d8; font-size: 3rem; }
+.eqp-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.92); border: 1px solid var(--hairline); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--navy); font-size: 1.4rem; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.12); z-index: 3; user-select: none; }
+.eqp-arrow.l { left: 12px; } .eqp-arrow.r { right: 12px; }
+.eqp-dots { position: absolute; left: 0; right: 0; bottom: 12px; z-index: 3; display: flex; justify-content: center; gap: 6px; }
+.eqp-dot { width: 7px; height: 7px; border-radius: 999px; background: rgba(31,40,111,.3); cursor: pointer; transition: width .25s ease; }
+.eqp-dot.is-active { width: 20px; background: var(--navy); }
 
-/* Info column */
-.equip-info-col {
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem;
-  flex: 1;
-  min-width: 0;
-}
+.eqp-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.eqp-badges { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.eqp-badge { font-size: 0.9rem; font-weight: 600; color: var(--muted); background: #F2F3F8; padding: 0.3rem 0.7rem; border-radius: 6px; }
+.eqp-badge--rent { font-weight: 700; border: 1px solid var(--hairline-2); background: transparent; }
+.eqp-badge--cls { color: var(--muted-2); background: none; padding: 0; }
+.eqp-name { font-size: clamp(1.6rem, 3vw, 2.35rem); font-weight: 800; color: var(--navy); letter-spacing: -0.01em; margin-top: 0.8rem; }
+.eqp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 clamp(1.5rem, 3vw, 2.5rem); margin-top: 1.4rem; border-top: 1px solid #EEF0F2; }
+.eqp-cell { padding: 0.9rem 0; border-bottom: 1px solid #EEF0F2; }
+.eqp-cell .lbl { font-size: 1rem; color: var(--muted-2); }
+.eqp-cell .val { font-size: clamp(1.15rem, 2vw, 1.55rem); font-weight: 700; color: var(--charcoal); margin-top: 0.35rem; }
+.eqp-cell--btn { display: flex; align-items: center; }
+.eqp-cell--btn a { display: block; width: 100%; text-align: center; }
 
-/* Image */
-.equip-card .img-wrap {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: #f0f2f8;
-  display: flex; align-items: center; justify-content: center;
+@media (max-width: 767px) {
+  .eqp-row { flex-direction: column; gap: 1rem; }
+  .eqp-name { margin-top: 0.5rem; }
 }
-.equip-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.equip-card .placeholder-icon { font-size: 3.5rem; color: #a8b8d8; }
-
-/* PC: side-by-side, 이미지 1:1 */
-@media (min-width: 768px) {
-  .equip-card { flex-direction: row; align-items: stretch; }
-  .equip-img-col { width: 45%; aspect-ratio: 1 / 1; flex-shrink: 0; }
-}
-
-/* Card swiper */
-.card-swiper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-.card-swiper .swiper-slide { height: 100%; }
-.card-swiper .swiper-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.card-swiper .swiper-pagination { bottom: 6px; }
-.card-swiper .swiper-pagination-bullet { background: rgba(255,255,255,.8); opacity: 1; }
-.card-swiper .swiper-pagination-bullet-active { background: #fff; }
-
-/* Card body / footer */
-.equip-card .card-body { flex: 1; padding: 0; }
-.equip-card .card-footer { padding-top: 1rem; border-top: none; background: transparent; margin-top: auto; }
-.equip-name {
-  display: block;
-  background: rgba(31,40,111,0.14);
-  color: var(--color-primary);
-  border-left: 4px solid var(--color-primary);
-  padding: clamp(0.375rem, 0.70vw, 0.5rem) clamp(0.75rem, 1.40vw, 1rem);
-  border-radius: 0 8px 8px 0;
-  margin-bottom: 0.5rem;
-  font-size: clamp(1.5rem, 3.37vw, 2.4rem);
-}
-
-/* Spec table */
-.card-spec-table { width: 100%; border-collapse: collapse; margin-top: 0.25rem; }
-.card-spec-table tr { border-bottom: 1px solid var(--color-border); }
-.card-spec-table tr:last-child { border-bottom: none; }
-.card-spec-table td { padding: clamp(0.5rem, 1.14vw, 0.8125rem) 0; vertical-align: middle; }
-.card-spec-table .spec-label { font-size: clamp(0.875rem, 1.93vw, 1.375rem); color: #6B7280; text-align: left; }
-.card-spec-table .spec-value { font-size: clamp(1rem, 2.19vw, 1.5625rem); font-weight: 700; color: #1A1A2E; text-align: right; }
-
-/* Touch image */
-.touch-img-section {
-  background: #fff;
-  padding: 2.5rem 0 0;
-}
-.touch-img-wrap {
-  position: relative;
-  max-width: 960px;
-  margin: 0 auto;
-  user-select: none;
-}
-.touch-img-wrap img {
-  width: 100%;
-  display: block;
-  border-radius: 12px;
-}
-.touch-zone {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  cursor: pointer;
-  transition: background 0.2s;
-  border-radius: 4px;
-}
-.touch-zone:hover { background: rgba(31, 40, 111, 0.10); }
-.touch-zone.no-action { cursor: default; }
-.touch-zone.no-action:hover { background: transparent; }
-
-/* Card fade transition */
-.card-grid { transition: opacity .25s; }
-.card-grid.fading { opacity: 0; }
 </style>
 {% endblock %}
 
 {% block content %}
+<div class="eqp-head dc-container">
+  <div class="eyebrow">고소작업대 렌탈</div>
+  <h1 class="dc-h1">장비 렌탈</h1>
+  <p class="dc-lead">필요한 미터급을 선택하면 보유 중인 렌탈 장비와 상세 스펙을 확인할 수 있습니다. 모든 장비는 정기 안전점검을 거칩니다.</p>
+</div>
 
-<!-- Header -->
-<section class="page-hero has-image"
-         style="background-image: url('{% static 'images/background.jpeg' %}')">
-  <div class="hero-overlay"></div>
-  <div class="container" data-aos="fade-up">
-    <h1 class="mb-2">장비 렌탈</h1>
-    <p class="mb-0">원하는 미터급을 선택해 장비를 확인하세요</p>
-  </div>
-</section>
-
-<!-- Touch Image Section -->
-<div class="touch-img-section">
-  <div class="container">
-    <div class="touch-img-wrap">
-      <img src="{% static 'images/touchimg.jpg' %}" alt="장비 높이별 비교">
-      <div class="touch-zone" data-filter="5m,6m" style="left:0%;width:17%;"></div>
-      <div class="touch-zone" data-filter="7m"    style="left:17%;width:14.28%;"></div>
-      <div class="touch-zone" data-filter="8m"    style="left:31.28%;width:14%;"></div>
-      <div class="touch-zone" data-filter="10m"   style="left:45.28%;width:13.5%;"></div>
-      <div class="touch-zone" data-filter="12m"   style="left:58.78%;width:13.78%;"></div>
-      <div class="touch-zone" data-filter="14m"   style="left:72.56%;width:14%;"></div>
-      <div class="touch-zone no-action"            style="left:86.66%;width:14.29%;"></div>
+<div class="eqp-tabs">
+  <div class="dc-container">
+    <div class="eqp-tabs__row" id="meterTabs">
+      {% for key, label, count in meter_tabs %}
+      <span class="chip{% if key == 'all' %} is-active{% endif %}" data-cat="{{ key }}">{{ label }} {{ count }}</span>
+      {% endfor %}
     </div>
   </div>
 </div>
 
-<!-- Sticky Category Filter Bar -->
-<div class="cat-filter-bar">
-  <div class="container">
-    <div class="cat-grid">
-      <div class="cat-cell active" data-filter="5m,6m">5~6M급</div>
-      <div class="cat-cell" data-filter="7m">7M급</div>
-      <div class="cat-cell" data-filter="8m">8M급</div>
-      <div class="cat-cell" data-filter="10m">10M급</div>
-      <div class="cat-cell" data-filter="12m">12M급</div>
-      <div class="cat-cell" data-filter="14m">14M급</div>
-    </div>
+<div class="eqp-chart dc-container">
+  <div class="eqp-chart__note">미터급별 작업 높이를 한눈에 비교해 보세요. 원하는 미터급을 클릭하면 아래 목록이 해당 장비로 바뀝니다.</div>
+  <div class="eqp-chart__wrap" id="heightChart">
+    <img src="{% static 'images/height-chart.jpg' %}" alt="미터급별 작업 높이 비교">
+    <!-- zones injected by JS -->
   </div>
 </div>
 
-<div class="container py-5">
+<div class="eqp-count dc-container">
+  <div>총 <b id="listCount">{{ equipments|length }}</b>대의 렌탈 장비</div>
+  <div class="eqp-count__cls" id="listCls">전체 미터급</div>
+</div>
 
-  <!-- Card Grid -->
-  {% if equipments %}
-  <div class="d-flex flex-column gap-4 card-grid">
-    {% for eq in equipments %}
-    <div class="card-col card-list-wrap" data-category="{{ eq.category }}" data-aos="fade-up">
-      <div class="equip-card">
-
-        <!-- Left: image -->
-        <div class="equip-img-col">
-          <div class="img-wrap">
-            {% if eq.rental_images %}
-              {% if eq.rental_images|length > 1 %}
-              <div class="swiper card-swiper">
-                <div class="swiper-wrapper">
-                  {% for img in eq.rental_images %}
-                  <div class="swiper-slide">
-                    <img src="{{ img.image.url }}" alt="{{ eq.name }}"
-                         onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
-                  </div>
-                  {% endfor %}
-                </div>
-                <div class="swiper-pagination"></div>
-              </div>
-              {% else %}
-              <img src="{{ eq.rental_images.0.image.url }}" alt="{{ eq.name }}"
-                   onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
-              {% endif %}
-            {% elif eq.image %}
-              <img src="{{ eq.image.url }}" alt="{{ eq.name }}"
-                   onerror="this.src='{% static 'images/장비카드썸네일용.jpg' %}'; this.onerror=null;">
-            {% else %}
-              <img src="{% static 'images/장비카드썸네일용.jpg' %}" alt="{{ eq.name }}">
-            {% endif %}
-          </div>
+<div class="eqp-list dc-container" id="eqpList">
+  {% for e in equipments %}
+  <div class="eqp-row" id="eq-{{ e.id }}" data-cat="{{ e.category }}">
+    <div class="eqp-photos" data-idx="0">
+      {% for p in e.photos %}
+      <img class="{% if forloop.first %}is-active{% endif %}" src="{{ p }}" alt="{{ e.name }} 사진 {{ forloop.counter }}" loading="lazy">
+      {% empty %}
+      <div class="eqp-photos__ph"><i class="fas fa-image"></i></div>
+      {% endfor %}
+      {% if e.photos|length > 1 %}
+      <div class="eqp-arrow l" data-dir="-1">‹</div>
+      <div class="eqp-arrow r" data-dir="1">›</div>
+      <div class="eqp-dots">
+        {% for p in e.photos %}<div class="eqp-dot{% if forloop.first %} is-active{% endif %}" data-i="{{ forloop.counter0 }}"></div>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <div class="eqp-info">
+      <div class="eqp-badges">
+        <span class="eqp-badge">{{ e.type_label }}</span>
+        <span class="eqp-badge eqp-badge--rent">렌탈</span>
+        <span class="eqp-badge eqp-badge--cls">{{ e.category_label }}</span>
+      </div>
+      <div class="eqp-name">{{ e.name }}</div>
+      <div class="eqp-grid">
+        {% for label, value in e.specs %}
+        <div class="eqp-cell"><div class="lbl">{{ label }}</div><div class="val">{{ value }}</div></div>
+        {% endfor %}
+        <div class="eqp-cell eqp-cell--btn">
+          <a href="{% url 'quotes:form' %}" class="pill pill--outline" style="justify-content:center;">견적 문의</a>
         </div>
-
-        <!-- Right: name + spec + buttons -->
-        <div class="equip-info-col">
-          <div class="card-body">
-            <h2 class="fw-bold mb-0 equip-name">{{ eq.name }}</h2>
-            <table class="card-spec-table">
-              <tr><td class="spec-label">작업가능높이</td><td class="spec-value">{{ eq.max_work_height }}</td></tr>
-              <tr><td class="spec-label">발판최대높이</td><td class="spec-value">{{ eq.max_platform_height }}</td></tr>
-              <tr><td class="spec-label">작업대크기</td><td class="spec-value">{{ eq.platform_size }}</td></tr>
-              <tr><td class="spec-label">장비크기</td><td class="spec-value">{{ eq.equipment_size }}</td></tr>
-              <tr><td class="spec-label">장비무게</td><td class="spec-value">{{ eq.equipment_weight }}</td></tr>
-              <tr><td class="spec-label">적재가능중량</td><td class="spec-value">{{ eq.max_load }}</td></tr>
-              <tr><td class="spec-label">동력</td><td class="spec-value">{{ eq.power_type }}</td></tr>
-            </table>
-          </div>
-          <div class="card-footer d-flex gap-2">
-            <a href="{% url 'quotes:form' %}?equipment={{ eq.pk }}" class="btn btn-primary-cta flex-grow-1">
-              이 장비로 견적신청
-            </a>
-            <a href="{% url 'equipment:compare' %}?left={{ eq.pk }}" class="btn btn-outline-cta">
-              장비 비교하기
-            </a>
-          </div>
-        </div>
-
       </div>
     </div>
-    {% endfor %}
   </div>
-
-  {% else %}
-  <div class="text-center py-5" data-aos="fade-up">
-    <i class="fas fa-search fa-3x mb-3 d-block" style="color:var(--color-border);"></i>
-    <p class="text-muted fs-5">해당 카테고리의 장비가 없습니다.</p>
-  </div>
-  {% endif %}
-
+  {% endfor %}
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-const catCells = document.querySelectorAll('.cat-cell');
-const cardCols = document.querySelectorAll('.card-col');
-const cardGrid = document.querySelector('.card-grid');
-
-// Apply default filter (5~6M급) on page load
-(function() {
-  const defaultFilters = ['5m', '6m'];
-  cardCols.forEach(col => {
-    col.style.display = defaultFilters.includes(col.dataset.category) ? '' : 'none';
-  });
-})();
-
-catCells.forEach(cell => {
-  cell.addEventListener('click', function() {
-    const wasActive = this.classList.contains('active');
-    catCells.forEach(c => c.classList.remove('active'));
-
-    const filters = wasActive ? [] : this.dataset.filter.split(',');
-    if (!wasActive) this.classList.add('active');
-
-    if (cardGrid) cardGrid.classList.add('fading');
-    setTimeout(() => {
-      cardCols.forEach(col => {
-        col.style.display = (filters.length === 0 || filters.includes(col.dataset.category)) ? '' : 'none';
-      });
-      if (cardGrid) cardGrid.classList.remove('fading');
-    }, 250);
-  });
+/* ── Photo carousels ───────────────────────────────────────── */
+document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
+  const imgs = wrap.querySelectorAll('img');
+  const dots = wrap.querySelectorAll('.eqp-dot');
+  if (imgs.length < 2) return;
+  let idx = 0;
+  function go(n) {
+    imgs[idx].classList.remove('is-active');
+    if (dots[idx]) dots[idx].classList.remove('is-active');
+    idx = (n + imgs.length) % imgs.length;
+    imgs[idx].classList.add('is-active');
+    if (dots[idx]) dots[idx].classList.add('is-active');
+  }
+  wrap.querySelector('.eqp-arrow.l').addEventListener('click', function () { go(idx - 1); });
+  wrap.querySelector('.eqp-arrow.r').addEventListener('click', function () { go(idx + 1); });
+  dots.forEach(function (d) { d.addEventListener('click', function () { go(Number(d.dataset.i)); }); });
 });
 
-// Touch image zone click
-document.querySelectorAll('.touch-zone[data-filter]').forEach(zone => {
-  zone.addEventListener('click', function() {
-    const filter = this.dataset.filter;
-    catCells.forEach(cell => {
-      if (cell.dataset.filter === filter) cell.click();
+/* ── Meter-class filtering (tabs + chart zones) ────────────── */
+(function () {
+  const tabs = document.getElementById('meterTabs');
+  const rows = Array.from(document.querySelectorAll('.eqp-row'));
+  const countEl = document.getElementById('listCount');
+  const clsEl = document.getElementById('listCls');
+  const CLS_LABEL = { '6m': '5~6M급', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', '5m': '5M급' };
+
+  // Chart zones (bounds are % positions of each meter-class column on the image)
+  const zoneDefs = [
+    { cat: '6m', bound: 0,    next: 17.8 },
+    { cat: '7m', bound: 17.8, next: 30.9 },
+    { cat: '8m', bound: 30.9, next: 44.1 },
+    { cat: '10m', bound: 44.1, next: 58.0 },
+    { cat: '12m', bound: 58.0, next: 72.1 },
+    { cat: '14m', bound: 72.1, next: 85.9 },
+    { cat: null, bound: 85.9, next: 100 },
+  ];
+  const present = new Set(rows.map(r => r.dataset.cat));
+  const chart = document.getElementById('heightChart');
+  zoneDefs.forEach(function (z) {
+    const el = document.createElement('div');
+    el.className = 'eqp-zone' + (z.cat && present.has(z.cat) ? ' clickable' : '');
+    el.style.left = z.bound + '%';
+    el.style.width = (z.next - z.bound) + '%';
+    if (z.cat) el.dataset.cat = z.cat;
+    if (z.cat && present.has(z.cat)) el.addEventListener('click', function () { apply(z.cat); });
+    chart.appendChild(el);
+  });
+
+  function apply(cat) {
+    let shown = 0;
+    rows.forEach(function (r) {
+      const on = (cat === 'all' || r.dataset.cat === cat);
+      r.classList.toggle('is-hidden', !on);
+      if (on) shown++;
     });
-    document.querySelector('.cat-filter-bar').scrollIntoView({ behavior: 'smooth' });
-  });
-});
+    countEl.textContent = shown;
+    clsEl.textContent = cat === 'all' ? '전체 미터급' : (CLS_LABEL[cat] || cat);
+    tabs.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-active', c.dataset.cat === cat); });
+    document.querySelectorAll('.eqp-zone').forEach(function (z) { z.classList.toggle('is-active', z.dataset.cat === cat && cat !== 'all'); });
+  }
 
-document.querySelectorAll('.card-swiper').forEach(el => {
-  new Swiper(el, {
-    loop: true,
-    pagination: { el: el.querySelector('.swiper-pagination'), clickable: true },
+  tabs.querySelectorAll('.chip').forEach(function (c) {
+    c.addEventListener('click', function () { apply(c.dataset.cat); });
   });
-});
+
+  // If arriving via #eq-<id>, filter to that machine's class and scroll to it.
+  const m = (location.hash || '').match(/eq-(\d+)/);
+  if (m) {
+    const target = document.getElementById('eq-' + m[1]);
+    if (target) {
+      apply(target.dataset.cat);
+      setTimeout(function () {
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+      }, 200);
+    }
+  }
+})();
 </script>
 {% endblock %}

@@ -10,14 +10,22 @@ class QuoteRequest(models.Model):
         ('cancelled',  '취소'),
     ]
 
-    company_name     = models.CharField(max_length=200, verbose_name='회사명')
-    name             = models.CharField(max_length=100, verbose_name='담당자명')
+    INQUIRY_TYPE_CHOICES = [
+        ('rental',    '렌탈'),
+        ('sale',      '판매'),
+        ('undecided', '미정'),
+    ]
+
+    company_name     = models.CharField(max_length=200, blank=True, verbose_name='회사명')
+    name             = models.CharField(max_length=100, blank=True, verbose_name='담당자명')
     phone            = models.CharField(max_length=20, verbose_name='연락처')
-    email            = models.EmailField(verbose_name='이메일')
+    email            = models.EmailField(blank=True, verbose_name='이메일')
     business_number  = models.CharField(max_length=20, blank=True, verbose_name='사업자번호')
-    start_date       = models.DateField(verbose_name='렌탈 시작일')
-    end_date         = models.DateField(verbose_name='렌탈 종료일')
-    delivery_address = models.TextField(verbose_name='배송지 주소')
+    inquiry_type     = models.CharField(max_length=20, choices=INQUIRY_TYPE_CHOICES, default='rental', blank=True, verbose_name='구분')
+    work_height_class = models.CharField(max_length=20, blank=True, verbose_name='필요 작업고')
+    start_date       = models.DateField(null=True, blank=True, verbose_name='렌탈 시작일')
+    end_date         = models.DateField(null=True, blank=True, verbose_name='렌탈 종료일')
+    delivery_address = models.TextField(blank=True, verbose_name='현장 주소')
     budget           = models.PositiveIntegerField(null=True, blank=True, verbose_name='예산')
     message          = models.TextField(blank=True, verbose_name='추가 요청사항')
     status           = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='상태')

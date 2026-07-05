@@ -6,148 +6,135 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}우주렌탈 - 고소작업장비 렌탈·판매 전문{% endblock %}</title>
 
-  <!-- Google Fonts: Noto Sans KR -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap 5 -->
+  <!-- Bootstrap (grid + utilities) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-  <!-- Swiper -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-
-  <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
-
   {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
 
   <!-- ── Navigation ───────────────────────────────────────── -->
-  <nav class="navbar navbar-expand-lg navbar-main fixed-top {% block navbar_class %}navbar-transparent{% endblock %}">
-    <div class="container-fluid px-4">
+  <header class="site-header">
+    <nav class="site-nav {% block nav_variant %}{% endblock %}" id="siteNav">
+      <div class="site-nav__inner">
+        <a class="site-nav__logo" href="{% url 'pages:index' %}" aria-label="우주렌탈 홈">
+          <img class="logo-dark"  src="{% static 'images/logo.png' %}" alt="우주렌탈">
+          <img class="logo-white" src="{% static 'images/logo-white.png' %}" alt="우주렌탈">
+        </a>
 
-      <!-- Brand -->
-      <a class="navbar-brand d-flex align-items-center gap-2 fw-700 text-decoration-none" href="{% url 'pages:index' %}">
-        <img src="{% static 'images/logo.png' %}" alt="우주렌탈 로고" height="52"
-             style="object-fit:contain;"
-             onerror="this.style.display='none'">
-      </a>
+        <div class="site-nav__menu">
+          <a href="{% url 'pages:index' %}"       class="{% block nav_home %}{% endblock %}">홈</a>
+          <a href="{% url 'pages:about' %}"        class="{% block nav_about %}{% endblock %}">회사소개</a>
+          <a href="{% url 'equipment:list' %}"     class="{% block nav_equipment %}{% endblock %}">장비 렌탈</a>
+          <a href="{% url 'sales:list' %}"         class="{% block nav_sales %}{% endblock %}">장비 판매</a>
+          <a href="{% url 'equipment:compare' %}"  class="{% block nav_compare %}{% endblock %}">장비 비교</a>
+          <a href="{% url 'records:list' %}"       class="{% block nav_records %}{% endblock %}">판매 실적</a>
+        </div>
 
-      <!-- Hamburger -->
-      <button class="navbar-toggler border-0 shadow-none" type="button"
-              data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="메뉴">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <div class="site-nav__right">
+          <span class="site-nav__phone">031-973-6661</span>
+          <a href="{% url 'quotes:form' %}" class="site-nav__cta">견적문의</a>
+        </div>
 
-      <!-- Menu -->
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto me-3 align-items-lg-center" id="mainNavList">
-          <li class="nav-item">
-            <a class="nav-link {% block nav_home %}{% endblock %}" href="{% url 'pages:index' %}">홈</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% block nav_about %}{% endblock %}" href="{% url 'pages:about' %}">회사소개</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% block nav_equipment %}{% endblock %}" href="{% url 'equipment:list' %}">장비렌탈</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% block nav_sales %}{% endblock %}" href="{% url 'sales:list' %}">장비판매</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% block nav_compare %}{% endblock %}" href="{% url 'equipment:compare' %}">장비비교</a>
-          </li>
-        </ul>
-
+        <button class="site-nav__toggle" type="button" id="navToggle" aria-label="메뉴 열기">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
       </div>
-    </div>
-  </nav>
 
-  <!-- ── Main Content ─────────────────────────────────────── -->
-  <main>
-    {% block content %}{% endblock %}
-  </main>
+      <div class="site-nav__mobile" id="navMobile">
+        <a href="{% url 'pages:index' %}"      class="{% block mnav_home %}{% endblock %}">홈</a>
+        <a href="{% url 'pages:about' %}"       class="{% block mnav_about %}{% endblock %}">회사소개</a>
+        <a href="{% url 'equipment:list' %}"    class="{% block mnav_equipment %}{% endblock %}">장비 렌탈</a>
+        <a href="{% url 'sales:list' %}"        class="{% block mnav_sales %}{% endblock %}">장비 판매</a>
+        <a href="{% url 'equipment:compare' %}" class="{% block mnav_compare %}{% endblock %}">장비 비교</a>
+        <a href="{% url 'records:list' %}"      class="{% block mnav_records %}{% endblock %}">판매 실적</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ── Main ─────────────────────────────────────────────── -->
+  <main>{% block content %}{% endblock %}</main>
 
   <!-- ── Footer ───────────────────────────────────────────── -->
-  <footer class="footer-main">
-    <div class="container">
-      <div class="row g-4">
-        <!-- Company info -->
-        <div class="col-lg-5">
-          <div class="footer-brand">
-            <i class="fas fa-cube me-2" style="color:var(--color-accent);"></i>우주렌탈
-          </div>
-          <div class="footer-info">
-            <div><span style="color:#D1D5DB">대표</span> 박성조 &nbsp;|&nbsp; <span style="color:#D1D5DB">사업자번호</span> 326-88-01739</div>
-            <div><span style="color:#D1D5DB">주소</span> 경기도 고양시 덕양구 호국로1254번길 130-5(신원동)</div>
-            <div>
-              <span style="color:#D1D5DB">전화</span>
-              <a href="tel:0319736661">031-973-6661</a>
-              &nbsp;|&nbsp;
-              <span style="color:#D1D5DB">팩스</span>
-              02-381-3660
-            </div>
-            <div>
-              <span style="color:#D1D5DB">이메일</span>
-              <a href="mailto:woojoo66666@daum.net">woojoo66666@daum.net</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick links -->
-        <div class="col-lg-3">
-          <div class="fw-600 mb-2" style="color:#E5E7EB; font-size:0.9rem;">바로가기</div>
-          <ul class="list-unstyled footer-info mb-0">
-            <li><a href="{% url 'equipment:list' %}"><i class="fas fa-angle-right me-1"></i>장비렌탈</a></li>
-            <li><a href="{% url 'sales:list' %}"><i class="fas fa-angle-right me-1"></i>장비판매</a></li>
-            <li><a href="{% url 'equipment:compare' %}"><i class="fas fa-angle-right me-1"></i>장비비교</a></li>
-            <li><a href="{% url 'quotes:form' %}"><i class="fas fa-angle-right me-1"></i>견적신청</a></li>
-            <li><a href="{% url 'pages:about' %}"><i class="fas fa-angle-right me-1"></i>회사소개</a></li>
-          </ul>
-        </div>
-
-        <!-- Strengths -->
-        <div class="col-lg-4">
-          <div class="fw-600 mb-2" style="color:#E5E7EB; font-size:0.9rem;">우주렌탈 강점</div>
-          <div class="footer-info">
-            <div><i class="fas fa-award me-2" style="color:var(--color-accent);"></i>20년 이상 전문 렌탈사</div>
-            <div><i class="fas fa-bolt me-2" style="color:var(--color-accent);"></i>신속 납품 서비스</div>
-          </div>
-        </div>
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div>
+        <img src="{% static 'images/logo.png' %}" alt="우주렌탈">
+        경기도 고양시 덕양구 호국로1254번길 130-5<br>
+        사업자등록번호 326-88-01739 · 대표 박성조
       </div>
-
-      <hr class="footer-divider">
-      <div class="footer-copy text-center">
-        © 2025 우주렌탈. All rights reserved.
+      <div>
+        <h4>바로가기</h4>
+        <a href="{% url 'equipment:list' %}">장비 렌탈</a> · <a href="{% url 'sales:list' %}">장비 판매</a><br>
+        <a href="{% url 'equipment:compare' %}">장비 비교</a> · <a href="{% url 'pages:about' %}">회사소개</a>
+      </div>
+      <div>
+        <h4>연락처</h4>
+        전화 031-973-6661 · 팩스 02-381-3660<br>
+        woojoo66666@daum.net<br>
+        월–금 07:00–17:00 · 토 07:00–11:00 · 일 휴무
       </div>
     </div>
   </footer>
 
-  <!-- ── Scripts ───────────────────────────────────────────── -->
-  <!-- Bootstrap -->
+  <!-- ── Floating call button ─────────────────────────────── -->
+  <button class="call-fab" type="button" id="callFab">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+    전화 상담
+  </button>
+
+  <!-- ── Business-hours call modal ────────────────────────── -->
+  <div class="call-modal" id="callModal">
+    <div class="call-modal__card">
+      <input type="hidden" id="callCsrf" value="{{ csrf_token }}">
+
+      <!-- Open now -->
+      <div id="callOpen">
+        <div class="call-modal__icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+        </div>
+        <div class="call-modal__title">지금 바로 상담 가능합니다</div>
+        <div class="call-modal__desc">아래 번호로 전화를 연결할까요?</div>
+        <div class="call-modal__phone">031-973-6661</div>
+        <div class="call-modal__row">
+          <button type="button" class="pill pill--ghost" data-call-close>아니요</button>
+          <a href="tel:031-973-6661" class="pill pill--solid flex2">예, 전화 연결</a>
+        </div>
+      </div>
+
+      <!-- Closed now → callback -->
+      <div id="callClosed" class="is-hidden">
+        <div class="call-modal__icon call-modal__icon--warn">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E6503C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
+        </div>
+        <div class="call-modal__title">지금은 영업시간이 아닙니다</div>
+        <div class="call-modal__desc">번호를 남겨주시면 다음 영업 시작 시 최대한 빠르게 연락드리겠습니다.</div>
+        <div class="call-modal__hours">영업시간 · 월–금 07:00–17:00 · 토 07:00–11:00</div>
+        <div id="callbackForm">
+          <input class="call-modal__field" id="cbPhone" placeholder="연락처 (예: 010-0000-0000)" inputmode="tel">
+          <input class="call-modal__field" id="cbMemo"  placeholder="회사명 · 성함 (선택)">
+          <button type="button" class="pill pill--solid" id="cbSubmit" style="width:100%;justify-content:center;margin-top:1rem;">연락처 남기기</button>
+        </div>
+        <div id="callbackDone" class="is-hidden" style="text-align:center;padding:0.5rem 0 0.25rem;">
+          <div style="font-size:1.05rem;font-weight:700;color:var(--navy);">연락처가 등록되었습니다.</div>
+          <div style="font-size:0.95rem;color:var(--muted);margin-top:0.35rem;">다음 영업일에 연락드리겠습니다.</div>
+        </div>
+        <button type="button" class="call-modal__close" data-call-close>닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Scripts ──────────────────────────────────────────── -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Swiper -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <!-- AOS -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-  <!-- Particles.js -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
-  <!-- CountUp.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.6.0/countUp.umd.min.js"></script>
-
-  <!-- Custom JS -->
   <script src="{% static 'js/main.js' %}"></script>
-
   {% block extra_js %}{% endblock %}
 </body>
 </html>

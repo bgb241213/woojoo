@@ -14,100 +14,94 @@ from .models import QuoteRequest, QuoteItem, CallbackRequest
 class QuoteCreateView(View):
     template_name = 'quotes/form.html'
 
+    # Height-class options offered on the quote form ("필요 작업고").
+    HEIGHT_CHOICES = ['미정', '5~6M', '7M', '8M', '10M', '12M', '14M']
+
+    def _context(self, extra=None):
+        ctx = {
+            'inquiry_choices': QuoteRequest.INQUIRY_TYPE_CHOICES,
+            'height_choices': self.HEIGHT_CHOICES,
+        }
+        if extra:
+            ctx.update(extra)
+        return ctx
+
     def get(self, request):
-        return render(request, self.template_name, {
-            'category_choices': Equipment.CATEGORY_CHOICES,
-        })
+        return render(request, self.template_name, self._context())
 
     def post(self, request):
         errors = {}
 
-        # Customer fields
         company_name     = request.POST.get('company_name', '').strip()
         name             = request.POST.get('name', '').strip()
         phone            = request.POST.get('phone', '').strip()
         email            = request.POST.get('email', '').strip()
-        business_number  = request.POST.get('business_number', '').strip()
+        inquiry_type     = request.POST.get('inquiry_type', 'rental').strip()
+        work_height      = request.POST.get('work_height_class', '').strip()
         start_date_str   = request.POST.get('start_date', '').strip()
         end_date_str     = request.POST.get('end_date', '').strip()
         delivery_address = request.POST.get('delivery_address', '').strip()
         budget_str       = request.POST.get('budget', '').strip()
         message          = request.POST.get('message', '').strip()
 
-        # Equipment items
-        items_json = request.POST.get('items_json', '[]')
-        try:
-            items = json.loads(items_json)
-        except json.JSONDecodeError:
-            items = []
-
-        # Validation
-        if not company_name:
-            errors['company_name'] = '회사명을 입력해주세요.'
-        if not name:
-            errors['name'] = '담당자명을 입력해주세요.'
+        # Only the phone number is required; everything else is optional.
         if not phone:
             errors['phone'] = '연락처를 입력해주세요.'
-        if not email:
-            errors['email'] = '이메일을 입력해주세요.'
-        if not delivery_address:
-            errors['delivery_address'] = '배송지 주소를 입력해주세요.'
 
-        # Date validation
-        start_date = end_date = None
-        today = datetime.date.today()
-        if not start_date_str:
-            errors['start_date'] = '렌탈 시작일을 입력해주세요.'
-        else:
+        # Optional dates — accept blank, validate format when present.
+        def parse_date(value, key):
+            if not value:
+                return None
             try:
-                start_date = datetime.date.fromisoformat(start_date_str)
-                if start_date < today:
-                    errors['start_date'] = '시작일은 오늘 이후여야 합니다.'
+                return datetime.date.fromisoformat(value)
             except ValueError:
-                errors['start_date'] = '올바른 날짜 형식이 아닙니다.'
+                errors[key] = '올바른 날짜 형식이 아닙니다.'
+                return None
 
-        if not end_date_str:
-            errors['end_date'] = '렌탈 종료일을 입력해주세요.'
-        else:
-            try:
-                end_date = datetime.date.fromisoformat(end_date_str)
-                if start_date and end_date < start_date:
-                    errors['end_date'] = '종료일은 시작일 이후여야 합니다.'
-            except ValueError:
-                errors['end_date'] = '올바른 날짜 형식이 아닙니다.'
+        start_date = parse_date(start_date_str, 'start_date')
+        end_date = parse_date(end_date_str, 'end_date')
+        if start_date and end_date and end_date < start_date:
+            errors['end_date'] = '종료일은 시작일 이후여야 합니다.'
 
-        if not items:
-            errors['items'] = '장비를 1개 이상 선택해주세요.'
+        if inquiry_type not in dict(QuoteRequest.INQUIRY_TYPE_CHOICES):
+            inquiry_type = 'rental'
 
         if errors:
-            return render(request, self.template_name, {
-                'category_choices': Equipment.CATEGORY_CHOICES,
+            return render(request, self.template_name, self._context({
                 'errors': errors,
                 'post': request.POST,
-            })
+            }))
 
-        # Save
+        # Store a clean integer only when the budget is purely numeric;
+        # anything with units/words (e.g. "500만원", "협의 가능") is preserved verbatim
+        # in the message so no information is lost.
         budget = int(budget_str) if budget_str.isdigit() else None
+        if budget_str and not budget_str.isdigit():
+            message = (message + f'\n[예산] {budget_str}').strip()
+
         quote = QuoteRequest.objects.create(
             company_name=company_name,
             name=name,
             phone=phone,
             email=email,
-            business_number=business_number,
+            inquiry_type=inquiry_type,
+            work_height_class=work_height,
             start_date=start_date,
             end_date=end_date,
             delivery_address=delivery_address,
             budget=budget,
             message=message,
         )
+
+        # Optional equipment items (equipment pages may attach a selection).
+        try:
+            items = json.loads(request.POST.get('items_json', '[]'))
+        except json.JSONDecodeError:
+            items = []
         for item in items:
             try:
                 equipment = Equipment.objects.get(pk=item['equipment_id'], is_active=True)
-                QuoteItem.objects.create(
-                    quote=quote,
-                    equipment=equipment,
-                    quantity=int(item['quantity']),
-                )
+                QuoteItem.objects.create(quote=quote, equipment=equipment, quantity=int(item['quantity']))
             except (Equipment.DoesNotExist, KeyError, ValueError):
                 pass
 

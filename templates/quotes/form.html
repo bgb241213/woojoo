@@ -1,417 +1,118 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}견적 신청 - 우주렌탈{% endblock %}
-{% block nav_compare %}{% endblock %}
-{% block navbar_class %}navbar-scrolled{% endblock %}
+{% block title %}견적문의 - 우주렌탈{% endblock %}
 
 {% block extra_css %}
 <style>
-.page-hero {
-  background: linear-gradient(135deg, #1F286F 0%, #2a3580 60%, #1a6fa0 100%);
-  padding: clamp(3rem, 8.78vw, 6.25rem) 0 clamp(2rem, 5.27vw, 3.75rem);
-}
-.page-hero h1 { font-size: clamp(1.5rem, 3.37vw, 2.4rem); font-weight: 700; color: #fff; }
-.page-hero p  { color: rgba(255,255,255,.82); font-size: clamp(0.9rem, 1.49vw, 1.05rem); }
+.qf-head { padding: clamp(2.75rem, 5vw, 3.5rem) 0 2rem; }
+.qf-head h1 { margin-top: 0.85rem; }
+.qf-head .dc-lead { margin-top: 1rem; max-width: 600px; }
+.qf-head em { color: var(--coral); font-weight: 700; font-style: normal; }
 
-/* Step indicator */
-.step-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  margin-bottom: 2.5rem;
-}
-.step-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--color-text-sub);
-}
-.step-item .step-num {
-  width: 1.875rem; height: 1.875rem;
-  border-radius: 50%;
-  background: var(--color-border);
-  color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.8rem; font-weight: 700;
-  flex-shrink: 0;
-}
-.step-item.active .step-num { background: var(--color-primary); }
-.step-item.active { color: var(--color-primary); }
-.step-divider {
-  width: 2.5rem; height: 2px;
-  background: var(--color-border);
-  margin: 0 0.5rem;
+.qf-body { display: flex; gap: 0; border-top: 1px solid var(--hairline); }
+.qf-form { flex: 1; min-width: 0; padding: clamp(1.75rem, 3vw, 2.75rem); border-right: 1px solid var(--hairline); }
+.qf-side { flex: none; width: 340px; padding: clamp(1.75rem, 3vw, 2.75rem); background: var(--tint); }
+@media (max-width: 900px) {
+  .qf-body { flex-direction: column; }
+  .qf-form { border-right: none; border-bottom: 1px solid var(--hairline); }
+  .qf-side { width: auto; }
 }
 
-/* Form section card */
-.form-section {
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 1.5rem;
-  box-shadow: var(--shadow-card);
-}
-.form-section-header {
-  background: var(--color-primary);
-  color: #fff;
-  padding: 0.9rem 1.5rem;
-  font-weight: 700;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-.form-section-body { padding: 1.5rem; }
+.qf-section { font-size: 1.05rem; font-weight: 800; color: var(--navy); margin-bottom: 1.3rem; }
+.qf-section.mt { margin-top: 2.3rem; }
+.qf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.35rem 1.7rem; }
+.qf-grid label { display: block; }
+.qf-grid label.col-span { grid-column: 1 / -1; }
+@media (max-width: 560px) { .qf-grid { grid-template-columns: 1fr; } }
+.qf-lbl { font-size: 0.95rem; color: var(--muted); font-weight: 600; margin-bottom: 0.5rem; }
+.qf-lbl .req { color: var(--coral); }
+.fld { width: 100%; border: 1px solid var(--hairline-2); border-radius: 10px; background: #fff; padding: 0.8rem 0.85rem; font-size: 1.05rem; color: var(--charcoal); outline: none; font-family: inherit; }
+.fld:focus { border-color: var(--navy); }
+textarea.fld { resize: none; }
+.fld.has-error { border-color: var(--coral); }
+.qf-err { color: var(--coral); font-size: 0.85rem; margin-top: 0.35rem; }
+.qf-submit { margin-top: 1.9rem; display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; }
+.qf-note { font-size: 0.95rem; color: var(--muted-2); }
 
-/* Item card */
-.item-card {
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 0.75rem 1rem;
-  background: var(--color-bg-sub);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-.item-name { font-weight: 600; color: var(--color-primary); font-size: 0.9rem; }
-.item-qty  { color: var(--color-text-sub); font-size: 0.85rem; margin-left: 0.75rem; }
-
-/* Sidebar */
-.sidebar-card {
-  background: var(--color-bg-sub);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: 1.5rem;
-  position: sticky;
-  top: 100px;
-}
-.sidebar-card .sidebar-title {
-  font-weight: 700;
-  color: var(--color-primary);
-  font-size: 1rem;
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--color-border);
-}
-.sidebar-phone {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--color-primary);
-  text-decoration: none;
-  display: block;
-  margin-bottom: 0.4rem;
-}
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--color-border);
-  font-size: 0.88rem;
-  color: var(--color-text-sub);
-}
-.trust-item:last-child { border-bottom: none; }
-.trust-item i { color: var(--color-accent); width: 16px; flex-shrink: 0; }
-
-label.required::after { content: ' *'; color: var(--color-accent); }
-.error-msg { color: var(--color-accent); font-size: 0.82rem; margin-top: 3px; }
+.qf-side h3 { font-size: 1.2rem; font-weight: 800; color: var(--navy); margin: 0; }
+.qf-side p { font-size: 1rem; line-height: 1.7; color: var(--charcoal); margin: 0.75rem 0 1.5rem; word-break: keep-all; }
+.qf-call { display: flex; align-items: center; gap: 0.7rem; background: #fff; border: 1px solid var(--hairline-2); border-radius: 12px; padding: 1rem 1.1rem; }
+.qf-call small { font-size: 0.85rem; color: var(--muted); display: block; }
+.qf-call b { font-size: 1.4rem; font-weight: 800; color: var(--navy); }
+.qf-info { margin-top: 1.5rem; border-top: 1px solid #DEE2F0; padding-top: 1.4rem; font-size: 1rem; line-height: 1.9; }
+.qf-info div { display: flex; justify-content: space-between; }
+.qf-info span { color: var(--muted-2); }
+.qf-info b { font-weight: 600; color: var(--charcoal); }
 </style>
 {% endblock %}
 
 {% block content %}
+<div class="qf-head dc-container">
+  <div class="eyebrow">온라인 견적 신청</div>
+  <h1 class="dc-h1">견적문의</h1>
+  <p class="dc-lead">현장 조건을 남겨주시면 <em>담당자가 빠르게 연락</em>드려 작업에 맞는 장비와 가격을 안내해 드립니다. 연락처만 있어도 상담이 가능합니다.</p>
+</div>
 
-<section class="page-hero">
-  <div class="container" data-aos="fade-up">
-    <h1 class="mb-2">견적 신청</h1>
-    <p class="mb-0">필요한 장비와 정보를 입력해주시면 담당자가 빠르게 연락드립니다.</p>
-  </div>
-</section>
-
-<div class="container py-5">
-
-  <!-- Step bar -->
-  <div class="step-bar" data-aos="fade-up">
-    <div class="step-item active">
-      <span class="step-num">1</span>장비 선택
-    </div>
-    <div class="step-divider"></div>
-    <div class="step-item active">
-      <span class="step-num">2</span>고객 정보
-    </div>
-    <div class="step-divider"></div>
-    <div class="step-item active">
-      <span class="step-num">3</span>렌탈 정보
-    </div>
-  </div>
-
-  {% if errors.items %}
-  <div class="alert d-flex align-items-center gap-2 mb-4" style="background:rgba(230,80,60,.08);border:1px solid rgba(230,80,60,.25);border-radius:10px;color:var(--color-accent);">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span>{{ errors.items }}</span>
-  </div>
-  {% endif %}
-
-  <div class="row g-4 align-items-start">
-
-    <!-- Main form (60%) -->
-    <div class="col-lg-8" data-aos="fade-right">
-      <form method="post" id="quote-form" novalidate>
-        {% csrf_token %}
-        <input type="hidden" name="items_json" id="items-json" value="">
-
-        <!-- Section 1: Equipment -->
-        <div class="form-section">
-          <div class="form-section-header">
-            <i class="fas fa-truck"></i>1. 장비 선택
-          </div>
-          <div class="form-section-body">
-            <div class="row g-3 align-items-end">
-              <div class="col-sm-4">
-                <label class="form-label fw-semibold" style="font-size:0.88rem;">미터급</label>
-                <select class="form-select" id="cat-select" onchange="loadEquipments()">
-                  <option value="">-- 미터급 선택 --</option>
-                  {% for value, label in category_choices %}
-                  <option value="{{ value }}">{{ label }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="col-sm-4">
-                <label class="form-label fw-semibold" style="font-size:0.88rem;">장비</label>
-                <select class="form-select" id="eq-select">
-                  <option value="">-- 장비 선택 --</option>
-                </select>
-              </div>
-              <div class="col-sm-2">
-                <label class="form-label fw-semibold" style="font-size:0.88rem;">수량</label>
-                <input type="number" class="form-control" id="qty-input" value="1" min="1" max="99">
-              </div>
-              <div class="col-sm-2">
-                <button type="button" class="btn btn-primary-cta w-100" onclick="addItem()">
-                  <i class="fas fa-plus me-1"></i>추가
-                </button>
-              </div>
-            </div>
-
-            <div id="item-list" class="mt-4"></div>
-            <p id="item-empty" class="text-muted small mt-3 mb-0">
-              <i class="fas fa-info-circle me-1"></i>장비를 선택하면 여기에 표시됩니다.
-            </p>
-          </div>
-        </div>
-
-        <!-- Section 2: Customer Info -->
-        <div class="form-section">
-          <div class="form-section-header">
-            <i class="fas fa-user"></i>2. 고객 정보
-          </div>
-          <div class="form-section-body">
-            <div class="row g-3">
-              <div class="col-sm-6">
-                <label class="form-label required" style="font-size:0.88rem;">회사명</label>
-                <input type="text" name="company_name"
-                       class="form-control {% if errors.company_name %}is-invalid{% endif %}"
-                       value="{{ post.company_name|default:'' }}" placeholder="회사명을 입력하세요">
-                {% if errors.company_name %}<div class="error-msg">{{ errors.company_name }}</div>{% endif %}
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label required" style="font-size:0.88rem;">담당자명</label>
-                <input type="text" name="name"
-                       class="form-control {% if errors.name %}is-invalid{% endif %}"
-                       value="{{ post.name|default:'' }}" placeholder="담당자 이름">
-                {% if errors.name %}<div class="error-msg">{{ errors.name }}</div>{% endif %}
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label required" style="font-size:0.88rem;">연락처</label>
-                <input type="tel" name="phone"
-                       class="form-control {% if errors.phone %}is-invalid{% endif %}"
-                       value="{{ post.phone|default:'' }}" placeholder="010-0000-0000">
-                {% if errors.phone %}<div class="error-msg">{{ errors.phone }}</div>{% endif %}
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label required" style="font-size:0.88rem;">이메일</label>
-                <input type="email" name="email"
-                       class="form-control {% if errors.email %}is-invalid{% endif %}"
-                       value="{{ post.email|default:'' }}" placeholder="example@company.com">
-                {% if errors.email %}<div class="error-msg">{{ errors.email }}</div>{% endif %}
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label" style="font-size:0.88rem;">사업자번호 <span class="text-muted fw-normal">(선택)</span></label>
-                <input type="text" name="business_number" class="form-control"
-                       value="{{ post.business_number|default:'' }}" placeholder="000-00-00000">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 3: Rental Info -->
-        <div class="form-section">
-          <div class="form-section-header">
-            <i class="fas fa-calendar-alt"></i>3. 렌탈 정보
-          </div>
-          <div class="form-section-body">
-            <div class="row g-3">
-              <div class="col-sm-6">
-                <label class="form-label required" style="font-size:0.88rem;">렌탈 시작일</label>
-                <input type="date" name="start_date" id="start-date"
-                       class="form-control {% if errors.start_date %}is-invalid{% endif %}"
-                       value="{{ post.start_date|default:'' }}">
-                {% if errors.start_date %}<div class="error-msg">{{ errors.start_date }}</div>{% endif %}
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label required" style="font-size:0.88rem;">렌탈 종료일</label>
-                <input type="date" name="end_date" id="end-date"
-                       class="form-control {% if errors.end_date %}is-invalid{% endif %}"
-                       value="{{ post.end_date|default:'' }}">
-                {% if errors.end_date %}<div class="error-msg">{{ errors.end_date }}</div>{% endif %}
-              </div>
-              <div class="col-12">
-                <label class="form-label required" style="font-size:0.88rem;">배송지 주소</label>
-                <textarea name="delivery_address" rows="2"
-                          class="form-control {% if errors.delivery_address %}is-invalid{% endif %}"
-                          placeholder="장비를 배송받을 현장 주소를 입력하세요">{{ post.delivery_address|default:'' }}</textarea>
-                {% if errors.delivery_address %}<div class="error-msg">{{ errors.delivery_address }}</div>{% endif %}
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label" style="font-size:0.88rem;">예산 <span class="text-muted fw-normal">(선택, 원)</span></label>
-                <input type="number" name="budget" class="form-control"
-                       value="{{ post.budget|default:'' }}" placeholder="예) 1000000">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 4: Message -->
-        <div class="form-section">
-          <div class="form-section-header">
-            <i class="fas fa-comment-dots"></i>추가 요청사항 <span style="font-weight:400;opacity:.75;margin-left:4px;">(선택)</span>
-          </div>
-          <div class="form-section-body">
-            <textarea name="message" rows="4" class="form-control"
-                      placeholder="특별한 요청사항이나 궁금한 점을 자유롭게 적어주세요.">{{ post.message|default:'' }}</textarea>
-          </div>
-        </div>
-
-        <div class="text-end">
-          <button type="submit" class="btn btn-primary-cta btn-lg px-5 py-3" onclick="return prepareSubmit()">
-            <i class="fas fa-paper-plane me-2"></i>견적 신청하기
-          </button>
-        </div>
-
-      </form>
-    </div>
-
-    <!-- Sidebar (40%) -->
-    <div class="col-lg-4" data-aos="fade-left">
-      <div class="sidebar-card">
-        <div class="sidebar-title"><i class="fas fa-headset me-2" style="color:var(--color-accent);"></i>전화 문의</div>
-
-        <p class="text-muted mb-1" style="font-size:0.82rem;">영업시간 09:00 ~ 18:00</p>
-        <a href="tel:0319736661" class="sidebar-phone">031-973-6661</a>
-        <p class="text-muted mb-3" style="font-size:0.82rem;">견적서 검토 후 당일~익일 연락드립니다.</p>
-
-        <div class="d-grid mb-4">
-          <a href="tel:0319736661" class="btn btn-primary-cta">
-            <i class="fas fa-phone me-2"></i>바로 전화하기
-          </a>
-        </div>
-
-        <div class="sidebar-title"><i class="fas fa-shield-alt me-2" style="color:var(--color-accent);"></i>우주렌탈 강점</div>
-        <div class="trust-item"><i class="fas fa-award"></i>20년 이상 렌탈 전문 기업</div>
-        <div class="trust-item"><i class="fas fa-bolt"></i>신속 납품 서비스</div>
-        <div class="trust-item"><i class="fas fa-headset"></i>전담 담당자 1:1 응대</div>
-        <div class="trust-item"><i class="fas fa-check-circle"></i>현장 맞춤 장비 추천</div>
+<div class="dc-container" style="padding-bottom:clamp(2.5rem,5vw,3.5rem);">
+  <div class="qf-body">
+    <!-- Form -->
+    <form class="qf-form" method="post" action="{% url 'quotes:form' %}">
+      {% csrf_token %}
+      <div class="qf-section">1 · 신청자 정보</div>
+      <div class="qf-grid">
+        <label><div class="qf-lbl">회사명</div><input class="fld" name="company_name" value="{{ post.company_name|default:'' }}" placeholder="(주)우주건설"></label>
+        <label><div class="qf-lbl">담당자명</div><input class="fld" name="name" value="{{ post.name|default:'' }}" placeholder="홍길동"></label>
+        <label class="col-span">
+          <div class="qf-lbl">연락처 <span class="req">*</span></div>
+          <input class="fld {% if errors.phone %}has-error{% endif %}" name="phone" value="{{ post.phone|default:'' }}" placeholder="010-0000-0000" required>
+          {% if errors.phone %}<div class="qf-err">{{ errors.phone }}</div>{% endif %}
+        </label>
       </div>
-    </div>
 
+      <div class="qf-section mt">2 · 장비 / 현장 정보</div>
+      <div class="qf-grid">
+        <label><div class="qf-lbl">구분</div>
+          <select class="fld" name="inquiry_type">
+            {% for key, label in inquiry_choices %}<option value="{{ key }}" {% if post.inquiry_type == key %}selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+        </label>
+        <label><div class="qf-lbl">필요 작업고</div>
+          <select class="fld" name="work_height_class">
+            {% for h in height_choices %}<option value="{{ h }}" {% if post.work_height_class == h %}selected{% endif %}>{{ h }}</option>{% endfor %}
+          </select>
+        </label>
+        <label><div class="qf-lbl">대여 시작일</div><input class="fld" type="date" name="start_date" value="{{ post.start_date|default:'' }}"></label>
+        <label><div class="qf-lbl">대여 종료일</div><input class="fld {% if errors.end_date %}has-error{% endif %}" type="date" name="end_date" value="{{ post.end_date|default:'' }}">
+          {% if errors.end_date %}<div class="qf-err">{{ errors.end_date }}</div>{% endif %}
+        </label>
+        <label class="col-span"><div class="qf-lbl">현장 주소</div><input class="fld" name="delivery_address" value="{{ post.delivery_address|default:'' }}" placeholder="경기도 고양시 ..."></label>
+        <label><div class="qf-lbl">예산</div><input class="fld" name="budget" value="{{ post.budget|default:'' }}" placeholder="협의 가능"></label>
+      </div>
+      <label style="display:block;margin-top:1.35rem;">
+        <div class="qf-lbl">추가 요청사항</div>
+        <textarea class="fld" name="message" rows="3" placeholder="작업 환경, 장비 대수, 기타 요청을 적어주세요.">{{ post.message|default:'' }}</textarea>
+      </label>
+
+      <div class="qf-submit">
+        <button type="submit" class="pill pill--solid">견적 요청 보내기</button>
+        <span class="qf-note">제출 시 입력 정보는 견적 상담 목적으로만 사용됩니다.</span>
+      </div>
+    </form>
+
+    <!-- Side -->
+    <aside class="qf-side">
+      <h3>바로 상담이 필요하신가요?</h3>
+      <p>전화 주시면 담당자가 현장 조건을 듣고 바로 안내해 드립니다.</p>
+      <a href="tel:031-973-6661" class="qf-call">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+        <span><small>전화 상담</small><b>031-973-6661</b></span>
+      </a>
+      <div class="qf-info">
+        <div><span>영업시간</span><b>월–금 07–17 · 토 07–11</b></div>
+        <div><span>팩스</span><b>02-381-3660</b></div>
+        <div><span>이메일</span><b>woojoo66666@daum.net</b></div>
+      </div>
+    </aside>
   </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-let items = [];
-
-document.addEventListener('DOMContentLoaded', () => {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('start-date').min = today;
-  document.getElementById('start-date').addEventListener('change', e => {
-    document.getElementById('end-date').min = e.target.value;
-  });
-  renderItems();
-});
-
-async function loadEquipments() {
-  const category = document.getElementById('cat-select').value;
-  const select   = document.getElementById('eq-select');
-  select.innerHTML = '<option value="">-- 장비 선택 --</option>';
-  if (!category) return;
-  const resp = await fetch(`/equipment/api/by-category/?category=${category}`);
-  const data = await resp.json();
-  data.equipments.forEach(eq => {
-    const opt = document.createElement('option');
-    opt.value = eq.id;
-    opt.textContent = eq.name;
-    select.appendChild(opt);
-  });
-}
-
-function addItem() {
-  const sel = document.getElementById('eq-select');
-  const qty = parseInt(document.getElementById('qty-input').value) || 1;
-  if (!sel.value) { alert('장비를 선택해주세요.'); return; }
-  if (qty < 1)    { alert('수량은 1 이상이어야 합니다.'); return; }
-  const existing = items.find(i => String(i.equipment_id) === String(sel.value));
-  if (existing) {
-    existing.quantity += qty;
-  } else {
-    items.push({ equipment_id: sel.value, name: sel.options[sel.selectedIndex].text, quantity: qty });
-  }
-  renderItems();
-  document.getElementById('cat-select').value = '';
-  document.getElementById('eq-select').innerHTML = '<option value="">-- 장비 선택 --</option>';
-  document.getElementById('qty-input').value = '1';
-}
-
-function removeItem(idx) {
-  items.splice(idx, 1);
-  renderItems();
-}
-
-function renderItems() {
-  const list  = document.getElementById('item-list');
-  const empty = document.getElementById('item-empty');
-  if (!items.length) {
-    list.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-  list.innerHTML = items.map((item, i) => `
-    <div class="item-card">
-      <div>
-        <span class="item-name">${item.name}</span>
-        <span class="item-qty">× ${item.quantity}대</span>
-      </div>
-      <button type="button" class="btn btn-sm" style="color:var(--color-accent);border:1px solid var(--color-accent);border-radius:8px;padding:2px 10px;"
-              onclick="removeItem(${i})">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  `).join('');
-}
-
-function prepareSubmit() {
-  if (!items.length) {
-    alert('장비를 1개 이상 선택해주세요.');
-    return false;
-  }
-  document.getElementById('items-json').value = JSON.stringify(items);
-  return true;
-}
-</script>
 {% endblock %}

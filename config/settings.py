@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'quotes',
     'pages',
     'sales',
+    'records',
 ]
 
 MIDDLEWARE = [

@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py loaddata equipment_data && python manage.py collectstatic --noinput && python manage.py ensure_admin && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+web: python manage.py migrate && python manage.py loaddata equipment_data && python manage.py import_design_records && python manage.py collectstatic --noinput && python manage.py ensure_admin && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT

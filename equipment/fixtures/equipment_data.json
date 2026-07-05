@@ -246,7 +246,7 @@
     "equipment_size": "2.32 x 0.81 x 1.97m",
     "platform_size": "2.13 x 0.71m",
     "power_type": "배터리",
-    "is_active": true,
+    "is_active": false,
     "is_for_sale": true,
     "created_at": "2024-01-01T00:00:00Z"
   }
@@ -585,6 +585,27 @@
     "is_active": true,
     "is_for_sale": false,
     "created_at": "2024-01-01T00:00:00Z"
+  }
+},
+{
+  "model": "equipment.equipment",
+  "pk": 29,
+  "fields": {
+    "name": "SJ3015",
+    "category": "6m",
+    "type": "scissor",
+    "image": "",
+    "description": "",
+    "max_work_height": "6.5m",
+    "max_platform_height": "4.5m",
+    "equipment_weight": "0.98ton",
+    "max_load": "227kg",
+    "equipment_size": "1.63 x 0.76 x 1.80m",
+    "platform_size": "1.63 x 0.7m",
+    "power_type": "배터리",
+    "is_active": true,
+    "is_for_sale": true,
+    "created_at": "2026-07-02T13:16:13.829Z"
   }
 }
 ]

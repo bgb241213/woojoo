@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}장비 판매 - 우주렌탈{% endblock %}
+{% block nav_sales %}is-active{% endblock %}
+{% block mnav_sales %}is-active{% endblock %}
+
+{% block extra_css %}
+<style>
+.sal-head { padding: clamp(2.5rem, 5vw, 3.25rem) 0 1.5rem; }
+.sal-head h1 { margin-top: 0.85rem; }
+.sal-head .dc-lead { margin-top: 0.85rem; max-width: 560px; }
+
+.sal-tabs { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+.sal-tabs__row { display: flex; gap: 0.55rem; flex-wrap: wrap; padding: 0.9rem 0; }
+@media (max-width: 767px) { .sal-tabs__row { flex-wrap: nowrap; overflow-x: auto; } }
+
+.sal-count { padding: 1.4rem 0 0.4rem; display: flex; align-items: baseline; justify-content: space-between; }
+.sal-count b { color: var(--navy); font-weight: 800; }
+.sal-count__cls { font-size: 0.95rem; color: var(--muted-2); }
+
+.sal-list { padding: 0.5rem 0 clamp(2.5rem, 5vw, 3.25rem); }
+.sal-row { display: flex; gap: clamp(1.5rem, 3vw, 2.75rem); padding: clamp(1.75rem, 3vw, 2.5rem) 0; border-bottom: 1px solid var(--hairline); align-items: stretch; }
+.sal-row.is-hidden { display: none; }
+
+.sal-photos { flex: 1; min-width: 0; }
+.sal-grid { display: grid; gap: 3px; background: var(--hairline); border-radius: 16px; overflow: hidden; aspect-ratio: 1 / 1; }
+.sal-grid.n1 { grid-template-columns: 1fr; }
+.sal-grid.n2 { grid-template-columns: repeat(2, 1fr); }
+.sal-grid.n3 { grid-template-columns: repeat(3, 1fr); }
+.sal-grid.n4 { grid-template-columns: repeat(2, 1fr); }
+.sal-tile { background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; cursor: zoom-in; }
+.sal-empty { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; color: var(--muted-2); font-size: 0.95rem; background: #fff; }
+
+.sal-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.sal-badges { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.sal-badge { font-size: 0.9rem; font-weight: 600; color: var(--muted); background: #F2F3F8; padding: 0.3rem 0.7rem; border-radius: 6px; }
+.sal-badge--sale { font-weight: 700; color: var(--navy); border: 1px solid var(--hairline-2); background: var(--tint); }
+.sal-badge--cls { color: var(--muted-2); background: none; padding: 0; }
+.sal-name { font-size: clamp(1.6rem, 3vw, 2.35rem); font-weight: 800; color: var(--navy); letter-spacing: -0.01em; margin-top: 0.8rem; }
+.sal-specgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 clamp(1.5rem, 3vw, 2.5rem); margin-top: 1.4rem; border-top: 1px solid #EEF0F2; }
+.sal-cell { padding: 0.9rem 0; border-bottom: 1px solid #EEF0F2; }
+.sal-cell .lbl { font-size: 1rem; color: var(--muted-2); }
+.sal-cell .val { font-size: clamp(1.15rem, 2vw, 1.55rem); font-weight: 700; color: var(--charcoal); margin-top: 0.35rem; }
+.sal-cell--btn { display: flex; align-items: center; }
+.sal-cell--btn a { display: block; width: 100%; text-align: center; }
+
+@media (max-width: 767px) {
+  .sal-row { flex-direction: column; gap: 1rem; }
+  .sal-name { margin-top: 0.5rem; }
+}
+
+/* Lightbox */
+.sal-lightbox { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center; padding: 2.5rem; background: rgba(43,47,56,.9); cursor: zoom-out; }
+.sal-lightbox.is-open { display: flex; }
+.sal-lightbox__x { position: absolute; top: 1.6rem; right: 1.9rem; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.6rem; cursor: pointer; }
+.sal-lightbox__img { width: 90vw; height: 86vh; max-width: 1100px; background-size: contain; background-position: center; background-repeat: no-repeat; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="sal-head dc-container">
+  <div class="eyebrow">고소작업대 판매</div>
+  <h1 class="dc-h1">장비 판매</h1>
+  <p class="dc-lead">현장에 바로 투입할 수 있는 판매 라인업입니다. 미터급을 선택해 스펙을 비교하고, 구매 상담을 남겨주시면 가격과 출고 일정을 빠르게 안내해 드립니다.</p>
+</div>
+
+<div class="sal-tabs">
+  <div class="dc-container">
+    <div class="sal-tabs__row" id="meterTabs">
+      {% for key, label, count in meter_tabs %}
+      <span class="chip{% if key == 'all' %} is-active{% endif %}" data-cat="{{ key }}">{{ label }} {{ count }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="sal-count dc-container">
+  <div>총 <b id="listCount">{{ equipments|length }}</b>대의 판매 장비</div>
+  <div class="sal-count__cls" id="listCls">전체 미터급</div>
+</div>
+
+<div class="sal-list dc-container">
+  {% for e in equipments %}
+  <div class="sal-row" id="eq-{{ e.id }}" data-cat="{{ e.category }}">
+    <div class="sal-photos">
+      <div class="sal-grid n{{ e.photos|length }}">
+        {% for p in e.photos %}
+        <div class="sal-tile" style="background-image:url('{{ p }}');" data-src="{{ p }}"></div>
+        {% empty %}
+        <div class="sal-empty">사진 준비 중</div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="sal-info">
+      <div class="sal-badges">
+        <span class="sal-badge">{{ e.type_label }}</span>
+        <span class="sal-badge sal-badge--sale">판매</span>
+        <span class="sal-badge sal-badge--cls">{{ e.category_label }}</span>
+      </div>
+      <div class="sal-name">{{ e.name }}</div>
+      <div class="sal-specgrid">
+        {% for label, value in e.specs %}
+        <div class="sal-cell"><div class="lbl">{{ label }}</div><div class="val">{{ value }}</div></div>
+        {% endfor %}
+        <div class="sal-cell sal-cell--btn">
+          <a href="{% url 'quotes:form' %}" class="pill pill--solid" style="justify-content:center;">구매 상담</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="sal-lightbox" id="salLightbox">
+  <div class="sal-lightbox__x">×</div>
+  <div class="sal-lightbox__img" id="salLightboxImg"></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+/* ── Lightbox ──────────────────────────────────────────────── */
+(function () {
+  const box = document.getElementById('salLightbox');
+  const img = document.getElementById('salLightboxImg');
+  document.querySelectorAll('.sal-tile').forEach(function (t) {
+    t.addEventListener('click', function () {
+      img.style.backgroundImage = "url('" + t.dataset.src + "')";
+      box.classList.add('is-open');
+    });
+  });
+  box.addEventListener('click', function () { box.classList.remove('is-open'); });
+})();
+
+/* ── Meter-class filtering ─────────────────────────────────── */
+(function () {
+  const tabs = document.getElementById('meterTabs');
+  const rows = Array.from(document.querySelectorAll('.sal-row'));
+  const countEl = document.getElementById('listCount');
+  const clsEl = document.getElementById('listCls');
+  const CLS_LABEL = { '5m': '5M급', '6m': '5~6M급', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급' };
+
+  function apply(cat) {
+    let shown = 0;
+    rows.forEach(function (r) {
+      const on = (cat === 'all' || r.dataset.cat === cat);
+      r.classList.toggle('is-hidden', !on);
+      if (on) shown++;
+    });
+    countEl.textContent = shown;
+    clsEl.textContent = cat === 'all' ? '전체 미터급' : (CLS_LABEL[cat] || cat);
+    tabs.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-active', c.dataset.cat === cat); });
+  }
+  tabs.querySelectorAll('.chip').forEach(function (c) {
+    c.addEventListener('click', function () { apply(c.dataset.cat); });
+  });
+
+  const m = (location.hash || '').match(/eq-(\d+)/);
+  if (m) {
+    const target = document.getElementById('eq-' + m[1]);
+    if (target) {
+      apply(target.dataset.cat);
+      setTimeout(function () {
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+      }, 200);
+    }
+  }
+})();
+</script>
+{% endblock %}
