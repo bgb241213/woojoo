@@ -415,9 +415,9 @@ a { text-decoration: none; color: inherit; }
 }
 .site-nav__logo img { height: 38px; width: auto; display: block; }
 .site-nav__logo .logo-white { display: none; }
-.site-nav__menu { display: flex; align-items: center; gap: clamp(1.5rem, 2.6vw, 2.6rem); }
+.site-nav__menu { display: flex; align-items: center; gap: clamp(1.9rem, 3.2vw, 3.2rem); }
 .site-nav__menu a {
-  font-size: 1.2rem; font-weight: 500; color: var(--charcoal);
+  font-size: 1.3rem; font-weight: 500; color: var(--charcoal);
   transition: color var(--transition); white-space: nowrap;
 }
 .site-nav__menu a:hover { color: var(--navy); }
@@ -506,14 +506,26 @@ a { text-decoration: none; color: inherit; }
    ============================================================ */
 .call-fab {
   position: fixed; right: clamp(1rem, 2vw, 1.6rem); bottom: clamp(1rem, 2vw, 1.6rem);
-  z-index: 60; display: inline-flex; align-items: center; gap: 0.55rem;
-  background: var(--navy); color: #fff; border: none;
-  border-radius: 999px; padding: 0.85rem 1.25rem; cursor: pointer;
-  font-size: 1rem; font-weight: 700;
-  box-shadow: 0 8px 24px rgba(31,40,111,.32);
+  z-index: 60; display: inline-flex; align-items: center; gap: 0.6rem;
+  background: var(--coral); color: #fff; border: none;
+  border-radius: 999px; padding: 1rem 1.6rem; cursor: pointer;
+  font-size: 1.1rem; font-weight: 700;
+  animation: callPulse 2s ease-out infinite;
   transition: transform var(--transition), background-color var(--transition);
 }
-.call-fab:hover { transform: translateY(-2px); background: #17205a; color: #fff; }
+.call-fab:hover {
+  transform: translateY(-2px); background: #cf3a28; color: #fff;
+  animation: none; box-shadow: 0 10px 30px rgba(230,80,60,.55);
+}
+/* Outward-pulsing ring to draw attention */
+@keyframes callPulse {
+  0%   { box-shadow: 0 8px 24px rgba(230,80,60,.4), 0 0 0 0 rgba(230,80,60,.5); }
+  70%  { box-shadow: 0 8px 24px rgba(230,80,60,.4), 0 0 0 16px rgba(230,80,60,0); }
+  100% { box-shadow: 0 8px 24px rgba(230,80,60,.4), 0 0 0 0 rgba(230,80,60,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .call-fab { animation: none; box-shadow: 0 8px 24px rgba(230,80,60,.4); }
+}
 
 .call-modal {
   position: fixed; inset: 0; z-index: 70; display: none;

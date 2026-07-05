@@ -4,13 +4,13 @@
 
 {% block extra_css %}
 <style>
-.qf-head { padding: clamp(2.75rem, 5vw, 3.5rem) 0 2rem; }
+.qf-head { padding-block: clamp(2.75rem, 5vw, 3.5rem) 2rem; }
 .qf-head h1 { margin-top: 0.85rem; }
 .qf-head .dc-lead { margin-top: 1rem; max-width: 600px; }
 .qf-head em { color: var(--coral); font-weight: 700; font-style: normal; }
 
 .qf-body { display: flex; gap: 0; border-top: 1px solid var(--hairline); }
-.qf-form { flex: 1; min-width: 0; padding: clamp(1.75rem, 3vw, 2.75rem); border-right: 1px solid var(--hairline); }
+.qf-form { flex: 1; min-width: 0; padding: clamp(1.75rem, 3vw, 2.75rem) clamp(1.25rem, 3.7vw, 2.75rem); border-right: 1px solid var(--hairline); }
 .qf-side { flex: none; width: 340px; padding: clamp(1.75rem, 3vw, 2.75rem); background: var(--tint); }
 @media (max-width: 900px) {
   .qf-body { flex-direction: column; }
@@ -53,7 +53,7 @@ textarea.fld { resize: none; }
   <p class="dc-lead">현장 조건을 남겨주시면 <em>담당자가 빠르게 연락</em>드려 작업에 맞는 장비와 가격을 안내해 드립니다. 연락처만 있어도 상담이 가능합니다.</p>
 </div>
 
-<div class="dc-container" style="padding-bottom:clamp(2.5rem,5vw,3.5rem);">
+<div class="dc-container" style="padding-inline:0;padding-bottom:clamp(2.5rem,5vw,3.5rem);">
   <div class="qf-body">
     <!-- Form -->
     <form class="qf-form" method="post" action="{% url 'quotes:form' %}">
