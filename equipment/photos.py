@@ -1,11 +1,12 @@
 """Photo lookup helpers.
 
-The Claude Design photo library is committed under ``static/images/`` keyed by
-equipment / record id (e.g. ``static/images/rental/6/0.png``). These helpers scan
-those folders and return ready-to-use static URLs, so templates can render photo
-carousels/galleries without a per-image DB row.
+Equipment photos are admin-managed ``EquipmentImage`` rows whose files live in
+the default storage (local ``media/`` in dev, Cloudflare R2 in production).
+The committed design photo library under ``static/images/`` acts as a
+fallback so pages still render before ``import_design_photos`` has been run.
 
-Results are cached per-process; the photo set only changes on deploy.
+Sales-record photos keep using the static library (see
+``records.SalesRecord.photo_urls`` for the admin-upload override).
 """
 from functools import lru_cache
 
@@ -33,14 +34,27 @@ def _scan(subdir, obj_id, ext):
     return tuple(static(f'images/{subdir}/{obj_id}/{p.name}') for p in files)
 
 
+def _db_photos(equipment_id, image_type):
+    """URLs of admin-managed images for one equipment, ordered."""
+    from .models import EquipmentImage
+    urls = []
+    qs = EquipmentImage.objects.filter(equipment_id=equipment_id, image_type=image_type)
+    for img in qs.order_by('order', 'id'):
+        try:
+            urls.append(img.image.url)
+        except ValueError:  # row without a file
+            continue
+    return urls
+
+
 def rental_photos(equipment_id):
     """Rental gallery photos for an equipment id (may be empty)."""
-    return list(_scan('rental', equipment_id, '.png'))
+    return _db_photos(equipment_id, 'rental') or list(_scan('rental', equipment_id, '.png'))
 
 
 def sale_photos(equipment_id):
     """Sale gallery photos for an equipment id (may be empty)."""
-    return list(_scan('sale', equipment_id, '.png'))
+    return _db_photos(equipment_id, 'sales') or list(_scan('sale', equipment_id, '.png'))
 
 
 def record_photos(record_id):

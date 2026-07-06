@@ -47,3 +47,26 @@ class SalesRecordImage(models.Model):
 
     def __str__(self):
         return f'{self.record} - {self.order}'
+
+
+# ── Keep the storage backend (R2 in production) in sync with the admin ──
+from django.db.models.signals import post_delete, pre_save  # noqa: E402
+from django.dispatch import receiver  # noqa: E402
+
+
+@receiver(post_delete, sender=SalesRecordImage)
+def _record_image_deleted(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete(save=False)
+
+
+@receiver(pre_save, sender=SalesRecordImage)
+def _record_image_replaced(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old = SalesRecordImage.objects.get(pk=instance.pk)
+    except SalesRecordImage.DoesNotExist:
+        return
+    if old.image and old.image.name != instance.image.name:
+        old.image.delete(save=False)

@@ -6,13 +6,27 @@ from .models import Equipment, EquipmentImage
 class EquipmentImageInline(admin.TabularInline):
     model  = EquipmentImage
     extra  = 3
-    fields = ['image', 'image_type', 'order']
+    fields = ['preview', 'image', 'image_type', 'order']
+    readonly_fields = ['preview']
+
+    @admin.display(description='미리보기')
+    def preview(self, obj):
+        if obj.pk and obj.image:
+            try:
+                return format_html(
+                    '<img src="{}" style="height:72px; width:auto; border-radius:6px; '
+                    'border:1px solid #dee2e6; background:#fff;" />',
+                    obj.image.url,
+                )
+            except ValueError:
+                pass
+        return format_html('<span style="color:#999;">—</span>')
 
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     # ── 목록 ──────────────────────────────────────────
-    list_display  = ('name', 'category', 'type', 'has_image', 'is_for_sale', 'is_active', 'created_at')
+    list_display  = ('name', 'category', 'type', 'image_count', 'is_for_sale', 'is_active', 'created_at')
     list_filter   = ('category', 'type', 'is_for_sale', 'is_active')
     list_editable = ('is_for_sale', 'is_active')
     search_fields = ('name',)
@@ -42,10 +56,12 @@ class EquipmentAdmin(admin.ModelAdmin):
         }),
     )
 
-    # ── 커스텀 컬럼: 사진 등록 여부 ─────────────────
-    @admin.display(description='사진', boolean=True)
-    def has_image(self, obj):
-        return bool(obj.image)
+    # ── 커스텀 컬럼: 등록된 이미지 수 (렌탈/판매) ────
+    @admin.display(description='이미지')
+    def image_count(self, obj):
+        rental = obj.images.filter(image_type='rental').count()
+        sales = obj.images.filter(image_type='sales').count()
+        return f'렌탈 {rental} · 판매 {sales}'
 
     # ── 커스텀 필드: 이미지 미리보기 ────────────────
     @admin.display(description='현재 사진 미리보기')

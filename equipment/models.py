@@ -64,3 +64,28 @@ class EquipmentImage(models.Model):
 
     def __str__(self):
         return f'{self.equipment.name} - {self.get_image_type_display()} ({self.order})'
+
+
+# ── Keep the storage backend (R2 in production) in sync with the admin ──
+from django.db.models.signals import post_delete, pre_save  # noqa: E402
+from django.dispatch import receiver  # noqa: E402
+
+
+@receiver(post_delete, sender=EquipmentImage)
+def _equipment_image_deleted(sender, instance, **kwargs):
+    """Deleting a row in the admin also removes the file from storage."""
+    if instance.image:
+        instance.image.delete(save=False)
+
+
+@receiver(pre_save, sender=EquipmentImage)
+def _equipment_image_replaced(sender, instance, **kwargs):
+    """Replacing a file in the admin removes the old object from storage."""
+    if not instance.pk:
+        return
+    try:
+        old = EquipmentImage.objects.get(pk=instance.pk)
+    except EquipmentImage.DoesNotExist:
+        return
+    if old.image and old.image.name != instance.image.name:
+        old.image.delete(save=False)
