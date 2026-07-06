@@ -53,12 +53,17 @@ input[type=range].range-light::-webkit-slider-thumb { -webkit-appearance: none; 
 input[type=range].range-light::-moz-range-track { height: 5px; border-radius: 999px; background: rgba(255,255,255,.3); }
 input[type=range].range-light::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--coral); border: 3px solid #fff; }
 
+/* breakpoint-scoped text helpers */
+.m-only { display: none; }
 @media (max-width: 767px) {
+  .m-hide, .d-only { display: none; }
+  .m-only { display: inline; }
   .home-hero__inner { gap: 1.75rem; }
   .home-hero__lead { margin-bottom: 0.5rem; }
   .finder__foot { display: flex; }
   .finder__count { display: none; }
-  .finder__rangehint { display: block; }
+  /* hint sits on the label line (top-right), like the design */
+  .finder__rangehint { display: block; align-self: flex-start; padding-top: 3px; }
 }
 
 /* ── Strengths (constrained to container width; sides stay white) ── */
@@ -72,8 +77,10 @@ input[type=range].range-light::-moz-range-thumb { width: 20px; height: 20px; bor
 .strength__d { font-size: 1rem; color: var(--muted); margin-top: 0.2rem; }
 @media (max-width: 767px) {
   .strengths__grid { grid-template-columns: 1fr; }
-  .strength { border-right: none; border-bottom: 1px solid #F0F1F6; padding: 1.1rem 0; }
+  .strength { border-right: none; border-bottom: 1px solid #F0F1F6; padding: 1.05rem 0; }
   .strength:last-child { border-bottom: none; }
+  .strength__t { font-size: 1.1rem; }
+  .strength__d { font-size: 0.95rem; }
 }
 
 /* ── Results ────────────────────────────────────────────── */
@@ -101,11 +108,14 @@ input[type=range].range-light::-moz-range-thumb { width: 20px; height: 20px; bor
 .eq-card__link { display: block; text-align: center; font-size: 0.98rem; font-weight: 600; color: var(--navy); border: 1px solid var(--hairline-2); border-radius: 999px; padding: 0.6rem 0; }
 .eq-card__link:hover { border-color: var(--navy); }
 @media (max-width: 767px) {
-  .eq-card { flex-direction: column; align-items: stretch; gap: 0.9rem; }
-  .eq-card__specs { flex-wrap: wrap; gap: 1rem 1.4rem; padding-top: 0.9rem; border-top: 1px solid #EEF0F2; }
-  .eq-card__cta { flex-direction: row; width: auto; align-items: center; gap: 0.75rem; }
-  .eq-card__tag { flex: 1; text-align: left; }
-  .eq-card__link { flex: none; padding: 0.6rem 1.5rem; }
+  /* Design mobile card: tag at top-right, three specs, no visible button
+     (the whole card is tappable instead). */
+  .eq-card { position: relative; flex-direction: column; align-items: stretch; gap: 0.9rem; cursor: pointer; }
+  .eq-card__specs { flex-wrap: wrap; gap: 1rem 1.9rem; padding-top: 0.95rem; border-top: 1px solid #EEF0F2; }
+  .eq-card__specs > div:nth-child(4) { display: none; }
+  .eq-card__cta { position: absolute; top: 1.15rem; right: 1.4rem; width: auto; flex-direction: row; }
+  .eq-card__tag { text-align: right; }
+  .eq-card__link { display: none; }
 }
 
 /* ── Embedded quote ─────────────────────────────────────── */
@@ -119,7 +129,15 @@ input[type=range].range-light::-moz-range-thumb { width: 20px; height: 20px; bor
   padding: 0.55rem 0.15rem; font-size: 1.05rem; color: var(--charcoal); outline: none; font-family: inherit;
 }
 .home-quote .fld:focus { border-bottom-color: var(--navy); }
-@media (max-width: 767px) { .home-quote__grid { grid-template-columns: 1fr; } }
+.hq-dates { display: contents; }   /* desktop: children stay grid items */
+.home-quote label.hq-m { display: none; }
+@media (max-width: 767px) {
+  .home-quote__grid { grid-template-columns: 1fr; }
+  .home-quote label.hq-d { display: none; }
+  .home-quote label.hq-m { display: block; }
+  .hq-dates { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 1rem; }
+  .hq-submit { width: 100%; justify-content: center; }
+}
 </style>
 {% endblock %}
 
@@ -137,9 +155,12 @@ input[type=range].range-light::-moz-range-thumb { width: 20px; height: 20px; bor
 
   <div class="home-hero__inner dc-container">
     <div class="home-hero__copy">
-      <div class="eyebrow">고소작업대 렌탈 · 판매 · 20여년 경력</div>
+      <div class="eyebrow">고소작업대 렌탈 · 판매<span class="m-hide"> · 20여년 경력</span></div>
       <h1>필요한 그 높이,<br>빠르게 현장으로</h1>
-      <p class="home-hero__lead">필요한 작업 높이만 맞추면 시저·버티칼 장비를 바로 찾아드립니다. 스펙 확인부터 견적까지 한 번에.</p>
+      <p class="home-hero__lead">
+        <span class="d-only">필요한 작업 높이만 맞추면 시저·버티칼 장비를 바로 찾아드립니다. 스펙 확인부터 견적까지 한 번에.</span>
+        <span class="m-only">필요한 작업 높이만 맞추면<br>적합한 장비를 바로 찾아드립니다.</span>
+      </p>
     </div>
 
     <div class="finder">
@@ -195,19 +216,25 @@ input[type=range].range-light::-moz-range-thumb { width: 20px; height: 20px; bor
 <section class="home-quote" id="home-quote">
   <div class="dc-container">
     <h2 class="dc-h2">견적 요청</h2>
-    <p class="dc-lead" style="margin-top:0.6rem;color:var(--muted);">현장 정보를 남겨주시면 담당자가 빠르게 연락드립니다.</p>
-    <form method="post" action="{% url 'quotes:form' %}">
+    <p class="dc-lead" style="margin-top:0.6rem;color:var(--muted);">
+      <span class="d-only">현장 정보를 남겨주시면 담당자가 빠르게 연락드립니다.</span>
+      <span class="m-only">정보를 남겨주시면 담당자가 빠르게 연락드립니다.</span>
+    </p>
+    <form method="post" action="{% url 'quotes:form' %}" id="homeQuoteForm">
       {% csrf_token %}
       <div class="home-quote__grid">
         <label><div class="fld-label">회사명</div><input class="fld" name="company_name" placeholder="(주)우주건설"></label>
-        <label><div class="fld-label">담당자명</div><input class="fld" name="name" placeholder="홍길동"></label>
-        <label><div class="fld-label">연락처 <span style="color:var(--coral)">*</span></div><input class="fld" name="phone" placeholder="010-0000-0000" required></label>
-        <label><div class="fld-label">대여 시작일</div><input class="fld" type="date" name="start_date"></label>
-        <label><div class="fld-label">대여 종료일</div><input class="fld" type="date" name="end_date"></label>
-        <label><div class="fld-label">예산</div><input class="fld" name="budget" placeholder="협의 가능"></label>
+        <label class="hq-d"><div class="fld-label">담당자명</div><input class="fld" name="name" placeholder="홍길동"></label>
+        <label class="hq-d"><div class="fld-label">연락처 <span style="color:var(--coral)">*</span></div><input class="fld" name="phone" placeholder="010-0000-0000"></label>
+        <label class="hq-m"><div class="fld-label">담당자명 · 연락처 <span style="color:var(--coral)">*</span></div><input class="fld" id="hqCombo" placeholder="홍길동 / 010-0000-0000"></label>
+        <div class="hq-dates">
+          <label><div class="fld-label">대여 시작일</div><input class="fld" type="date" name="start_date"></label>
+          <label><div class="fld-label">대여 종료일</div><input class="fld" type="date" name="end_date"></label>
+        </div>
+        <label class="hq-d"><div class="fld-label">예산</div><input class="fld" name="budget" placeholder="협의 가능"></label>
         <label class="col-span"><div class="fld-label">현장 주소</div><input class="fld" name="delivery_address" placeholder="경기도 고양시 ..."></label>
       </div>
-      <button type="submit" class="pill pill--solid" style="margin-top:1.9rem;">견적 요청 보내기</button>
+      <button type="submit" class="pill pill--solid hq-submit" style="margin-top:1.9rem;">견적 요청 보내기</button>
     </form>
   </div>
 </section>
@@ -271,10 +298,10 @@ const EQUIP = {{ equipment_json|safe }};
     const n = recs.length || 0;
     elCount.textContent = n;
     elCount2.textContent = n;
-    elHint.textContent = `작업고 ${h}m 전후 · 적합 장비`;
+    elHint.innerHTML = `<span class="m-hide">작업고 </span>${h}m 전후<span class="m-hide"> · 적합 장비</span>`;
     renderChips();
     elList.innerHTML = recs.map((e, idx) => `
-      <div class="eq-card${idx === 0 ? ' is-best' : ''}">
+      <div class="eq-card${idx === 0 ? ' is-best' : ''}" data-href="${e.detailHref}">
         <div class="eq-card__main">
           <span class="eq-card__type">${esc(e.type)}</span>
           <div class="eq-card__name">${esc(e.name)}</div>
@@ -291,10 +318,42 @@ const EQUIP = {{ equipment_json|safe }};
           <a class="eq-card__link" href="${e.detailHref}">자세히보기</a>
         </div>
       </div>`).join('');
+    // Mobile: the design hides the button — the whole card is tappable.
+    elList.querySelectorAll('.eq-card').forEach(card => {
+      card.addEventListener('click', function (ev) {
+        if (window.innerWidth >= 768) return;          // desktop keeps the button
+        if (ev.target.closest('a')) return;
+        location.href = this.dataset.href;
+      });
+    });
   }
 
   elRange.addEventListener('input', function () { h = Number(this.value); render(); });
   render();
+})();
+
+/* Home quote form: mobile uses a combined 담당자명·연락처 field */
+(function () {
+  const form = document.getElementById('homeQuoteForm');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    const combo = document.getElementById('hqCombo');
+    const nameEl = form.querySelector('input[name=name]');
+    const phoneEl = form.querySelector('input[name=phone]');
+    const comboVisible = combo && combo.offsetParent !== null;
+    if (comboVisible) {
+      const v = (combo.value || '').trim();
+      const slash = v.indexOf('/');
+      const name = slash >= 0 ? v.slice(0, slash).trim() : '';
+      const phone = (slash >= 0 ? v.slice(slash + 1) : v).trim();
+      if (!phone) { e.preventDefault(); combo.focus(); return; }
+      nameEl.value = name;
+      phoneEl.value = phone;
+    } else if (!(phoneEl.value || '').trim()) {
+      e.preventDefault();
+      phoneEl.focus();
+    }
+  });
 })();
 </script>
 {% endblock %}

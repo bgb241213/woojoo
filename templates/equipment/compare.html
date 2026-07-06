@@ -30,6 +30,12 @@
 .cmp-scroll { overflow-x: auto; border: 1px solid var(--hairline); border-radius: 18px; }
 .cmp-scroll::-webkit-scrollbar { height: 8px; }
 .cmp-scroll::-webkit-scrollbar-thumb { background: var(--hairline-2); border-radius: 999px; }
+.cmp-swipehint { display: none; text-align: center; font-size: 0.85rem; color: var(--muted-2); margin-top: 0.7rem; }
+@media (max-width: 767px) {
+  .cmp-swipehint { display: block; }
+  .cmp-thead { width: 96px; padding: 0 0.8rem; }
+  .cmp-col, .cmp-speccell { min-width: 160px; }
+}
 .cmp-table { min-width: max-content; }
 .cmp-trow { display: flex; border-bottom: 1px solid var(--hairline); }
 .cmp-trow:last-child { border-bottom: none; }
@@ -133,7 +139,7 @@ const MODELS = {{ models_json|safe }};
           <span class="cmp-box">${sel ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>' : ''}</span>
           <span class="cmp-item__name">${esc(m.name)}</span>
         </div>
-        <div class="cmp-item__cat">${esc(m.category)} · ${tag(m)}</div>
+        <div class="cmp-item__cat">${esc(m.category)}</div>
       </div>`;
     }).join('');
     elPicker.querySelectorAll('.cmp-item').forEach(el => {
@@ -174,6 +180,7 @@ const MODELS = {{ models_json|safe }};
         sel.map(m => `<div class="cmp-speccell${d.em ? ' em' : ''}">${esc(specVal(m, d))}</div>`).join('') + '</div>';
     });
     html += '</div></div>';
+    html += '<div class="cmp-swipehint">← 표를 옆으로 밀어 더 보기 →</div>';
     elResult.innerHTML = html;
     elResult.querySelectorAll('.cmp-colhead__x').forEach(el =>
       el.addEventListener('click', () => toggle(Number(el.dataset.id))));

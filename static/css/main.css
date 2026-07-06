@@ -431,6 +431,7 @@ a { text-decoration: none; color: inherit; }
 }
 .site-nav__cta:hover { background: var(--navy); color: #fff; }
 .site-nav__toggle { display: none; background: none; border: 0; cursor: pointer; padding: 0; color: var(--navy); }
+.site-nav__mtools { display: none; align-items: center; gap: 1.1rem; }
 
 /* Overlay variant (home, over hero) */
 .site-nav--overlay {
@@ -477,6 +478,7 @@ a { text-decoration: none; color: inherit; }
    comfortably, so switch to the hamburger menu. */
 @media (max-width: 1199.98px) {
   .site-nav__menu, .site-nav__phone, .site-nav__cta { display: none; }
+  .site-nav__mtools { display: inline-flex; }
   .site-nav__toggle { display: inline-flex; }
   .site-nav__inner { padding-block: 1.05rem; }
   .site-nav--overlay { position: absolute; }
@@ -507,24 +509,24 @@ a { text-decoration: none; color: inherit; }
 .call-fab {
   position: fixed; right: clamp(1rem, 2vw, 1.6rem); bottom: clamp(1rem, 2vw, 1.6rem);
   z-index: 60; display: inline-flex; align-items: center; gap: 0.6rem;
-  background: var(--coral); color: #fff; border: none;
+  background: var(--navy); color: #fff; border: none;
   border-radius: 999px; padding: 1rem 1.6rem; cursor: pointer;
   font-size: 1.1rem; font-weight: 700;
   animation: callPulse 2s ease-out infinite;
   transition: transform var(--transition), background-color var(--transition);
 }
 .call-fab:hover {
-  transform: translateY(-2px); background: #cf3a28; color: #fff;
-  animation: none; box-shadow: 0 10px 30px rgba(230,80,60,.55);
+  transform: translateY(-2px); background: #17205a; color: #fff;
+  animation: none; box-shadow: 0 10px 30px rgba(31,40,111,.55);
 }
 /* Outward-pulsing ring to draw attention */
 @keyframes callPulse {
-  0%   { box-shadow: 0 8px 24px rgba(230,80,60,.4), 0 0 0 0 rgba(230,80,60,.5); }
-  70%  { box-shadow: 0 8px 24px rgba(230,80,60,.4), 0 0 0 16px rgba(230,80,60,0); }
-  100% { box-shadow: 0 8px 24px rgba(230,80,60,.4), 0 0 0 0 rgba(230,80,60,0); }
+  0%   { box-shadow: 0 8px 24px rgba(31,40,111,.4), 0 0 0 0 rgba(31,40,111,.5); }
+  70%  { box-shadow: 0 8px 24px rgba(31,40,111,.4), 0 0 0 16px rgba(31,40,111,0); }
+  100% { box-shadow: 0 8px 24px rgba(31,40,111,.4), 0 0 0 0 rgba(31,40,111,0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .call-fab { animation: none; box-shadow: 0 8px 24px rgba(230,80,60,.4); }
+  .call-fab { animation: none; box-shadow: 0 8px 24px rgba(31,40,111,.4); }
 }
 
 .call-modal {
@@ -562,3 +564,17 @@ a { text-decoration: none; color: inherit; }
 }
 .call-modal__hours { text-align: center; font-size: 0.9rem; color: var(--muted-2); margin-bottom: 1.1rem; }
 .is-hidden { display: none !important; }
+
+/* ============================================================
+   Mobile refinements (match Claude Design mobile mockups)
+   ============================================================ */
+@media (max-width: 767.98px) {
+  /* Sections built with `padding: X 0` lose the container gutter on
+     mobile — restore a consistent screen-edge gutter. */
+  .dc-container { padding-inline: 1.25rem !important; }
+
+  /* Compact single-column footer (no quick links, no group headings) */
+  .site-footer { padding: 1.9rem 0 5.5rem; }
+  .site-footer__inner { flex-direction: column; gap: 0.35rem; }
+  .site-footer__links, .site-footer h4 { display: none; }
+}

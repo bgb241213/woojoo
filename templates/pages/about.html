@@ -25,12 +25,20 @@
 .ab-stat__lbl { font-size: 1rem; color: var(--muted); }
 .ab-stat__val { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-top: 0.15rem; letter-spacing: -0.01em; }
 .ab-stat__val.sm { font-size: 1.3rem; white-space: nowrap; }
-@media (max-width: 760px) {
+@media (max-width: 767.98px) {
+  /* Design mobile: full-bleed 2x2 grid, hairline dividers, padded cells */
+  .ab-stats .dc-container { padding-inline: 0 !important; }
   .ab-stats__grid { grid-template-columns: 1fr 1fr; }
-  .ab-stat { padding: 1.4rem 1.1rem; }
-  .ab-stat:nth-child(odd) { padding-left: 0; border-right: 1px solid var(--hairline); }
-  .ab-stat:nth-child(even) { padding-right: 0; border-right: none; }
+  .ab-stat { padding: 1.05rem 1.25rem; gap: 0.8rem; }
+  /* undo the desktop edge-flush rules so all four cells pad equally */
+  .ab-stat:first-child { padding-left: 1.25rem; }
+  .ab-stat:last-child { padding-right: 1.25rem; }
+  .ab-stat:nth-child(odd) { border-right: 1px solid var(--hairline); }
+  .ab-stat:nth-child(even) { border-right: none; }
   .ab-stat:nth-child(1), .ab-stat:nth-child(2) { border-bottom: 1px solid var(--hairline); }
+  .ab-stat__lbl { font-size: 0.9rem; }
+  .ab-stat__val { font-size: 1.3rem; }
+  .ab-stat__val.sm { font-size: 1.02rem; white-space: normal; word-break: keep-all; }
 }
 
 .ab-values { padding-block: clamp(2.75rem, 5vw, 3.75rem); }
@@ -55,7 +63,8 @@
 .ab-map { border-radius: 14px; overflow: hidden; border: 1px solid #E6E8F0; box-shadow: var(--shadow-card); }
 .ab-map iframe { width: 100%; height: 280px; border: 0; display: block; }
 .ab-map-note { margin-top: 0.9rem; font-size: 0.95rem; color: var(--muted); }
-@media (max-width: 860px) { .ab-company__grid { flex-direction: column; } }
+/* Mobile: 찾아오시는 길(map) stacks above 회사 정보 */
+@media (max-width: 860px) { .ab-company__grid { flex-direction: column-reverse; } }
 </style>
 {% endblock %}
 
