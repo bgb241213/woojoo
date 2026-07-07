@@ -16,11 +16,14 @@
 
 /* ── Mobile slide-down menu ────────────────────────────────── */
 (function () {
+  const nav = document.getElementById('siteNav');
   const toggle = document.getElementById('navToggle');
   const menu = document.getElementById('navMobile');
   if (!toggle || !menu) return;
   toggle.addEventListener('click', function () {
-    menu.classList.toggle('is-open');
+    const open = menu.classList.toggle('is-open');
+    // On the transparent (home) nav, turn the top bar solid while the menu is open.
+    if (nav) nav.classList.toggle('is-menu-open', open);
   });
 })();
 

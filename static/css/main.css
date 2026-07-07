@@ -460,6 +460,12 @@ a { text-decoration: none; color: inherit; }
 .site-nav--overlay.is-stuck .site-nav__toggle { color: var(--navy); }
 @keyframes navDrop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
+/* Overlay turns solid while the mobile menu is open (matches the panel) */
+.site-nav--overlay.is-menu-open { background: #fff; border-bottom-color: var(--hairline); }
+.site-nav--overlay.is-menu-open .site-nav__logo .logo-dark { display: block; }
+.site-nav--overlay.is-menu-open .site-nav__logo .logo-white { display: none; }
+.site-nav--overlay.is-menu-open .site-nav__toggle { color: var(--navy); }
+
 /* Mobile slide-down menu */
 .site-nav__mobile {
   overflow: hidden; max-height: 0;
