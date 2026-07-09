@@ -102,7 +102,7 @@
 
 <div class="eqp-list dc-container" id="eqpList">
   {% for e in equipments %}
-  <div class="eqp-row" id="eq-{{ e.id }}" data-cat="{{ e.category }}">
+  <div class="eqp-row" id="eq-{{ e.id }}" data-cat="{{ e.category }}" data-type="{{ e.type }}">
     <div class="eqp-photos" data-idx="0">
       {% for p in e.photos %}
       <img class="{% if forloop.first %}is-active{% endif %}" src="{{ p }}" alt="{{ e.name }} 사진 {{ forloop.counter }}" loading="lazy">
@@ -135,6 +135,9 @@
     </div>
   </div>
   {% endfor %}
+  <div id="eqpEmpty" class="is-hidden" style="padding:4.5rem 0; text-align:center; color:var(--muted-2); font-size:1.05rem;">
+    해당 조건의 렌탈 장비가 없습니다. 다른 미터급이나 타입을 선택해 주세요.
+  </div>
 </div>
 {% endblock %}
 
@@ -188,6 +191,8 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
     chart.appendChild(el);
   });
 
+  const emptyEl = document.getElementById('eqpEmpty');
+
   function apply(cat) {
     let shown = 0;
     rows.forEach(function (r) {
@@ -199,22 +204,55 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
     clsEl.textContent = cat === 'all' ? '전체 미터급' : (CLS_LABEL[cat] || cat);
     tabs.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-active', c.dataset.cat === cat); });
     document.querySelectorAll('.eqp-zone').forEach(function (z) { z.classList.toggle('is-active', z.dataset.cat === cat && cat !== 'all'); });
+    if (emptyEl) emptyEl.classList.toggle('is-hidden', shown > 0);
   }
 
   tabs.querySelectorAll('.chip').forEach(function (c) {
     c.addEventListener('click', function () { apply(c.dataset.cat); });
   });
 
-  // If arriving via #eq-<id>, filter to that machine's class and scroll to it.
-  const m = (location.hash || '').match(/eq-(\d+)/);
-  if (m) {
-    const target = document.getElementById('eq-' + m[1]);
+  // Type filter (from the home quick navigator: #type-scissor / #type-vertical)
+  const TYPE_LABEL = { scissor: '시저', boom: '굴절', vertical: '버티칼', other: '기타' };
+  function applyType(type) {
+    let shown = 0;
+    rows.forEach(function (r) {
+      const on = r.dataset.type === type;
+      r.classList.toggle('is-hidden', !on);
+      if (on) shown++;
+    });
+    countEl.textContent = shown;
+    clsEl.textContent = (TYPE_LABEL[type] || type) + ' 타입';
+    tabs.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-active', c.dataset.cat === 'all'); });
+    document.querySelectorAll('.eqp-zone').forEach(function (z) { z.classList.remove('is-active'); });
+    if (emptyEl) emptyEl.classList.toggle('is-hidden', shown > 0);
+  }
+
+  // Scroll so the first matching equipment sits just below the sticky tab bar.
+  function scrollToList() {
+    const first = rows.find(function (r) { return !r.classList.contains('is-hidden'); });
+    if (!first) return;
+    const tabsH = document.querySelector('.eqp-tabs').offsetHeight;
+    window.scrollTo({ top: first.getBoundingClientRect().top + window.scrollY - tabsH - 12, behavior: 'auto' });
+  }
+
+  // Deep links: #eq-<id> (highlight one), #cls-<cat> (meter class), #type-<key>
+  const hash = location.hash || '';
+  const mEq = hash.match(/^#eq-(\d+)$/);
+  const mCls = hash.match(/^#cls-([0-9]+m)$/);
+  const mType = hash.match(/^#type-([a-z]+)$/);
+  if (mEq) {
+    const target = document.getElementById('eq-' + mEq[1]);
     if (target) {
       apply(target.dataset.cat);
       setTimeout(function () {
         window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
       }, 200);
     }
+  } else if (mCls) {
+    if (rows.some(function (r) { return r.dataset.cat === mCls[1]; })) { apply(mCls[1]); scrollToList(); }
+  } else if (mType) {
+    applyType(mType[1]);
+    scrollToList();
   }
 })();
 </script>
