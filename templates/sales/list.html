@@ -159,7 +159,15 @@
     c.addEventListener('click', function () { apply(c.dataset.cat); });
   });
 
-  const m = (location.hash || '').match(/eq-(\d+)/);
+  function scrollToList() {
+    const first = rows.find(function (r) { return !r.classList.contains('is-hidden'); });
+    if (!first) return;
+    const tabsH = document.querySelector('.sal-tabs').offsetHeight;
+    window.scrollTo({ top: first.getBoundingClientRect().top + window.scrollY - tabsH - 12, behavior: 'auto' });
+  }
+
+  const hash = location.hash || '';
+  const m = hash.match(/eq-(\d+)/);
   if (m) {
     const target = document.getElementById('eq-' + m[1]);
     if (target) {
@@ -168,6 +176,8 @@
         window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
       }, 200);
     }
+  } else if (hash === '#list') {
+    scrollToList();
   }
 })();
 </script>
