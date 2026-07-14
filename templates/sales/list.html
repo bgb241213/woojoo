@@ -60,10 +60,11 @@
   .sal-row:last-child { margin-bottom: 0; }
   .sal-badge { font-size: 1rem; padding: 0.35rem 0.8rem; }
   .sal-name { margin-top: 0.5rem; font-size: 1.85rem; }
-  .sal-specgrid { margin-top: 1.1rem; gap: 0 1.1rem; }
-  .sal-cell { padding: 0.8rem 0; }
-  .sal-cell .lbl { font-size: 1.05rem; }
-  .sal-cell .val { font-size: 1.35rem; }
+  .sal-specgrid { margin-top: 1rem; gap: 0 0.9rem; }
+  /* Tight cells: label and value read as one block, not two floating lines */
+  .sal-cell { padding: 0.5rem 0; }
+  .sal-cell .lbl { font-size: 1rem; line-height: 1.25; }
+  .sal-cell .val { font-size: 1.35rem; line-height: 1.25; margin-top: 0.1rem; letter-spacing: -0.015em; word-break: keep-all; }
 }
 
 /* Lightbox */
