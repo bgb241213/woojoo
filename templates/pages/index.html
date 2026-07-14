@@ -40,13 +40,18 @@
 .hero-cards__dots span.is-on { width: 22px; background: #fff; }
 
 /* Hero CTAs */
-.hero-ctas { display: flex; gap: 0.75rem; margin-top: clamp(1.6rem, 3vh, 2.1rem); justify-content: center; }
-.hero-ctas a {
-  background: #fff; color: var(--navy); border-radius: 999px;
-  padding: 0.9rem 1.9rem; font-size: 1.05rem; font-weight: 700;
-  transition: background .15s ease;
+.hero-ctas { display: flex; gap: 0.8rem; margin-top: clamp(1.6rem, 3vh, 2.1rem); justify-content: center; }
+.hero-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border-radius: 999px; padding: 0.95rem 1.85rem; font-size: 1.05rem; font-weight: 700;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease, color .18s ease, border-color .18s ease;
 }
-.hero-ctas a:hover { background: var(--tint); }
+.hero-cta svg { transition: transform .18s ease; }
+.hero-cta:hover svg { transform: translateX(4px); }
+.hero-cta--primary { background: #fff; color: var(--navy); box-shadow: 0 8px 22px rgba(6, 9, 32, 0.28); }
+.hero-cta--primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(6, 9, 32, 0.38); }
+.hero-cta--ghost { background: rgba(255, 255, 255, 0.38); color: #fff; border: 1.5px solid rgba(255, 255, 255, 0.9); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.hero-cta--ghost:hover { background: #fff; color: var(--navy); border-color: #fff; transform: translateY(-2px); }
 
 /* breakpoint-scoped text helpers */
 .m-only { display: none; }
@@ -70,7 +75,13 @@
 /* ── Quick navigator (장비 바로 찾기) ───────────────────── */
 .qn { padding: clamp(2.75rem, 5.5vw, 3.5rem) 0; background: #fff; }
 .qn__sub { font-size: 1.02rem; color: var(--muted); margin-top: 0.6rem; word-break: keep-all; }
-.qn__label { font-size: 0.85rem; font-weight: 700; color: var(--muted-2); letter-spacing: .04em; margin: 2rem 0 0.85rem; }
+.qn__label {
+  display: flex; align-items: center; gap: 0.55rem;
+  font-size: 0.98rem; font-weight: 800; color: var(--navy); letter-spacing: .01em;
+  margin: 2.5rem 0 1.1rem; padding-top: 2.25rem; border-top: 1px solid var(--hairline-2);
+}
+.qn__label::before { content: ''; flex: none; width: 3px; height: 16px; border-radius: 2px; background: var(--coral); }
+.qn__sub + .qn__label { margin-top: 1.75rem; padding-top: 0; border-top: none; }
 .qn__meters { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.75rem; }
 .qn-meter {
   display: flex; align-items: center; justify-content: space-between;
@@ -155,8 +166,8 @@
     <div class="hero-cards__dots" id="heroCardDots"></div>
 
     <div class="hero-ctas">
-      <a href="{% url 'equipment:list' %}#list">장비 렌탈 보기</a>
-      <a href="{% url 'sales:list' %}#list">장비 판매 보기</a>
+      <a class="hero-cta hero-cta--ghost" href="{% url 'equipment:list' %}#list">장비 렌탈 보기<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="hero-cta hero-cta--ghost" href="{% url 'sales:list' %}#list">장비 판매 보기<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
@@ -245,30 +256,57 @@
   }, 4500);
 })();
 
-/* Hero value cards: mobile swipe carousel dots */
+/* Hero value cards: mobile swipe carousel dots + auto-advance */
 (function () {
   const rail = document.getElementById('heroCards');
   const dotsWrap = document.getElementById('heroCardDots');
   const cards = rail.querySelectorAll('.hero-card');
   dotsWrap.innerHTML = Array.from(cards).map(() => '<span></span>').join('');
   const dots = dotsWrap.querySelectorAll('span');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function update() {
+  function activeIndex() {
     const center = rail.scrollLeft + rail.clientWidth / 2;
     let best = 0, bestDist = Infinity;
     cards.forEach(function (c, i) {
       const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
       if (d < bestDist) { bestDist = d; best = i; }
     });
+    return best;
+  }
+  function update() {
+    const best = activeIndex();
     dots.forEach(function (d, i) { d.classList.toggle('is-on', i === best); });
+  }
+  function goTo(i) {
+    // Scroll the rail horizontally only — never the page vertically.
+    const target = cards[i].offsetLeft - (rail.clientWidth - cards[i].offsetWidth) / 2;
+    rail.scrollTo({ left: target, behavior: 'smooth' });
   }
   update();
   rail.addEventListener('scroll', update, { passive: true });
   dots.forEach(function (d, i) {
-    d.addEventListener('click', function () {
-      cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    });
+    d.addEventListener('click', function () { goTo(i); });
   });
+
+  /* Auto-advance — only while the rail is in carousel (mobile) mode */
+  let timer = null, resume = null;
+  function isCarousel() { return rail.scrollWidth > rail.clientWidth + 4; }
+  function next() { goTo((activeIndex() + 1) % cards.length); }
+  function start() {
+    stop();
+    if (reduceMotion || !isCarousel()) return;
+    timer = setInterval(next, 1500);
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+  function pauseThenResume() { stop(); clearTimeout(resume); resume = setTimeout(start, 4500); }
+
+  ['pointerdown', 'touchstart', 'wheel'].forEach(function (ev) {
+    rail.addEventListener(ev, pauseThenResume, { passive: true });
+  });
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  window.addEventListener('resize', start);
+  start();
 })();
 
 /* Home quote form: mobile uses a combined 담당자명·연락처 field */
