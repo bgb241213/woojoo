@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}우주렌탈 - 고소작업대 렌탈·판매 전문{% endblock %}
-{% block nav_variant %}site-nav--overlay{% endblock %}
 {% block nav_home %}is-active{% endblock %}
 {% block mnav_home %}is-active{% endblock %}
 
 {% block extra_css %}
 <style>
 /* ── Hero ───────────────────────────────────────────────── */
-.home-hero { position: relative; overflow: hidden; background: #11163a; min-height: clamp(560px, 82vh, 760px); }
+.home-hero { position: relative; overflow: hidden; background: #11163a; }
 .home-hero__slide {
   position: absolute; inset: 0; background-size: cover; background-position: center;
   opacity: 0; transition: opacity 1.4s ease;
@@ -17,9 +16,9 @@
 .home-hero__scrim-x { position: absolute; inset: 0; background: rgba(13,17,48,.58); }
 .home-hero__scrim-y { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(13,17,48,.6) 0%, rgba(13,17,48,0) 45%); }
 .home-hero__inner {
-  position: relative; z-index: 2; min-height: clamp(560px, 82vh, 760px);
+  position: relative; z-index: 2;
   display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-  padding-top: clamp(5.5rem, 10vh, 6.5rem); padding-bottom: clamp(2.25rem, 4vh, 3rem);
+  padding-top: clamp(2.1rem, 5vh, 4rem); padding-bottom: clamp(1.9rem, 4vh, 2.75rem);
 }
 .home-hero .eyebrow { color: rgba(255,255,255,.78); }
 .home-hero h1 { color: #fff; font-size: clamp(2.4rem, 6vw, 4.1rem); line-height: 1.16; font-weight: 800; letter-spacing: -0.025em; margin: 1rem 0 0; }

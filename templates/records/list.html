@@ -12,11 +12,10 @@
 .rec-hero .dc-lead { margin-top: 0.9rem; max-width: 560px; color: var(--charcoal); }
 
 .rec-wall { padding: 0.5rem 0 clamp(2.5rem, 5vw, 3.5rem); }
-.masonry { column-count: 5; column-gap: 8px; }
-.masonry > .rec { break-inside: avoid; margin-bottom: 8px; }
-@media (max-width: 1100px) { .masonry { column-count: 4; } }
-@media (max-width: 860px)  { .masonry { column-count: 3; } }
-@media (max-width: 600px)  { .masonry { column-count: 2; } }
+.masonry { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+@media (max-width: 1100px) { .masonry { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 860px)  { .masonry { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px)  { .masonry { grid-template-columns: repeat(2, 1fr); } }
 
 .rec { position: relative; border-radius: 10px; overflow: hidden; cursor: zoom-in; display: block; background: var(--tint); }
 .rec__ph { width: 100%; aspect-ratio: 4 / 3; background-size: cover; background-position: center; transition: transform .4s ease; }
@@ -46,7 +45,7 @@
 <section class="rec-hero dc-container">
   <div class="eyebrow">SALES RECORD · 판매 실적</div>
   <h1 class="dc-h1">현장이 증명하는 <em>신뢰</em></h1>
-  <p class="dc-lead">지금까지 전국 현장으로 출고된 장비들입니다. 한 대 한 대가 우주렌탈의 20여년을 증명합니다.</p>
+  <p class="dc-lead">지금까지 전국 현장으로 출고된 장비들입니다. 한 대 한 대가 우주렌탈의 20년을 증명합니다.</p>
 </section>
 
 <section class="rec-wall dc-container">

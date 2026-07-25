@@ -6,88 +6,153 @@
 
 {% block extra_css %}
 <style>
-.ab-intro { padding-block: clamp(2.5rem, 5vw, 3.5rem) clamp(2rem, 4vw, 3rem); }
-.ab-intro__grid { display: flex; gap: clamp(2rem, 4vw, 3rem); align-items: center; }
-.ab-intro__copy { flex: 1; min-width: 0; }
-.ab-intro h1 { margin-top: 1rem; }
-.ab-intro .dc-lead { margin-top: 1.25rem; max-width: 480px; }
-.ab-intro__img { flex: none; width: 440px; max-width: 46%; aspect-ratio: 22 / 15; border-radius: 18px; background-size: cover; background-position: center; }
-@media (max-width: 860px) {
-  .ab-intro__grid { flex-direction: column; align-items: stretch; }
-  .ab-intro__img { width: 100%; max-width: none; }
-}
+/* Scroll-reveal (per the Claude Design renewal) */
+[data-reveal] { opacity: 0; transform: translateY(34px); transition: opacity .8s cubic-bezier(.22,.61,.36,1), transform .8s cubic-bezier(.22,.61,.36,1); }
+[data-reveal].in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1; transform: none; transition: none; } }
 
+/* ── Hero banner ───────────────────────────────────────────── */
+.ab-hero { position: relative; height: 440px; background-image: url('{% static "images/hero/hero2.jpeg" %}'); background-size: cover; background-position: center; }
+.ab-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,26,66,.5) 0%, rgba(20,26,66,.72) 100%); }
+.ab-hero__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
+.ab-hero h1 { font-size: 46px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
+.ab-hero p { font-size: 19px; color: rgba(255,255,255,.85); margin: 18px 0 0; font-weight: 500; word-break: keep-all; }
+
+/* ── 대표 인사말 ───────────────────────────────────────────── */
+.ab-greet { padding: 70px 0 60px; text-align: center; }
+.ab-greet__eyebrow { font-size: 15.5px; font-weight: 700; color: var(--navy); letter-spacing: .04em; margin-bottom: 16px; }
+.ab-greet h2 { font-size: 31px; line-height: 1.35; font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin: 0 0 30px; word-break: keep-all; }
+.ab-greet__body { max-width: 760px; margin: 0 auto; font-size: 17.5px; line-height: 2; color: #2B2F38; word-break: keep-all; }
+.ab-greet__body p { margin: 0 0 22px; }
+.ab-greet__body strong { font-weight: 700; color: var(--navy); }
+.ab-greet__sign { margin: 0; font-size: 16px; color: #6B7080; }
+.ab-greet__sign b { font-weight: 800; color: var(--navy); font-size: 18px; margin-left: 6px; }
+
+/* ── Stat strip ────────────────────────────────────────────── */
 .ab-stats { background: #fff; }
 .ab-stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-.ab-stat { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.75rem; border-right: 1px solid var(--hairline); }
-.ab-stat:first-child { padding-left: 0; }
-.ab-stat:last-child { padding-right: 0; border-right: none; }
-.ab-stat__lbl { font-size: 1rem; color: var(--muted); }
-.ab-stat__val { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-top: 0.15rem; letter-spacing: -0.01em; }
-.ab-stat__val.sm { font-size: 1.3rem; white-space: nowrap; }
-@media (max-width: 767.98px) {
-  /* Design mobile: full-bleed 2x2 grid, hairline dividers, padded cells */
+.ab-stat { display: flex; align-items: center; gap: 1rem; padding: 16px 36px; border-right: 1px solid var(--hairline); }
+.ab-stat:last-child { border-right: none; }
+.ab-stat__lbl { font-size: 16.5px; color: #6B7080; }
+.ab-stat__val { font-size: 25px; font-weight: 800; color: var(--navy); margin-top: 5px; letter-spacing: -0.01em; }
+.ab-stat__val.sm { font-size: 21px; white-space: nowrap; }
+
+/* ── Values (3 centered cards) ─────────────────────────────── */
+.ab-values { padding: 58px 0; }
+.ab-values h2, .ab-biz h2, .ab-info-head h2 { font-size: 26.5px; font-weight: 800; color: var(--navy); margin: 0 0 6px; letter-spacing: -0.01em; text-align: center; }
+.ab-values__sub, .ab-biz__sub { font-size: 16.5px; color: #6B7080; margin: 0 0 32px; text-align: center; }
+.ab-values__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+.ab-value { text-align: center; padding: 40px 28px; border: 1px solid var(--hairline); border-radius: 18px; }
+.ab-value__icon { width: 60px; height: 60px; border-radius: 16px; background: var(--tint); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; }
+.ab-value__t { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 14px; word-break: keep-all; }
+.ab-value__d { font-size: 16px; line-height: 1.8; color: #2B2F38; margin: 0; word-break: keep-all; }
+
+/* ── 사업 분야 (photo cards) ───────────────────────────────── */
+.ab-biz { padding: 58px 0; border-top: 1px solid var(--hairline); }
+.ab-biz__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.ab-biz__card { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 16px; overflow: hidden; background-size: cover; background-position: center; }
+.ab-biz__card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(31,40,111,.12) 0%, rgba(20,26,66,.62) 100%); }
+.ab-biz__label { position: absolute; left: 34px; bottom: 30px; font-size: 30px; font-weight: 800; line-height: 1.25; color: #fff; letter-spacing: -0.02em; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+
+/* ── Company info + map ────────────────────────────────────── */
+.ab-info-head { border-top: 1px solid var(--hairline); padding: 48px 0 0; }
+.ab-info-head h2 { font-size: 28px; margin: 0; }
+.ab-company__grid { display: flex; gap: 0; }
+.ab-company__info { flex: 1; min-width: 0; padding: 32px 44px 50px 0; border-right: 1px solid var(--hairline); }
+.ab-company__map { flex: none; width: 520px; padding: 32px 0 50px 44px; }
+.ab-company h3 { font-size: 18px; font-weight: 700; color: #2B2F38; margin: 0 0 20px; }
+.ab-row { display: flex; padding: 14px 0; border-bottom: 1px solid var(--hairline); }
+.ab-row:last-child { border-bottom: none; }
+.ab-row__k { flex: none; width: 120px; font-size: 16px; color: #9296A8; }
+.ab-row__v { font-size: 17px; font-weight: 600; color: #2B2F38; line-height: 1.7; word-break: keep-all; }
+.ab-map { border-radius: 14px; overflow: hidden; border: 1px solid #E6E8F0; }
+.ab-map iframe { width: 100%; height: 280px; border: 0; display: block; }
+.ab-map-note { margin-top: 18px; font-size: 16.5px; line-height: 1.7; }
+.ab-map-note b { display: block; font-weight: 700; color: var(--navy); word-break: keep-all; }
+.ab-map-note span { display: block; color: #6B7080; margin-top: 4px; }
+
+@media (max-width: 860px) {
+  .ab-values__grid { grid-template-columns: 1fr; }
+  .ab-company__grid { flex-direction: column; }
+  .ab-company__info { padding: 24px 0 30px; border-right: none; }
+  .ab-company__map { width: 100%; padding: 0 0 30px; }
+}
+@media (max-width: 767px) {
+  .ab-hero { height: 220px; }
+  .ab-hero h1 { font-size: 28px; }
+  .ab-hero p { font-size: 14.5px; margin-top: 10px; }
+  .ab-greet { padding: 30px 0 22px; }
+  .ab-greet__eyebrow { font-size: 14px; margin-bottom: 12px; }
+  .ab-greet h2 { font-size: 23px; margin-bottom: 18px; }
+  .ab-greet__body { font-size: 15.5px; line-height: 1.9; }
+  .ab-greet__body p { margin-bottom: 18px; }
+
+  /* Stat strip: full-bleed 2x2 grid */
   .ab-stats .dc-container { padding-inline: 0 !important; }
   .ab-stats__grid { grid-template-columns: 1fr 1fr; }
-  .ab-stat { padding: 1.05rem 1.25rem; gap: 0.8rem; }
-  /* undo the desktop edge-flush rules so all four cells pad equally */
-  .ab-stat:first-child { padding-left: 1.25rem; }
-  .ab-stat:last-child { padding-right: 1.25rem; }
+  .ab-stat { padding: 18px 20px; gap: 13px; }
   .ab-stat:nth-child(odd) { border-right: 1px solid var(--hairline); }
   .ab-stat:nth-child(even) { border-right: none; }
   .ab-stat:nth-child(1), .ab-stat:nth-child(2) { border-bottom: 1px solid var(--hairline); }
-  .ab-stat__lbl { font-size: 0.9rem; }
-  .ab-stat__val { font-size: 1.3rem; }
-  .ab-stat__val.sm { font-size: 1.02rem; white-space: normal; word-break: keep-all; }
+  .ab-stat__lbl { font-size: 15px; }
+  .ab-stat__val { font-size: 21px; margin-top: 4px; }
+  .ab-stat__val.sm { font-size: 17.5px; }
+
+  .ab-values { padding: 30px 0; }
+  .ab-values h2, .ab-biz h2 { font-size: 23.5px; margin-bottom: 4px; }
+  .ab-values__sub, .ab-biz__sub { font-size: 15.5px; margin-bottom: 18px; }
+  .ab-values__grid { gap: 0; margin-top: 0; }
+  .ab-value { display: flex; gap: 14px; text-align: left; padding: 18px 0; border: none; border-top: 1px solid var(--hairline); border-radius: 0; }
+  .ab-value:last-child { border-bottom: 1px solid var(--hairline); }
+  .ab-value__icon { flex: none; width: 44px; height: 44px; border-radius: 12px; margin: 0; }
+  .ab-value__t { font-size: 19px; margin-bottom: 6px; }
+  .ab-value__d { font-size: 15.5px; line-height: 1.7; }
+
+  .ab-biz { padding: 30px 0; }
+  .ab-biz__grid { gap: 12px; }
+  .ab-biz__card { aspect-ratio: 1 / 1; border-radius: 13px; }
+  .ab-biz__label { left: 18px; bottom: 16px; font-size: 19px; }
+
+  .ab-info-head { padding-top: 30px; }
+  .ab-info-head h2 { font-size: 23.5px; }
+  .ab-company h3 { font-size: 16px; margin-bottom: 14px; }
+  .ab-row { padding: 12px 0; }
+  .ab-row__k { width: 96px; font-size: 15px; }
+  .ab-row__v { font-size: 16px; }
+  .ab-map iframe { height: 200px; }
+  .ab-map-note { margin-top: 14px; font-size: 15.5px; }
 }
-
-.ab-values { padding-block: clamp(2.75rem, 5vw, 3.75rem); }
-.ab-values h2 { margin-bottom: 0.5rem; }
-.ab-values__sub { color: var(--muted); margin-bottom: 1.75rem; }
-.ab-value { display: flex; gap: 1.75rem; padding: 1.75rem 0; border-top: 1px solid var(--hairline); align-items: flex-start; }
-.ab-value:last-child { border-bottom: 1px solid var(--hairline); }
-.ab-value__num { flex: none; width: 40px; font-size: 1.1rem; font-weight: 800; color: #C9CEE4; }
-.ab-value__icon { flex: none; width: 54px; height: 54px; border-radius: 14px; background: var(--tint); display: flex; align-items: center; justify-content: center; }
-.ab-value__t { font-size: 1.35rem; font-weight: 800; color: var(--navy); }
-.ab-value__d { font-size: 1.05rem; line-height: 1.75; color: var(--charcoal); margin-top: 0.45rem; max-width: 720px; word-break: keep-all; }
-@media (max-width: 560px) { .ab-value { gap: 1rem; } .ab-value__num { display: none; } }
-
-.ab-company { padding: clamp(2.5rem, 5vw, 3.25rem) 0; background: var(--tint); }
-.ab-company__grid { display: flex; gap: clamp(2rem, 4vw, 3.5rem); }
-.ab-company__col { flex: 1; min-width: 0; }
-.ab-company h2 { margin-bottom: 1.4rem; }
-.ab-row { display: flex; padding: 0.85rem 0; border-bottom: 1px solid #DEE2F0; }
-.ab-row:last-child { border-bottom: none; }
-.ab-row__k { flex: none; width: 130px; font-size: 0.95rem; color: var(--muted-2); }
-.ab-row__v { font-size: 1.05rem; font-weight: 600; color: var(--charcoal); line-height: 1.6; word-break: keep-all; }
-.ab-map { border-radius: 14px; overflow: hidden; border: 1px solid #E6E8F0; box-shadow: var(--shadow-card); }
-.ab-map iframe { width: 100%; height: 280px; border: 0; display: block; }
-.ab-map-note { margin-top: 0.9rem; font-size: 0.95rem; color: var(--muted); }
-/* Mobile: 찾아오시는 길(map) stacks above 회사 정보 */
-@media (max-width: 860px) { .ab-company__grid { flex-direction: column-reverse; } }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Intro -->
-<section class="ab-intro dc-container">
-  <div class="ab-intro__grid">
-    <div class="ab-intro__copy">
-      <div class="eyebrow">고소작업대 렌탈 · 판매 전문</div>
-      <h1 class="dc-h1">20여년,<br>고소작업대 한 길을 걸었습니다</h1>
-      <p class="dc-lead">우주렌탈은 시저리프트·버티칼마스트를 아우르는 고소작업장비를 렌탈하고 판매합니다. 현장에서 쌓아온 20여년의 경험으로, 작업 조건에 꼭 맞는 장비를 제안하고 신속한 AS로 끝까지 책임집니다.</p>
-    </div>
-    <div class="ab-intro__img" style="background-image:url('{% static 'images/hero/hero1.jpeg' %}');"></div>
+<!-- Hero -->
+<div class="ab-hero">
+  <div class="ab-hero__inner">
+    <h1>회사 소개</h1>
+    <p>고소작업대 렌탈·판매 전문, 우주렌탈을 소개합니다</p>
+  </div>
+</div>
+
+<!-- 대표 인사말 -->
+<section class="ab-greet dc-container" data-reveal>
+  <div class="ab-greet__eyebrow">대표 인사말</div>
+  <h2>20년 경력의 고소작업대 렌탈전문사</h2>
+  <div class="ab-greet__body">
+    <p>안녕하십니까, 우주렌탈 홈페이지를 찾아주셔서 진심으로 감사드립니다.</p>
+    <p>우주렌탈은 고소작업대 렌탈·판매의 전문 기업으로서, 다양한 현장에 안전하고 효율적인 고소작업 환경을 제공하기 위해 노력하고 있습니다. 필요한 순간에 장비를 신속하고 안전하게 공급하여, 고객 여러분의 성공적인 프로젝트에 기여하는 것을 목표로 합니다.</p>
+    <p style="margin-bottom:26px;">저희 우주렌탈은 <strong>철저한 장비 관리</strong>와 <strong>빠른 공급 서비스</strong>로 고객의 신뢰에 부응하겠습니다. 우주렌탈과 함께라면 언제나 안전하고 효율적인 작업 환경을 경험하실 수 있음을 약속드립니다.</p>
+    <p class="ab-greet__sign">우주렌탈 대표 <b>박성조</b></p>
   </div>
 </section>
 
 <!-- Stat strip -->
-<section class="ab-stats">
+<section class="ab-stats" data-reveal>
   <div class="dc-container">
     <div class="ab-stats__grid">
       <div class="ab-stat">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
-        <div><div class="ab-stat__lbl">현장 경력</div><div class="ab-stat__val">20여년</div></div>
+        <div><div class="ab-stat__lbl">현장 경력</div><div class="ab-stat__val">20년+</div></div>
       </div>
       <div class="ab-stat">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4"/><path d="M6 10l6-6 6 6"/><path d="M5 20h14"/></svg>
@@ -95,7 +160,7 @@
       </div>
       <div class="ab-stat">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>
-        <div><div class="ab-stat__lbl">취급 장비 타입</div><div class="ab-stat__val sm">시저·버티칼</div></div>
+        <div><div class="ab-stat__lbl">취급 장비 타입</div><div class="ab-stat__val sm">시저·버티칼마스트</div></div>
       </div>
       <div class="ab-stat">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1 0 5.6l-1.4 1.4-5.6-5.6 1.4-1.4a4 4 0 0 1 5.6 0z"/><path d="M9 11l-5 5 4 4 5-5"/></svg>
@@ -106,57 +171,100 @@
 </section>
 
 <!-- Values -->
-<section class="ab-values dc-container">
-  <h2 class="dc-h2">우리가 일하는 방식</h2>
+<section class="ab-values dc-container" data-reveal>
+  <h2>우리가 일하는 방식</h2>
   <p class="ab-values__sub">현장이 멈추지 않도록, 우주렌탈이 지켜온 세 가지 원칙입니다.</p>
-
-  <div class="ab-value">
-    <div class="ab-value__num">01</div>
-    <div class="ab-value__icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg></div>
-    <div>
-      <div class="ab-value__t">현장이 멈추지 않게, 빠른 AS</div>
-      <p class="ab-value__d">장비 이상은 곧 작업 중단으로 이어집니다. 우주렌탈은 연락을 받으면 최대한 빠르게 현장으로 찾아가 문제를 해결하고, 작업이 멈추는 시간을 최소화합니다.</p>
+  <div class="ab-values__grid">
+    <div class="ab-value">
+      <div class="ab-value__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg></div>
+      <div style="min-width:0;">
+        <div class="ab-value__t">현장이 멈추지 않게, 빠른 AS</div>
+        <p class="ab-value__d">장비 이상은 곧 작업 중단으로 이어집니다. 연락을 받으면 최대한 빠르게 현장으로 찾아가 문제를 해결하고, 작업이 멈추는 시간을 최소화합니다.</p>
+      </div>
     </div>
-  </div>
-  <div class="ab-value">
-    <div class="ab-value__num">02</div>
-    <div class="ab-value__icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 7.7-7 9-4-1.3-7-4.4-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
-    <div>
-      <div class="ab-value__t">20여년 경력으로, 맞는 장비를 정확히</div>
-      <p class="ab-value__d">작업 높이와 적재 조건, 현장 환경에 따라 적합한 장비는 달라집니다. 오래 쌓은 현장 경험으로 과하지도 모자라지도 않은 장비를 제안합니다.</p>
+    <div class="ab-value">
+      <div class="ab-value__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 7.7-7 9-4-1.3-7-4.4-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div style="min-width:0;">
+        <div class="ab-value__t">20년 경력으로, 맞는 장비를 정확히</div>
+        <p class="ab-value__d">작업 높이·적재 조건·현장 환경에 따라 적합한 장비는 달라집니다. 오래 쌓은 현장 경험으로 과하지도 모자라지도 않은 장비를 제안합니다.</p>
+      </div>
     </div>
-  </div>
-  <div class="ab-value">
-    <div class="ab-value__num">03</div>
-    <div class="ab-value__icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2.8h6V4"/><path d="M8.5 12.5l2 2 4-4.5"/></svg></div>
-    <div>
-      <div class="ab-value__t">안전 최우선, 철저한 장비 점검</div>
-      <p class="ab-value__d">출고 전 꼼꼼한 점검과 정기 정비로 안정적으로 작동하는 장비만 보냅니다. 현장에서 고장으로 멈추는 일을 줄여, 담당자가 안심하고 작업할 수 있습니다.</p>
+    <div class="ab-value">
+      <div class="ab-value__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F286F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2.8h6V4"/><path d="M8.5 12.5l2 2 4-4.5"/></svg></div>
+      <div style="min-width:0;">
+        <div class="ab-value__t">안전 최우선, 철저한 장비 점검</div>
+        <p class="ab-value__d">출고 전 꼼꼼한 점검과 정기 정비로 안정적으로 작동하는 장비만 보냅니다. 현장에서 고장으로 멈추는 일을 줄여, 담당자가 안심하고 작업할 수 있습니다.</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- 사업 분야 -->
+<section class="ab-biz dc-container" data-reveal>
+  <h2>사업 분야</h2>
+  <p class="ab-biz__sub">우주렌탈이 제공하는 네 가지 서비스입니다.</p>
+  <div class="ab-biz__grid">
+    <a class="ab-biz__card" href="{% url 'equipment:list' %}" style="background-image:url('{% static 'images/hero/hero3.jpeg' %}');">
+      <div class="ab-biz__label">고소작업대<br>렌탈</div>
+    </a>
+    <a class="ab-biz__card" href="{% url 'quotes:form' %}" style="background-image:url('{% static 'images/hero/as-service.jpeg' %}');">
+      <div class="ab-biz__label">장비<br>AS / 수리</div>
+    </a>
+    <div class="ab-biz__card" style="background-image:url('{% static 'images/hero/tools.jpeg' %}');">
+      <div class="ab-biz__label">부품 · 부속<br>판매</div>
+    </div>
+    <a class="ab-biz__card" href="{% url 'sales:list' %}" style="background-image:url('{% static 'images/hero/hero1.jpeg' %}');">
+      <div class="ab-biz__label">고소작업대<br>판매</div>
+    </a>
+  </div>
+</section>
+
 <!-- Company info + map -->
+<div class="ab-info-head dc-container" data-reveal>
+  <h2>회사 정보 · 오시는 길</h2>
+</div>
 <section class="ab-company">
   <div class="dc-container ab-company__grid">
-    <div class="ab-company__col">
-      <h2 class="dc-h2">회사 정보</h2>
+    <div class="ab-company__info">
+      <h3>회사 정보</h3>
       <div class="ab-row"><div class="ab-row__k">상호</div><div class="ab-row__v">우주렌탈</div></div>
       <div class="ab-row"><div class="ab-row__k">대표자</div><div class="ab-row__v">박성조</div></div>
       <div class="ab-row"><div class="ab-row__k">사업자등록번호</div><div class="ab-row__v">326-88-01739</div></div>
       <div class="ab-row"><div class="ab-row__k">주소</div><div class="ab-row__v">경기도 고양시 덕양구 호국로1254번길 130-5 (신원동)</div></div>
       <div class="ab-row"><div class="ab-row__k">전화 · 팩스</div><div class="ab-row__v">031-973-6661 · 02-381-3660</div></div>
       <div class="ab-row"><div class="ab-row__k">이메일</div><div class="ab-row__v">woojoo66666@daum.net</div></div>
-      <div class="ab-row"><div class="ab-row__k">영업시간</div><div class="ab-row__v">월–금 07:00 – 17:00<br>토 07:00 – 11:00 · 일요일 휴무</div></div>
+      <div class="ab-row"><div class="ab-row__k">영업시간</div><div class="ab-row__v">월–금 07:00 – 17:00<br>토 07:00 – 11:00<br>일요일 휴무</div></div>
     </div>
-    <div class="ab-company__col">
-      <h2 class="dc-h2">찾아오시는 길</h2>
+    <div class="ab-company__map">
+      <h3>찾아오시는 길</h3>
       <div class="ab-map">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.020515573573!2d126.87700387611656!3d37.67222571806024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c96da0fe2600d%3A0x836186d32e967eb!2z6rK96riw64-EIOqzoOyWkeyLnCDrjZXslpHqtawg7Zi46rWt66GcMTI1NOuyiOq4uCAxMzAtNw!5e0!3m2!1sko!2skr!4v1778516483933!5m2!1sko!2skr"
                 allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
-      <div class="ab-map-note">신원동 · 주차 가능 · 방문 전 전화 주시면 안내해 드립니다.</div>
+      <div class="ab-map-note">
+        <b>경기도 고양시 덕양구 호국로1254번길 130-5</b>
+        <span>신원동 · 주차 가능 · 방문 전 전화 주시면 안내해 드립니다.</span>
+      </div>
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+/* Scroll-reveal */
+(function () {
+  const els = Array.from(document.querySelectorAll('[data-reveal]'));
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
 {% endblock %}

@@ -6,65 +6,90 @@
 
 {% block extra_css %}
 <style>
-.sal-head { padding: clamp(2.5rem, 5vw, 3.25rem) 0 1.5rem; }
-.sal-head h1 { margin-top: 0.85rem; }
-.sal-head .dc-lead { margin-top: 0.85rem; max-width: 560px; }
+/* ── Hero banner ───────────────────────────────────────────── */
+.sal-hero { position: relative; height: 320px; background-image: url('{% static "images/hero/hero1.jpeg" %}'); background-size: cover; background-position: center; }
+.sal-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,26,66,.5) 0%, rgba(20,26,66,.72) 100%); }
+.sal-hero__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
+.sal-hero h1 { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
+.sal-hero p { font-size: 18px; color: rgba(255,255,255,.85); margin: 16px 0 0; font-weight: 500; word-break: keep-all; }
 
-.sal-tabs { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-.sal-tabs .dc-container { padding-inline: 0; } /* align tabs with the 0-gutter sections above/below */
-.sal-tabs__row { display: flex; gap: 0.55rem; flex-wrap: wrap; padding: 0.9rem 0; }
-@media (max-width: 767px) {
-  .sal-tabs__row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  .sal-tabs__row::-webkit-scrollbar { display: none; }
-}
+.sal-tabs { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid #ECEDF3; border-bottom: 1px solid #ECEDF3; }
+.sal-tabs__row { display: flex; gap: 9px; flex-wrap: wrap; padding: 16px 0; }
 
 .sal-count { padding: 1.4rem 0 0.4rem; display: flex; align-items: baseline; justify-content: space-between; }
 .sal-count b { color: var(--navy); font-weight: 800; }
 .sal-count__cls { font-size: 0.95rem; color: var(--muted-2); }
 
+/* ── Card rows (desktop too, per the renewal) ──────────────── */
 .sal-list { padding: 0.5rem 0 clamp(2.5rem, 5vw, 3.25rem); }
-.sal-row { display: flex; gap: clamp(1.5rem, 3vw, 2.75rem); padding: clamp(1.75rem, 3vw, 2.5rem) 0; border-bottom: 1px solid var(--hairline-2); align-items: stretch; }
+.sal-row {
+  display: flex; gap: 44px; align-items: stretch;
+  padding: 36px 30px; margin-bottom: 18px;
+  border: 1px solid #E6E7EA; border-radius: 18px; background: #F8F9FA;
+  transition: background .4s ease, border-color .2s ease;
+}
+.sal-row.is-hl { background: #EEF0F8; border-color: #C5CBE6; }
 .sal-row.is-hidden { display: none; }
 
-.sal-photos { flex: 1; min-width: 0; }
-.sal-grid { display: grid; gap: 3px; background: var(--hairline); border-radius: 16px; overflow: hidden; aspect-ratio: 1 / 1; }
+/* ── Photo carousel: sale grid slide + rental photo slides ─── */
+.sal-media { flex: 1; min-width: 0; display: flex; align-items: center; }
+.sal-carousel { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 16px; overflow: hidden; background: #ECEDF3; }
+.sal-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 1; }
+.sal-slide.is-active { opacity: 1; pointer-events: auto; z-index: 2; }
+.sal-slide--photo { background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; cursor: zoom-in; }
+.sal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; background: #ECEDF3; width: 100%; height: 100%; }
 .sal-grid.n1 { grid-template-columns: 1fr; }
-.sal-grid.n2 { grid-template-columns: repeat(2, 1fr); }
-.sal-grid.n3 { grid-template-columns: repeat(3, 1fr); }
-.sal-grid.n4 { grid-template-columns: repeat(2, 1fr); }
+.sal-grid.n2, .sal-grid.n4 { grid-template-columns: repeat(2, 1fr); }
 .sal-tile { background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; cursor: zoom-in; }
-.sal-empty { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; color: var(--muted-2); font-size: 0.95rem; background: #fff; }
+.sal-empty { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; color: #9296A8; font-size: 15px; background: #fff; }
+.sal-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.92); border: 1px solid #E6E8F0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--navy); font-size: 22px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.12); z-index: 4; user-select: none; }
+.sal-arrow.l { left: 12px; } .sal-arrow.r { right: 12px; }
+.sal-dots { position: absolute; left: 0; right: 0; bottom: 12px; z-index: 5; display: flex; justify-content: center; gap: 6px; }
+.sal-dot { width: 7px; height: 7px; border-radius: 999px; background: rgba(31,40,111,.3); cursor: pointer; transition: width .25s ease, background .25s ease; }
+.sal-dot.is-active { width: 20px; background: var(--navy); }
 
+/* ── Specs: big name + stacked label/value rows ────────────── */
 .sal-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
-.sal-badges { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
-.sal-badge { font-size: 0.9rem; font-weight: 600; color: var(--muted); background: #F2F3F8; padding: 0.3rem 0.7rem; border-radius: 6px; }
-.sal-badge--sale { font-weight: 700; color: var(--navy); border: 1px solid var(--hairline-2); background: var(--tint); }
-.sal-badge--cls { color: var(--muted-2); background: none; padding: 0; }
-.sal-name { font-size: clamp(1.6rem, 3vw, 2.35rem); font-weight: 800; color: var(--navy); letter-spacing: -0.01em; margin-top: 0.8rem; }
-.sal-specgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 clamp(1.5rem, 3vw, 2.5rem); margin-top: 1.4rem; border-top: 1px solid #EEF0F2; }
-.sal-cell { padding: 0.9rem 0; border-bottom: 1px solid #EEF0F2; }
-.sal-cell .lbl { font-size: 1rem; color: var(--muted-2); }
-.sal-cell .val { font-size: clamp(1.15rem, 2vw, 1.55rem); font-weight: 700; color: var(--charcoal); margin-top: 0.35rem; }
-.sal-cell--btn { display: flex; align-items: center; }
-.sal-cell--btn a { display: block; width: 100%; text-align: center; }
+.sal-name { font-size: clamp(1.9rem, 3vw, 2.35rem); font-weight: 800; color: var(--navy); letter-spacing: -0.01em; }
+.sal-specs { margin-top: 24px; }
+.sal-spec { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid #EEF0F2; min-width: 0; }
+.sal-spec .lbl { font-size: clamp(1.05rem, 1.7vw, 1.3rem); font-weight: 500; color: #6B7080; white-space: nowrap; }
+.sal-spec .val { font-size: clamp(1.15rem, 1.9vw, 1.45rem); font-weight: 600; color: #2B2F38; text-align: right; overflow-wrap: break-word; min-width: 0; }
+.sal-spec--main { border-top: 1px solid #EEF0F2; }
+.sal-spec--main .lbl { font-weight: 800; color: var(--navy); }
+.sal-spec--main .val { font-size: clamp(1.3rem, 2.1vw, 1.65rem); font-weight: 800; color: var(--navy); }
+
+.sal-none { display: none; padding: 80px 0; text-align: center; color: #9296A8; font-size: 17.5px; }
+.sal-none.is-on { display: block; }
 
 @media (max-width: 767px) {
-  /* Mobile: each equipment is a distinct card so photo + specs read as one unit */
+  .sal-hero { height: 180px; }
+  .sal-hero h1 { font-size: 26px; }
+  .sal-hero p { font-size: 14px; margin-top: 9px; }
+  .sal-tabs__row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .sal-tabs__row::-webkit-scrollbar { display: none; }
+
+  /* Mobile: full-bleed carousel on top of a raised card */
   .sal-list.dc-container { padding-inline: 0.75rem !important; }
   .sal-row {
-    flex-direction: column; gap: 1rem;
-    padding: 1rem; margin-bottom: 1.35rem;
-    border: 1px solid var(--hairline-2); border-radius: 18px; background: #fff;
+    flex-direction: column; gap: 0;
+    padding: 0; margin-bottom: 22px; overflow: hidden;
+    border: 1px solid #D5DAEC; background: #fff;
     box-shadow: 0 2px 6px rgba(15, 23, 50, 0.08), 0 16px 38px rgba(15, 23, 50, 0.16);
   }
-  .sal-row:last-child { margin-bottom: 0; }
-  .sal-badge { font-size: 1rem; padding: 0.35rem 0.8rem; }
-  .sal-name { margin-top: 0.5rem; font-size: 1.85rem; }
-  .sal-specgrid { margin-top: 1rem; gap: 0 0.9rem; }
-  /* Tight cells: label and value read as one block, not two floating lines */
-  .sal-cell { padding: 0.5rem 0; }
-  .sal-cell .lbl { font-size: 1rem; line-height: 1.25; }
-  .sal-cell .val { font-size: 1.35rem; line-height: 1.25; margin-top: 0.1rem; letter-spacing: -0.015em; word-break: keep-all; }
+  .sal-row:last-of-type { margin-bottom: 0; }
+  .sal-carousel { border-radius: 0; }
+  .sal-grid { gap: 2px; }
+  .sal-arrow { width: 34px; height: 34px; font-size: 19px; }
+  .sal-arrow.l { left: 8px; } .sal-arrow.r { right: 8px; }
+  .sal-dots { bottom: 10px; gap: 5px; }
+  .sal-info { padding: 16px 16px 20px; }
+  .sal-name { font-size: 27px; margin-top: 9px; }
+  .sal-specs { margin-top: 14px; }
+  .sal-spec { gap: 14px; padding: 12px 0; }
+  .sal-spec .lbl { font-size: 19px; }
+  .sal-spec .val { font-size: 20px; }
+  .sal-spec--main .val { font-size: 22px; }
 }
 
 /* Lightbox */
@@ -76,10 +101,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="sal-head dc-container">
-  <div class="eyebrow">고소작업대 판매</div>
-  <h1 class="dc-h1">장비 판매</h1>
-  <p class="dc-lead">현장에 바로 투입할 수 있는 판매 라인업입니다. 미터급을 선택해 스펙을 비교하고, 구매 상담을 남겨주시면 가격과 출고 일정을 빠르게 안내해 드립니다.</p>
+<div class="sal-hero">
+  <div class="sal-hero__inner">
+    <h1>장비 판매</h1>
+    <p>현장에 바로 투입할 수 있는 고소작업대 판매 라인업</p>
+  </div>
 </div>
 
 <div class="sal-tabs">
@@ -100,33 +126,42 @@
 <div class="sal-list dc-container">
   {% for e in equipments %}
   <div class="sal-row" id="eq-{{ e.id }}" data-cat="{{ e.category }}">
-    <div class="sal-photos">
-      <div class="sal-grid n{{ e.photos|length }}">
-        {% for p in e.photos %}
-        <div class="sal-tile" style="background-image:url('{{ p }}');" data-src="{{ p }}"></div>
-        {% empty %}
-        <div class="sal-empty">사진 준비 중</div>
+    <div class="sal-media">
+      <div class="sal-carousel" data-idx="0">
+        <div class="sal-slide is-active">
+          <div class="sal-grid n{{ e.photos|length }}">
+            {% for p in e.photos %}
+            <div class="sal-tile" style="background-image:url('{{ p }}');" data-src="{{ p }}"></div>
+            {% empty %}
+            <div class="sal-empty">사진 준비 중</div>
+            {% endfor %}
+          </div>
+        </div>
+        {% for p in e.rental_slides %}
+        <div class="sal-slide sal-slide--photo" style="background-image:url('{{ p }}');" data-src="{{ p }}"></div>
         {% endfor %}
+        {% if e.rental_slides %}
+        <div class="sal-arrow l" data-dir="-1">‹</div>
+        <div class="sal-arrow r" data-dir="1">›</div>
+        <div class="sal-dots">
+          <div class="sal-dot is-active" data-i="0"></div>
+          {% for p in e.rental_slides %}<div class="sal-dot" data-i="{{ forloop.counter }}"></div>{% endfor %}
+        </div>
+        {% endif %}
       </div>
     </div>
     <div class="sal-info">
-      <div class="sal-badges">
-        <span class="sal-badge">{{ e.type_label }}</span>
-        <span class="sal-badge sal-badge--sale">판매</span>
-        <span class="sal-badge sal-badge--cls">{{ e.category_label }}</span>
-      </div>
       <div class="sal-name">{{ e.name }}</div>
-      <div class="sal-specgrid">
+      <div class="sal-specs">
         {% for label, value in e.specs %}
-        <div class="sal-cell"><div class="lbl">{{ label }}</div><div class="val">{{ value }}</div></div>
+        <div class="sal-spec{% if forloop.first %} sal-spec--main{% endif %}"><div class="lbl">{{ label }}</div><div class="val">{{ value|default:'–' }}</div></div>
         {% endfor %}
-        <div class="sal-cell sal-cell--btn">
-          <a href="{% url 'quotes:form' %}" class="pill pill--solid" style="justify-content:center;">구매 상담</a>
-        </div>
+        <div class="sal-spec"><div class="lbl">타입</div><div class="val">{{ e.type_label }}</div></div>
       </div>
     </div>
   </div>
   {% endfor %}
+  <div class="sal-none" id="salNone">해당 미터급의 판매 장비가 없습니다. 다른 미터급을 선택해 주세요.</div>
 </div>
 
 <div class="sal-lightbox" id="salLightbox">
@@ -141,7 +176,7 @@
 (function () {
   const box = document.getElementById('salLightbox');
   const img = document.getElementById('salLightboxImg');
-  document.querySelectorAll('.sal-tile').forEach(function (t) {
+  document.querySelectorAll('.sal-tile, .sal-slide--photo').forEach(function (t) {
     t.addEventListener('click', function () {
       img.style.backgroundImage = "url('" + t.dataset.src + "')";
       box.classList.add('is-open');
@@ -150,12 +185,35 @@
   box.addEventListener('click', function () { box.classList.remove('is-open'); });
 })();
 
+/* ── Per-row carousel (sale grid + rental photo slides) ────── */
+(function () {
+  document.querySelectorAll('.sal-carousel').forEach(function (car) {
+    const slides = car.querySelectorAll('.sal-slide');
+    const dots = car.querySelectorAll('.sal-dot');
+    if (slides.length < 2) return;
+
+    function go(i) {
+      const n = (i + slides.length) % slides.length;
+      car.dataset.idx = n;
+      slides.forEach(function (s, k) { s.classList.toggle('is-active', k === n); });
+      dots.forEach(function (d, k) { d.classList.toggle('is-active', k === n); });
+    }
+    car.querySelectorAll('.sal-arrow').forEach(function (a) {
+      a.addEventListener('click', function () { go(Number(car.dataset.idx) + Number(a.dataset.dir)); });
+    });
+    dots.forEach(function (d) {
+      d.addEventListener('click', function () { go(Number(d.dataset.i)); });
+    });
+  });
+})();
+
 /* ── Meter-class filtering ─────────────────────────────────── */
 (function () {
   const tabs = document.getElementById('meterTabs');
   const rows = Array.from(document.querySelectorAll('.sal-row'));
   const countEl = document.getElementById('listCount');
   const clsEl = document.getElementById('listCls');
+  const noneEl = document.getElementById('salNone');
   const CLS_LABEL = { '5m': '5M급', '6m': '5~6M급', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급' };
 
   function apply(cat) {
@@ -167,6 +225,7 @@
     });
     countEl.textContent = shown;
     clsEl.textContent = cat === 'all' ? '전체 미터급' : (CLS_LABEL[cat] || cat);
+    noneEl.classList.toggle('is-on', shown === 0);
     tabs.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-active', c.dataset.cat === cat); });
   }
   tabs.querySelectorAll('.chip').forEach(function (c) {
@@ -186,6 +245,7 @@
     const target = document.getElementById('eq-' + m[1]);
     if (target) {
       apply(target.dataset.cat);
+      target.classList.add('is-hl');
       setTimeout(function () {
         window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
       }, 200);

@@ -18,16 +18,36 @@ CATEGORY_LABEL = {
 # Numeric ordering for meter classes (the stored keys sort wrong as strings).
 CATEGORY_ORDER = {key: i for i, (key, _) in enumerate(Equipment.CATEGORY_CHOICES)}
 
-# Spec rows shown on rental list cards, in display order.
+# Spec rows shown on rental list cards, in display order (Claude Design renewal).
 RENTAL_SPECS = [
-    ('작업 높이', 'max_work_height'),
-    ('발판 높이', 'max_platform_height'),
-    ('적재 중량', 'max_load'),
+    ('작업가능높이', 'max_work_height'),
+    ('발판최대높이', 'max_platform_height'),
+    ('장비무게', 'equipment_weight'),
+    ('적재가능중량', 'max_load'),
+    ('장비크기', 'equipment_size'),
+    ('작업대크기', 'platform_size'),
     ('동력', 'power_type'),
-    ('장비 무게', 'equipment_weight'),
-    ('장비 크기 (L×W×H)', 'equipment_size'),
-    ('작업대 크기', 'platform_size'),
 ]
+
+# Rental segmented tabs (Claude Design renewal): named groups instead of
+# "전체 + meter chips". 1인승/미니 map onto the 5M/6M categories; 기타 장비 is a
+# deliberately empty bucket that surfaces the stock-inquiry CTA.
+RENTAL_GROUPS = [
+    ('5m', '1인승'), ('6m', '미니'), ('7m', '7M'), ('8m', '8M'),
+    ('10m', '10M'), ('12m', '12M'), ('14m', '14M'), ('etc', '기타 장비'),
+]
+
+
+def rental_group_tabs(equipments):
+    """[(key, label, count)] — named groups always shown, meter tabs only when stocked."""
+    counts = {}
+    for e in equipments:
+        counts[e.category] = counts.get(e.category, 0) + 1
+    tabs = []
+    for key, label in RENTAL_GROUPS:
+        if key in ('5m', '6m', 'etc') or counts.get(key):
+            tabs.append((key, label, counts.get(key, 0)))
+    return tabs
 
 
 def decorate(equipment, photos, spec_fields):
@@ -62,7 +82,7 @@ class EquipmentListView(ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['meter_tabs'] = meter_tabs(ctx['equipments'])
+        ctx['group_tabs'] = rental_group_tabs(ctx['equipments'])
         return ctx
 
 
