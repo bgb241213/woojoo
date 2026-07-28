@@ -76,7 +76,6 @@
 .cmp-scroll { overflow-x: auto; border: 1px solid #ECEDF3; border-radius: 18px; }
 .cmp-scroll::-webkit-scrollbar { height: 8px; }
 .cmp-scroll::-webkit-scrollbar-thumb { background: #D5DAEC; border-radius: 999px; }
-.cmp-swipehint { display: none; text-align: center; font-size: 15.5px; color: #9296A8; margin-top: 10px; }
 .cmp-table { min-width: max-content; }
 .cmp-trow { display: flex; border-bottom: 1px solid #ECEDF3; }
 .cmp-trow:last-child { border-bottom: none; }
@@ -101,20 +100,35 @@
   .cmp-hero { height: 180px; }
   .cmp-hero h1 { font-size: 26px; }
   .cmp-hero p { font-size: 15.5px; margin-top: 9px; }
-  .cmp-swipehint { display: block; }
   .cmp-scroll { border-radius: 14px; }
-  .cmp-thead { width: 92px; padding: 0 12px; }
-  .cmp-thead__label { font-size: 15.5px; }
-  .cmp-thead__sub { display: none; }
+
+  /* The row label moves from a left column to a full-width strip above the
+     two machines, so each photo gets half the screen instead of a third —
+     and the table no longer needs to scroll sideways. */
+  .cmp-scroll { overflow-x: visible; }
+  .cmp-table { min-width: 0; }
+  .cmp-trow { flex-wrap: wrap; }
+  .cmp-thead {
+    width: 100%; flex: none; flex-direction: row; align-items: baseline; gap: 7px;
+    padding: 8px 13px; border-right: none; border-bottom: 1px solid #ECEDF3;
+  }
+  .cmp-thead:empty { display: none; }
+  .cmp-thead__label { font-size: 16px; }
+  .cmp-thead__sub { font-size: 14px; margin-top: 0; }
+  .cmp-col, .cmp-speccell { flex: 1 1 0; min-width: 0; }
+
+  /* Scaling every photo against the tallest machine left the small ones
+     unreadable on a phone; each one now fills its own cell. */
+  .cmp-photocell__img { transform: none !important; }
+
   .cmp-colhead { padding: 12px 12px 14px; }
   .cmp-colhead__x { top: 8px; right: 8px; width: 24px; height: 24px; font-size: 16px; }
   .cmp-colhead__tag { font-size: 15.5px; }
   .cmp-colhead__name { font-size: 17px; margin-top: 4px; }
   .cmp-colhead__cat { font-size: 15.5px; margin-top: 2px; }
-  .cmp-col, .cmp-speccell { min-width: 150px; }
-  .cmp-speccell { height: 52px; padding: 0 12px; font-size: 15.5px; }
-  .cmp-speccell.em { font-size: 18px; }
-  .cmp-specrow .cmp-thead { font-size: 15.5px; }
+  .cmp-speccell { height: 50px; padding: 0 13px; font-size: 16.5px; }
+  .cmp-speccell.em { font-size: 19px; }
+  .cmp-specrow .cmp-thead { font-size: 15px; font-weight: 700; }
 }
 
 .cmp-empty { border: 1px dashed #D5DAEC; border-radius: 18px; padding: 80px 16px; text-align: center; }
@@ -275,7 +289,7 @@ const MODELS = {{ models_json|safe }};
       html += `<div class="cmp-trow cmp-specrow${i % 2 === 1 ? ' zebra' : ''}"><div class="cmp-thead">${d.label}</div>` +
         sel.map(m => `<div class="cmp-speccell${d.em ? ' em' : ''}">${esc(specVal(m, d))}</div>`).join('') + '</div>';
     });
-    html += '</div></div><div class="cmp-swipehint">← 표를 옆으로 밀어 더 보기 →</div>';
+    html += '</div></div>';
     elResult.innerHTML = html;
     elResult.querySelectorAll('.cmp-colhead__x').forEach(el =>
       el.addEventListener('click', () => toggle(Number(el.dataset.id))));
