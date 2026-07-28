@@ -13,12 +13,15 @@
 .sal-hero h1 { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
 .sal-hero p { font-size: 18px; color: rgba(255,255,255,.85); margin: 16px 0 0; font-weight: 500; word-break: keep-all; }
 
-.sal-tabs { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid #ECEDF3; border-bottom: 1px solid #ECEDF3; }
-.sal-tabs__row { display: flex; gap: 9px; flex-wrap: wrap; padding: 16px 0; }
+.sal-tabs { position: sticky; top: var(--nav-h); z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid #ECEDF3; border-bottom: 1px solid #ECEDF3; padding: 16px 0; }
+.sal-tabs__row { display: grid; grid-template-columns: repeat({{ meter_tabs|length }}, 1fr); border: 1px solid #D5DAEC; border-radius: 12px; overflow: hidden; }
+.sal-tab { display: flex; align-items: center; justify-content: center; padding: 15px 8px; font-size: 18px; font-weight: 600; cursor: pointer; background: #fff; color: var(--navy); border-right: 1px solid #E4E7F2; text-align: center; white-space: nowrap; }
+.sal-tab:last-child { border-right: none; }
+.sal-tab.is-active { background: var(--navy); color: #fff; font-weight: 700; border-right-color: var(--navy); }
 
 .sal-count { padding: 1.4rem 0 0.4rem; display: flex; align-items: baseline; justify-content: space-between; }
 .sal-count b { color: var(--navy); font-weight: 800; }
-.sal-count__cls { font-size: 0.95rem; color: var(--muted-2); }
+.sal-count__cls { font-size: 1.1rem; color: var(--muted-2); }
 
 /* ── Card rows (desktop too, per the renewal) ──────────────── */
 .sal-list { padding: 0.5rem 0 clamp(2.5rem, 5vw, 3.25rem); }
@@ -41,7 +44,7 @@
 .sal-grid.n1 { grid-template-columns: 1fr; }
 .sal-grid.n2, .sal-grid.n4 { grid-template-columns: repeat(2, 1fr); }
 .sal-tile { background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; cursor: zoom-in; }
-.sal-empty { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; color: #9296A8; font-size: 15px; background: #fff; }
+.sal-empty { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; color: #9296A8; font-size: 17.5px; background: #fff; }
 .sal-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.92); border: 1px solid #E6E8F0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--navy); font-size: 22px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.12); z-index: 4; user-select: none; }
 .sal-arrow.l { left: 12px; } .sal-arrow.r { right: 12px; }
 .sal-dots { position: absolute; left: 0; right: 0; bottom: 12px; z-index: 5; display: flex; justify-content: center; gap: 6px; }
@@ -53,11 +56,11 @@
 .sal-name { font-size: clamp(1.9rem, 3vw, 2.35rem); font-weight: 800; color: var(--navy); letter-spacing: -0.01em; }
 .sal-specs { margin-top: 24px; }
 .sal-spec { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid #EEF0F2; min-width: 0; }
-.sal-spec .lbl { font-size: clamp(1.05rem, 1.7vw, 1.3rem); font-weight: 500; color: #6B7080; white-space: nowrap; }
-.sal-spec .val { font-size: clamp(1.15rem, 1.9vw, 1.45rem); font-weight: 600; color: #2B2F38; text-align: right; overflow-wrap: break-word; min-width: 0; }
+.sal-spec .lbl { font-size: clamp(1.35rem, 2vw, 1.55rem); font-weight: 500; color: #6B7080; white-space: nowrap; }
+.sal-spec .val { font-size: clamp(1.45rem, 2.3vw, 1.75rem); font-weight: 600; color: #2B2F38; text-align: right; overflow-wrap: break-word; min-width: 0; }
 .sal-spec--main { border-top: 1px solid #EEF0F2; }
 .sal-spec--main .lbl { font-weight: 800; color: var(--navy); }
-.sal-spec--main .val { font-size: clamp(1.3rem, 2.1vw, 1.65rem); font-weight: 800; color: var(--navy); }
+.sal-spec--main .val { font-size: clamp(1.6rem, 2.7vw, 2rem); font-weight: 800; color: var(--navy); }
 
 .sal-none { display: none; padding: 80px 0; text-align: center; color: #9296A8; font-size: 17.5px; }
 .sal-none.is-on { display: block; }
@@ -65,9 +68,12 @@
 @media (max-width: 767px) {
   .sal-hero { height: 180px; }
   .sal-hero h1 { font-size: 26px; }
-  .sal-hero p { font-size: 14px; margin-top: 9px; }
-  .sal-tabs__row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  .sal-tabs__row::-webkit-scrollbar { display: none; }
+  .sal-hero p { font-size: 15.5px; margin-top: 9px; }
+  .sal-tabs { padding: 14px 0; overflow-x: auto; scrollbar-width: none; }
+  .sal-tabs::-webkit-scrollbar { display: none; }
+  .sal-tabs .dc-container { padding-inline: 1.25rem !important; }
+  .sal-tabs__row { display: flex; width: max-content; }
+  .sal-tab { padding: 11px 16px; font-size: 15.5px; }
 
   /* Mobile: full-bleed carousel on top of a raised card */
   .sal-list.dc-container { padding-inline: 0.75rem !important; }
@@ -87,9 +93,9 @@
   .sal-name { font-size: 27px; margin-top: 9px; }
   .sal-specs { margin-top: 14px; }
   .sal-spec { gap: 14px; padding: 12px 0; }
-  .sal-spec .lbl { font-size: 19px; }
-  .sal-spec .val { font-size: 20px; }
-  .sal-spec--main .val { font-size: 22px; }
+  .sal-spec .lbl { font-size: 21px; }
+  .sal-spec .val { font-size: 23px; }
+  .sal-spec--main .val { font-size: 26px; }
 }
 
 /* Lightbox */
@@ -112,14 +118,13 @@
   <div class="dc-container">
     <div class="sal-tabs__row" id="meterTabs">
       {% for key, label, count in meter_tabs %}
-      <span class="chip{% if key == 'all' %} is-active{% endif %}" data-cat="{{ key }}">{{ label }} {{ count }}</span>
+      <div class="sal-tab{% if key == 'all' %} is-active{% endif %}" data-cat="{{ key }}">{{ label }}</div>
       {% endfor %}
     </div>
   </div>
 </div>
 
 <div class="sal-count dc-container">
-  <div>총 <b id="listCount">{{ equipments|length }}</b>대의 판매 장비</div>
   <div class="sal-count__cls" id="listCls">전체 미터급</div>
 </div>
 
@@ -211,7 +216,6 @@
 (function () {
   const tabs = document.getElementById('meterTabs');
   const rows = Array.from(document.querySelectorAll('.sal-row'));
-  const countEl = document.getElementById('listCount');
   const clsEl = document.getElementById('listCls');
   const noneEl = document.getElementById('salNone');
   const CLS_LABEL = { '5m': '5M급', '6m': '5~6M급', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급' };
@@ -223,20 +227,22 @@
       r.classList.toggle('is-hidden', !on);
       if (on) shown++;
     });
-    countEl.textContent = shown;
     clsEl.textContent = cat === 'all' ? '전체 미터급' : (CLS_LABEL[cat] || cat);
     noneEl.classList.toggle('is-on', shown === 0);
-    tabs.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-active', c.dataset.cat === cat); });
+    tabs.querySelectorAll('.sal-tab').forEach(function (c) { c.classList.toggle('is-active', c.dataset.cat === cat); });
   }
-  tabs.querySelectorAll('.chip').forEach(function (c) {
+  tabs.querySelectorAll('.sal-tab').forEach(function (c) {
     c.addEventListener('click', function () { apply(c.dataset.cat); });
   });
 
+  function stickH() {
+    const h = document.querySelector('.site-header'), t = document.querySelector('.sal-tabs');
+    return (h ? h.offsetHeight : 0) + (t ? t.offsetHeight : 0) + 12;
+  }
   function scrollToList() {
     const first = rows.find(function (r) { return !r.classList.contains('is-hidden'); });
     if (!first) return;
-    const tabsH = document.querySelector('.sal-tabs').offsetHeight;
-    window.scrollTo({ top: first.getBoundingClientRect().top + window.scrollY - tabsH - 12, behavior: 'auto' });
+    window.scrollTo({ top: first.getBoundingClientRect().top + window.scrollY - stickH(), behavior: 'auto' });
   }
 
   const hash = location.hash || '';
@@ -247,7 +253,7 @@
       apply(target.dataset.cat);
       target.classList.add('is-hl');
       setTimeout(function () {
-        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - stickH(), behavior: 'smooth' });
       }, 200);
     }
   } else if (hash === '#list') {

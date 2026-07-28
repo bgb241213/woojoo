@@ -19,7 +19,9 @@
 
 /* ── Base ───────────────────────────────────────────────────── */
 html, body {
-  overflow-x: hidden;
+  /* `clip` (not `hidden`) contains horizontal overflow without creating a
+     scroll container — which would otherwise break `position: sticky` nav. */
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -336,6 +338,7 @@ body {
   --hairline:  #ECEDF3;   /* thin dividers / card borders */
   --hairline-2:#D5DAEC;   /* stronger border (pills, inputs) */
   --canvas:    #FFFFFF;
+  --nav-h:     92px;      /* sticky-nav height — offset for sub-sticky bars */
 }
 
 body {
@@ -346,7 +349,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ── Shared type primitives ─────────────────────────────────── */
 .eyebrow {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--navy);
   letter-spacing: 0.04em;
@@ -370,7 +373,7 @@ a { text-decoration: none; color: inherit; }
 /* ── Pills / buttons ────────────────────────────────────────── */
 .pill {
   display: inline-flex; align-items: center; gap: 0.5rem;
-  border-radius: 999px; font-weight: 700; font-size: 1rem;
+  border-radius: 999px; font-weight: 700; font-size: 1.1rem;
   padding: 0.8rem 1.7rem; cursor: pointer;
   transition: background-color var(--transition), color var(--transition),
               border-color var(--transition), transform var(--transition), box-shadow var(--transition);
@@ -390,7 +393,7 @@ a { text-decoration: none; color: inherit; }
 /* ── Chips (meter-class tabs / filters) ─────────────────────── */
 .chip {
   display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 999px; font-size: 0.98rem; font-weight: 600;
+  border-radius: 999px; font-size: 1.1rem; font-weight: 600;
   padding: 0.5rem 1rem; cursor: pointer;
   background: #fff; color: var(--navy); border: 1px solid var(--hairline-2);
   transition: all var(--transition); white-space: nowrap;
@@ -401,7 +404,7 @@ a { text-decoration: none; color: inherit; }
 /* ============================================================
    Site navigation
    ============================================================ */
-.site-header { position: relative; z-index: 40; }
+.site-header { position: sticky; top: 0; z-index: 50; }
 .site-nav {
   position: sticky; top: 0; z-index: 40;
   background: #fff; border-bottom: 1px solid var(--hairline);
@@ -483,6 +486,7 @@ a { text-decoration: none; color: inherit; }
 /* Below this width the enlarged, spread-out horizontal nav no longer fits
    comfortably, so switch to the hamburger menu. */
 @media (max-width: 1199.98px) {
+  :root { --nav-h: 73px; }
   .site-nav__menu, .site-nav__phone, .site-nav__cta { display: none; }
   .site-nav__mtools { display: inline-flex; }
   .site-nav__toggle { display: inline-flex; }
@@ -498,7 +502,7 @@ a { text-decoration: none; color: inherit; }
   border-top: 1px solid var(--hairline);
   background: #fff;
   padding: 2.6rem 0 2.4rem;
-  font-size: 0.95rem; color: var(--muted); line-height: 1.8;
+  font-size: 1.1rem; color: var(--muted); line-height: 1.8;
 }
 .site-footer__inner {
   max-width: 1180px; margin: 0 auto;
@@ -506,7 +510,7 @@ a { text-decoration: none; color: inherit; }
   display: flex; flex-wrap: wrap; gap: 2rem 5rem;
 }
 .site-footer img { height: 24px; width: auto; display: block; margin-bottom: 0.75rem; }
-.site-footer h4 { font-weight: 700; color: var(--charcoal); margin: 0 0 0.5rem; font-size: 0.95rem; }
+.site-footer h4 { font-weight: 700; color: var(--charcoal); margin: 0 0 0.5rem; font-size: 1.1rem; }
 .site-footer a:hover { color: var(--navy); }
 
 /* ============================================================
@@ -551,24 +555,24 @@ a { text-decoration: none; color: inherit; }
 }
 .call-modal__icon--warn { background: #F4EFEC; }
 .call-modal__title { text-align: center; font-size: 1.4rem; font-weight: 800; color: var(--navy); }
-.call-modal__desc  { text-align: center; font-size: 1rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.6; word-break: keep-all; }
+.call-modal__desc  { text-align: center; font-size: 1.1rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.6; word-break: keep-all; }
 .call-modal__phone { text-align: center; font-size: 1.8rem; font-weight: 800; color: var(--navy); letter-spacing: -0.01em; margin: 1rem 0 1.3rem; }
 .call-modal__row   { display: flex; gap: 0.6rem; }
 .call-modal__row .pill { flex: 1; justify-content: center; }
 .call-modal__row .pill.flex2 { flex: 2; }
 .call-modal__field {
   width: 100%; border: 1px solid var(--hairline-2); border-radius: 12px;
-  padding: 0.85rem; font-size: 1.05rem; color: var(--charcoal);
+  padding: 0.85rem; font-size: 1.1rem; color: var(--charcoal);
   outline: none; font-family: inherit; margin-top: 0.6rem;
 }
 .call-modal__field:focus { border-color: var(--navy); }
 .call-modal__field:first-of-type { margin-top: 0; }
 .call-modal__close {
   display: block; width: 100%; text-align: center; margin-top: 0.7rem;
-  padding: 0.5rem; font-size: 1rem; font-weight: 600; color: var(--muted-2);
+  padding: 0.5rem; font-size: 1.1rem; font-weight: 600; color: var(--muted-2);
   background: none; border: 0; cursor: pointer;
 }
-.call-modal__hours { text-align: center; font-size: 0.9rem; color: var(--muted-2); margin-bottom: 1.1rem; }
+.call-modal__hours { text-align: center; font-size: 1.1rem; color: var(--muted-2); margin-bottom: 1.1rem; }
 .is-hidden { display: none !important; }
 
 /* ============================================================

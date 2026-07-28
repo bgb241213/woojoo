@@ -15,28 +15,28 @@
 
 /* ── Height comparison chart ───────────────────────────────── */
 .eqp-chart { padding: 26px 0 6px; }
-.eqp-chart__note { font-size: 16.5px; color: #6B7080; margin-bottom: 14px; word-break: keep-all; }
+.eqp-chart__note { font-size: 18px; color: #6B7080; margin-bottom: 14px; word-break: keep-all; }
 .eqp-chart__wrap { position: relative; width: 100%; border: 1px solid #ECEDF3; border-radius: 14px; overflow: hidden; }
 .eqp-chart__wrap img { display: block; width: 100%; height: auto; }
 .eqp-zone { position: absolute; top: 0; bottom: 0; box-sizing: border-box; border-bottom: 3px solid transparent; transition: background .15s ease, border-color .15s ease; cursor: not-allowed; }
 .eqp-zone.clickable { cursor: pointer; }
 .eqp-zone.clickable:hover { background: rgba(31,40,111,.07); border-bottom-color: rgba(31,40,111,.45); }
 .eqp-zone.is-active { background: rgba(31,40,111,.13); border-bottom-color: var(--navy); }
-.eqp-zone__tip { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; font-size: 14px; font-weight: 700; padding: 4px 11px; border-radius: 999px; white-space: nowrap; pointer-events: none; display: none; box-shadow: 0 4px 12px rgba(31,40,111,.3); }
+.eqp-zone__tip { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; font-size: 17.5px; font-weight: 700; padding: 4px 11px; border-radius: 999px; white-space: nowrap; pointer-events: none; display: none; box-shadow: 0 4px 12px rgba(31,40,111,.3); }
 .eqp-zone.clickable:hover .eqp-zone__tip { display: block; }
 
 /* ── Segmented group tabs ──────────────────────────────────── */
-.eqp-tabs { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid #ECEDF3; border-bottom: 1px solid #ECEDF3; padding: 16px 0; }
+.eqp-tabs { position: sticky; top: var(--nav-h); z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid #ECEDF3; border-bottom: 1px solid #ECEDF3; padding: 16px 0; }
 .eqp-tabs__row { display: grid; grid-template-columns: repeat({{ group_tabs|length }}, 1fr); border: 1px solid #D5DAEC; border-radius: 12px; overflow: hidden; }
-.eqp-tab { display: flex; align-items: center; justify-content: center; padding: 15px 8px; font-size: 16.5px; font-weight: 600; cursor: pointer; background: #fff; color: var(--navy); border-right: 1px solid #E4E7F2; text-align: center; white-space: nowrap; }
+.eqp-tab { display: flex; align-items: center; justify-content: center; padding: 15px 8px; font-size: 18px; font-weight: 600; cursor: pointer; background: #fff; color: var(--navy); border-right: 1px solid #E4E7F2; text-align: center; white-space: nowrap; }
 .eqp-tab:last-child { border-right: none; }
 .eqp-tab.is-active { background: var(--navy); color: #fff; font-weight: 700; border-right-color: var(--navy); }
 
 .eqp-count { padding: 22px 0 6px; display: flex; align-items: baseline; justify-content: space-between; }
 .eqp-count b { color: var(--navy); font-weight: 800; }
 .eqp-count__side { display: flex; align-items: center; gap: 10px; }
-.eqp-count__cls { font-size: 15.5px; color: #9296A8; }
-.eqp-typechip { display: none; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 700; color: var(--navy); background: #EEF0F8; border-radius: 999px; padding: 5px 13px; cursor: pointer; }
+.eqp-count__cls { font-size: 17.5px; color: #9296A8; }
+.eqp-typechip { display: none; align-items: center; gap: 6px; font-size: 17.5px; font-weight: 700; color: var(--navy); background: #EEF0F8; border-radius: 999px; padding: 5px 13px; cursor: pointer; }
 .eqp-typechip.is-on { display: inline-flex; }
 
 /* ── Card rows (desktop too, per the renewal) ──────────────── */
@@ -65,30 +65,30 @@
 .eqp-name { font-size: clamp(1.9rem, 3vw, 2.35rem); font-weight: 800; color: var(--navy); letter-spacing: -0.01em; margin-top: 16px; }
 .eqp-specs { margin-top: 18px; }
 .eqp-spec { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid #EEF0F2; min-width: 0; }
-.eqp-spec .lbl { font-size: clamp(1.05rem, 1.7vw, 1.3rem); font-weight: 500; color: #6B7080; white-space: nowrap; }
-.eqp-spec .val { font-size: clamp(1.15rem, 1.9vw, 1.45rem); font-weight: 600; color: #2B2F38; text-align: right; overflow-wrap: break-word; min-width: 0; }
+.eqp-spec .lbl { font-size: clamp(1.35rem, 2vw, 1.55rem); font-weight: 500; color: #6B7080; white-space: nowrap; }
+.eqp-spec .val { font-size: clamp(1.45rem, 2.3vw, 1.75rem); font-weight: 600; color: #2B2F38; text-align: right; overflow-wrap: break-word; min-width: 0; }
 .eqp-spec--main { border-top: 1px solid #EEF0F2; }
 .eqp-spec--main .lbl { font-weight: 800; color: var(--navy); }
-.eqp-spec--main .val { font-size: clamp(1.3rem, 2.1vw, 1.65rem); font-weight: 800; color: var(--navy); }
+.eqp-spec--main .val { font-size: clamp(1.6rem, 2.7vw, 2rem); font-weight: 800; color: var(--navy); }
 
 /* ── Empty state with inquiry CTA ──────────────────────────── */
 .eqp-none { display: none; padding: 70px 20px; text-align: center; }
 .eqp-none.is-on { display: block; }
 .eqp-none__t { color: #6B7080; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-.eqp-none__s { color: #9296A8; font-size: 15.5px; margin-bottom: 20px; }
-.eqp-none a { display: inline-block; background: var(--navy); color: #fff; border-radius: 999px; padding: 12px 24px; font-size: 15.5px; font-weight: 700; }
+.eqp-none__s { color: #9296A8; font-size: 17.5px; margin-bottom: 20px; }
+.eqp-none a { display: inline-block; background: var(--navy); color: #fff; border-radius: 999px; padding: 12px 24px; font-size: 18px; font-weight: 700; }
 
 @media (max-width: 767px) {
   .eqp-hero { height: 180px; }
   .eqp-hero h1 { font-size: 26px; }
-  .eqp-hero p { font-size: 14px; margin-top: 9px; }
+  .eqp-hero p { font-size: 15.5px; margin-top: 9px; }
   .eqp-chart { display: none; }
 
   .eqp-tabs { padding: 14px 0; overflow-x: auto; scrollbar-width: none; }
   .eqp-tabs::-webkit-scrollbar { display: none; }
   .eqp-tabs .dc-container { padding-inline: 1.25rem !important; }
   .eqp-tabs__row { display: flex; width: max-content; }
-  .eqp-tab { padding: 11px 16px; font-size: 15px; }
+  .eqp-tab { padding: 11px 16px; font-size: 15.5px; }
 
   /* Mobile: full-bleed carousel on top of a raised card */
   .eqp-list.dc-container { padding-inline: 0.75rem !important; }
@@ -108,9 +108,9 @@
   .eqp-name { font-size: 27px; margin-top: 9px; }
   .eqp-specs { margin-top: 14px; }
   .eqp-spec { gap: 14px; padding: 12px 0; }
-  .eqp-spec .lbl { font-size: 19px; }
-  .eqp-spec .val { font-size: 20px; }
-  .eqp-spec--main .val { font-size: 22px; }
+  .eqp-spec .lbl { font-size: 21px; }
+  .eqp-spec .val { font-size: 23px; }
+  .eqp-spec--main .val { font-size: 26px; }
 }
 </style>
 {% endblock %}
@@ -142,7 +142,6 @@
 </div>
 
 <div class="eqp-count dc-container">
-  <div style="font-size:16.5px;color:#6B7080;">총 <b id="listCount">{{ equipments|length }}</b>대의 렌탈 장비</div>
   <div class="eqp-count__side">
     <span class="eqp-typechip" id="typeChip"></span>
     <div class="eqp-count__cls" id="listCls">전체</div>
@@ -210,7 +209,6 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
   const tabsWrap = document.getElementById('groupTabs');
   const tabEls = Array.from(tabsWrap.querySelectorAll('.eqp-tab'));
   const rows = Array.from(document.querySelectorAll('.eqp-row'));
-  const countEl = document.getElementById('listCount');
   const clsEl = document.getElementById('listCls');
   const emptyEl = document.getElementById('eqpEmpty');
   const emptyTitle = document.getElementById('emptyTitle');
@@ -257,7 +255,6 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
       r.classList.toggle('is-hidden', !on);
       if (on) shown++;
     });
-    countEl.textContent = shown;
     clsEl.textContent = CLS_LABEL[cat] || cat;
     tabEls.forEach(function (t) { t.classList.toggle('is-active', t.dataset.cat === cat); });
     document.querySelectorAll('.eqp-zone').forEach(function (z) { z.classList.toggle('is-active', z.dataset.cat === cat); });
@@ -271,7 +268,6 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
       r.classList.toggle('is-hidden', !on);
       if (on) shown++;
     });
-    countEl.textContent = shown;
     const label = TYPE_LABEL[type] || type;
     clsEl.textContent = label + ' 타입';
     tabEls.forEach(function (t) { t.classList.remove('is-active'); });
@@ -288,11 +284,14 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
   });
 
   /* Scroll so the first matching equipment sits just below the sticky tab bar. */
+  function stickH() {
+    const h = document.querySelector('.site-header'), t = document.querySelector('.eqp-tabs');
+    return (h ? h.offsetHeight : 0) + (t ? t.offsetHeight : 0) + 12;
+  }
   function scrollToList() {
     const first = rows.find(function (r) { return !r.classList.contains('is-hidden'); });
     if (!first) return;
-    const tabsH = document.querySelector('.eqp-tabs').offsetHeight;
-    window.scrollTo({ top: first.getBoundingClientRect().top + window.scrollY - tabsH - 12, behavior: 'auto' });
+    window.scrollTo({ top: first.getBoundingClientRect().top + window.scrollY - stickH(), behavior: 'auto' });
   }
 
   /* Deep links: #eq-<id> (highlight one), #cls-<cat> (meter class), #type-<key> */
@@ -306,7 +305,7 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
       apply(target.dataset.cat);
       target.classList.add('is-hl');
       setTimeout(function () {
-        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - stickH(), behavior: 'smooth' });
       }, 200);
     } else {
       apply(defaultTab.dataset.cat);
