@@ -15,7 +15,9 @@ class QuoteCreateView(View):
     template_name = 'quotes/form.html'
 
     # Height-class options offered on the quote form ("필요 작업고").
-    HEIGHT_CHOICES = ['미정', '5~6M', '7M', '8M', '10M', '12M', '14M']
+    # Mirrors the rental catalog's meter classes — keep in step with
+    # Equipment.CATEGORY_CHOICES when the lineup changes.
+    HEIGHT_CHOICES = ['미정', '1인승', '미니', '7M', '10M', '12M', '14M', '기타장비']
 
     def _context(self, extra=None):
         ctx = {

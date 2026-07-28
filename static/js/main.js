@@ -28,14 +28,13 @@
 })();
 
 /* ── Business hours ────────────────────────────────────────── */
-/* 월–금 07:00–17:00 · 토 07:00–11:00 · 일 휴무 */
+/* 월–금 08:00–18:00 · 토·일 휴무 */
 function woojooIsOpen(now) {
   now = now || new Date();
   const day = now.getDay();               // 0=Sun … 6=Sat
+  if (day === 0 || day === 6) return false;
   const mins = now.getHours() * 60 + now.getMinutes();
-  if (day === 0) return false;
-  if (day === 6) return mins >= 420 && mins < 660;   // 07:00–11:00
-  return mins >= 420 && mins < 1020;                 // 07:00–17:00
+  return mins >= 480 && mins < 1080;      // 08:00–18:00
 }
 
 /* ── Call modal (floating button + any [data-call-open]) ──── */
