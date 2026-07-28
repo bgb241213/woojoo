@@ -209,6 +209,9 @@
     dots.forEach(function (d) {
       d.addEventListener('click', function () { go(Number(d.dataset.i)); });
     });
+    woojooSwipe(car,
+      function () { go(Number(car.dataset.idx) - 1); },
+      function () { go(Number(car.dataset.idx) + 1); });
   });
 })();
 

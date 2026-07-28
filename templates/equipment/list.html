@@ -204,6 +204,7 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
   wrap.querySelector('.eqp-arrow.l').addEventListener('click', function () { go(idx - 1); });
   wrap.querySelector('.eqp-arrow.r').addEventListener('click', function () { go(idx + 1); });
   dots.forEach(function (d) { d.addEventListener('click', function () { go(Number(d.dataset.i)); }); });
+  woojooSwipe(wrap, function () { go(idx - 1); }, function () { go(idx + 1); });
 });
 
 /* ── Group tab filtering (tabs + chart zones + type deep-link) ── */

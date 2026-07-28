@@ -89,3 +89,38 @@ function woojooIsOpen(now) {
     });
   }
 })();
+
+/* ── Touch swipe (photo carousels) ─────────────────────────── */
+/* Binds left/right swipes on `el` without stealing vertical page scrolls.
+   A swipe also swallows the click the browser fires afterwards, so tapping
+   through to a lightbox stays a deliberate tap. */
+function woojooSwipe(el, onPrev, onNext) {
+  const MIN = 40;                       // px of travel before it counts
+  let x0 = null, y0 = null, swiping = false;
+
+  el.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { x0 = null; return; }
+    x0 = e.touches[0].clientX;
+    y0 = e.touches[0].clientY;
+    swiping = false;
+  }, { passive: true });
+
+  el.addEventListener('touchmove', function (e) {
+    if (x0 === null) return;
+    const dx = e.touches[0].clientX - x0;
+    const dy = e.touches[0].clientY - y0;
+    if (!swiping && Math.abs(dx) > MIN && Math.abs(dx) > Math.abs(dy)) swiping = true;
+    if (swiping && e.cancelable) e.preventDefault();
+  }, { passive: false });
+
+  el.addEventListener('touchend', function (e) {
+    if (x0 !== null && swiping) {
+      (e.changedTouches[0].clientX - x0 < 0 ? onNext : onPrev)();
+      const swallow = function (ev) { ev.stopPropagation(); ev.preventDefault(); };
+      el.addEventListener('click', swallow, true);
+      setTimeout(function () { el.removeEventListener('click', swallow, true); }, 350);
+    }
+    x0 = y0 = null;
+    swiping = false;
+  });
+}
