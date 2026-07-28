@@ -81,7 +81,9 @@
 }
 .qn__label::before { content: ''; flex: none; width: 3px; height: 16px; border-radius: 2px; background: var(--coral); }
 .qn__sub + .qn__label { margin-top: 1.75rem; padding-top: 0; border-top: none; }
-.qn__meters { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.75rem; }
+/* 7 classes over two rows — the last one widens to fill the trailing cell. */
+.qn__meters { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.qn__meters .qn-meter:last-child { grid-column: span 2; }
 .qn-meter {
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.35rem 1.25rem; border: 1px solid #EAEDF4; border-radius: 14px; background: #fff;
@@ -104,9 +106,11 @@
 .qn-type__t { font-size: 1.15rem; font-weight: 700; color: var(--navy); }
 .qn-type__d { font-size: 1.1rem; color: var(--muted); margin-top: 0.15rem; }
 @media (max-width: 767px) {
-  .qn__meters { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
-  .qn-meter { flex-direction: column; justify-content: center; gap: 0.2rem; padding: 1rem 0.5rem; }
-  .qn-meter b { font-size: 1.35rem; }
+  .qn__meters { grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+  .qn-meter { flex-direction: column; justify-content: center; gap: 0.2rem; padding: 1rem 0.25rem; }
+  .qn-meter b { font-size: 1rem; white-space: nowrap; }
+  .qn-meter b span { font-size: 0.85rem; }
+  .qn-meter .go-m { font-size: 0.85rem; }
   .qn-meter .arrow { display: none; }
   .qn-meter .go-m { display: block; }
   .qn__types { flex-direction: column; gap: 0.6rem; }
@@ -182,12 +186,13 @@
 
   <div class="qn__label">미터급 · 작업 높이 기준</div>
   <div class="qn__meters">
-    <a class="qn-meter" href="{% url 'equipment:list' %}#cls-6m"><b>5~6<span>M</span></b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
+    <a class="qn-meter" href="{% url 'equipment:list' %}#cls-5m"><b>1인승</b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
+    <a class="qn-meter" href="{% url 'equipment:list' %}#cls-6m"><b>미니</b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
     <a class="qn-meter" href="{% url 'equipment:list' %}#cls-7m"><b>7<span>M</span></b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
-    <a class="qn-meter" href="{% url 'equipment:list' %}#cls-8m"><b>8<span>M</span></b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
     <a class="qn-meter" href="{% url 'equipment:list' %}#cls-10m"><b>10<span>M</span></b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
     <a class="qn-meter" href="{% url 'equipment:list' %}#cls-12m"><b>12<span>M</span></b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
     <a class="qn-meter" href="{% url 'equipment:list' %}#cls-14m"><b>14<span>M</span></b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
+    <a class="qn-meter" href="{% url 'equipment:list' %}#cls-etc"><b>기타<span>장비</span></b><svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9296A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="go-m">보기 →</span></a>
   </div>
 
   <div class="qn__label">타입 · 구분</div>

@@ -50,8 +50,10 @@
 .eqp-row.is-hl { background: #EEF0F8; border-color: #C5CBE6; }
 .eqp-row.is-hidden { display: none; }
 
-.eqp-photos { flex: 1; min-width: 0; aspect-ratio: 1 / 1; position: relative; background: #F4F6FB; border-radius: 16px; overflow: hidden; }
-.eqp-photos img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .3s ease; }
+/* `align-self: center` keeps the cell square: stretching it to the spec panel
+   would make `aspect-ratio` moot and crop the sides off the dimension drawings. */
+.eqp-photos { flex: 1; min-width: 0; align-self: center; aspect-ratio: 1 / 1; position: relative; background: #fff; border-radius: 16px; overflow: hidden; }
+.eqp-photos img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .3s ease; }
 .eqp-photos img.is-active { opacity: 1; }
 .eqp-photos__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #a8b8d8; font-size: 3rem; }
 .eqp-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.92); border: 1px solid #E6E8F0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--navy); font-size: 22px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.12); z-index: 3; user-select: none; }
@@ -99,8 +101,8 @@
     box-shadow: 0 2px 6px rgba(15, 23, 50, 0.08), 0 16px 38px rgba(15, 23, 50, 0.16);
   }
   .eqp-row:last-of-type { margin-bottom: 0; }
-  .eqp-photos { border-radius: 0; }
-  .eqp-photos img { object-fit: contain; }
+  /* Column layout: the cell must span the card width again, not shrink to fit. */
+  .eqp-photos { align-self: stretch; border-radius: 0; }
   .eqp-arrow { width: 34px; height: 34px; font-size: 19px; }
   .eqp-arrow.l { left: 10px; } .eqp-arrow.r { right: 10px; }
   .eqp-dots { bottom: 10px; gap: 5px; }
@@ -126,7 +128,7 @@
 <div class="eqp-chart dc-container">
   <div class="eqp-chart__note">미터급별 작업 높이를 한눈에 비교해 보세요. 원하는 미터급을 클릭하면 아래 목록이 해당 장비로 바뀝니다.</div>
   <div class="eqp-chart__wrap" id="heightChart">
-    <img src="{% static 'images/height-chart.jpg' %}" alt="미터급별 작업 높이 비교">
+    <img src="{% static 'images/height-chart.png' %}" alt="미터급별 작업 높이 비교">
     <!-- zones injected by JS -->
   </div>
 </div>
@@ -214,30 +216,35 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
   const emptyTitle = document.getElementById('emptyTitle');
   const emptySub = document.getElementById('emptySub');
   const typeChip = document.getElementById('typeChip');
-  const CLS_LABEL = { '5m': '1인승', '6m': '미니', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', 'etc': '기타 장비' };
+  const CLS_LABEL = { '5m': '1인승', '6m': '미니', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', 'etc': '기타장비' };
   const TYPE_LABEL = { scissor: '시저', boom: '굴절', vertical: '버티칼', other: '기타' };
+  const catLabel = function (cats) {
+    return cats.map(function (c) { return CLS_LABEL[c] || c; }).join(' · ');
+  };
 
-  /* Chart zones (bounds are % positions of each meter-class column on the image) */
+  /* Chart zones — bounds are % positions of each column on the chart image.
+     The first column covers two classes, so a zone holds a list. */
   const zoneDefs = [
-    { cat: '6m', label: '5~6m', bound: 0,    next: 17.8 },
-    { cat: '7m', label: '7m', bound: 17.8, next: 30.9 },
-    { cat: '8m', label: '8m', bound: 30.9, next: 44.1 },
-    { cat: '10m', label: '10m', bound: 44.1, next: 58.0 },
-    { cat: '12m', label: '12m', bound: 58.0, next: 72.1 },
-    { cat: '14m', label: '14m', bound: 72.1, next: 85.9 },
-    { cat: null, label: '', bound: 85.9, next: 100 },
+    { cats: [],             bound: 0,     next: 6.5 },   /* y-axis labels */
+    { cats: ['5m', '6m'],   bound: 6.5,   next: 22.45 },
+    { cats: ['7m'],         bound: 22.45, next: 36.85 },
+    { cats: ['8m'],         bound: 36.85, next: 50.7 },
+    { cats: ['10m'],        bound: 50.7,  next: 64.25 },
+    { cats: ['12m'],        bound: 64.25, next: 77.15 },
+    { cats: ['14m'],        bound: 77.15, next: 100 },
   ];
   const present = new Set(rows.map(function (r) { return r.dataset.cat; }));
   const chart = document.getElementById('heightChart');
   zoneDefs.forEach(function (z) {
+    const cats = z.cats.filter(function (c) { return present.has(c); });
     const el = document.createElement('div');
-    el.className = 'eqp-zone' + (z.cat && present.has(z.cat) ? ' clickable' : '');
+    el.className = 'eqp-zone' + (cats.length ? ' clickable' : '');
     el.style.left = z.bound + '%';
     el.style.width = (z.next - z.bound) + '%';
-    if (z.cat) el.dataset.cat = z.cat;
-    if (z.cat && present.has(z.cat)) {
-      el.innerHTML = '<div class="eqp-zone__tip">' + z.label + ' 선택</div>';
-      el.addEventListener('click', function () { apply(z.cat); });
+    if (cats.length) {
+      el.dataset.cats = cats.join(',');
+      el.innerHTML = '<div class="eqp-zone__tip">' + catLabel(cats) + ' 선택</div>';
+      el.addEventListener('click', function () { apply(cats); });
     }
     chart.appendChild(el);
   });
@@ -247,17 +254,20 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
     if (on) { emptyTitle.textContent = title; emptySub.textContent = sub; }
   }
 
+  /* Accepts one meter class or a list of them (the chart's merged column). */
   function apply(cat) {
+    const cats = Array.isArray(cat) ? cat : [cat];
+    const key = cats.join(',');
     typeChip.classList.remove('is-on');
     let shown = 0;
     rows.forEach(function (r) {
-      const on = r.dataset.cat === cat;
+      const on = cats.indexOf(r.dataset.cat) !== -1;
       r.classList.toggle('is-hidden', !on);
       if (on) shown++;
     });
-    clsEl.textContent = CLS_LABEL[cat] || cat;
-    tabEls.forEach(function (t) { t.classList.toggle('is-active', t.dataset.cat === cat); });
-    document.querySelectorAll('.eqp-zone').forEach(function (z) { z.classList.toggle('is-active', z.dataset.cat === cat); });
+    clsEl.textContent = catLabel(cats);
+    tabEls.forEach(function (t) { t.classList.toggle('is-active', cats.indexOf(t.dataset.cat) !== -1); });
+    document.querySelectorAll('.eqp-zone').forEach(function (z) { z.classList.toggle('is-active', z.dataset.cats === key); });
     setEmpty(shown === 0, '해당 미터급의 렌탈 장비가 없습니다', '다른 미터급을 선택하거나 문의해 주세요.');
   }
 
@@ -297,7 +307,7 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
   /* Deep links: #eq-<id> (highlight one), #cls-<cat> (meter class), #type-<key> */
   const hash = location.hash || '';
   const mEq = hash.match(/^#eq-(\d+)$/);
-  const mCls = hash.match(/^#cls-([0-9]+m)$/);
+  const mCls = hash.match(/^#cls-([0-9a-z]+)$/);
   const mType = hash.match(/^#type-([a-z]+)$/);
   if (mEq) {
     const target = document.getElementById('eq-' + mEq[1]);
