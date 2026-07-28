@@ -26,9 +26,10 @@ class EquipmentImageInline(admin.TabularInline):
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     # ── 목록 ──────────────────────────────────────────
-    list_display  = ('name', 'category', 'type', 'image_count', 'is_for_sale', 'is_active', 'created_at')
-    list_filter   = ('category', 'type', 'is_for_sale', 'is_active')
-    list_editable = ('is_for_sale', 'is_active')
+    list_display  = ('name', 'category', 'type', 'image_count',
+                     'is_flagship', 'is_for_rent', 'is_for_sale', 'is_active', 'created_at')
+    list_filter   = ('category', 'type', 'is_flagship', 'is_for_rent', 'is_for_sale', 'is_active')
+    list_editable = ('is_flagship', 'is_for_rent', 'is_for_sale', 'is_active')
     search_fields = ('name',)
     ordering      = ('category', 'name')
 
@@ -52,7 +53,8 @@ class EquipmentAdmin(admin.ModelAdmin):
             ),
         }),
         ('설정', {
-            'fields': ('is_active', 'is_for_sale', 'created_at'),
+            'fields': ('is_active', 'is_for_rent', 'is_for_sale', 'is_flagship', 'created_at'),
+            'description': '렌탈·판매는 각각 독립입니다. 대표장비는 해당 미터급 목록의 맨 위에 고정됩니다.',
         }),
     )
 

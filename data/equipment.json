@@ -8,7 +8,8 @@
     "8m": "8M급",
     "10m": "10M급",
     "12m": "12M급",
-    "14m": "14M급"
+    "14m": "14M급",
+    "etc": "기타장비"
   },
   "types": {
     "scissor": "시저",
@@ -23,6 +24,8 @@
       "category": "5M급",
       "type": "버티칼",
       "is_for_sale": true,
+      "is_for_rent": true,
+      "is_flagship": true,
       "specs": {
         "작업가능높이": "5.7m",
         "발판최대높이": "3.66m",
@@ -39,6 +42,8 @@
       "category": "6M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "5.6m",
         "발판최대높이": "3.6m",
@@ -55,6 +60,8 @@
       "category": "6M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "5.6m",
         "발판최대높이": "3.6m",
@@ -71,6 +78,8 @@
       "category": "6M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": true,
       "specs": {
         "작업가능높이": "6.4m",
         "발판최대높이": "4.5m",
@@ -87,6 +96,8 @@
       "category": "6M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "6.4m",
         "발판최대높이": "4.57m",
@@ -103,6 +114,8 @@
       "category": "7M급",
       "type": "시저",
       "is_for_sale": true,
+      "is_for_rent": true,
+      "is_flagship": true,
       "specs": {
         "작업가능높이": "7.62m",
         "발판최대높이": "5.79m",
@@ -119,6 +132,8 @@
       "category": "7M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "7.6m",
         "발판최대높이": "5.8m",
@@ -135,6 +150,8 @@
       "category": "7M급",
       "type": "시저",
       "is_for_sale": true,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "7.8m",
         "발판최대높이": "5.8m",
@@ -151,6 +168,8 @@
       "category": "7M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "7.72m",
         "발판최대높이": "5.72m",
@@ -167,6 +186,8 @@
       "category": "7M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "7.8m",
         "발판최대높이": "5.8m",
@@ -183,6 +204,8 @@
       "category": "7M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "7.8m",
         "발판최대높이": "5.8m",
@@ -199,6 +222,8 @@
       "category": "8M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": false,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "7.92m",
         "발판최대높이": "6.1m",
@@ -207,7 +232,8 @@
         "장비크기": "2.3 x 0.81 x 2.2m",
         "작업대크기": "2.3 x 0.76m",
         "동력": "배터리"
-      }
+      },
+      "is_active": false
     },
     {
       "id": 14,
@@ -215,6 +241,8 @@
       "category": "10M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "9.8m",
         "발판최대높이": "7.92m",
@@ -231,6 +259,8 @@
       "category": "10M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "9.6m",
         "발판최대높이": "7.8m",
@@ -247,6 +277,8 @@
       "category": "10M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "10m",
         "발판최대높이": "8m",
@@ -263,6 +295,8 @@
       "category": "10M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": true,
       "specs": {
         "작업가능높이": "9.8m",
         "발판최대높이": "7.92m",
@@ -279,6 +313,8 @@
       "category": "10M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "10m",
         "발판최대높이": "8m",
@@ -295,6 +331,8 @@
       "category": "10M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "10m",
         "발판최대높이": "8m",
@@ -311,6 +349,8 @@
       "category": "12M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "11.6m",
         "발판최대높이": "9.7m",
@@ -327,6 +367,8 @@
       "category": "12M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "11.68m",
         "발판최대높이": "9.68m",
@@ -343,6 +385,8 @@
       "category": "12M급",
       "type": "시저",
       "is_for_sale": true,
+      "is_for_rent": true,
+      "is_flagship": true,
       "specs": {
         "작업가능높이": "11.6m",
         "발판최대높이": "9.8m",
@@ -359,6 +403,8 @@
       "category": "12M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "12m",
         "발판최대높이": "10m",
@@ -375,6 +421,8 @@
       "category": "12M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "12m",
         "발판최대높이": "10m",
@@ -391,6 +439,8 @@
       "category": "14M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": true,
       "specs": {
         "작업가능높이": "14m",
         "발판최대높이": "12m",
@@ -407,6 +457,8 @@
       "category": "14M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "13.8m",
         "발판최대높이": "11.8m",
@@ -423,6 +475,8 @@
       "category": "14M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "14m",
         "발판최대높이": "12m",
@@ -439,6 +493,8 @@
       "category": "14M급",
       "type": "시저",
       "is_for_sale": false,
+      "is_for_rent": true,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "14.2m",
         "발판최대높이": "12.2m",
@@ -455,6 +511,8 @@
       "category": "6M급",
       "type": "시저",
       "is_for_sale": true,
+      "is_for_rent": false,
+      "is_flagship": false,
       "specs": {
         "작업가능높이": "6.5m",
         "발판최대높이": "4.5m",
@@ -463,6 +521,63 @@
         "장비크기": "1.63 x 0.76 x 1.80m",
         "작업대크기": "1.63 x 0.7m",
         "동력": "배터리"
+      }
+    },
+    {
+      "id": 30,
+      "name": "Z45",
+      "category": "기타장비",
+      "type": "굴절",
+      "is_for_rent": true,
+      "is_for_sale": false,
+      "is_flagship": true,
+      "description": "굴절 붐 리프트. 수평작업거리 7.6m로 장애물을 넘어 작업 위치에 접근할 수 있습니다.",
+      "specs": {
+        "작업가능높이": "15.54m",
+        "발판최대높이": "13.54m",
+        "장비무게": "6,536kg",
+        "적재가능중량": "227kg",
+        "장비크기": "5.5 x 1.8 x 2m",
+        "작업대크기": "1.77 x 0.76m",
+        "동력": "엔진 / 배터리"
+      }
+    },
+    {
+      "id": 31,
+      "name": "ATB60",
+      "category": "기타장비",
+      "type": "굴절",
+      "is_for_rent": true,
+      "is_for_sale": false,
+      "is_flagship": false,
+      "description": "20M급 굴절 붐 리프트. 수평작업거리 10.4m.",
+      "specs": {
+        "작업가능높이": "20.3m",
+        "발판최대높이": "18.3m",
+        "장비무게": "11,158kg",
+        "적재가능중량": "227kg",
+        "장비크기": "8.9 x 2.4 x 2.5m",
+        "작업대크기": "1.52 x 0.76m",
+        "동력": "디젤엔진"
+      }
+    },
+    {
+      "id": 32,
+      "name": "130A",
+      "category": "기타장비",
+      "type": "기타",
+      "is_for_rent": true,
+      "is_for_sale": false,
+      "is_flagship": false,
+      "description": "직진식 고소작업대. 수평작업거리 7.8m, 넓은 작업대(4.6 x 2.3m)에 최대 900kg까지 적재할 수 있습니다.",
+      "specs": {
+        "작업가능높이": "15m",
+        "발판최대높이": "13m",
+        "장비무게": "7.7t",
+        "적재가능중량": "500kg ~ 900kg",
+        "장비크기": "5.2 x 2.4 x 2.6m",
+        "작업대크기": "4.6 x 2.3m",
+        "동력": "디젤엔진"
       }
     }
   ]

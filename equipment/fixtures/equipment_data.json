@@ -16,7 +16,9 @@
     "platform_size": "0.84 x 0.68m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": true,
+    "is_flagship": true,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -37,7 +39,9 @@
     "platform_size": "1.35 x 0.7m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -58,7 +62,9 @@
     "platform_size": "1.29 x 0.7m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -79,7 +85,9 @@
     "platform_size": "1.3 x 0.6m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": true,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -100,7 +108,9 @@
     "platform_size": "1.63 x 0.66m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -121,7 +131,9 @@
     "platform_size": "1.63 x 0.66m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": true,
+    "is_flagship": true,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -142,7 +154,9 @@
     "platform_size": "1.59 x 0.64m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -163,7 +177,9 @@
     "platform_size": "1.59 x 0.64m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": true,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -184,7 +200,9 @@
     "platform_size": "1.87 x 0.76m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -205,7 +223,9 @@
     "platform_size": "1.67 x 0.74m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -226,7 +246,9 @@
     "platform_size": "1.63 x 0.74m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -247,7 +269,9 @@
     "platform_size": "2.13 x 0.71m",
     "power_type": "배터리",
     "is_active": false,
+    "is_for_rent": true,
     "is_for_sale": true,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -267,8 +291,10 @@
     "equipment_size": "2.3 x 0.81 x 2.2m",
     "platform_size": "2.3 x 0.76m",
     "power_type": "배터리",
-    "is_active": true,
+    "is_active": false,
+    "is_for_rent": false,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -289,7 +315,9 @@
     "platform_size": "2.13 x 0.71m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -310,7 +338,9 @@
     "platform_size": "2.3 x 0.76m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -331,7 +361,9 @@
     "platform_size": "2.27 x 0.81m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -352,7 +384,9 @@
     "platform_size": "2.13 x 1.07m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": true,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -373,7 +407,9 @@
     "platform_size": "2.26 x 1.12m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -394,7 +430,9 @@
     "platform_size": "2.27 x 1.12m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -415,7 +453,9 @@
     "platform_size": "2.5 x 1.12m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -436,7 +476,9 @@
     "platform_size": "2.5 x 1.12m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -457,7 +499,9 @@
     "platform_size": "2.13 x 1.07m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": true,
+    "is_flagship": true,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -478,7 +522,9 @@
     "platform_size": "2.26 x 1.12m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -499,7 +545,9 @@
     "platform_size": "2.27 x 1.12m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -520,7 +568,9 @@
     "platform_size": "2.26 x 1.12m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": true,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -541,7 +591,9 @@
     "platform_size": "2.27 x 1.12m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -562,7 +614,9 @@
     "platform_size": "2.3 x 1.15m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -583,7 +637,9 @@
     "platform_size": "2.92 x 1.65m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": true,
     "is_for_sale": false,
+    "is_flagship": false,
     "created_at": "2024-01-01T00:00:00Z"
   }
 },
@@ -604,8 +660,79 @@
     "platform_size": "1.63 x 0.7m",
     "power_type": "배터리",
     "is_active": true,
+    "is_for_rent": false,
     "is_for_sale": true,
+    "is_flagship": false,
     "created_at": "2026-07-02T13:16:13.829Z"
+  }
+},
+{
+  "model": "equipment.equipment",
+  "pk": 30,
+  "fields": {
+    "name": "Z45",
+    "category": "etc",
+    "type": "boom",
+    "image": "",
+    "description": "굴절 붐 리프트. 수평작업거리 7.6m로 장애물을 넘어 작업 위치에 접근할 수 있습니다.",
+    "max_work_height": "15.54m",
+    "max_platform_height": "13.54m",
+    "equipment_weight": "6,536kg",
+    "max_load": "227kg",
+    "equipment_size": "5.5 x 1.8 x 2m",
+    "platform_size": "1.77 x 0.76m",
+    "power_type": "엔진 / 배터리",
+    "is_active": true,
+    "is_for_rent": true,
+    "is_for_sale": false,
+    "is_flagship": true,
+    "created_at": "2026-07-28T05:22:47.192Z"
+  }
+},
+{
+  "model": "equipment.equipment",
+  "pk": 31,
+  "fields": {
+    "name": "ATB60",
+    "category": "etc",
+    "type": "boom",
+    "image": "",
+    "description": "20M급 굴절 붐 리프트. 수평작업거리 10.4m.",
+    "max_work_height": "20.3m",
+    "max_platform_height": "18.3m",
+    "equipment_weight": "11,158kg",
+    "max_load": "227kg",
+    "equipment_size": "8.9 x 2.4 x 2.5m",
+    "platform_size": "1.52 x 0.76m",
+    "power_type": "디젤엔진",
+    "is_active": true,
+    "is_for_rent": true,
+    "is_for_sale": false,
+    "is_flagship": false,
+    "created_at": "2026-07-28T05:22:47.192Z"
+  }
+},
+{
+  "model": "equipment.equipment",
+  "pk": 32,
+  "fields": {
+    "name": "130A",
+    "category": "etc",
+    "type": "other",
+    "image": "",
+    "description": "직진식 고소작업대. 수평작업거리 7.8m, 넓은 작업대(4.6 x 2.3m)에 최대 900kg까지 적재할 수 있습니다.",
+    "max_work_height": "15m",
+    "max_platform_height": "13m",
+    "equipment_weight": "7.7t",
+    "max_load": "500kg ~ 900kg",
+    "equipment_size": "5.2 x 2.4 x 2.6m",
+    "platform_size": "4.6 x 2.3m",
+    "power_type": "디젤엔진",
+    "is_active": true,
+    "is_for_rent": true,
+    "is_for_sale": false,
+    "is_flagship": false,
+    "created_at": "2026-07-28T05:22:47.193Z"
   }
 }
 ]

@@ -9,14 +9,19 @@ from django.urls import reverse
 from .models import Equipment
 from .photos import rental_photos, sale_photos
 
-# Meter-class tab labels (6M급 covers the 5~6M range).
-CATEGORY_LABEL = {
-    '5m': '5M', '6m': '5~6M', '7m': '7M', '8m': '8M',
-    '10m': '10M', '12m': '12M', '14m': '14M',
-}
+# Meter-class labels — single source of truth is the model's choices.
+CATEGORY_LABEL = dict(Equipment.CATEGORY_CHOICES)
 
 # Numeric ordering for meter classes (the stored keys sort wrong as strings).
 CATEGORY_ORDER = {key: i for i, (key, _) in enumerate(Equipment.CATEGORY_CHOICES)}
+
+
+def catalog_order(equipments):
+    """Meter class (1인승 → 기타장비), flagship first, then model name."""
+    return sorted(
+        equipments,
+        key=lambda e: (CATEGORY_ORDER.get(e.category, 99), not e.is_flagship, e.name),
+    )
 
 # Spec rows shown on rental list cards, in display order (Claude Design renewal).
 RENTAL_SPECS = [
@@ -32,10 +37,7 @@ RENTAL_SPECS = [
 # Rental segmented tabs (Claude Design renewal): named groups instead of
 # "전체 + meter chips". 1인승/미니 map onto the 5M/6M categories; 기타 장비 is a
 # deliberately empty bucket that surfaces the stock-inquiry CTA.
-RENTAL_GROUPS = [
-    ('5m', '1인승'), ('6m', '미니'), ('7m', '7M'), ('8m', '8M'),
-    ('10m', '10M'), ('12m', '12M'), ('14m', '14M'), ('etc', '기타 장비'),
-]
+RENTAL_GROUPS = list(Equipment.CATEGORY_CHOICES)
 
 
 def rental_group_tabs(equipments):
@@ -77,8 +79,8 @@ class EquipmentListView(ListView):
     context_object_name = 'equipments'
 
     def get_queryset(self):
-        qs = Equipment.objects.filter(is_active=True, is_for_sale=False)
-        return [decorate(e, rental_photos(e.id), RENTAL_SPECS) for e in qs]
+        qs = Equipment.objects.filter(is_active=True, is_for_rent=True)
+        return [decorate(e, rental_photos(e.id), RENTAL_SPECS) for e in catalog_order(qs)]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -99,11 +101,7 @@ class EquipmentCompareView(View):
     template_name = 'equipment/compare.html'
 
     def get(self, request):
-        # Sort by meter class (5M→14M), then model name within each class.
-        equipment = sorted(
-            Equipment.objects.filter(is_active=True),
-            key=lambda e: (CATEGORY_ORDER.get(e.category, 99), e.name),
-        )
+        equipment = catalog_order(Equipment.objects.filter(is_active=True))
         models = []
         for e in equipment:
             models.append({
@@ -112,6 +110,7 @@ class EquipmentCompareView(View):
                 'category': e.get_category_display(),
                 'type': e.get_type_display(),
                 'isForSale': e.is_for_sale,
+                'isFlagship': e.is_flagship,
                 'photos': rental_photos(e.id) or sale_photos(e.id),
                 'specs': {
                     '작업가능높이': e.max_work_height,

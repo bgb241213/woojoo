@@ -51,6 +51,7 @@
 .cmp-box { flex: none; width: 22px; height: 22px; border-radius: 6px; border: 1px solid #C9CEE4; background: #fff; display: flex; align-items: center; justify-content: center; }
 .cmp-item.is-sel .cmp-box { border-color: var(--navy); background: var(--navy); }
 .cmp-item__name { font-size: 24px; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cmp-item__flag { flex: none; font-size: 14px; font-weight: 800; color: var(--coral); border: 1px solid var(--coral); border-radius: 999px; padding: 2px 8px; }
 .cmp-item__cat { font-size: 20px; color: #9296A8; margin-top: 8px; padding-left: 33px; }
 @media (max-width: 767px) {
   .cmp-panel { border-radius: 13px; }
@@ -223,6 +224,7 @@ const MODELS = {{ models_json|safe }};
           <div class="cmp-item__top">
             <span class="cmp-box">${sel ? check : ''}</span>
             <span class="cmp-item__name">${esc(m.name)}</span>
+            ${m.isFlagship ? '<span class="cmp-item__flag">대표</span>' : ''}
           </div>
           <div class="cmp-item__cat">${esc(m.category)} · ${tag(m)}</div>
         </div>`;

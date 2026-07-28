@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from equipment.models import Equipment
 from equipment.photos import rental_photos, sale_photos
-from equipment.views import decorate, meter_tabs
+from equipment.views import catalog_order, decorate, meter_tabs
 
 # Spec rows shown on sale list cards, in display order (Claude Design renewal).
 SALE_SPECS = [
@@ -25,7 +25,7 @@ class SalesListView(ListView):
     def get_queryset(self):
         qs = Equipment.objects.filter(is_for_sale=True, is_active=True)
         items = []
-        for e in qs:
+        for e in catalog_order(qs):
             e = decorate(e, sale_photos(e.id), SALE_SPECS)
             # Rental photos become extra carousel slides after the sale grid.
             e.rental_slides = rental_photos(e.id)

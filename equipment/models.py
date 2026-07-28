@@ -2,14 +2,16 @@ from django.db import models
 
 
 class Equipment(models.Model):
+    # Order matters: this is the catalog order used across the site.
     CATEGORY_CHOICES = [
-        ('5m',       '5M급'),
-        ('6m',       '6M급'),
+        ('5m',       '1인승'),
+        ('6m',       '미니'),
         ('7m',       '7M급'),
         ('8m',       '8M급'),
         ('10m',      '10M급'),
         ('12m',      '12M급'),
         ('14m',      '14M급'),
+        ('etc',      '기타장비'),
     ]
 
     TYPE_CHOICES = [
@@ -32,7 +34,11 @@ class Equipment(models.Model):
     platform_size       = models.CharField(max_length=100, verbose_name='작업대크기')
     power_type          = models.CharField(max_length=50, verbose_name='동력')
     is_active           = models.BooleanField(default=True, verbose_name='노출 여부')
-    is_for_sale         = models.BooleanField(default=False, verbose_name='판매 가능')
+    # Rental and sale listings are independent — a machine can appear on both.
+    is_for_rent         = models.BooleanField(default=True, verbose_name='렌탈 노출')
+    is_for_sale         = models.BooleanField(default=False, verbose_name='판매 노출')
+    # Pinned to the top of its meter class on every listing.
+    is_flagship         = models.BooleanField(default=False, verbose_name='대표장비')
     created_at          = models.DateTimeField(auto_now_add=True, verbose_name='등록일')
 
     class Meta:
