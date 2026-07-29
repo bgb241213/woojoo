@@ -7,7 +7,7 @@
 {% block extra_css %}
 <style>
 /* ── Hero banner ───────────────────────────────────────────── */
-.sal-hero { position: relative; height: 320px; background-image: url('{% static "images/hero/hero1.jpeg" %}'); background-size: cover; background-position: center; }
+.sal-hero { position: relative; height: 440px; background-image: url('{% static "images/hero/hero1.jpeg" %}'); background-size: cover; background-position: center; }
 .sal-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,26,66,.5) 0%, rgba(20,26,66,.72) 100%); }
 .sal-hero__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
 .sal-hero h1 { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
@@ -66,7 +66,7 @@
 .sal-none.is-on { display: block; }
 
 @media (max-width: 767px) {
-  .sal-hero { height: 180px; }
+  .sal-hero { height: 220px; }
   .sal-hero h1 { font-size: 26px; }
   .sal-hero p { font-size: 15.5px; margin-top: 9px; }
   .sal-tabs { padding: 14px 0; overflow-x: auto; scrollbar-width: none; }

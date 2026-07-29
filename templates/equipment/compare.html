@@ -7,7 +7,7 @@
 {% block extra_css %}
 <style>
 /* ── Hero banner ───────────────────────────────────────────── */
-.cmp-hero { position: relative; height: 320px; background-image: url('{% static "images/hero/hero3.jpeg" %}'); background-size: cover; background-position: center; }
+.cmp-hero { position: relative; height: 440px; background-image: url('{% static "images/hero/hero3.jpeg" %}'); background-size: cover; background-position: center; }
 .cmp-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,26,66,.5) 0%, rgba(20,26,66,.72) 100%); }
 .cmp-hero__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
 .cmp-hero h1 { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
@@ -97,7 +97,7 @@
 .cmp-speccell.em { font-size: 22px; font-weight: 800; color: var(--navy); }
 .cmp-trow.zebra .cmp-speccell { background: #FAFBFD; }
 @media (max-width: 767px) {
-  .cmp-hero { height: 180px; }
+  .cmp-hero { height: 220px; }
   .cmp-hero h1 { font-size: 26px; }
   .cmp-hero p { font-size: 15.5px; margin-top: 9px; }
   .cmp-scroll { border-radius: 14px; }
