@@ -492,6 +492,23 @@ a { text-decoration: none; color: inherit; }
   .site-nav--overlay.is-stuck { position: fixed; }
 }
 
+/* Phones: the top bar is logo + two icons and no text, so it is sized in px.
+   In rem it grew with the reader's font setting while the fixed-width logo
+   did not, and the hamburger was the item pushed off the edge. The dropdown
+   below still uses rem — that part is text people actually read. */
+@media (max-width: 767.98px) {
+  :root { --nav-h: 61px; }
+  .site-nav__inner { padding: 15px 18px; gap: 12px; }
+  .site-nav__logo img { height: 28px; }
+  .site-nav__mtools { gap: 14px; }
+}
+/* A folded Galaxy is 280px across — one step smaller keeps the icons on.
+   Bar height stays 61px: the 30px icons, not the logo, set it. */
+@media (max-width: 340px) {
+  .site-nav__inner { padding: 15px 12px; }
+  .site-nav__logo img { height: 26px; }
+}
+
 /* ============================================================
    Site footer (light, hairline)
    ============================================================ */
