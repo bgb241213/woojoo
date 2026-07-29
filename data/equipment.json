@@ -547,7 +547,7 @@
       "name": "ATB60",
       "category": "기타장비",
       "type": "굴절",
-      "is_for_rent": true,
+      "is_for_rent": false,
       "is_for_sale": false,
       "is_flagship": false,
       "description": "20M급 굴절 붐 리프트. 수평작업거리 10.4m.",
@@ -559,7 +559,8 @@
         "장비크기": "8.9 x 2.4 x 2.5m",
         "작업대크기": "1.52 x 0.76m",
         "동력": "디젤엔진"
-      }
+      },
+      "is_active": false
     },
     {
       "id": 32,
