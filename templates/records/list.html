@@ -6,12 +6,22 @@
 
 {% block extra_css %}
 <style>
-.rec-hero { padding: clamp(2.5rem, 5vw, 3.5rem) 0 1.5rem; }
-.rec-hero h1 { margin-top: 0.9rem; }
+/* ── Hero banner (same 440/220 as the other section pages) ─── */
+.rec-hero { position: relative; height: 440px; background-image: url('{% static "images/hero/trust-fleet.jpeg" %}'); background-size: cover; background-position: center; }
+.rec-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,26,66,.5) 0%, rgba(20,26,66,.72) 100%); }
+.rec-hero__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
+.rec-hero__eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .18em; color: rgba(255,255,255,.62); margin-bottom: 14px; }
+.rec-hero h1 { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
 .rec-hero h1 em { color: var(--coral); font-style: normal; }
-.rec-hero .dc-lead { margin-top: 0.9rem; max-width: 560px; color: var(--charcoal); }
+.rec-hero p { font-size: 18px; color: rgba(255,255,255,.85); margin: 16px 0 0; max-width: 560px; font-weight: 500; word-break: keep-all; }
+@media (max-width: 767px) {
+  .rec-hero { height: 220px; }
+  .rec-hero__eyebrow { font-size: 12px; margin-bottom: 10px; }
+  .rec-hero h1 { font-size: 26px; }
+  .rec-hero p { font-size: 15.5px; margin-top: 9px; }
+}
 
-.rec-wall { padding: 0.5rem 0 clamp(2.5rem, 5vw, 3.5rem); }
+.rec-wall { padding: clamp(1.8rem, 3.5vw, 2.6rem) 0 clamp(2.5rem, 5vw, 3.5rem); }
 .masonry { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 @media (max-width: 1100px) { .masonry { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 860px)  { .masonry { grid-template-columns: repeat(3, 1fr); } }
@@ -42,11 +52,13 @@
 {% endblock %}
 
 {% block content %}
-<section class="rec-hero dc-container">
-  <div class="eyebrow">SALES RECORD · 판매 실적</div>
-  <h1 class="dc-h1">현장이 증명하는 <em>신뢰</em></h1>
-  <p class="dc-lead">지금까지 전국 현장으로 출고된 장비들입니다. 한 대 한 대가 우주렌탈의 20년을 증명합니다.</p>
-</section>
+<div class="rec-hero">
+  <div class="rec-hero__inner">
+    <div class="rec-hero__eyebrow">SALES RECORD · 판매 실적</div>
+    <h1>현장이 증명하는 <em>신뢰</em></h1>
+    <p>지금까지 전국 현장으로 출고된 장비들입니다. 한 대 한 대가 우주렌탈의 20년을 증명합니다.</p>
+  </div>
+</div>
 
 <section class="rec-wall dc-container">
   <div class="masonry">
