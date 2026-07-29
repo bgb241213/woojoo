@@ -597,8 +597,15 @@ a { text-decoration: none; color: inherit; }
      mobile — restore a consistent screen-edge gutter. */
   .dc-container { padding-inline: 1.25rem !important; }
 
-  /* Compact single-column footer (no quick links, no group headings) */
-  .site-footer { padding: 1.9rem 0 5.5rem; }
-  .site-footer__inner { flex-direction: column; gap: 0.35rem; }
+  /* Compact single-column footer (no quick links, no group headings).
+     Stacked, the two blocks ran together as six identical grey lines, so a
+     rule and a step down in size separate the company details from the
+     contact details. */
+  .site-footer { padding: 2.2rem 0 6.5rem; font-size: 1.05rem; line-height: 1.75; }
+  .site-footer__inner { flex-direction: column; gap: 0; }
   .site-footer h4 { display: none; }
+  .site-footer img { height: 26px; margin-bottom: 1.15rem; }
+  .site-footer__inner > div + div {
+    margin-top: 1.15rem; padding-top: 1.15rem; border-top: 1px solid var(--hairline);
+  }
 }
