@@ -124,3 +124,15 @@ function woojooSwipe(el, onPrev, onNext) {
     swiping = false;
   });
 }
+
+/* ── Hide the floating call button over the footer ─────────── */
+(function () {
+  var fab = document.getElementById('callFab');
+  var footer = document.querySelector('.site-footer');
+  if (!fab || !footer || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function (entries) {
+    fab.classList.toggle('is-tucked', entries[0].isIntersecting);
+    /* the bottom strip is where the button sits — only tuck once the
+       footer actually rises into it */
+  }, { threshold: 0, rootMargin: '0px 0px -90px 0px' }).observe(footer);
+})();

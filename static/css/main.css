@@ -539,6 +539,10 @@ a { text-decoration: none; color: inherit; }
   animation: callPulse 2s ease-out infinite;
   transition: transform var(--transition), background-color var(--transition);
 }
+/* Tucked away once the footer is on screen: the number is right there, and
+   the button would otherwise sit on top of the last lines. */
+.call-fab { transition: transform .28s ease, opacity .28s ease; }
+.call-fab.is-tucked { transform: translateY(160%); opacity: 0; pointer-events: none; }
 .call-fab:hover {
   transform: translateY(-2px); background: #17205a; color: #fff;
   animation: none; box-shadow: 0 10px 30px rgba(31,40,111,.55);
@@ -601,7 +605,7 @@ a { text-decoration: none; color: inherit; }
      Stacked, the two blocks ran together as six identical grey lines, so a
      rule and a step down in size separate the company details from the
      contact details. */
-  .site-footer { padding: 2.2rem 0 6.5rem; font-size: 1.05rem; line-height: 1.75; }
+  .site-footer { padding: 2.2rem 0 2.4rem; font-size: 1.05rem; line-height: 1.75; }
   .site-footer__inner { flex-direction: column; gap: 0; }
   .site-footer h4 { display: none; }
   .site-footer img { height: 26px; margin-bottom: 1.15rem; }
