@@ -426,7 +426,6 @@ a { text-decoration: none; color: inherit; }
 .site-nav__menu a:hover { color: var(--navy); }
 .site-nav__menu a.is-active { color: var(--navy); font-weight: 700; }
 .site-nav__right { display: flex; align-items: center; gap: 1.15rem; }
-.site-nav__phone { font-size: 1.15rem; color: var(--navy); font-weight: 700; white-space: nowrap; cursor: default; }
 .site-nav__cta {
   border: 1px solid var(--navy); color: var(--navy);
   border-radius: 999px; padding: 0.62rem 1.35rem; font-size: 1.1rem; font-weight: 600;
@@ -446,7 +445,6 @@ a { text-decoration: none; color: inherit; }
 .site-nav--overlay .site-nav__menu a { color: rgba(255,255,255,.92); }
 .site-nav--overlay .site-nav__menu a:hover,
 .site-nav--overlay .site-nav__menu a.is-active { color: #fff; }
-.site-nav--overlay .site-nav__phone { color: #fff; }
 .site-nav--overlay .site-nav__cta { background: #fff; border-color: #fff; color: var(--navy); }
 .site-nav--overlay .site-nav__toggle { color: #fff; }
 /* Overlay turns solid once scrolled */
@@ -458,7 +456,6 @@ a { text-decoration: none; color: inherit; }
 .site-nav--overlay.is-stuck .site-nav__logo .logo-white { display: none; }
 .site-nav--overlay.is-stuck .site-nav__menu a { color: var(--charcoal); }
 .site-nav--overlay.is-stuck .site-nav__menu a.is-active { color: var(--navy); }
-.site-nav--overlay.is-stuck .site-nav__phone { color: var(--navy); }
 .site-nav--overlay.is-stuck .site-nav__cta { background: transparent; border-color: var(--navy); color: var(--navy); }
 .site-nav--overlay.is-stuck .site-nav__toggle { color: var(--navy); }
 @keyframes navDrop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
@@ -487,7 +484,7 @@ a { text-decoration: none; color: inherit; }
    comfortably, so switch to the hamburger menu. */
 @media (max-width: 1199.98px) {
   :root { --nav-h: 73px; }
-  .site-nav__menu, .site-nav__phone, .site-nav__cta { display: none; }
+  .site-nav__menu, .site-nav__cta { display: none; }
   .site-nav__mtools { display: inline-flex; }
   .site-nav__toggle { display: inline-flex; }
   .site-nav__inner { padding-block: 1.05rem; }
