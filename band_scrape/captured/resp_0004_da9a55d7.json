@@ -1,0 +1,2193 @@
+{
+  "url": "https://api-kr.band.us/v2.0.0/get_posts_and_announcements?ts=1782976384184&resolution_type=4&after_post_no=272&after_announcement_created_at=1768867676929&limit=20&order_by=created_at_desc&band_no=82647287",
+  "body": {
+    "result_code": 1,
+    "result_data": {
+      "paging": {
+        "previous_params": null,
+        "next_params": {
+          "resolution_type": "4",
+          "after_post_no": "252",
+          "after_announcement_created_at": "1768867676929",
+          "limit": "20",
+          "order_by": "created_at_desc",
+          "band_no": "82647287"
+        },
+        "first_params": {
+          "resolution_type": "4",
+          "limit": "20",
+          "order_by": "created_at_desc",
+          "band_no": "82647287"
+        },
+        "last_params": null
+      },
+      "items": [
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha82j3t1-null",
+                  "post_id": "ha82j3t1-null",
+                  "created_at": 1752723180426,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 271,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-17T12:33:00+0900",
+                  "photo_no": 70510302053,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/3896h2/h_55jUd018svc9cpvrda5v4nc_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/3896h2/h_55jUd018svc9cpvrda5v4nc_f1jw5b.png?type=s75",
+                  "original_post_id": "p0j-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 7월 17일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1752723180000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_271\"}",
+            "post_no": 271,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/271",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hafaqouo-null",
+                  "post_id": "hafaqouo-null",
+                  "created_at": 1752208122094,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 270,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-11T13:28:42+0900",
+                  "photo_no": 70366666803,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/388igj/e_j50Ud018svc4p4hnahsb020_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/388igj/e_j50Ud018svc4p4hnahsb020_f1jw5b.png?type=s75",
+                  "original_post_id": "p09-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 7월 11일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1752208122000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_270\"}",
+            "post_no": 270,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/270",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hafj9i9j-null",
+                  "post_id": "hafj9i9j-null",
+                  "created_at": 1752108169176,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 269,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-10T09:42:49+0900",
+                  "photo_no": 70337848681,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/388g2e/i_jdfUd018svc1w1csyqsjov2g_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/388g2e/i_jdfUd018svc1w1csyqsjov2g_f1jw5b.png?type=s75",
+                  "original_post_id": "p01-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                },
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hafj9i9p-null",
+                  "post_id": "hafj9i9p-null",
+                  "created_at": 1752108169185,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 269,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-10T09:42:49+0900",
+                  "photo_no": 70337848682,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/388gjc/0_0dgUd018svc1t3oln0lq6nsg_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/388gjc/0_0dgUd018svc1t3oln0lq6nsg_f1jw5b.png?type=s75",
+                  "original_post_id": "p01-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                },
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hafj9i9r-null",
+                  "post_id": "hafj9i9r-null",
+                  "created_at": 1752108169193,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 269,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-10T09:42:49+0900",
+                  "photo_no": 70337848683,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/388gbd/0_idgUd018svccy125l5d6qmz_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/388gbd/0_idgUd018svccy125l5d6qmz_f1jw5b.png?type=s75",
+                  "original_post_id": "p01-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 7월 10일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1752108169000,
+            "photo_count": 3,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_269\"}",
+            "post_no": 269,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/269",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hargxlc4-null",
+                  "post_id": "hargxlc4-null",
+                  "created_at": 1751939130220,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 268,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-08T10:45:30+0900",
+                  "photo_no": 70288480157,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/388ea8/a_80jUd018svc1disbpinwnyic_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/388ea8/a_80jUd018svc1disbpinwnyic_f1jw5b.png?type=s75",
+                  "original_post_id": "p0b-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 7월 8일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1751939130000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_268\"}",
+            "post_no": 268,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/268",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hapj7zza-null",
+                  "post_id": "hapj7zza-null",
+                  "created_at": 1751615169616,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 267,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-04T16:46:09+0900",
+                  "photo_no": 70200437319,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/3888ie/f_ijeUd018svc19u7p696gf21h_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/3888ie/f_ijeUd018svc19u7p696gf21h_f1jw5b.png?type=s75",
+                  "original_post_id": "p0e-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 7월 4일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1751615170000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_267\"}",
+            "post_no": 267,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/267",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hap0vmtl-null",
+                  "post_id": "hap0vmtl-null",
+                  "created_at": 1751588616234,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 266,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-04T09:23:36+0900",
+                  "photo_no": 70190851403,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/3888g1/g_fb8Ud018svc1ipalnd4i3807_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/3888g1/g_fb8Ud018svc1ipalnd4i3807_f1jw5b.png?type=s75",
+                  "original_post_id": "p00-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 7월 4일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1751588616000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_266\"}",
+            "post_no": 266,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/266",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hajoegzd-null",
+                  "post_id": "hajoegzd-null",
+                  "created_at": 1751415632176,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 265,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-07-02T09:20:32+0900",
+                  "photo_no": 70140911803,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/3885bi/d_5h7Ud018svc2r6fvkr3yhq5_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/3885bi/d_5h7Ud018svc2r6fvkr3yhq5_f1jw5b.png?type=s75",
+                  "original_post_id": "p03-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3220\n판매일 : 2025년 7월 2일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1751415632000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_265\"}",
+            "post_no": 265,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/265",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha9ufo2h-null",
+                  "post_id": "ha9ufo2h-null",
+                  "created_at": 1751253183659,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 264,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-30T12:13:03+0900",
+                  "photo_no": 70092532810,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/3883d4/7_e6cUd018svc1uyaf2z28mvcj_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/3883d4/7_e6cUd018svc1uyaf2z28mvcj_f1jw5b.png?type=s75",
+                  "original_post_id": "p0k-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 6월 30일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1751253184000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_264\"}",
+            "post_no": 264,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/264",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha18ysbd-null",
+                  "post_id": "ha18ysbd-null",
+                  "created_at": 1750923837847,
+                  "height": 960,
+                  "width": 1280,
+                  "post_no": 263,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-26T16:43:57+0900",
+                  "photo_no": 69999999930,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387i9g/i_e3dUd018svc3gsa2ah5mlw_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387i9g/i_e3dUd018svc3gsa2ah5mlw_f1jw5b.png?type=s75",
+                  "original_post_id": "p06-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                },
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha18ysb5-null",
+                  "post_id": "ha18ysb5-null",
+                  "created_at": 1750923837855,
+                  "height": 960,
+                  "width": 1280,
+                  "post_no": 263,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-26T16:43:57+0900",
+                  "photo_no": 69999999932,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387ib1/j_93dUd018svc1soeut6lqb1s1_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387ib1/j_93dUd018svc1soeut6lqb1s1_f1jw5b.png?type=s75",
+                  "original_post_id": "p06-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nJLG1930ES\n판매일 : 2025년 6월 26일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1750923838000,
+            "photo_count": 2,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_263\"}",
+            "post_no": 263,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/263",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha1j2t24-null",
+                  "post_id": "ha1j2t24-null",
+                  "created_at": 1750902591397,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 262,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-26T10:49:51+0900",
+                  "photo_no": 69992094765,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387haa/3_dh1Ud018svc198fizxebevkj_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387haa/3_dh1Ud018svc198fizxebevkj_f1jw5b.png?type=s75",
+                  "original_post_id": "p0_-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                },
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha18dzk4-null",
+                  "post_id": "ha18dzk4-null",
+                  "created_at": 1750923709820,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 262,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-26T16:41:49+0900",
+                  "photo_no": 69999951900,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387iei/2_93dUd018svcj796ovpqkzwv_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387iei/2_93dUd018svcj796ovpqkzwv_f1jw5b.png?type=s75",
+                  "original_post_id": "p0_-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                },
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha18dzkl-null",
+                  "post_id": "ha18dzkl-null",
+                  "created_at": 1750923709829,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 262,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-26T16:41:49+0900",
+                  "photo_no": 69999951901,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387i21/3_83dUd018svcu23z4tlvyh3e_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387i21/3_83dUd018svcu23z4tlvyh3e_f1jw5b.png?type=s75",
+                  "original_post_id": "p0_-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 6월 26일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1750902591000,
+            "photo_count": 3,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_262\"}",
+            "post_no": 262,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/262",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "habh5mow-null",
+                  "post_id": "habh5mow-null",
+                  "created_at": 1750738774458,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 261,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-24T13:19:34+0900",
+                  "photo_no": 69943816519,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387fbe/6_95hUd018svc1l2jhhf0sqke0_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387fbe/6_95hUd018svc1l2jhhf0sqke0_f1jw5b.png?type=s75",
+                  "original_post_id": "p05-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                },
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "habh5mo8-null",
+                  "post_id": "habh5mo8-null",
+                  "created_at": 1750738774467,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 261,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-24T13:19:34+0900",
+                  "photo_no": 69943816520,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387fje/5_c5hUd018svcts0hhb5lhebr_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387fje/5_c5hUd018svcts0hhb5lhebr_f1jw5b.png?type=s75",
+                  "original_post_id": "p05-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 6월 24일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1750738774000,
+            "photo_count": 2,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_261\"}",
+            "post_no": 261,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/261",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hab0xi8o-null",
+                  "post_id": "hab0xi8o-null",
+                  "created_at": 1750642140984,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 260,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-23T10:29:00+0900",
+                  "photo_no": 69913630034,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387dfc/7_6fdUd018svc1vxcayyysow7q_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387dfc/7_6fdUd018svc1vxcayyysow7q_f1jw5b.png?type=s75",
+                  "original_post_id": "p0y-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 6월 23일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1750642141000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_260\"}",
+            "post_no": 260,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/260",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha0u8t2p-null",
+                  "post_id": "ha0u8t2p-null",
+                  "created_at": 1750292022306,
+                  "height": 901,
+                  "width": 673,
+                  "post_no": 259,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-19T09:13:42+0900",
+                  "photo_no": 69815265122,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/387867/2_865Ud018svcv7fmit73xquw_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/387867/2_865Ud018svcv7fmit73xquw_f1jw5b.png?type=s75",
+                  "original_post_id": "p0d-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 6월 19일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1750292022000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_259\"}",
+            "post_no": 259,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/259",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "ha0oq_2l-null",
+                  "post_id": "ha0oq_2l-null",
+                  "created_at": 1750222115902,
+                  "height": 949,
+                  "width": 711,
+                  "post_no": 258,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-18T13:48:35+0900",
+                  "photo_no": 69795027216,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/3877bc/4_448Ud018svcfrgjkelk65zx_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/3877bc/4_448Ud018svcfrgjkelk65zx_f1jw5b.png?type=s75",
+                  "original_post_id": "p37-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 6월 18일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1750222116000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_258\"}",
+            "post_no": 258,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/258",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hakaxez2-null",
+                  "post_id": "hakaxez2-null",
+                  "created_at": 1749795810665,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 257,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-13T15:23:30+0900",
+                  "photo_no": 69673720048,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/3870g6/g_0b3Ud018svc1h9qnqpr07ih9_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/3870g6/g_0b3Ud018svc1h9qnqpr07ih9_f1jw5b.png?type=s75",
+                  "original_post_id": "p3x-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 6월 13일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1749795811000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_257\"}",
+            "post_no": 257,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/257",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hakal755-null",
+                  "post_id": "hakal755-null",
+                  "created_at": 1749795784545,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 256,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-06-13T15:23:04+0900",
+                  "photo_no": 69673706737,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/38706i/c_fb3Ud018svc14hpvlta0efrb_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/38706i/c_fb3Ud018svc14hpvlta0efrb_f1jw5b.png?type=s75",
+                  "original_post_id": "p3l-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3015\n판매일 : 2025년 6월 13일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1749795784000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_256\"}",
+            "post_no": 256,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/256",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "had55u0e-null",
+                  "post_id": "had55u0e-null",
+                  "created_at": 1748416472997,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 255,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-05-28T16:14:32+0900",
+                  "photo_no": 69278502639,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/385jjh/i_h02Ud018svcovau6gqnx835_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/385jjh/i_h02Ud018svcovau6gqnx835_f1jw5b.png?type=s75",
+                  "original_post_id": "p34-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ32918\n판매일 : 2025년 5월 28일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1748416473000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_255\"}",
+            "post_no": 255,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/255",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hs7lgc80-null",
+                  "post_id": "hs7lgc80-null",
+                  "created_at": 1748392879338,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 254,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-05-28T09:41:19+0900",
+                  "photo_no": 69270132942,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/385i8c/9_dcfUd018svc1adwnp0pdduuf_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/385i8c/9_dcfUd018svc1adwnp0pdduuf_f1jw5b.png?type=s75",
+                  "original_post_id": "p3v-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3015\n판매일 : 2025년 5월 28일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1748392879000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_254\"}",
+            "post_no": 254,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/254",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hsx0tddw-null",
+                  "post_id": "hsx0tddw-null",
+                  "created_at": 1747977768005,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 253,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-05-23T14:22:48+0900",
+                  "photo_no": 69150209291,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/385cf9/0_d31Ud018svcykz8x75lo46x_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/385cf9/0_d31Ud018svcykz8x75lo46x_f1jw5b.png?type=s75",
+                  "original_post_id": "p3n-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                },
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hslz75gn-null",
+                  "post_id": "hslz75gn-null",
+                  "created_at": 1747881809972,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 253,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-05-22T11:43:29+0900",
+                  "photo_no": 69120884771,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/385ac9/5_jd1Ud018svc1ofo1p3updx5d_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/385ac9/5_jd1Ud018svc1ofo1p3updx5d_f1jw5b.png?type=s75",
+                  "original_post_id": "p3n-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3219\n판매일 : 2025년 5월 22일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1747881810000,
+            "photo_count": 2,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_253\"}",
+            "post_no": 253,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/253",
+            "is_major_notice": false
+          },
+          "type": "post"
+        },
+        {
+          "post": {
+            "attachment": {
+              "video": [],
+              "photo": [
+                {
+                  "author": {
+                    "user_no": 28323184,
+                    "band_no": 82647287,
+                    "name": "박현진",
+                    "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+                    "description": "",
+                    "role": "member",
+                    "member_type": "membership",
+                    "member_certified": false,
+                    "me": false,
+                    "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+                    "is_muted": false,
+                    "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+                    "created_at": 1729661833000
+                  },
+                  "photo_id": "hs4i92w1-null",
+                  "post_id": "hs4i92w1-null",
+                  "created_at": 1747610364259,
+                  "height": 1280,
+                  "width": 960,
+                  "post_no": 252,
+                  "comment_count": 0,
+                  "emotion_count": 0,
+                  "registered_at": "2025-05-19T08:19:24+0900",
+                  "photo_no": 69037193451,
+                  "is_restricted": false,
+                  "savable_state": "unassigned",
+                  "photo_url": "http://coresos.phinf.naver.net/a/385626/f_584Ud018svc16kuoyu55z55j_f1jw5b.png",
+                  "photo_thumbnail": "http://coresos.phinf.naver.net/a/385626/f_584Ud018svc16kuoyu55z55j_f1jw5b.png?type=s75",
+                  "original_post_id": "p32-null",
+                  "content_type": "m2photoonly",
+                  "size": 0,
+                  "source": "post"
+                }
+              ],
+              "file": [],
+              "dropbox_file": [],
+              "external_file": []
+            },
+            "featured_comment": [],
+            "content": "판매장비\nSJ3015\n판매일 : 2025년 5월 19일",
+            "is_translatable": true,
+            "video_count": 0,
+            "created_at": 1747610364000,
+            "photo_count": 1,
+            "band": {
+              "type": "group",
+              "is_recruiting": false,
+              "band_no": 82647287,
+              "name": "우주렌탈",
+              "cover": "http://coresos.phinf.naver.net/a/32id58/0_a96Ud018svc1w2u9arqdng8m_dj9m9z.jpg",
+              "theme_color": "BAND_12",
+              "available_actions": [
+                "comment"
+              ],
+              "permissions": [
+                "commenting"
+              ]
+            },
+            "content_lineage": "{\"content_type\":\"post\",\"content_source\":\"band\",\"content_id\":\"82647287_252\"}",
+            "post_no": 252,
+            "comment_count": 0,
+            "emotion_count": 0,
+            "author": {
+              "user_no": 28323184,
+              "band_no": 82647287,
+              "name": "박현진",
+              "profile_image_url": "http://coresos.phinf.naver.net/a/2ij8f3/g_cg9Ud018svc13ppx3r1a8b40_f1jw5b.jpg",
+              "description": "",
+              "role": "member",
+              "member_type": "membership",
+              "member_certified": false,
+              "me": false,
+              "member_key": "3DPQ7B7CCTFZFMOIFGK75VRXB4======",
+              "is_muted": false,
+              "profile_key": "LE5OQBQJYCB5OE3DFGXV7TS5TA======",
+              "created_at": 1729661833000
+            },
+            "is_restricted": false,
+            "written_in": "ko",
+            "shared_count": 0,
+            "is_bookmarked": false,
+            "should_disable_comment": false,
+            "read_count": 0,
+            "copiable_state": "unassigned",
+            "web_url": "https://band.us/band/82647287/post/252",
+            "is_major_notice": false
+          },
+          "type": "post"
+        }
+      ]
+    }
+  }
+}
