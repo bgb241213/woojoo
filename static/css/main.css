@@ -347,6 +347,17 @@ body {
 }
 a { text-decoration: none; color: inherit; }
 
+/* ── Line breaking ──────────────────────────────────────────────
+   Korean copy reads badly when a line ends on a single word, and a
+   centred block looks lopsided when its last line is much shorter than
+   the rest. `pretty` pulls a word down to avoid the orphan; `balance`
+   evens out short centred blocks. Browsers without support wrap as
+   before, so this is safe to apply broadly. Sentence-level breaks in
+   leads and notices are hard <br>s in the templates. */
+[class$="-hero"] p, .dc-lead { text-wrap: balance; }
+.wj-land p, .ab-greet__body p, .ab-value__d, .ab-row__v,
+.qf-side p, .qf-note, .site-footer, .eqp-chart__note { text-wrap: pretty; }
+
 /* ── Shared type primitives ─────────────────────────────────── */
 .eyebrow {
   font-size: 1.1rem;
