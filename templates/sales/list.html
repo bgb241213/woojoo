@@ -10,8 +10,10 @@
 .sal-hero { position: relative; height: 440px; background-image: url('{% static "images/hero/hero1.jpeg" %}'); background-size: cover; background-position: center; }
 .sal-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,26,66,.5) 0%, rgba(20,26,66,.72) 100%); }
 .sal-hero__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
+.sal-hero__eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .18em; color: rgba(255,255,255,.62); margin-bottom: 14px; }
+.sal-hero h1 em { color: var(--coral); font-style: normal; }
 .sal-hero h1 { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
-.sal-hero p { font-size: 18px; color: rgba(255,255,255,.85); margin: 16px 0 0; font-weight: 500; word-break: keep-all; }
+.sal-hero p { font-size: 18px; max-width: 560px; color: rgba(255,255,255,.85); margin: 16px 0 0; font-weight: 500; word-break: keep-all; }
 
 .sal-tabs { position: sticky; top: var(--nav-h); z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid #ECEDF3; border-bottom: 1px solid #ECEDF3; padding: 16px 0; }
 .sal-tabs__row { display: grid; grid-template-columns: repeat({{ meter_tabs|length }}, 1fr); border: 1px solid #D5DAEC; border-radius: 12px; overflow: hidden; }
@@ -67,6 +69,7 @@
 
 @media (max-width: 767px) {
   .sal-hero { height: 220px; }
+  .sal-hero__eyebrow { font-size: 12px; margin-bottom: 10px; }
   .sal-hero h1 { font-size: 26px; }
   .sal-hero p { font-size: 15.5px; margin-top: 9px; }
   .sal-tabs { padding: 14px 0; overflow-x: auto; scrollbar-width: none; }
@@ -109,8 +112,9 @@
 {% block content %}
 <div class="sal-hero">
   <div class="sal-hero__inner">
-    <h1>장비 판매</h1>
-    <p>현장에 바로 투입할 수 있는 고소작업대 판매 라인업</p>
+    <div class="sal-hero__eyebrow">EQUIPMENT SALE · 장비 판매</div>
+    <h1>점검을 마친 <em>보유 장비</em>를 판매합니다</h1>
+    <p>현장에 바로 투입할 수 있는 고소작업대 판매 라인업입니다.</p>
   </div>
 </div>
 
