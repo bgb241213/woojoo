@@ -127,7 +127,7 @@ body { background: #0A0D24; }
     </h1>
     <div style="height:2px;background:#E6503C;margin:clamp(26px,2.6vw,38px) 0 0;animation:wjRule .9s cubic-bezier(.76,0,.24,1) 2.15s both;"></div>
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:36px;margin-top:clamp(26px,2.6vw,36px);">
-      <p style="margin:0;max-width:520px;font-size:clamp(16px,1.32vw,19.5px);line-height:1.8;color:rgba(255,255,255,.78);font-weight:300;word-break:keep-all;animation:wjFadeUp 1s cubic-bezier(.2,.7,.2,1) 1.75s both;">현장마다 필요한 높이가 다릅니다.<br>1인승 리프트부터 14M 시저까지, 조건에 맞는 장비를 <b style="font-weight:600;color:#fff;">직접 보유</b>하고 있습니다.</p>
+      <p style="margin:0;max-width:520px;font-size:clamp(16px,1.32vw,19.5px);line-height:1.8;color:rgba(255,255,255,.78);font-weight:300;word-break:keep-all;animation:wjFadeUp 1s cubic-bezier(.2,.7,.2,1) 1.75s both;">현장마다 필요한 높이가 다릅니다.<br>1인승 리프트부터 14M 시저까지, <br>조건에 맞는 장비를 <b style="font-weight:600;color:#fff;">직접 보유</b>하고 있습니다.</p>
     </div>
   </div>
 
@@ -178,8 +178,8 @@ body { background: #0A0D24; }
       </div>
 
       <div data-rv style="opacity:0;transform:translateY(20px);transition:opacity 1s ease .1s,transform 1s cubic-bezier(.16,1,.3,1) .1s;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px,2.6vw,44px);margin-top:clamp(38px,3.8vw,58px);">
-        <p style="margin:0;font-size:clamp(17px,1.3vw,19px);line-height:1.95;color:#2B2F38;font-weight:300;word-break:keep-all;">20년 동안 현장에서 배운 것은, 정말 중요한 건 <b style="font-weight:600;color:#1F286F;">문제가 생겼을 때</b>라는 사실이었습니다. 출고 전 점검을 거르지 않고, 연락을 받으면 바로 움직이는 이유입니다.</p>
-        <p style="margin:0;font-size:clamp(17px,1.3vw,19px);line-height:1.95;color:#2B2F38;font-weight:300;word-break:keep-all;">필요한 높이와 진입 조건만 말씀해 주시면, 현장에 맞는 장비를 골라 안전하게 보내드리겠습니다. 사용 중 문제가 생기면 바로 달려갑니다.</p>
+        <p style="margin:0;font-size:clamp(17px,1.3vw,19px);line-height:1.95;color:#2B2F38;font-weight:300;word-break:keep-all;">고소작업대는 작업자의 안전과 직결된 장비이기에, <b style="font-weight:600;color:#1F286F;">작은 이상에도 민감하게 </b> 대처해야 합니다.<br>저희가 출고 전 꼼꼼한 점검을 거르고 넘어가지 않는 이유이자, 현장의 AS 호출에 즉각적으로 응대하는 이유입니다.</p>
+        <p style="margin:0;font-size:clamp(17px,1.3vw,19px);line-height:1.95;color:#2B2F38;font-weight:300;word-break:keep-all;">현장 조건에 맞는 알맞은 장비를 준비해 드리는 것으로 끝내지 않습니다. 사용 중 불편함이 생기면 언제든 연락해 주십시오. 현장에서 장비를 사용하시는 마지막 순간까지 책임지고 든든하게 지원하겠습니다.</p>
       </div>
 
       <div data-rv style="opacity:0;transition:opacity 1s ease .2s;display:flex;align-items:center;gap:20px;margin-top:clamp(40px,4vw,60px);">
@@ -340,7 +340,7 @@ body { background: #0A0D24; }
 
     <!-- 전체 목록 유도 -->
     <div data-wj="more" data-rv style="opacity:0;transform:translateY(22px);transition:opacity 1s ease,transform 1.1s cubic-bezier(.16,1,.3,1);margin-top:clamp(56px,5.6vw,88px);padding-top:clamp(38px,3.8vw,56px);border-top:1px solid #1F286F;display:grid;grid-template-columns:minmax(300px,1fr) minmax(280px,0.72fr);gap:clamp(30px,4vw,72px);align-items:start;">
-      <p style="margin:0;font-size:clamp(24px,2.4vw,36px);line-height:1.5;font-weight:300;color:#1F286F;letter-spacing:-.035em;word-break:keep-all;">같은 미터급 안에서도 작업대 크기와 장비 폭이 다릅니다.<br><b style="font-weight:700;">전체 목록에서 나란히 비교해 보세요.</b></p>
+      <p style="margin:0;font-size:clamp(24px,2.4vw,36px);line-height:1.5;font-weight:300;color:#1F286F;letter-spacing:-.035em;word-break:keep-all;">같은 미터급 안에서도 <br>작업대 크기와 장비 폭이 다릅니다.<br><b style="font-weight:700;">전체 목록에서 나란히 비교해 보세요.</b></p>
       <div>
         <a href="{% url 'equipment:list' %}" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:clamp(18px,1.8vw,24px) 0;border-top:1px solid #DDE1EC;transition:padding-left .4s cubic-bezier(.16,1,.3,1),border-color .3s ease;" class="wjh11">
           <span style="font-size:clamp(18px,1.5vw,21px);font-weight:700;color:#1F286F;letter-spacing:-.02em;">전체 장비 목록</span>
@@ -433,13 +433,13 @@ body { background: #0A0D24; }
           <span style="position:absolute;top:-3.5px;left:0;width:7px;height:7px;border-radius:50%;background:#1F286F;"></span>
           <div style="font-size:14px;font-weight:700;letter-spacing:.2em;color:#9296A8;">STEP 03</div>
           <div style="font-size:clamp(20px,1.7vw,25px);font-weight:700;color:#1F286F;margin-top:13px;letter-spacing:-.03em;">출고 전 점검</div>
-          <p style="margin:14px 0 0;font-size:17px;line-height:1.9;color:#6B7080;font-weight:300;word-break:keep-all;">유압·배터리·안전장치를 점검하고, 소모품은 교체한 뒤 내보냅니다. 이 단계는 거르지 않습니다.</p>
+          <p style="margin:14px 0 0;font-size:17px;line-height:1.9;color:#6B7080;font-weight:300;word-break:keep-all;">유압·배터리·안전장치를 점검하고, 소모품은 교체한 뒤 내보냅니다. <br>이 단계는 거르지 않습니다.</p>
         </div>
         <div data-rv style="opacity:0;transform:translateY(22px);transition:opacity .8s ease .3s,transform .9s cubic-bezier(.16,1,.3,1) .3s;padding-top:clamp(30px,3vw,44px);position:relative;">
           <span style="position:absolute;top:-3.5px;left:0;width:7px;height:7px;border-radius:50%;background:#1F286F;"></span>
           <div style="font-size:14px;font-weight:700;letter-spacing:.2em;color:#9296A8;">STEP 04</div>
           <div style="font-size:clamp(20px,1.7vw,25px);font-weight:700;color:#1F286F;margin-top:13px;letter-spacing:-.03em;">현장 배송</div>
-          <p style="margin:14px 0 0;font-size:17px;line-height:1.9;color:#6B7080;font-weight:300;word-break:keep-all;">장비를 현장까지 운송하고, 사용 방법과 안전 수칙을 함께 확인한 뒤 인도합니다.</p>
+          <p style="margin:14px 0 0;font-size:17px;line-height:1.9;color:#6B7080;font-weight:300;word-break:keep-all;">장비를 현장까지 운송하고, <br>사용 방법과 안전 수칙을 함께 확인한 뒤 인도합니다.</p>
         </div>
         <div data-rv style="opacity:0;transform:translateY(22px);transition:opacity .8s ease .4s,transform .9s cubic-bezier(.16,1,.3,1) .4s;padding-top:clamp(30px,3vw,44px);position:relative;">
           <span style="position:absolute;top:-3.5px;left:0;width:7px;height:7px;border-radius:50%;background:#1F286F;"></span>
