@@ -27,7 +27,7 @@
 @media (max-width: 860px)  { .masonry { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 600px)  { .masonry { grid-template-columns: repeat(2, 1fr); } }
 
-.rec { position: relative; border-radius: 10px; overflow: hidden; cursor: zoom-in; display: block; background: var(--tint); }
+.rec { position: relative; border-radius: 10px; overflow: hidden; display: block; background: var(--tint); }
 .rec__ph { width: 100%; aspect-ratio: 4 / 3; background-size: cover; background-position: center; transition: transform .4s ease; }
 .rec:hover .rec__ph { transform: scale(1.04); }
 .rec__cap {
@@ -40,14 +40,6 @@
 .rec__cap span { display: block; font-size: 1.1rem; color: rgba(255,255,255,.82); margin-top: 2px; }
 @media (max-width: 600px) { .rec__cap { opacity: 1; padding-top: 1rem; } }
 
-/* Lightbox */
-.rec-lightbox { position: fixed; inset: 0; z-index: 90; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 2.5rem; background: rgba(43,47,56,.92); cursor: zoom-out; }
-.rec-lightbox.is-open { display: flex; }
-.rec-lightbox__x { position: absolute; top: 1.6rem; right: 1.9rem; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.6rem; line-height: 1; cursor: pointer; }
-.rec-lightbox__img { width: 88vw; height: 78vh; max-width: 1000px; background-size: contain; background-position: center; background-repeat: no-repeat; }
-.rec-lightbox__cap { margin-top: 1rem; text-align: center; color: #fff; }
-.rec-lightbox__cap b { font-size: 1.3rem; font-weight: 800; }
-.rec-lightbox__cap span { display: block; font-size: 1.1rem; color: rgba(255,255,255,.7); margin-top: 3px; }
 </style>
 {% endblock %}
 
@@ -72,30 +64,4 @@
     {% endfor %}
   </div>
 </section>
-
-<div class="rec-lightbox" id="recLightbox">
-  <div class="rec-lightbox__x">×</div>
-  <div class="rec-lightbox__img" id="recLightboxImg"></div>
-  <div class="rec-lightbox__cap"><b id="recLightboxModel"></b><span id="recLightboxDate"></span></div>
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-(function () {
-  const box = document.getElementById('recLightbox');
-  const img = document.getElementById('recLightboxImg');
-  const model = document.getElementById('recLightboxModel');
-  const date = document.getElementById('recLightboxDate');
-  document.querySelectorAll('.rec').forEach(function (el) {
-    el.addEventListener('click', function () {
-      img.style.backgroundImage = "url('" + el.dataset.src + "')";
-      model.textContent = el.dataset.model;
-      date.textContent = el.dataset.date + ' 출고';
-      box.classList.add('is-open');
-    });
-  });
-  box.addEventListener('click', function () { box.classList.remove('is-open'); });
-})();
-</script>
 {% endblock %}
