@@ -524,10 +524,10 @@ a { text-decoration: none; color: inherit; }
    Site footer (light, hairline)
    ============================================================ */
 .site-footer {
-  border-top: 1px solid var(--hairline);
-  background: #fff;
+  border-top: 1px solid #0A0A28;
+  background: #0A0A28;
   padding: 2.9rem 0 2.7rem;
-  font-size: 1.25rem; color: var(--muted); line-height: 1.85;
+  font-size: 1.25rem; color: rgba(255,255,255,.68); line-height: 1.85;
 }
 .site-footer__inner {
   max-width: 1180px; margin: 0 auto;
@@ -535,8 +535,10 @@ a { text-decoration: none; color: inherit; }
   display: flex; flex-wrap: wrap; gap: 2rem 5rem;
 }
 .site-footer img { height: 30px; width: auto; display: block; margin-bottom: 0.85rem; }
-.site-footer h4 { font-weight: 700; color: var(--charcoal); margin: 0 0 0.6rem; font-size: 1.4rem; }
-.site-footer a:hover { color: var(--navy); }
+.site-footer h4 { font-weight: 700; color: #fff; margin: 0 0 0.6rem; font-size: 1.4rem; }
+.site-footer a { color: rgba(255,255,255,.68); }
+.site-footer a:hover { color: #fff; }
+.site-footer b { color: #fff; font-weight: 700; }
 
 /* ============================================================
    Floating call button + business-hours modal

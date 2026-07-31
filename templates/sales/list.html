@@ -30,10 +30,11 @@
 .sal-row {
   display: flex; gap: 44px; align-items: stretch;
   padding: 36px 30px; margin-bottom: 18px;
-  border: 1px solid #E6E7EA; border-radius: 18px; background: #F8F9FA;
+  border: 1px solid #E6E7EA; border-radius: 18px; background: #fff;
   transition: background .4s ease, border-color .2s ease;
 }
-.sal-row.is-hl { background: #EEF0F8; border-color: #C5CBE6; }
+.sal-row.is-shade { background: #EEF0F8; }
+.sal-row.is-hl { background: #DCE1F2; border-color: #C5CBE6; }
 .sal-row.is-hidden { display: none; }
 
 /* ── Photo carousel: sale grid slide + rental photo slides ─── */
@@ -225,7 +226,17 @@
   const rows = Array.from(document.querySelectorAll('.sal-row'));
   const clsEl = document.getElementById('listCls');
   const noneEl = document.getElementById('salNone');
-  const CLS_LABEL = { '5m': '1인승', '6m': '미니', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', 'etc': '기타장비' };
+  const CLS_LABEL = { '5m': '1인승', '6m': '미니(6M급)', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', 'etc': '기타장비' };
+
+  /* Zebra-stripe rows in their visible order (hidden rows don't consume a slot). */
+  function restripe() {
+    let i = 0;
+    rows.forEach(function (r) {
+      if (r.classList.contains('is-hidden')) return;
+      r.classList.toggle('is-shade', i % 2 === 1);
+      i++;
+    });
+  }
 
   function apply(cat) {
     let shown = 0;
@@ -237,6 +248,7 @@
     clsEl.textContent = cat === 'all' ? '전체 미터급' : (CLS_LABEL[cat] || cat);
     noneEl.classList.toggle('is-on', shown === 0);
     tabs.querySelectorAll('.sal-tab').forEach(function (c) { c.classList.toggle('is-active', c.dataset.cat === cat); });
+    restripe();
   }
   tabs.querySelectorAll('.sal-tab').forEach(function (c) {
     c.addEventListener('click', function () { apply(c.dataset.cat); });

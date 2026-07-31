@@ -5,7 +5,7 @@ class Equipment(models.Model):
     # Order matters: this is the catalog order used across the site.
     CATEGORY_CHOICES = [
         ('5m',       '1인승'),
-        ('6m',       '미니'),
+        ('6m',       '미니(6M급)'),
         ('7m',       '7M급'),
         ('8m',       '8M급'),
         ('10m',      '10M급'),

@@ -81,7 +81,7 @@
 .cmp-table { min-width: max-content; }
 .cmp-trow { display: flex; border-bottom: 1px solid #ECEDF3; }
 .cmp-trow:last-child { border-bottom: none; }
-.cmp-thead { flex: none; width: 150px; background: #FAFBFD; border-right: 1px solid #ECEDF3; display: flex; flex-direction: column; justify-content: center; padding: 0 20px; word-break: keep-all; }
+.cmp-thead { flex: none; width: 150px; background: #FAFBFD; border-right: 1px solid #ECEDF3; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; word-break: keep-all; }
 .cmp-col { flex: 1; min-width: 220px; border-right: 1px solid #ECEDF3; }
 .cmp-col:last-child { border-right: none; }
 .cmp-colhead { position: relative; padding: 20px 22px; }
@@ -97,7 +97,10 @@
 .cmp-speccell { flex: 1; min-width: 220px; border-right: 1px solid #ECEDF3; display: flex; align-items: center; padding: 0 20px; height: 60px; font-size: 19px; font-weight: 600; color: #2B2F38; }
 .cmp-speccell:last-child { border-right: none; }
 .cmp-speccell.em { font-size: 22px; font-weight: 800; color: var(--navy); }
-.cmp-trow.zebra .cmp-speccell { background: #FAFBFD; }
+.cmp-specrow .cmp-thead, .cmp-specrow .cmp-speccell { background: #fff; }
+.cmp-specrow.zebra .cmp-thead, .cmp-specrow.zebra .cmp-speccell { background: #EEF0F8; }
+.cmp-headrow { background: #EEF0F8; }
+.cmp-headrow .cmp-thead { background: #EEF0F8; }
 @media (max-width: 767px) {
   .cmp-hero { height: 220px; }
   .cmp-hero__eyebrow { font-size: 12px; margin-bottom: 10px; }
@@ -271,7 +274,7 @@ const MODELS = {{ models_json|safe }};
       return;
     }
     let html = '<div class="cmp-scroll"><div class="cmp-table">';
-    html += '<div class="cmp-trow"><div class="cmp-thead"></div>' + sel.map(m => `
+    html += '<div class="cmp-trow cmp-headrow"><div class="cmp-thead"></div>' + sel.map(m => `
       <div class="cmp-col"><div class="cmp-colhead">
         <span class="cmp-colhead__x" data-id="${m.id}">×</span>
         <div class="cmp-colhead__tag">${tag(m)}</div>
@@ -284,7 +287,7 @@ const MODELS = {{ models_json|safe }};
       const maxDim = Math.max.apply(null, dims.concat(0.0001));
       html += `<div class="cmp-trow"><div class="cmp-thead"><div class="cmp-thead__label">${v.label}</div><div class="cmp-thead__sub">${v.sub}</div></div>` +
         sel.map((m, i) => {
-          const k = Math.max(0.18, Math.min(1, dims[i] / maxDim));
+          const k = Math.max(0.65, Math.min(1, dims[i] / maxDim));
           const src = m.photos[v.idx] || m.photos[m.photos.length - 1] || '';
           return `<div class="cmp-col"><div class="cmp-photocell"><div class="cmp-photocell__img" style="background-image:url('${src}');transform:scale(${k.toFixed(3)});"></div></div></div>`;
         }).join('') + '</div>';

@@ -46,10 +46,11 @@
 .eqp-row {
   display: flex; gap: 44px; align-items: stretch;
   padding: 36px 30px; margin-bottom: 18px;
-  border: 1px solid #E6E7EA; border-radius: 18px; background: #F8F9FA;
+  border: 1px solid #E6E7EA; border-radius: 18px; background: #fff;
   transition: background .4s ease, border-color .2s ease;
 }
-.eqp-row.is-hl { background: #EEF0F8; border-color: #C5CBE6; }
+.eqp-row.is-shade { background: #EEF0F8; }
+.eqp-row.is-hl { background: #DCE1F2; border-color: #C5CBE6; }
 .eqp-row.is-hidden { display: none; }
 
 /* `align-self: center` keeps the cell square: stretching it to the spec panel
@@ -221,7 +222,7 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
   const emptyTitle = document.getElementById('emptyTitle');
   const emptySub = document.getElementById('emptySub');
   const typeChip = document.getElementById('typeChip');
-  const CLS_LABEL = { '5m': '1인승', '6m': '미니', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', 'etc': '기타장비' };
+  const CLS_LABEL = { '5m': '1인승', '6m': '미니(6M급)', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', 'etc': '기타장비' };
   const TYPE_LABEL = { scissor: '시저', boom: '굴절', vertical: '버티칼', other: '기타' };
   const catLabel = function (cats) {
     return cats.map(function (c) { return CLS_LABEL[c] || c; }).join(' · ');
@@ -231,12 +232,11 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
      The first column covers two classes, so a zone holds a list. */
   const zoneDefs = [
     { cats: [],             bound: 0,     next: 6.5 },   /* y-axis labels */
-    { cats: ['5m', '6m'],   bound: 6.5,   next: 22.45 },
-    { cats: ['7m'],         bound: 22.45, next: 36.85 },
-    { cats: ['8m'],         bound: 36.85, next: 50.7 },
-    { cats: ['10m'],        bound: 50.7,  next: 64.25 },
-    { cats: ['12m'],        bound: 64.25, next: 77.15 },
-    { cats: ['14m'],        bound: 77.15, next: 100 },
+    { cats: ['5m', '6m'],   bound: 6.5,   next: 36.25 },
+    { cats: ['7m'],         bound: 36.25, next: 50.93 },
+    { cats: ['10m'],        bound: 50.93, next: 64.36 },
+    { cats: ['12m'],        bound: 64.36, next: 77.24 },
+    { cats: ['14m'],        bound: 77.24, next: 100 },
   ];
   const present = new Set(rows.map(function (r) { return r.dataset.cat; }));
   const chart = document.getElementById('heightChart');
@@ -259,6 +259,16 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
     if (on) { emptyTitle.textContent = title; emptySub.textContent = sub; }
   }
 
+  /* Zebra-stripe rows in their visible order (hidden rows don't consume a slot). */
+  function restripe() {
+    let i = 0;
+    rows.forEach(function (r) {
+      if (r.classList.contains('is-hidden')) return;
+      r.classList.toggle('is-shade', i % 2 === 1);
+      i++;
+    });
+  }
+
   /* Accepts one meter class or a list of them (the chart's merged column). */
   function apply(cat) {
     const cats = Array.isArray(cat) ? cat : [cat];
@@ -274,6 +284,7 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
     tabEls.forEach(function (t) { t.classList.toggle('is-active', cats.indexOf(t.dataset.cat) !== -1); });
     document.querySelectorAll('.eqp-zone').forEach(function (z) { z.classList.toggle('is-active', z.dataset.cats === key); });
     setEmpty(shown === 0, '해당 미터급의 렌탈 장비가 없습니다', '다른 미터급을 선택하거나 문의해 주세요.');
+    restripe();
   }
 
   function applyType(type) {
@@ -290,6 +301,7 @@ document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
     typeChip.textContent = label + ' 타입 · 전체보기 ✕';
     typeChip.classList.add('is-on');
     setEmpty(shown === 0, label + ' 타입 렌탈 보유 장비가 없습니다', '현재 렌탈은 시저 타입 위주로 운영됩니다. 필요하시면 재고를 확인해 드립니다.');
+    restripe();
   }
 
   const defaultTab = tabEls.find(function (t) { return Number(t.dataset.count) > 0; }) || tabEls[0];
