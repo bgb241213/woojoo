@@ -107,7 +107,7 @@ body { background: #0A0D24; }
 </div>
 
 <!-- ══════ 히어로 ══════ -->
-<div style="position:relative;min-height:820px;display:grid;grid-template-rows:1fr auto auto;overflow:hidden;background:#0A0D24;">
+<div style="position:relative;min-height:calc(100vh - var(--nav-h));display:grid;grid-template-rows:1fr auto auto;overflow:hidden;background:#0A0D24;">
   <div style="position:absolute;inset:0;overflow:hidden;">
     
       <div class="wj-slide is-on" style="background-image:url('{% static 'images/hero/hero1.jpeg' %}')"></div>
