@@ -11,6 +11,14 @@
 [data-reveal].in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1; transform: none; transition: none; } }
 
+/* ── Alternating section bands ──────────────────────────────
+   The content sections are .dc-container (width-capped), so a background on
+   them would stop at the container edge. These full-bleed wrappers carry the
+   colour instead, giving the same dark/light rhythm as the landing page. */
+.ab-band--white { background: #fff; }
+.ab-band--tint  { background: #F4F5FA; }
+.ab-band--dark  { background: #0A0D24; }
+
 /* ── Hero banner ───────────────────────────────────────────── */
 .ab-hero { position: relative; height: 440px; background-image: url('{% static "images/hero/hero2.jpeg" %}'); background-size: cover; background-position: center; }
 .ab-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,26,66,.5) 0%, rgba(20,26,66,.72) 100%); }
@@ -31,12 +39,19 @@
 .ab-greet__sign b { font-weight: 800; color: var(--navy); font-size: 18px; margin-left: 6px; }
 
 /* ── Stat strip ────────────────────────────────────────────── */
-.ab-stats { background: #DCE1F5; }
-.ab-stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-.ab-stat { display: flex; align-items: center; gap: 1rem; padding: 16px 36px; border-right: 1px solid var(--hairline); }
+.ab-stats { background: #0A0D24; padding: 10px 0; }
+.ab-stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.ab-stat { display: flex; align-items: center; gap: 1rem; padding: 16px 36px; border-right: 1px solid rgba(255,255,255,.13); }
 .ab-stat:last-child { border-right: none; }
-.ab-stat__lbl { font-size: 17.5px; color: #6B7080; }
-.ab-stat__val { font-size: 25px; font-weight: 800; color: var(--navy); margin-top: 5px; letter-spacing: -0.01em; }
+/* A flex item defaults to min-width:auto, so the text block refuses to shrink
+   below its content and overflows the cell on narrow screens. */
+.ab-stat > svg { flex: none; }
+.ab-stat > div { min-width: 0; }
+/* CSS beats the SVGs' inline stroke attribute, so the icons flip without
+   touching the markup. */
+.ab-stats svg { stroke: rgba(255,255,255,.7); }
+.ab-stat__lbl { font-size: 17.5px; color: rgba(255,255,255,.55); }
+.ab-stat__val { font-size: 25px; font-weight: 800; color: #fff; margin-top: 5px; letter-spacing: -0.01em; }
 .ab-stat__val.sm { font-size: 21px; white-space: nowrap; }
 
 /* ── Values (3 centered cards) ─────────────────────────────── */
@@ -44,20 +59,27 @@
 .ab-values h2, .ab-biz h2, .ab-info-head h2 { font-size: 26.5px; font-weight: 800; color: var(--navy); margin: 0 0 6px; letter-spacing: -0.01em; text-align: center; }
 .ab-values__sub, .ab-biz__sub { font-size: 17.5px; color: #6B7080; margin: 0 0 32px; text-align: center; }
 .ab-values__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
-.ab-value { text-align: center; padding: 40px 28px; border: 1px solid var(--hairline); border-radius: 18px; }
+/* White cards lifted off the tinted band. */
+.ab-value { text-align: center; padding: 40px 28px; background: #fff; border: 1px solid var(--hairline); border-radius: 18px; }
 .ab-value__icon { width: 60px; height: 60px; border-radius: 16px; background: var(--tint); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; }
 .ab-value__t { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 14px; word-break: keep-all; }
 .ab-value__d { font-size: 17.5px; line-height: 1.8; color: #2B2F38; margin: 0; word-break: keep-all; }
 
 /* ── 사업 분야 (photo cards) ───────────────────────────────── */
-.ab-biz { padding: 58px 0; border-top: 1px solid var(--hairline); }
-.ab-biz__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-.ab-biz__card { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 16px; overflow: hidden; background-size: cover; background-position: center; }
+.ab-biz { padding: 58px 0; }
+/* Overrides the shared heading rule above, which is navy and one size for all
+   the light bands. */
+.ab-biz h2 { color: #fff; font-size: clamp(30px, 3.2vw, 42px); margin-bottom: 10px; }
+.ab-biz__sub { color: rgba(255,255,255,.58); }
+/* Capped narrower than .dc-container: square cards at the full container
+   width would each be ~535px tall, which overwhelms the section. */
+.ab-biz__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; max-width: 940px; margin: 0 auto; }
+.ab-biz__card { position: relative; display: block; aspect-ratio: 1 / 1; border-radius: 16px; overflow: hidden; background-size: cover; background-position: center; }
 .ab-biz__card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(31,40,111,.12) 0%, rgba(20,26,66,.62) 100%); }
 .ab-biz__label { position: absolute; left: 34px; bottom: 30px; font-size: 30px; font-weight: 800; line-height: 1.25; color: #fff; letter-spacing: -0.02em; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
 
 /* ── Company info + map ────────────────────────────────────── */
-.ab-info-head { border-top: 1px solid var(--hairline); padding: 48px 0 0; }
+.ab-info-head { padding: 48px 0 0; }
 .ab-info-head h2 { font-size: 28px; margin: 0; }
 .ab-company__grid { display: flex; gap: 0; }
 .ab-company__info { flex: 1; min-width: 0; padding: 32px 44px 50px 0; border-right: 1px solid var(--hairline); }
@@ -94,18 +116,21 @@
   .ab-stats .dc-container { padding-inline: 0 !important; }
   .ab-stats__grid { grid-template-columns: 1fr 1fr; }
   .ab-stat { padding: 18px 20px; gap: 13px; }
-  .ab-stat:nth-child(odd) { border-right: 1px solid var(--hairline); }
+  .ab-stat:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.13); }
   .ab-stat:nth-child(even) { border-right: none; }
-  .ab-stat:nth-child(1), .ab-stat:nth-child(2) { border-bottom: 1px solid var(--hairline); }
-  .ab-stat__lbl { font-size: 15.5px; }
-  .ab-stat__val { font-size: 21px; margin-top: 4px; }
-  .ab-stat__val.sm { font-size: 17.5px; }
+  .ab-stat:nth-child(1), .ab-stat:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.13); }
+  .ab-stat__lbl { font-size: 15.5px; word-break: keep-all; }
+  .ab-stat__val { font-size: 21px; margin-top: 4px; word-break: keep-all; }
+  /* nowrap is fine at desktop widths but clips here — let it wrap instead. */
+  .ab-stat__val.sm { font-size: 16px; white-space: normal; line-height: 1.35; }
 
   .ab-values { padding: 30px 0; }
   .ab-values h2, .ab-biz h2 { font-size: 23.5px; margin-bottom: 4px; }
   .ab-values__sub, .ab-biz__sub { font-size: 15.5px; margin-bottom: 18px; }
   .ab-values__grid { gap: 0; margin-top: 0; }
-  .ab-value { display: flex; gap: 14px; text-align: left; padding: 18px 0; border: none; border-top: 1px solid var(--hairline); border-radius: 0; }
+  /* Stacked as a divided list, the white card fill would read as one solid
+     block against the tinted band — drop it. */
+  .ab-value { display: flex; gap: 14px; text-align: left; padding: 18px 0; background: transparent; border: none; border-top: 1px solid var(--hairline); border-radius: 0; }
   .ab-value:last-child { border-bottom: 1px solid var(--hairline); }
   .ab-value__icon { flex: none; width: 44px; height: 44px; border-radius: 12px; margin: 0; }
   .ab-value__t { font-size: 19px; margin-bottom: 6px; }
@@ -125,6 +150,16 @@
   .ab-map iframe { height: 200px; }
   .ab-map-note { margin-top: 14px; font-size: 15.5px; }
 }
+
+/* Very narrow phones: the 2x2 stat grid leaves ~110px of text per cell, so the
+   icon and type scale down one more step to keep values on one or two lines. */
+@media (max-width: 400px) {
+  .ab-stat { padding: 14px 12px; gap: 9px; }
+  .ab-stat svg { width: 22px; height: 22px; }
+  .ab-stat__lbl { font-size: 14px; }
+  .ab-stat__val { font-size: 18px; }
+  .ab-stat__val.sm { font-size: 14.5px; }
+}
 </style>
 {% endblock %}
 
@@ -139,6 +174,7 @@
 </div>
 
 <!-- 대표 인사말 -->
+<div class="ab-band--white">
 <section class="ab-greet dc-container" data-reveal>
   <div class="ab-greet__eyebrow">인사말</div>
   <h2>20여년 경력의 고소작업대 렌탈전문사</h2>
@@ -149,6 +185,7 @@
     <p class="ab-greet__sign"><b>우주렌탈 일동</b></p>
   </div>
 </section>
+</div>
 
 <!-- Stat strip -->
 <section class="ab-stats" data-reveal>
@@ -175,6 +212,7 @@
 </section>
 
 <!-- Values -->
+<div class="ab-band--tint">
 <section class="ab-values dc-container" data-reveal>
   <h2>우리가 일하는 방식</h2>
   <p class="ab-values__sub">우주렌탈이 20년 동안 지켜온 세 가지 원칙입니다.</p>
@@ -202,8 +240,10 @@
     </div>
   </div>
 </section>
+</div>
 
 <!-- 사업 분야 -->
+<div class="ab-band--dark">
 <section class="ab-biz dc-container" data-reveal>
   <h2>사업 분야</h2>
   <p class="ab-biz__sub">우주렌탈이 제공하는 네 가지 서비스입니다.</p>
@@ -222,8 +262,10 @@
     </a>
   </div>
 </section>
+</div>
 
 <!-- Company info + map -->
+<div class="ab-band--white">
 <div class="ab-info-head dc-container" data-reveal>
   <h2>회사 정보 · 오시는 길</h2>
 </div>
@@ -252,6 +294,7 @@
     </div>
   </div>
 </section>
+</div>
 {% endblock %}
 
 {% block extra_js %}

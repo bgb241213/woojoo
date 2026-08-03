@@ -36,9 +36,15 @@
   opacity: 0; transition: opacity .25s ease;
 }
 .rec:hover .rec__cap { opacity: 1; }
-.rec__cap b { display: block; font-size: 1.2rem; font-weight: 800; color: #fff; letter-spacing: -0.01em; }
-.rec__cap span { display: block; font-size: 1.1rem; color: rgba(255,255,255,.82); margin-top: 2px; }
-@media (max-width: 600px) { .rec__cap { opacity: 1; padding-top: 1rem; } }
+.rec__cap b { display: block; font-size: 0.95rem; font-weight: 800; color: #fff; letter-spacing: -0.01em; }
+.rec__cap span { display: block; font-size: 0.85rem; color: rgba(255,255,255,.82); margin-top: 2px; }
+/* Tiles drop to two columns here and the caption is always shown rather than
+   revealed on hover, so it steps down once more to stay out of the photo. */
+@media (max-width: 600px) {
+  .rec__cap { opacity: 1; padding: 1rem 0.6rem 0.55rem; }
+  .rec__cap b { font-size: 0.85rem; }
+  .rec__cap span { font-size: 0.76rem; }
+}
 
 </style>
 {% endblock %}

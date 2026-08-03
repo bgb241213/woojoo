@@ -28,7 +28,10 @@
 .eqp-zone.clickable:hover .eqp-zone__tip { display: block; }
 
 /* ── Segmented group tabs ──────────────────────────────────── */
-.eqp-tabs { position: sticky; top: var(--nav-h); z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid #ECEDF3; border-bottom: 1px solid #ECEDF3; padding: 16px 0; }
+/* Solid tinted band so the tab strip reads as its own zone against the white
+   chart above and the white listing below. Opaque on purpose — the previous
+   translucent white + blur made it blend into whatever scrolled beneath it. */
+.eqp-tabs { position: sticky; top: var(--nav-h); z-index: 20; background: #D7DCEE; border-top: 1px solid #C3CAE4; border-bottom: 1px solid #C3CAE4; padding: 16px 0; }
 .eqp-tabs__row { display: grid; grid-template-columns: repeat({{ group_tabs|length }}, 1fr); border: 1px solid #D5DAEC; border-radius: 12px; overflow: hidden; }
 .eqp-tab { display: flex; align-items: center; justify-content: center; padding: 15px 8px; font-size: 18px; font-weight: 600; cursor: pointer; background: #fff; color: var(--navy); border-right: 1px solid #E4E7F2; text-align: center; white-space: nowrap; }
 .eqp-tab:last-child { border-right: none; }

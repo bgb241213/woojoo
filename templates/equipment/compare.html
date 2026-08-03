@@ -137,6 +137,18 @@
   .cmp-speccell { height: 50px; padding: 0 13px; font-size: 16.5px; }
   .cmp-speccell.em { font-size: 19px; }
   .cmp-specrow .cmp-thead { font-size: 15px; font-weight: 700; }
+
+  /* Spec rows stay on one line — 라벨 | 값 | 값 — instead of the label taking
+     its own full-width strip above the values. Overrides the generic .cmp-thead
+     rule above, which the photo and column-header rows still need. */
+  .cmp-specrow { flex-wrap: nowrap; }
+  .cmp-specrow .cmp-thead {
+    width: auto; flex: 0 0 86px; align-items: center;
+    height: 50px; padding: 0 11px; font-size: 13.5px; line-height: 1.25;
+    border-bottom: none; border-right: 1px solid #ECEDF3; word-break: keep-all;
+  }
+  .cmp-specrow .cmp-speccell { padding: 0 11px; font-size: 15.5px; }
+  .cmp-specrow .cmp-speccell.em { font-size: 17.5px; }
 }
 
 .cmp-empty { border: 1px dashed #D5DAEC; border-radius: 18px; padding: 80px 16px; text-align: center; }
@@ -169,7 +181,7 @@
       <span class="cmp-panel__count"><b id="cmpCount">0</b> / 2 선택</span>
     </button>
     <div class="cmp-panel__body">
-      <div class="cmp-pick__hint">미터급을 눌러 펼친 뒤, 비교할 장비 2대를 선택하세요</div>
+      <div class="cmp-pick__hint">미터를 눌러 펼친 뒤, 비교할 장비 2대를 선택하세요</div>
       <div id="cmpPicker"></div>
     </div>
   </div>
@@ -280,7 +292,7 @@ const MODELS = {{ models_json|safe }};
     const sel = selected.map(byId).filter(Boolean);
     elCount.textContent = sel.length;
     if (sel.length < 2) {
-      elResult.innerHTML = `<div class="cmp-empty"><b>비교할 장비 2대를 선택해 주세요</b><span>위 목록에서 미터급을 펼치고 체크하면 사진이 나란히 표시됩니다.</span></div>`;
+      elResult.innerHTML = `<div class="cmp-empty"><b>비교할 장비 2대를 선택해 주세요</b><span>위 목록에서 미터를 펼치고 체크하면 사진이 나란히 표시됩니다.</span></div>`;
       return;
     }
     let html = '<div class="cmp-scroll"><div class="cmp-table">';

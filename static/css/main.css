@@ -539,15 +539,16 @@ a { text-decoration: none; color: inherit; }
 .site-footer a { color: rgba(255,255,255,.68); }
 .site-footer a:hover { color: #fff; }
 .site-footer b { color: #fff; font-weight: 700; }
-/* Shares .site-footer__inner's width and gutters so it lines up with the
-   company details above it; only the rule and the link style are added here.
-   The policy link is a legal notice, so it stays legible rather than muted. */
+/* Follows the contact column instead of being pushed to the far edge — the
+   normal column gap keeps it grouped with the text rather than stranded.
+   align-self drops it to the contact block's last line. Kept small and muted
+   so it reads as a legal notice rather than navigation. */
 .site-footer__legal {
-  margin-top: 2rem; padding-top: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,.12);
+  align-self: flex-end; margin-left: -2.5rem;
+  font-size: 1.05rem; line-height: 1.6;
 }
-.site-footer__legal a { color: #fff; font-weight: 700; }
-.site-footer__legal a:hover { text-decoration: underline; }
+.site-footer__legal a { color: rgba(255,255,255,.5); }
+.site-footer__legal a:hover { color: #fff; text-decoration: underline; }
 
 /* ============================================================
    Floating call button + business-hours modal
@@ -642,5 +643,11 @@ a { text-decoration: none; color: inherit; }
   .site-footer img { height: 26px; margin-bottom: 1.15rem; }
   .site-footer__inner > div + div {
     margin-top: 1.15rem; padding-top: 1.15rem; border-top: 1px solid var(--hairline);
+  }
+  /* The policy link is a footnote, not a third column — it keeps the corner
+     placement but drops the divider the stacked columns get. */
+  .site-footer__legal {
+    margin-top: 1.15rem !important; margin-left: 0; padding-top: 0 !important;
+    border-top: 0 !important; font-size: 0.95rem;
   }
 }
