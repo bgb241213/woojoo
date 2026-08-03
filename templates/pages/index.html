@@ -74,14 +74,18 @@ body { background: #0A0D24; }
   .greet-body { order: 1; }
   .greet-sign { margin-top: 28px !important; }
   [data-wj="steps"] { grid-template-columns: 1fr 1fr !important; }
-  /* Height chart: tighten the axis and gutters so all six machines fit a
-     phone without the last column running off screen. */
-  [data-wj="scalewrap"] { grid-template-columns: 32px 1fr !important; column-gap: 8px !important; }
-  [data-wj="scale"] { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 2px !important; }
+  /* Height chart: tighten the axis and gutters so all seven machines fit a
+     phone without the last column running off screen. At seven columns a cell
+     is ~38px, so the "최대 15.7m" caption is allowed to wrap onto two lines —
+     nowrap would push it out of its cell. */
+  [data-wj="scalewrap"] { grid-template-columns: 30px 1fr !important; column-gap: 5px !important; }
+  /* Axis now carries 10M–16M rather than 5m/10m, so the labels are wider. */
+  [data-wj="scalewrap"] > div:first-child span { font-size: 10.5px !important; }
+  [data-wj="scale"] { grid-template-columns: repeat(7, minmax(0, 1fr)) !important; gap: 2px !important; }
   [data-wj="scalewrap"] [style*="clamp(210px,23vw,340px)"] { height: 185px !important; }
   [data-wj="scale"] > a > div:last-child { padding-left: 1px !important; padding-right: 1px !important; }
-  [data-wj="scale"] > a > div:last-child > div:first-child { font-size: 12.5px !important; }
-  [data-wj="scale"] > a > div:last-child > div:last-child { font-size: 10.5px !important; white-space: nowrap !important; }
+  [data-wj="scale"] > a > div:last-child > div:first-child { font-size: 11px !important; }
+  [data-wj="scale"] > a > div:last-child > div:last-child { font-size: 9.5px !important; white-space: normal !important; line-height: 1.3 !important; }
 
   /* Sticky plate would pin a full-width image over the list. */
   [data-wj="index"] > div:first-child { position: static !important; }
@@ -222,40 +226,35 @@ body { background: #0A0D24; }
     <div data-wj="scalewrap" style="margin-top:clamp(56px,6vw,90px);display:grid;grid-template-columns:clamp(40px,3.6vw,54px) 1fr;gap:0 clamp(8px,1vw,16px);">
       <!-- 미터 축 -->
       <div style="position:relative;height:clamp(210px,23vw,340px);">
-        <span style="position:absolute;right:0;top:0;transform:translateY(-52%);font-size:14px;font-weight:600;color:rgba(255,255,255,.5);">15m</span>
-        <span style="position:absolute;right:0;top:33.33%;transform:translateY(-52%);font-size:14px;font-weight:600;color:rgba(255,255,255,.5);">10m</span>
-        <span style="position:absolute;right:0;top:66.66%;transform:translateY(-52%);font-size:14px;font-weight:600;color:rgba(255,255,255,.5);">5m</span>
-        <span style="position:absolute;right:0;bottom:0;transform:translateY(48%);font-size:14px;font-weight:600;color:rgba(255,255,255,.5);">0</span>
-        <!-- 장비별 손끝 높이 눈금 — 아래 점선과 같은 위치, 실제 최대 높이(m) 표기.
-             1인승·미니는 손끝 높이가 붙어 있어 라벨만 살짝 띄워 겹치지 않게 함. -->
-        <span style="position:absolute;right:0;top:59.22%;transform:translateY(-50%);font-size:11px;font-weight:600;color:rgba(255,255,255,.4);white-space:nowrap;">6.5m</span>
-        <span style="position:absolute;right:0;top:51.94%;transform:translateY(-50%);font-size:11px;font-weight:600;color:rgba(255,255,255,.4);white-space:nowrap;">7.8m</span>
-        <!-- 10M 라인은 기존 10m 눈금과 겹치므로 라벨 생략 -->
-        <span style="position:absolute;right:0;top:21.63%;transform:translateY(-50%);font-size:11px;font-weight:600;color:rgba(255,255,255,.4);white-space:nowrap;">12m</span>
-        <span style="position:absolute;right:0;top:7.85%;transform:translateY(-50%);font-size:11px;font-weight:600;color:rgba(255,255,255,.4);white-space:nowrap;">14.2m</span>
+        <!-- 눈금은 장비별 손끝 높이(점선)뿐이며, 라벨은 실제 높이(m)가 아니라
+             미터급으로 표기한다. 위치는 각 PNG 안에서 손끝이 시작되는 픽셀을
+             측정해 얻은 값 — 축 상단이 16m 기준이다.
+             1인승(62.86%)은 미니와 1.1%p 차이라 라벨이 겹쳐 생략했다. -->
+        <span style="position:absolute;right:0;top:61.75%;transform:translateY(-50%);font-size:13px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;">6M</span>
+        <span style="position:absolute;right:0;top:54.95%;transform:translateY(-50%);font-size:13px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;">7M</span>
+        <span style="position:absolute;right:0;top:38.82%;transform:translateY(-50%);font-size:13px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;">10M</span>
+        <span style="position:absolute;right:0;top:26.53%;transform:translateY(-50%);font-size:13px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;">12M</span>
+        <span style="position:absolute;right:0;top:13.52%;transform:translateY(-50%);font-size:13px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;">14M</span>
+        <span style="position:absolute;right:0;top:4.23%;transform:translateY(-50%);font-size:13px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;">16M</span>
       </div>
 
       <div style="position:relative;">
-        <!-- 기준선 (0/5/10/15m) -->
-        <div style="position:absolute;left:0;right:0;top:0;height:clamp(210px,23vw,340px);pointer-events:none;">
-          <div style="position:absolute;left:0;right:0;top:0;height:1px;background:rgba(255,255,255,.09);"></div>
-          <div style="position:absolute;left:0;right:0;top:33.33%;height:1px;background:rgba(255,255,255,.09);"></div>
-          <div style="position:absolute;left:0;right:0;top:66.66%;height:1px;background:rgba(255,255,255,.09);"></div>
-        </div>
         <!-- 장비별 손끝 높이선 — 각 PNG 안에서 실제 손끝이 시작되는 픽셀 위치를
              측정해 보정한 값(이미지 박스 상단이 아니라 그림 속 여백을 제외한
-             진짜 손끝 지점 기준). -->
+             진짜 손끝 지점 기준). 좌측 축 라벨과 같은 위치를 쓴다. -->
         <div style="position:absolute;left:0;right:0;top:0;height:clamp(210px,23vw,340px);pointer-events:none;">
-          <div style="position:absolute;left:0;right:0;top:59.22%;border-top:1px dashed rgba(255,255,255,.16);"></div>
-          <div style="position:absolute;left:0;right:0;top:51.94%;border-top:1px dashed rgba(255,255,255,.16);"></div>
-          <div style="position:absolute;left:0;right:0;top:21.63%;border-top:1px dashed rgba(255,255,255,.16);"></div>
-          <div style="position:absolute;left:0;right:0;top:7.85%;border-top:1px dashed rgba(255,255,255,.16);"></div>
+          <div style="position:absolute;left:0;right:0;top:61.75%;border-top:1px dashed rgba(255,255,255,.2);"></div>
+          <div style="position:absolute;left:0;right:0;top:54.95%;border-top:1px dashed rgba(255,255,255,.2);"></div>
+          <div style="position:absolute;left:0;right:0;top:38.82%;border-top:1px dashed rgba(255,255,255,.2);"></div>
+          <div style="position:absolute;left:0;right:0;top:26.53%;border-top:1px dashed rgba(255,255,255,.2);"></div>
+          <div style="position:absolute;left:0;right:0;top:13.52%;border-top:1px dashed rgba(255,255,255,.2);"></div>
+          <div style="position:absolute;left:0;right:0;top:4.23%;border-top:1px dashed rgba(255,255,255,.2);"></div>
         </div>
 
-        <div data-wj="scale" style="display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(4px,.7vw,12px);">
+        <div data-wj="scale" style="display:grid;grid-template-columns:repeat(7,1fr);gap:clamp(4px,.7vw,12px);">
           <a href="{% url 'equipment:list' %}#cls-5m" style="display:block;border-radius:3px;transition:background .3s ease;" class="wjh4">
             <div data-rvl style="height:clamp(210px,23vw,340px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;">
-              <img src="{% static 'images/lifts/m6.png' %}" alt="1인승 고소작업대" style="height:41%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1),opacity .5s ease;">
+              <img src="{% static 'images/lifts/m6.png' %}" alt="1인승 고소작업대" style="height:38.4%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1),opacity .5s ease;">
             </div>
             <div style="padding:13px 8px 0;border-top:1px solid rgba(255,255,255,.28);text-align:center;">
               <div style="font-size:clamp(17px,1.5vw,22px);font-weight:700;color:#fff;letter-spacing:-.02em;">1인승</div>
@@ -264,7 +263,7 @@ body { background: #0A0D24; }
           </a>
           <a href="{% url 'equipment:list' %}#cls-6m" style="display:block;border-radius:3px;transition:background .3s ease;" class="wjh5">
             <div data-rvl style="height:clamp(210px,23vw,340px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;">
-              <img src="{% static 'images/lifts/m7.png' %}" alt="미니(6M급) 고소작업대" style="height:42%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1) .09s,opacity .5s ease .09s;">
+              <img src="{% static 'images/lifts/m7.png' %}" alt="미니(6M급) 고소작업대" style="height:39.4%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1) .09s,opacity .5s ease .09s;">
             </div>
             <div style="padding:13px 8px 0;border-top:1px solid rgba(255,255,255,.28);text-align:center;">
               <div style="font-size:clamp(17px,1.5vw,22px);font-weight:700;color:#fff;letter-spacing:-.02em;">미니(6M)</div>
@@ -273,7 +272,7 @@ body { background: #0A0D24; }
           </a>
           <a href="{% url 'equipment:list' %}#cls-7m" style="display:block;border-radius:3px;transition:background .3s ease;" class="wjh6">
             <div data-rvl style="height:clamp(210px,23vw,340px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;">
-              <img src="{% static 'images/lifts/m7.png' %}" alt="7M급 고소작업대" style="height:49.5%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1) .18s,opacity .5s ease .18s;">
+              <img src="{% static 'images/lifts/m7.png' %}" alt="7M급 고소작업대" style="height:46.4%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1) .18s,opacity .5s ease .18s;">
             </div>
             <div style="padding:13px 8px 0;border-top:1px solid rgba(255,255,255,.28);text-align:center;">
               <div style="font-size:clamp(17px,1.5vw,22px);font-weight:700;color:#fff;letter-spacing:-.02em;">7M</div>
@@ -282,7 +281,7 @@ body { background: #0A0D24; }
           </a>
           <a href="{% url 'equipment:list' %}#cls-10m" style="display:block;border-radius:3px;transition:background .3s ease;" class="wjh7">
             <div data-rvl style="height:clamp(210px,23vw,340px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;">
-              <img src="{% static 'images/lifts/m10.png' %}" alt="10M급 고소작업대" style="height:66.7%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1) .27s,opacity .5s ease .27s;">
+              <img src="{% static 'images/lifts/m10.png' %}" alt="10M급 고소작업대" style="height:62.5%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1) .27s,opacity .5s ease .27s;">
             </div>
             <div style="padding:13px 8px 0;border-top:1px solid rgba(255,255,255,.28);text-align:center;">
               <div style="font-size:clamp(17px,1.5vw,22px);font-weight:700;color:#fff;letter-spacing:-.02em;">10M</div>
@@ -291,7 +290,7 @@ body { background: #0A0D24; }
           </a>
           <a href="{% url 'equipment:list' %}#cls-12m" style="display:block;border-radius:3px;transition:background .3s ease;" class="wjh8">
             <div data-rvl style="height:clamp(210px,23vw,340px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;">
-              <img src="{% static 'images/lifts/m12.png' %}" alt="12M급 고소작업대" style="height:80%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1) .36s,opacity .5s ease .36s;">
+              <img src="{% static 'images/lifts/m12.png' %}" alt="12M급 고소작업대" style="height:75%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.3s cubic-bezier(.16,1,.3,1) .36s,opacity .5s ease .36s;">
             </div>
             <div style="padding:13px 8px 0;border-top:1px solid rgba(255,255,255,.28);text-align:center;">
               <div style="font-size:clamp(17px,1.5vw,22px);font-weight:700;color:#fff;letter-spacing:-.02em;">12M</div>
@@ -300,11 +299,20 @@ body { background: #0A0D24; }
           </a>
           <a href="{% url 'equipment:list' %}#cls-14m" style="display:block;border-radius:3px;transition:background .3s ease;" class="wjh9">
             <div data-rvl style="height:clamp(210px,23vw,340px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;">
-              <img src="{% static 'images/lifts/m14.png' %}" alt="14M급 고소작업대" style="height:94.7%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.35s cubic-bezier(.16,1,.3,1) .45s,opacity .5s ease .45s;">
+              <img src="{% static 'images/lifts/m14.png' %}" alt="14M급 고소작업대" style="height:88.8%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.35s cubic-bezier(.16,1,.3,1) .45s,opacity .5s ease .45s;">
             </div>
-            <div style="padding:13px 8px 0;border-top:1px solid #E6503C;text-align:center;">
+            <div style="padding:13px 8px 0;border-top:1px solid rgba(255,255,255,.28);text-align:center;">
               <div style="font-size:clamp(17px,1.5vw,22px);font-weight:700;color:#fff;letter-spacing:-.02em;">14M</div>
               <div style="font-size:15px;color:rgba(255,255,255,.56);margin-top:5px;">최대 14.2m</div>
+            </div>
+          </a>
+          <a href="{% url 'equipment:list' %}#cls-16m" style="display:block;border-radius:3px;transition:background .3s ease;" class="wjh9">
+            <div data-rvl style="height:clamp(210px,23vw,340px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;">
+              <img src="{% static 'images/lifts/m16.png' %}" alt="16M급 고소작업대" style="height:98.1%;width:auto;object-fit:contain;object-position:bottom;display:block;opacity:0;transform:translateY(114%);transition:transform 1.35s cubic-bezier(.16,1,.3,1) .54s,opacity .5s ease .54s;">
+            </div>
+            <div style="padding:13px 8px 0;border-top:1px solid #E6503C;text-align:center;">
+              <div style="font-size:clamp(17px,1.5vw,22px);font-weight:700;color:#fff;letter-spacing:-.02em;">16M</div>
+              <div style="font-size:15px;color:rgba(255,255,255,.56);margin-top:5px;">최대 15.7m</div>
             </div>
           </a>
         </div>
@@ -440,7 +448,7 @@ body { background: #0A0D24; }
     </div>
 
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px;margin-top:clamp(28px,2.8vw,42px);">
-      <h2 data-rv style="opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform 1s cubic-bezier(.16,1,.3,1);margin:0;font-size:clamp(32px,3.7vw,58px);line-height:1.16;font-weight:700;color:#1F286F;letter-spacing:-.04em;word-break:keep-all;">납품 프로세스</h2>
+      <h2 data-rv style="opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform 1s cubic-bezier(.16,1,.3,1);margin:0;font-size:clamp(32px,3.7vw,58px);line-height:1.16;font-weight:700;color:#1F286F;letter-spacing:-.04em;word-break:keep-all;">임대 렌탈 프로세스</h2>
       <p data-rv style="opacity:0;transition:opacity 1s ease .12s;margin:0;max-width:330px;font-size:16.5px;line-height:1.9;color:#7C8296;font-weight:300;word-break:keep-all;">렌탈 요금은 현장 조건과 사용 기간에 따라 달라지므로 문의 부탁드립니다.</p>
     </div>
 
@@ -489,7 +497,7 @@ body { background: #0A0D24; }
     <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 max(28px, calc((100% - 1440px) / 2));">
       <div style="max-width:min(760px, 62%);">
         <div style="display:flex;align-items:center;gap:16px;">
-          <span style="font-size:clamp(30px,2.9vw,44px);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1;">AS</span>
+          <span style="font-size:clamp(30px,2.9vw,44px);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1;word-break:keep-all;">임대렌탈 AS</span>
           <span style="display:block;width:1px;height:clamp(26px,2.4vw,34px);background:rgba(255,255,255,.32);"></span>
           <span style="font-size:clamp(17px,1.4vw,20px);font-weight:600;color:rgba(255,255,255,.82);letter-spacing:-.01em;">사후 관리 · 현장 대응</span>
         </div>
