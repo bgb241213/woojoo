@@ -13,6 +13,7 @@ from django.core.files.base import File
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 
+from equipment.baseline import detect_baseline
 from equipment.models import Equipment, EquipmentImage
 
 # (static subdir, EquipmentImage.image_type, storage subdir)
@@ -51,16 +52,28 @@ class Command(BaseCommand):
                         with path.open('rb') as fh:
                             default_storage.save(name, File(fh))
                         uploaded += 1
-                    row, created = EquipmentImage.objects.get_or_create(
+                    row = EquipmentImage.objects.filter(
                         equipment_id=eq_id, image_type=image_type, image=name,
-                        defaults={'order': order},
-                    )
-                    if created:
+                    ).first()
+                    if row is None:
+                        # Detect from the local file and hand the answer over, so
+                        # the model does not fetch the copy back out of R2. Local
+                        # detection is ~16ms; the round-trip version made a
+                        # first-boot import take minutes.
+                        fraction = detect_baseline(path)
+                        row = EquipmentImage(
+                            equipment_id=eq_id, image_type=image_type, image=name,
+                            order=order,
+                            baseline_detected=None if fraction is None else round(fraction * 100, 2),
+                        )
+                        row.skip_baseline_detection = True
+                        row.save()
                         rows_created += 1
                     else:
                         skipped += 1
                         if row.order != order:
                             row.order = order
+                            row.skip_baseline_detection = True
                             row.save(update_fields=['order'])
 
         self.stdout.write(self.style.SUCCESS(

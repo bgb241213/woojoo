@@ -91,6 +91,12 @@ class EquipmentImage(models.Model):
         """The number the compare page should use: manual wins over detected."""
         return self.baseline if self.baseline is not None else self.baseline_detected
 
+    # Set on an instance to suppress the save-time detection below, for callers
+    # that already know the value. Bulk importers must use it: detection reads
+    # the file back out of storage, and doing that per row turned a deploy into
+    # a hundred R2 round-trips and timed out the healthcheck.
+    skip_baseline_detection = False
+
     def save(self, *args, **kwargs):
         """Re-detect the wheel line whenever the image file changes.
 
@@ -105,7 +111,7 @@ class EquipmentImage(models.Model):
             previous = EquipmentImage.objects.filter(pk=self.pk).values_list('image', flat=True).first()
             changed = previous != self.image.name
         super().save(*args, **kwargs)
-        if changed and self.image:
+        if changed and self.image and not self.skip_baseline_detection:
             detected = detect_percent_for_file(self.image)
             if detected != self.baseline_detected:
                 EquipmentImage.objects.filter(pk=self.pk).update(baseline_detected=detected)
