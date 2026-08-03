@@ -136,12 +136,12 @@
   <div class="eqp-hero__inner">
     <div class="eqp-hero__eyebrow">장비 렌탈</div>
     <h1><em>현장 높이에</em> 맞는 장비</h1>
-    <p>필요한 미터급을 선택해 보유 장비와 상세 스펙을 확인하세요.</p>
+    <p>필요한 미터를 선택해 보유 장비와 상세 스펙을 확인하세요.</p>
   </div>
 </div>
 
 <div class="eqp-chart dc-container">
-  <div class="eqp-chart__note">미터급별 작업 높이를 한눈에 비교해 보세요.<br>원하는 미터급을 클릭하면 아래 목록이 해당 장비로 바뀝니다.</div>
+  <div class="eqp-chart__note">미터별 작업 높이를 한눈에 비교해 보세요.<br>원하는 미터을 클릭하면 아래 목록이 해당 장비로 바뀝니다.</div>
   <div class="eqp-chart__wrap" id="heightChart">
     <img src="{% static 'images/height-chart.png' %}" alt="미터급별 작업 높이 비교">
     <!-- zones injected by JS -->
@@ -204,8 +204,8 @@
   </div>
   {% endfor %}
   <div class="eqp-none" id="eqpEmpty">
-    <div class="eqp-none__t" id="emptyTitle">해당 미터급의 렌탈 장비가 없습니다</div>
-    <div class="eqp-none__s" id="emptySub">다른 미터급을 선택하거나 문의해 주세요.</div>
+    <div class="eqp-none__t" id="emptyTitle">해당 미터의 렌탈 장비가 없습니다</div>
+    <div class="eqp-none__s" id="emptySub">다른 미터를 선택하거나 문의해 주세요.</div>
     <a href="{% url 'quotes:form' %}">견적·재고 문의하기</a>
   </div>
 </div>
