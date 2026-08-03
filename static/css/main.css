@@ -539,6 +539,15 @@ a { text-decoration: none; color: inherit; }
 .site-footer a { color: rgba(255,255,255,.68); }
 .site-footer a:hover { color: #fff; }
 .site-footer b { color: #fff; font-weight: 700; }
+/* Shares .site-footer__inner's width and gutters so it lines up with the
+   company details above it; only the rule and the link style are added here.
+   The policy link is a legal notice, so it stays legible rather than muted. */
+.site-footer__legal {
+  margin-top: 2rem; padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.site-footer__legal a { color: #fff; font-weight: 700; }
+.site-footer__legal a:hover { text-decoration: underline; }
 
 /* ============================================================
    Floating call button + business-hours modal
@@ -604,6 +613,15 @@ a { text-decoration: none; color: inherit; }
   background: none; border: 0; cursor: pointer;
 }
 .call-modal__hours { text-align: center; font-size: 1.1rem; color: var(--muted-2); margin-bottom: 1.1rem; }
+.call-modal__consent {
+  display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer;
+  margin-top: 0.9rem; font-size: 1.05rem; line-height: 1.55; color: var(--charcoal);
+  text-align: left; word-break: keep-all;
+}
+.call-modal__consent input { flex: none; width: 18px; height: 18px; margin-top: 0.1rem; accent-color: var(--navy); cursor: pointer; }
+.call-modal__consent b { color: var(--coral); font-weight: 700; }
+.call-modal__consent a { color: var(--navy); font-weight: 600; text-decoration: underline; margin-left: 0.25rem; }
+.call-modal__consent em { display: block; font-style: normal; font-size: 0.98rem; color: var(--muted-2); margin-top: 0.2rem; }
 .is-hidden { display: none !important; }
 
 /* ============================================================

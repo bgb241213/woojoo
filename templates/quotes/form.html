@@ -59,6 +59,19 @@ textarea.fld { resize: none; }
 .qf-submit { margin-top: 1.9rem; display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; }
 .qf-note { font-size: 1.1rem; color: var(--muted-2); }
 
+/* Consent block — required before the form can be submitted. */
+.qf-consent { margin-top: 1.9rem; border: 1px solid var(--hairline-2); border-radius: 12px; padding: 1.1rem 1.25rem; background: #fff; }
+.qf-consent.has-error { border-color: var(--coral); }
+.qf-consent__row { display: flex; align-items: flex-start; gap: 0.7rem; cursor: pointer; font-size: 1.15rem; line-height: 1.6; color: var(--charcoal); }
+.qf-consent__row input { flex: none; width: 20px; height: 20px; margin-top: 0.15rem; accent-color: var(--navy); cursor: pointer; }
+.qf-consent__row b { color: var(--coral); font-weight: 700; }
+.qf-consent__row a { color: var(--navy); font-weight: 600; text-decoration: underline; margin-left: 0.3rem; }
+.qf-consent__detail {
+  margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px dashed var(--hairline-2);
+  font-size: 1.05rem; line-height: 1.85; color: var(--muted); word-break: keep-all;
+}
+.qf-consent__detail b { color: var(--navy); font-weight: 700; margin-right: 0.3rem; }
+
 .qf-side h3 { font-size: 1.2rem; font-weight: 800; color: var(--navy); margin: 0; }
 .qf-side p { font-size: 1.1rem; line-height: 1.7; color: var(--charcoal); margin: 0.75rem 0 1.5rem; word-break: keep-all; }
 .qf-call { display: flex; align-items: center; gap: 0.7rem; background: #fff; border: 1px solid var(--hairline-2); border-radius: 12px; padding: 1rem 1.1rem; }
@@ -126,9 +139,25 @@ textarea.fld { resize: none; }
         <textarea class="fld" name="message" rows="3" placeholder="작업 환경, 장비 대수, 기타 요청을 적어주세요.">{{ post.message|default:'' }}</textarea>
       </label>
 
+      <div class="qf-consent {% if errors.privacy_agree %}has-error{% endif %}">
+        <label class="qf-consent__row">
+          <input type="checkbox" name="privacy_agree" {% if post.privacy_agree %}checked{% endif %} required>
+          <span>
+            <b>[필수]</b> 개인정보 수집·이용에 동의합니다.
+            <a href="{% url 'pages:privacy' %}" target="_blank" rel="noopener">개인정보처리방침 보기</a>
+          </span>
+        </label>
+        <div class="qf-consent__detail">
+          <b>수집 항목</b> 연락처(필수), 회사명·담당자명·이메일·현장 주소·대여 희망일·예산·요청사항(선택)<br>
+          <b>수집 목적</b> 견적 산출 및 상담 진행, 결과 안내<br>
+          <b>보유 기간</b> 수집일로부터 {{ quote_retention_years }}년 (경과 시 자동 파기)<br>
+          동의를 거부하실 수 있으나, 이 경우 견적 상담 서비스 이용이 제한됩니다.
+        </div>
+        {% if errors.privacy_agree %}<div class="qf-err">{{ errors.privacy_agree }}</div>{% endif %}
+      </div>
+
       <div class="qf-submit">
         <button type="submit" class="pill pill--solid">견적 요청 보내기</button>
-        <span class="qf-note">제출 시 입력 정보는 견적 상담 목적으로만 사용됩니다.</span>
       </div>
     </form>
 

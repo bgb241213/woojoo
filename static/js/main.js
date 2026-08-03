@@ -68,13 +68,15 @@ function woojooIsOpen(now) {
     submit.addEventListener('click', function () {
       const phone = (document.getElementById('cbPhone').value || '').trim();
       const memo = (document.getElementById('cbMemo').value || '').trim();
+      const privacy = document.getElementById('cbPrivacy');
       if (!phone) { document.getElementById('cbPhone').focus(); return; }
+      if (privacy && !privacy.checked) { privacy.focus(); return; }
       submit.disabled = true;
       const csrf = (document.getElementById('callCsrf') || {}).value || '';
       fetch('/quote/callback/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
-        body: JSON.stringify({ phone: phone, message: memo }),
+        body: JSON.stringify({ phone: phone, message: memo, privacy_agree: true }),
       })
         .then(function (r) { return r.json(); })
         .then(function (d) {

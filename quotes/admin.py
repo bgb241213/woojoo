@@ -19,7 +19,9 @@ class QuoteRequestAdmin(admin.ModelAdmin):
     ordering       = ('-created_at',)
 
     # ── 상세 폼 ───────────────────────────────────────
-    readonly_fields = ('created_at',)
+    # The consent timestamp is the evidence of lawful collection, so it must
+    # never be editable after the fact.
+    readonly_fields = ('created_at', 'privacy_agreed_at')
     inlines         = [QuoteItemInline]
 
     fieldsets = (
@@ -32,6 +34,10 @@ class QuoteRequestAdmin(admin.ModelAdmin):
         ('처리 현황', {
             'fields': ('status', 'created_at'),
         }),
+        ('개인정보 동의', {
+            'fields': ('privacy_agreed_at',),
+            'description': '견적 신청 시 개인정보 수집·이용에 동의한 일시입니다. 수정할 수 없습니다.',
+        }),
     )
 
 
@@ -41,4 +47,4 @@ class CallbackRequestAdmin(admin.ModelAdmin):
     list_editable  = ('is_called',)
     list_filter    = ('is_called', 'created_at')
     ordering       = ('-created_at',)
-    readonly_fields = ('created_at',)
+    readonly_fields = ('created_at', 'privacy_agreed_at')

@@ -61,6 +61,14 @@ class EquipmentImage(models.Model):
     image      = models.ImageField(upload_to='equipment/', verbose_name='이미지')
     image_type = models.CharField(max_length=10, choices=IMAGE_TYPE_CHOICES, verbose_name='이미지 용도')
     order      = models.PositiveIntegerField(default=0, verbose_name='순서')
+    # Overrides the auto-detected value used to line the machines up on the
+    # compare page; see equipment/baseline.py.
+    baseline   = models.FloatField(
+        null=True, blank=True, verbose_name='바퀴선 위치(%)',
+        help_text='사진 맨 아래에서 바퀴가 땅에 닿는 지점까지의 높이 비율(%). '
+                  '비워두면 자동으로 계산한 값을 사용합니다. 비교 페이지에서 '
+                  '이 장비의 바퀴 높이가 어긋나 보일 때만 입력하세요.',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

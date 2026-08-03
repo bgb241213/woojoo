@@ -56,14 +56,23 @@
 /* `align-self: center` keeps the cell square: stretching it to the spec panel
    would make `aspect-ratio` moot and crop the sides off the dimension drawings. */
 .eqp-photos { flex: 1; min-width: 0; align-self: center; aspect-ratio: 1 / 1; position: relative; background: #fff; border-radius: 16px; overflow: hidden; }
-.eqp-photos img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .3s ease; }
-.eqp-photos img.is-active { opacity: 1; }
-.eqp-photos__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #a8b8d8; font-size: 3rem; }
+.eqp-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 1; }
+.eqp-slide.is-active { opacity: 1; pointer-events: auto; z-index: 2; }
+.eqp-slide--photo { background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; cursor: zoom-in; }
+.eqp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; background: #ECEDF3; width: 100%; height: 100%; }
+.eqp-grid.n1 { grid-template-columns: 1fr; }
+.eqp-grid.n2, .eqp-grid.n4 { grid-template-columns: repeat(2, 1fr); }
+.eqp-tile { background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; cursor: zoom-in; }
+.eqp-empty { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; color: #9296A8; font-size: 17.5px; background: #fff; }
 .eqp-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.92); border: 1px solid #E6E8F0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--navy); font-size: 22px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.12); z-index: 3; user-select: none; }
 .eqp-arrow.l { left: 12px; } .eqp-arrow.r { right: 12px; }
 .eqp-dots { position: absolute; left: 0; right: 0; bottom: 12px; z-index: 3; display: flex; justify-content: center; gap: 6px; }
 .eqp-dot { width: 7px; height: 7px; border-radius: 999px; background: rgba(31,40,111,.3); cursor: pointer; transition: width .25s ease, background .25s ease; }
 .eqp-dot.is-active { width: 20px; background: var(--navy); }
+.eqp-lightbox { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center; padding: 2.5rem; background: rgba(43,47,56,.9); cursor: zoom-out; }
+.eqp-lightbox.is-open { display: flex; }
+.eqp-lightbox__x { position: absolute; top: 1.6rem; right: 1.9rem; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.6rem; cursor: pointer; }
+.eqp-lightbox__img { width: 90vw; height: 86vh; max-width: 1100px; background-size: contain; background-position: center; background-repeat: no-repeat; }
 
 /* ── Specs: big name + stacked label/value rows ────────────── */
 .eqp-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
@@ -107,6 +116,7 @@
   .eqp-row:last-of-type { margin-bottom: 0; }
   /* Column layout: the cell must span the card width again, not shrink to fit. */
   .eqp-photos { align-self: stretch; border-radius: 0; }
+  .eqp-grid { gap: 2px; }
   .eqp-arrow { width: 34px; height: 34px; font-size: 19px; }
   .eqp-arrow.l { left: 10px; } .eqp-arrow.r { right: 10px; }
   .eqp-dots { bottom: 10px; gap: 5px; }
@@ -159,16 +169,26 @@
   {% for e in equipments %}
   <div class="eqp-row" id="eq-{{ e.id }}" data-cat="{{ e.category }}" data-type="{{ e.type }}">
     <div class="eqp-photos" data-idx="0">
+      <div class="eqp-slide is-active">
+        {% with grid_photos=e.photos|slice:":4" %}
+        <div class="eqp-grid n{{ grid_photos|length }}">
+          {% for p in grid_photos %}
+          <div class="eqp-tile" style="background-image:url('{{ p }}');" data-src="{{ p }}"></div>
+          {% empty %}
+          <div class="eqp-empty">사진 준비 중</div>
+          {% endfor %}
+        </div>
+        {% endwith %}
+      </div>
       {% for p in e.photos %}
-      <img class="{% if forloop.first %}is-active{% endif %}" src="{{ p }}" alt="{{ e.name }} 사진 {{ forloop.counter }}" loading="lazy">
-      {% empty %}
-      <div class="eqp-photos__ph"><i class="fas fa-image"></i></div>
+      <div class="eqp-slide eqp-slide--photo" style="background-image:url('{{ p }}');" data-src="{{ p }}"></div>
       {% endfor %}
-      {% if e.photos|length > 1 %}
+      {% if e.photos %}
       <div class="eqp-arrow l" data-dir="-1">‹</div>
       <div class="eqp-arrow r" data-dir="1">›</div>
       <div class="eqp-dots">
-        {% for p in e.photos %}<div class="eqp-dot{% if forloop.first %} is-active{% endif %}" data-i="{{ forloop.counter0 }}"></div>{% endfor %}
+        <div class="eqp-dot is-active" data-i="0"></div>
+        {% for p in e.photos %}<div class="eqp-dot" data-i="{{ forloop.counter }}"></div>{% endfor %}
       </div>
       {% endif %}
     </div>
@@ -189,27 +209,44 @@
     <a href="{% url 'quotes:form' %}">견적·재고 문의하기</a>
   </div>
 </div>
+
+<div class="eqp-lightbox" id="eqpLightbox">
+  <div class="eqp-lightbox__x">×</div>
+  <div class="eqp-lightbox__img" id="eqpLightboxImg"></div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-/* ── Photo carousels ───────────────────────────────────────── */
-document.querySelectorAll('.eqp-photos').forEach(function (wrap) {
-  const imgs = wrap.querySelectorAll('img');
-  const dots = wrap.querySelectorAll('.eqp-dot');
-  if (imgs.length < 2) return;
-  let idx = 0;
-  function go(n) {
-    imgs[idx].classList.remove('is-active');
-    if (dots[idx]) dots[idx].classList.remove('is-active');
-    idx = (n + imgs.length) % imgs.length;
-    imgs[idx].classList.add('is-active');
-    if (dots[idx]) dots[idx].classList.add('is-active');
+/* ── Lightbox ──────────────────────────────────────────────── */
+(function () {
+  const box = document.getElementById('eqpLightbox');
+  const img = document.getElementById('eqpLightboxImg');
+  document.querySelectorAll('.eqp-tile, .eqp-slide--photo').forEach(function (t) {
+    t.addEventListener('click', function () {
+      img.style.backgroundImage = "url('" + t.dataset.src + "')";
+      box.classList.add('is-open');
+    });
+  });
+  box.addEventListener('click', function () { box.classList.remove('is-open'); });
+})();
+
+/* ── Per-row carousel (photo grid + individual photo slides) ── */
+document.querySelectorAll('.eqp-photos').forEach(function (car) {
+  const slides = car.querySelectorAll('.eqp-slide');
+  const dots = car.querySelectorAll('.eqp-dot');
+  if (slides.length < 2) return;
+  function go(i) {
+    const n = (i + slides.length) % slides.length;
+    car.dataset.idx = n;
+    slides.forEach(function (s, k) { s.classList.toggle('is-active', k === n); });
+    dots.forEach(function (d, k) { d.classList.toggle('is-active', k === n); });
   }
-  wrap.querySelector('.eqp-arrow.l').addEventListener('click', function () { go(idx - 1); });
-  wrap.querySelector('.eqp-arrow.r').addEventListener('click', function () { go(idx + 1); });
+  car.querySelectorAll('.eqp-arrow').forEach(function (a) {
+    a.addEventListener('click', function () { go(Number(car.dataset.idx) + Number(a.dataset.dir)); });
+  });
   dots.forEach(function (d) { d.addEventListener('click', function () { go(Number(d.dataset.i)); }); });
-  woojooSwipe(wrap, function () { go(idx - 1); }, function () { go(idx + 1); });
+  woojooSwipe(car, function () { go(Number(car.dataset.idx) - 1); }, function () { go(Number(car.dataset.idx) + 1); });
 });
 
 /* ── Group tab filtering (tabs + chart zones + type deep-link) ── */

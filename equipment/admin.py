@@ -6,7 +6,7 @@ from .models import Equipment, EquipmentImage
 class EquipmentImageInline(admin.TabularInline):
     model  = EquipmentImage
     extra  = 3
-    fields = ['preview', 'image', 'image_type', 'order']
+    fields = ['preview', 'image', 'image_type', 'order', 'baseline']
     readonly_fields = ['preview']
 
     @admin.display(description='미리보기')

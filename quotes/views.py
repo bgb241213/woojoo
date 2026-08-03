@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 from equipment.models import Equipment
 from .models import QuoteRequest, QuoteItem, CallbackRequest
 
@@ -49,6 +50,12 @@ class QuoteCreateView(View):
         # Only the phone number is required; everything else is optional.
         if not phone:
             errors['phone'] = '연락처를 입력해주세요.'
+
+        # Consent is enforced here, not just in the browser — a client-side
+        # `required` attribute is trivially bypassed.
+        privacy_agreed = request.POST.get('privacy_agree') == 'on'
+        if not privacy_agreed:
+            errors['privacy_agree'] = '개인정보 수집·이용에 동의해 주세요.'
 
         # Optional dates — accept blank, validate format when present.
         def parse_date(value, key):
@@ -93,6 +100,7 @@ class QuoteCreateView(View):
             delivery_address=delivery_address,
             budget=budget,
             message=message,
+            privacy_agreed_at=timezone.now(),
         )
 
         # Optional equipment items (equipment pages may attach a selection).
@@ -125,9 +133,12 @@ class CallbackCreateView(View):
         phone = data.get('phone', '').strip()
         if not phone:
             return JsonResponse({'success': False, 'error': '전화번호를 입력해주세요.'}, status=400)
+        if not data.get('privacy_agree'):
+            return JsonResponse({'success': False, 'error': '개인정보 수집·이용에 동의해 주세요.'}, status=400)
 
         CallbackRequest.objects.create(
             phone=phone,
             message=data.get('message', '').strip(),
+            privacy_agreed_at=timezone.now(),
         )
         return JsonResponse({'success': True})

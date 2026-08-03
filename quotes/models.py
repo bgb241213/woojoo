@@ -29,6 +29,9 @@ class QuoteRequest(models.Model):
     budget           = models.PositiveIntegerField(null=True, blank=True, verbose_name='예산')
     message          = models.TextField(blank=True, verbose_name='추가 요청사항')
     status           = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='상태')
+    # Recorded so the company can evidence lawful collection if it is ever
+    # questioned — a checkbox in the UI alone proves nothing after the fact.
+    privacy_agreed_at = models.DateTimeField(null=True, blank=True, verbose_name='개인정보 수집·이용 동의일시')
     created_at       = models.DateTimeField(auto_now_add=True, verbose_name='신청일')
 
     class Meta:
@@ -44,6 +47,7 @@ class CallbackRequest(models.Model):
     phone      = models.CharField(max_length=20, verbose_name='전화번호')
     message    = models.TextField(blank=True, verbose_name='문의 내용')
     is_called  = models.BooleanField(default=False, verbose_name='전화 완료')
+    privacy_agreed_at = models.DateTimeField(null=True, blank=True, verbose_name='개인정보 수집·이용 동의일시')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='신청일시')
 
     class Meta:

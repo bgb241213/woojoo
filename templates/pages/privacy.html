@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block title %}개인정보처리방침 - 우주렌탈{% endblock %}
+
+{% block extra_css %}
+<style>
+.pv-wrap { max-width: 900px; margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3.5rem, 7vw, 5.5rem); }
+.pv-head { border-bottom: 2px solid var(--navy); padding-bottom: 1.6rem; margin-bottom: 2.6rem; }
+.pv-head h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin: 0; }
+.pv-head p { font-size: 1.15rem; color: var(--muted); margin: 0.9rem 0 0; line-height: 1.8; word-break: keep-all; }
+.pv-meta { margin-top: 1.1rem; font-size: 1.05rem; color: var(--muted-2); }
+
+.pv-sec { margin-bottom: 2.6rem; }
+.pv-sec h2 {
+  font-size: 1.35rem; font-weight: 800; color: var(--navy);
+  margin: 0 0 1rem; padding-left: 0.85rem; border-left: 4px solid var(--coral);
+  letter-spacing: -0.01em; word-break: keep-all;
+}
+.pv-sec p, .pv-sec li { font-size: 1.12rem; line-height: 1.95; color: var(--charcoal); word-break: keep-all; }
+.pv-sec p { margin: 0 0 0.9rem; }
+.pv-sec ul { margin: 0 0 0.9rem; padding-left: 1.3rem; }
+.pv-sec li { margin-bottom: 0.45rem; }
+.pv-sec strong { font-weight: 700; color: var(--navy); }
+
+/* Tables read better than prose for the item/purpose/period triple. */
+.pv-table-wrap { overflow-x: auto; margin: 0 0 1rem; }
+.pv-table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 1.08rem; }
+.pv-table th, .pv-table td { border: 1px solid var(--hairline); padding: 0.85rem 1rem; text-align: left; line-height: 1.7; word-break: keep-all; }
+.pv-table th { background: var(--tint); font-weight: 700; color: var(--navy); white-space: nowrap; }
+
+.pv-box { background: var(--tint); border-radius: 12px; padding: 1.4rem 1.6rem; }
+.pv-box p:last-child { margin-bottom: 0; }
+
+@media (max-width: 767px) {
+  .pv-sec h2 { font-size: 1.25rem; }
+  .pv-sec p, .pv-sec li { font-size: 1.08rem; line-height: 1.85; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dc-container">
+  <div class="pv-wrap">
+
+    <div class="pv-head">
+      <h1>개인정보처리방침</h1>
+      <p>(주)우주렌탈(이하 '회사')은 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고
+         이와 관련한 고충을 신속하게 처리할 수 있도록 다음과 같이 개인정보처리방침을 수립·공개합니다.</p>
+      <div class="pv-meta">시행일자 : {{ effective_date }}</div>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제1조 (개인정보의 처리 목적)</h2>
+      <p>회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하는 개인정보는 다음의 목적 이외의 용도로는
+         이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를
+         받는 등 필요한 조치를 이행할 예정입니다.</p>
+      <ul>
+        <li><strong>견적 상담 및 문의 응대</strong> — 고소작업대 렌탈·판매 관련 견적 산출, 상담 진행, 결과 안내</li>
+        <li><strong>계약 체결 및 이행</strong> — 장비 배송지 확인, 대여 기간 조율, 사후 관리(AS) 안내</li>
+      </ul>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제2조 (처리하는 개인정보의 항목 및 보유·이용 기간)</h2>
+      <p>회사는 법령에 따른 개인정보 보유·이용 기간 또는 정보주체로부터 개인정보를 수집 시에 동의받은
+         개인정보 보유·이용 기간 내에서 개인정보를 처리·보유합니다.</p>
+      <div class="pv-table-wrap">
+        <table class="pv-table">
+          <thead>
+            <tr><th>구분</th><th>수집 항목</th><th>보유·이용 기간</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>견적 신청</td>
+              <td>[필수] 연락처<br>[선택] 회사명, 담당자명, 이메일, 현장 주소, 대여 희망일, 예산, 요청사항</td>
+              <td>수집일로부터 {{ quote_retention_years }}년</td>
+            </tr>
+            <tr>
+              <td>전화 상담 요청<br>(콜백 신청)</td>
+              <td>[필수] 연락처<br>[선택] 회사명·성함</td>
+              <td>수집일로부터 {{ callback_retention_years }}년</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>다만 관계 법령에 따라 보존할 필요가 있는 경우 회사는 해당 법령에서 정한 기간 동안 개인정보를 보관합니다.
+         (예 : 「전자상거래 등에서의 소비자보호에 관한 법률」에 따른 계약 또는 청약철회 등에 관한 기록 5년,
+         소비자의 불만 또는 분쟁처리에 관한 기록 3년)</p>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제3조 (개인정보의 제3자 제공)</h2>
+      <p>회사는 정보주체의 개인정보를 제1조에서 명시한 범위 내에서만 처리하며,
+         <strong>정보주체의 동의 없이 개인정보를 제3자에게 제공하지 않습니다.</strong>
+         다만 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우(법령에 특별한 규정이 있거나
+         수사기관의 적법한 요청이 있는 경우 등)에 한하여 예외적으로 제공할 수 있습니다.</p>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제4조 (개인정보 처리업무의 위탁)</h2>
+      <p>회사는 현재 개인정보 처리업무를 외부에 위탁하고 있지 않습니다.
+         향후 위탁이 발생하는 경우 위탁받는 자(수탁자)와 위탁하는 업무의 내용을 본 개인정보처리방침에
+         공개하고, 필요한 경우 정보주체의 동의를 받겠습니다.</p>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제5조 (정보주체와 법정대리인의 권리·의무 및 행사방법)</h2>
+      <p>정보주체는 회사에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.</p>
+      <ul>
+        <li>개인정보 열람 요구</li>
+        <li>오류 등이 있을 경우 정정 요구</li>
+        <li>삭제 요구</li>
+        <li>처리정지 요구</li>
+      </ul>
+      <p>권리 행사는 아래 제8조의 연락처를 통해 서면, 전화, 전자우편 등으로 하실 수 있으며,
+         회사는 이에 대해 지체 없이 조치하겠습니다. 정보주체가 개인정보의 오류 등에 대한 정정 또는
+         삭제를 요구한 경우에는 회사는 정정 또는 삭제를 완료할 때까지 해당 개인정보를 이용하거나
+         제공하지 않습니다.</p>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제6조 (개인정보의 파기 절차 및 방법)</h2>
+      <p>회사는 개인정보 보유 기간의 경과, 처리 목적 달성 등 개인정보가 불필요하게 되었을 때에는
+         지체 없이 해당 개인정보를 파기합니다.</p>
+      <ul>
+        <li><strong>파기 절차</strong> — 회사의 개인정보처리시스템은 제2조에 명시된 보유 기간이 경과한
+            개인정보를 <strong>자동으로 검사하여 매일 파기</strong>합니다. 별도의 신청이나 담당자의 조치
+            없이도 보유 기간이 지난 개인정보는 시스템에서 삭제됩니다.</li>
+        <li><strong>파기 방법</strong> — 전자적 파일 형태의 정보는 복구·재생할 수 없는 기술적 방법을 사용하여
+            삭제하며, 종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각하여 파기합니다.</li>
+      </ul>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제7조 (개인정보의 안전성 확보조치)</h2>
+      <p>회사는 개인정보의 안전성 확보를 위하여 다음과 같은 조치를 취하고 있습니다.</p>
+      <ul>
+        <li>개인정보 취급 담당자의 최소화 및 담당자에 대한 교육 실시</li>
+        <li>개인정보처리시스템에 대한 접근 권한의 제한 및 관리</li>
+        <li>개인정보의 암호화 및 전송 구간 암호화(HTTPS) 적용</li>
+        <li>해킹·컴퓨터 바이러스 등에 대비한 보안 조치</li>
+      </ul>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제8조 (개인정보 보호책임자 및 열람청구 부서)</h2>
+      <p>회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 문의·불만처리
+         및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
+         개인정보 열람청구 또한 아래 연락처로 접수·처리해 드립니다.</p>
+      <div class="pv-box">
+        <p><strong>개인정보 보호책임자</strong><br>
+           성명 : {{ company.cpo_name }} ({{ company.cpo_title }})<br>
+           전화 : {{ company.phone }}<br>
+           이메일 : {{ company.email }}</p>
+      </div>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제9조 (권익침해 구제방법)</h2>
+      <p>정보주체는 개인정보 침해로 인한 구제를 받기 위하여 아래 기관에 분쟁 해결이나 상담 등을
+         신청하실 수 있습니다.</p>
+      <ul>
+        <li>개인정보분쟁조정위원회 : (국번없이) 1833-6972 / www.kopico.go.kr</li>
+        <li>개인정보침해신고센터 : (국번없이) 118 / privacy.kisa.or.kr</li>
+        <li>대검찰청 사이버수사과 : (국번없이) 1301 / www.spo.go.kr</li>
+        <li>경찰청 사이버수사국 : (국번없이) 182 / ecrm.police.go.kr</li>
+      </ul>
+    </div>
+
+    <div class="pv-sec">
+      <h2>제10조 (개인정보처리방침의 변경)</h2>
+      <p>이 개인정보처리방침은 {{ effective_date }}부터 적용됩니다.
+         법령·정책 또는 보안기술의 변경에 따라 내용의 추가·삭제 및 수정이 있을 경우에는
+         변경사항의 시행 7일 전부터 홈페이지를 통하여 고지하겠습니다.</p>
+    </div>
+
+    <div class="pv-sec">
+      <h2>사업자 정보</h2>
+      <div class="pv-box">
+        <p>상호 : {{ company.name }}<br>
+           대표자 : {{ company.ceo }}<br>
+           사업자등록번호 : {{ company.biz_number }}<br>
+           주소 : {{ company.address }}<br>
+           전화 : {{ company.phone }} / 이메일 : {{ company.email }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

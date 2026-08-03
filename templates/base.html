@@ -88,6 +88,11 @@
         월–금 08:00–18:00 · 토·일 휴무
       </div>
     </div>
+    <!-- 개인정보보호법 시행령 §31②: 처리방침은 홈페이지에 지속적으로 게재해야 하므로
+         모든 페이지 하단에서 접근 가능해야 한다. -->
+    <div class="site-footer__inner site-footer__legal">
+      <a href="{% url 'pages:privacy' %}">개인정보처리방침</a>
+    </div>
   </footer>
 
   <!-- ── Floating call button ─────────────────────────────── -->
@@ -126,6 +131,13 @@
         <div id="callbackForm">
           <input class="call-modal__field" id="cbPhone" placeholder="연락처 (예: 010-0000-0000)" inputmode="tel">
           <input class="call-modal__field" id="cbMemo"  placeholder="회사명 · 성함 (선택)">
+          <label class="call-modal__consent">
+            <input type="checkbox" id="cbPrivacy">
+            <span><b>[필수]</b> 개인정보 수집·이용 동의
+              <a href="{% url 'pages:privacy' %}" target="_blank" rel="noopener">처리방침</a>
+              <em>연락처를 상담 회신 목적으로 수집하며 {{ callback_retention_years }}년 후 자동 파기됩니다.</em>
+            </span>
+          </label>
           <button type="button" class="pill pill--solid" id="cbSubmit" style="width:100%;justify-content:center;margin-top:1rem;">연락처 남기기</button>
         </div>
         <div id="callbackDone" class="is-hidden" style="text-align:center;padding:0.5rem 0 0.25rem;">

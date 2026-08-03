@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import Equipment
-from .photos import rental_photos, sale_photos
+from .photos import photo_baselines, rental_photos, sale_photos
 
 # Meter-class labels — single source of truth is the model's choices.
 CATEGORY_LABEL = dict(Equipment.CATEGORY_CHOICES)
@@ -101,9 +101,13 @@ class EquipmentCompareView(View):
     template_name = 'equipment/compare.html'
 
     def get(self, request):
-        equipment = catalog_order(Equipment.objects.filter(is_active=True))
+        equipment = catalog_order(Equipment.objects.filter(is_active=True, is_for_rent=True))
         models = []
         for e in equipment:
+            # Baselines are keyed by photo library, so track which one won.
+            photos, kind = rental_photos(e.id), 'rental'
+            if not photos:
+                photos, kind = sale_photos(e.id), 'sale'
             models.append({
                 'id': e.id,
                 'name': e.name,
@@ -111,7 +115,8 @@ class EquipmentCompareView(View):
                 'type': e.get_type_display(),
                 'isForSale': e.is_for_sale,
                 'isFlagship': e.is_flagship,
-                'photos': rental_photos(e.id) or sale_photos(e.id),
+                'photos': photos,
+                'baselines': photo_baselines(e.id, kind, len(photos)),
                 'specs': {
                     '작업가능높이': e.max_work_height,
                     '발판최대높이': e.max_platform_height,
