@@ -14,7 +14,8 @@ from equipment.models import Equipment
 
 CATEGORY_MAP = {
     '5M급': '5m', '6M급': '6m', '7M급': '7m', '8M급': '8m',
-    '10M급': '10m', '12M급': '12m', '14M급': '14m', '기타장비': 'etc',
+    '10M급': '10m', '12M급': '12m', '14M급': '14m', '16M급': '16m',
+    '기타장비': 'etc',
 }
 TYPE_MAP = {'시저': 'scissor', '굴절': 'boom', '버티칼': 'vertical', '기타': 'other'}
 

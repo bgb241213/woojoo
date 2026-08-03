@@ -734,5 +734,51 @@
     "is_flagship": false,
     "created_at": "2026-07-28T05:22:47.193Z"
   }
+},
+{
+  "model": "equipment.equipment",
+  "pk": 33,
+  "fields": {
+    "name": "LGMG AS1413E",
+    "category": "16m",
+    "type": "scissor",
+    "image": "",
+    "description": "16M급 전동 시저형 고소작업대. 작업가능높이 15.8m로 고층 실내 작업에 대응하며, 확장 발판을 포함한 작업대(2.64 x 1.12m)에 320kg까지 적재할 수 있습니다.",
+    "max_work_height": "15.8m",
+    "max_platform_height": "13.8m",
+    "equipment_weight": "3,570kg",
+    "max_load": "320kg",
+    "equipment_size": "2.8 x 1.3 x 2.74m",
+    "platform_size": "2.64 x 1.12m",
+    "power_type": "배터리",
+    "is_active": true,
+    "is_for_rent": true,
+    "is_for_sale": false,
+    "is_flagship": false,
+    "created_at": "2026-08-03T09:18:18.628Z"
+  }
+},
+{
+  "model": "equipment.equipment",
+  "pk": 34,
+  "fields": {
+    "name": "JCPT1612AC",
+    "category": "16m",
+    "type": "scissor",
+    "image": "",
+    "description": "16M급 전동 시저형 고소작업대. 작업가능높이 15.7m로 고층 실내 작업에 대응하며, 확장 발판을 포함한 작업대(2.64 x 1.12m)에 250kg까지 적재할 수 있습니다.",
+    "max_work_height": "15.7m",
+    "max_platform_height": "13.7m",
+    "equipment_weight": "3,360kg",
+    "max_load": "250kg",
+    "equipment_size": "2.84 x 1.25 x 2.62m",
+    "platform_size": "2.64 x 1.12m",
+    "power_type": "배터리",
+    "is_active": true,
+    "is_for_rent": true,
+    "is_for_sale": false,
+    "is_flagship": false,
+    "created_at": "2026-08-03T09:26:41.733Z"
+  }
 }
 ]

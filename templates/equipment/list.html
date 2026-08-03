@@ -262,21 +262,24 @@ document.querySelectorAll('.eqp-photos').forEach(function (car) {
   const emptyTitle = document.getElementById('emptyTitle');
   const emptySub = document.getElementById('emptySub');
   const typeChip = document.getElementById('typeChip');
-  const CLS_LABEL = { '5m': '1인승', '6m': '미니(6M급)', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', 'etc': '기타장비' };
+  const CLS_LABEL = { '5m': '1인승', '6m': '미니(6M급)', '7m': '7M급', '8m': '8M급', '10m': '10M급', '12m': '12M급', '14m': '14M급', '16m': '16M급', 'etc': '기타장비' };
   const TYPE_LABEL = { scissor: '시저', boom: '굴절', vertical: '버티칼', other: '기타' };
   const catLabel = function (cats) {
     return cats.map(function (c) { return CLS_LABEL[c] || c; }).join(' · ');
   };
 
-  /* Chart zones — bounds are % positions of each column on the chart image.
-     The first column covers two classes, so a zone holds a list. */
+  /* Chart zones — bounds are % positions of each column on the chart image,
+     taken as the midpoints between the machines' caption centres. A zone holds
+     a list because a column may cover more than one class. */
   const zoneDefs = [
-    { cats: [],             bound: 0,     next: 6.5 },   /* y-axis labels */
-    { cats: ['5m', '6m'],   bound: 6.5,   next: 36.25 },
-    { cats: ['7m'],         bound: 36.25, next: 50.93 },
-    { cats: ['10m'],        bound: 50.93, next: 64.36 },
-    { cats: ['12m'],        bound: 64.36, next: 77.24 },
-    { cats: ['14m'],        bound: 77.24, next: 100 },
+    { cats: [],       bound: 0,     next: 4.8 },    /* y-axis labels */
+    { cats: ['5m'],   bound: 4.8,   next: 21.02 },  /* 1인승 */
+    { cats: ['6m'],   bound: 21.02, next: 35.12 },  /* 미니(6M급) */
+    { cats: ['7m'],   bound: 35.12, next: 48.67 },  /* 7M급 */
+    { cats: ['10m'],  bound: 48.67, next: 61.77 },  /* 10M급 */
+    { cats: ['12m'],  bound: 61.77, next: 74.16 },  /* 12M급 */
+    { cats: ['14m'],  bound: 74.16, next: 86.12 },  /* 14M급 */
+    { cats: ['16m'],  bound: 86.12, next: 100 },    /* 16M급 */
   ];
   const present = new Set(rows.map(function (r) { return r.dataset.cat; }));
   const chart = document.getElementById('heightChart');
