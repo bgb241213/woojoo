@@ -1,5 +1,7 @@
 from pathlib import Path
 import os
+
+import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -71,11 +73,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# ---------------------------------------------------------------------------
+# Database
+#
+# Railway rebuilds the container on every deploy, so a SQLite file inside the
+# project directory is wiped each time — which is how the equipment list once
+# came back empty and why customer enquiries could not survive a release.
+# Production therefore runs on Postgres, injected as DATABASE_URL by Railway.
+# Without that variable (i.e. local development) it falls back to SQLite.
+# ---------------------------------------------------------------------------
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600,          # reuse connections instead of one per request
+        conn_health_checks=True,   # drop connections the DB has already closed
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -159,25 +171,39 @@ JAZZMIN_SETTINGS = {
     'copyright': '우주렌탈',
     'show_sidebar': True,
     'navigation_expanded': True,
+    # Ordered by how often staff use them, not alphabetically: enquiries first
+    # (checked daily), equipment next (changed occasionally), accounts last.
     'order_with_respect_to': [
         'quotes',
+        'quotes.quoterequest',
+        'quotes.callbackrequest',
         'equipment',
+        'equipment.equipment',
+        'records',
         'auth',
     ],
     'icons': {
-        'quotes':               'fas fa-file-invoice',
-        'quotes.quoterequest':  'fas fa-file-alt',
-        'equipment':            'fas fa-truck',
-        'equipment.equipment':  'fas fa-truck-loading',
-        'auth':                 'fas fa-users-cog',
-        'auth.user':            'fas fa-user',
-        'auth.group':           'fas fa-users',
+        'quotes':                   'fas fa-file-invoice',
+        'quotes.quoterequest':      'fas fa-file-alt',
+        'quotes.callbackrequest':   'fas fa-phone-volume',
+        'equipment':                'fas fa-truck',
+        'equipment.equipment':      'fas fa-truck-loading',
+        'equipment.equipmentimage': 'fas fa-image',
+        'records':                  'fas fa-clipboard-check',
+        'auth':                     'fas fa-users-cog',
+        'auth.user':                'fas fa-user',
+        'auth.group':               'fas fa-users',
     },
+    # The tabbed change form hides fieldset descriptions behind clicks, which is
+    # where the guidance for non-technical staff lives.
+    'hide_models': ['equipment.equipmentimage'],
     'default_icon_parents':  'fas fa-chevron-circle-right',
     'default_icon_children': 'fas fa-circle',
     'related_modal_active': True,
     'show_ui_builder': False,
-    'changeform_format': 'horizontal_tabs',
+    # 'single' keeps every section — and its guidance text — on one scrollable
+    # page. Tabs hid the descriptions behind clicks nobody made.
+    'changeform_format': 'single',
     'language_chooser': False,
 }
 

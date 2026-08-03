@@ -84,3 +84,34 @@ def detect_baseline(path):
     # `contain` fits by height only when the image is at least as tall as wide.
     displayed = min(1.0, h / w)
     return (h - 1 - lowest) / h * displayed
+
+
+def detect_percent_for_file(fieldfile):
+    """Wheel line of an uploaded photo, as a percentage, or ``None``.
+
+    Wraps :func:`detect_baseline` for ``EquipmentImage.image``: the file is read
+    through the storage backend (R2 in production), so it is pulled into memory
+    first rather than handed to Pillow as a lazily-seeking remote stream.
+
+    Never raises. A photo the detector cannot read — a plan view, a real
+    photograph with no clean ground line, a corrupt upload — must not stop staff
+    from saving the record; the compare page just falls back to the view median
+    and the value can be typed in by hand.
+    """
+    import io
+    import logging
+
+    try:
+        fieldfile.open('rb')
+        try:
+            data = fieldfile.read()
+        finally:
+            fieldfile.close()
+        fraction = detect_baseline(io.BytesIO(data))
+    except Exception:
+        logging.getLogger(__name__).warning(
+            'Baseline detection failed for %s', getattr(fieldfile, 'name', '?'), exc_info=True
+        )
+        return None
+
+    return None if fraction is None else round(fraction * 100, 2)

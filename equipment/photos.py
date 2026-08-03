@@ -87,12 +87,18 @@ def _baselines():
 
 
 def _admin_baselines(equipment_id, image_type):
-    """{index: fraction} for photos a human has corrected in the admin."""
-    return {
-        index: row.baseline / 100
-        for index, (_, row) in enumerate(_db_images(equipment_id, image_type))
-        if row.baseline is not None
-    }
+    """{index: fraction} for admin-managed photos.
+
+    Covers both the value detected when the photo was uploaded and any manual
+    correction typed over it — ``effective_baseline`` picks the winner. Photos
+    added through the admin therefore need no separate command run.
+    """
+    result = {}
+    for index, (_, row) in enumerate(_db_images(equipment_id, image_type)):
+        value = row.effective_baseline
+        if value is not None:
+            result[index] = value / 100
+    return result
 
 
 def photo_baselines(equipment_id, kind, count):

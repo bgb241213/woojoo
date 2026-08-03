@@ -62,23 +62,54 @@ class EquipmentImage(models.Model):
     image      = models.ImageField(upload_to='equipment/', verbose_name='이미지')
     image_type = models.CharField(max_length=10, choices=IMAGE_TYPE_CHOICES, verbose_name='이미지 용도')
     order      = models.PositiveIntegerField(default=0, verbose_name='순서')
-    # Overrides the auto-detected value used to line the machines up on the
-    # compare page; see equipment/baseline.py.
+    # Two separate numbers on purpose: `baseline_detected` is refreshed by the
+    # machine every time the file changes, `baseline` is what a human typed and
+    # must never be overwritten. See equipment/baseline.py.
+    baseline_detected = models.FloatField(
+        null=True, blank=True, verbose_name='바퀴선 자동 인식값(%)',
+        help_text='사진을 올리면 시스템이 바퀴가 땅에 닿는 위치를 자동으로 찾아 채웁니다. '
+                  '직접 고칠 필요는 없습니다.',
+    )
     baseline   = models.FloatField(
-        null=True, blank=True, verbose_name='바퀴선 위치(%)',
-        help_text='사진 맨 아래에서 바퀴가 땅에 닿는 지점까지의 높이 비율(%). '
-                  '비워두면 자동으로 계산한 값을 사용합니다. 비교 페이지에서 '
-                  '이 장비의 바퀴 높이가 어긋나 보일 때만 입력하세요.',
+        null=True, blank=True, verbose_name='바퀴선 직접 지정(%)',
+        help_text='비워두면 위의 자동 인식값을 사용합니다. 장비 비교 페이지에서 '
+                  '이 장비만 바퀴 높이가 어긋나 보일 때에만 숫자를 입력하세요. '
+                  '(사진 맨 아래에서 바퀴까지의 높이 비율, 예: 4.2)',
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = '장비 이미지'
-        verbose_name_plural = '장비 이미지 목록'
+        verbose_name = '장비 사진'
+        verbose_name_plural = '장비 사진'
         ordering = ['order']
 
     def __str__(self):
         return f'{self.equipment.name} - {self.get_image_type_display()} ({self.order})'
+
+    @property
+    def effective_baseline(self):
+        """The number the compare page should use: manual wins over detected."""
+        return self.baseline if self.baseline is not None else self.baseline_detected
+
+    def save(self, *args, **kwargs):
+        """Re-detect the wheel line whenever the image file changes.
+
+        Detection reads the file, which is a network round-trip to R2 in
+        production — so it only runs when the file is actually new or replaced,
+        never on an ordinary edit of the order/type fields.
+        """
+        from .baseline import detect_percent_for_file
+
+        changed = self.pk is None
+        if not changed:
+            previous = EquipmentImage.objects.filter(pk=self.pk).values_list('image', flat=True).first()
+            changed = previous != self.image.name
+        super().save(*args, **kwargs)
+        if changed and self.image:
+            detected = detect_percent_for_file(self.image)
+            if detected != self.baseline_detected:
+                EquipmentImage.objects.filter(pk=self.pk).update(baseline_detected=detected)
+                self.baseline_detected = detected
 
 
 # ── Keep the storage backend (R2 in production) in sync with the admin ──

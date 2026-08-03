@@ -1,94 +1,163 @@
+"""Equipment admin.
+
+Written for staff who are not developers: every column and field is labelled in
+Korean, photos are shown rather than described by filename, and the machine-only
+concepts (wheel line, ordering) are either automated or explained inline.
+"""
 from django.contrib import admin
 from django.utils.html import format_html
+
 from .models import Equipment, EquipmentImage
+
+_THUMB = ('height:{}px;width:auto;border-radius:6px;border:1px solid #dee2e6;'
+          'background:#fff;object-fit:contain;')
+
+
+def _thumb(url, height):
+    return format_html('<img src="{}" style="' + _THUMB.format(height) + '" />', url)
+
+
+def _muted(text):
+    return format_html('<span style="color:#9296a8;">{}</span>', text)
 
 
 class EquipmentImageInline(admin.TabularInline):
-    model  = EquipmentImage
-    extra  = 3
-    fields = ['preview', 'image', 'image_type', 'order', 'baseline']
-    readonly_fields = ['preview']
+    model = EquipmentImage
+    extra = 3
+    fields = ['preview', 'image', 'image_type', 'order', 'baseline_status', 'baseline']
+    readonly_fields = ['preview', 'baseline_status']
+    verbose_name = '사진'
+    verbose_name_plural = '사진 — 파일을 고르고 용도만 지정하면 됩니다'
 
     @admin.display(description='미리보기')
     def preview(self, obj):
         if obj.pk and obj.image:
             try:
-                return format_html(
-                    '<img src="{}" style="height:72px; width:auto; border-radius:6px; '
-                    'border:1px solid #dee2e6; background:#fff;" />',
-                    obj.image.url,
-                )
+                return _thumb(obj.image.url, 78)
             except ValueError:
                 pass
-        return format_html('<span style="color:#999;">—</span>')
+        return _muted('저장하면 보입니다')
+
+    @admin.display(description='바퀴선 인식')
+    def baseline_status(self, obj):
+        """Says in words what the detector did, so the number beside it makes sense."""
+        if not obj.pk or not obj.image:
+            return _muted('—')
+        if obj.baseline is not None:
+            return format_html(
+                '<span style="color:#1F286F;font-weight:700;">직접 지정 {}%</span>', obj.baseline
+            )
+        if obj.baseline_detected is not None:
+            return format_html(
+                '<span style="color:#2e7d32;">자동 인식 {}%</span>', obj.baseline_detected
+            )
+        return format_html(
+            '<span style="color:#b26a00;">인식 실패 — 비교 페이지에서 어긋나 보이면 '
+            '오른쪽에 숫자를 넣어주세요</span>'
+        )
 
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    # ── 목록 ──────────────────────────────────────────
-    list_display  = ('name', 'category', 'type', 'image_count',
-                     'is_flagship', 'is_for_rent', 'is_for_sale', 'is_active', 'created_at')
-    list_filter   = ('category', 'type', 'is_flagship', 'is_for_rent', 'is_for_sale', 'is_active')
-    list_editable = ('is_flagship', 'is_for_rent', 'is_for_sale', 'is_active')
+    list_display = ('thumb', 'name', 'category', 'type', 'photo_summary',
+                    'exposure', 'is_active')
+    list_display_links = ('thumb', 'name')
+    list_filter = ('is_active', 'is_for_rent', 'is_for_sale', 'category', 'type')
+    list_editable = ('is_active',)
     search_fields = ('name',)
-    ordering      = ('category', 'name')
+    ordering = ('category', 'name')
+    list_per_page = 30
+    save_on_top = True
 
-    # ── 상세 폼 ───────────────────────────────────────
     readonly_fields = ('created_at', 'image_preview')
     inlines = [EquipmentImageInline]
 
     fieldsets = (
         ('기본 정보', {
-            'fields': ('name', 'category', 'type', 'image', 'image_preview', 'description'),
+            'fields': ('name', 'category', 'type', 'description'),
+            'description': '장비명은 목록과 견적서에 그대로 나옵니다. '
+                           '미터급은 장비 렌탈 페이지의 탭 구분에 쓰입니다.',
         }),
-        ('스펙 정보', {
-            'fields': (
-                'max_work_height',
-                'max_platform_height',
-                'platform_size',
-                'equipment_size',
-                'equipment_weight',
-                'max_load',
-                'power_type',
-            ),
+        ('스펙', {
+            'fields': ('max_work_height', 'max_platform_height', 'platform_size',
+                       'equipment_size', 'equipment_weight', 'max_load', 'power_type'),
+            'description': '홈페이지 장비 목록과 비교 페이지에 그대로 표시됩니다. '
+                           '단위(m, kg)까지 함께 적어주세요.',
         }),
-        ('설정', {
-            'fields': ('is_active', 'is_for_rent', 'is_for_sale', 'is_flagship', 'created_at'),
-            'description': '렌탈·판매는 각각 독립입니다. 대표장비는 해당 미터급 목록의 맨 위에 고정됩니다.',
+        ('노출 설정', {
+            'fields': ('is_active', 'is_for_rent', 'is_for_sale', 'is_flagship'),
+            'description': '노출 여부를 끄면 홈페이지 어디에도 나오지 않습니다. '
+                           '렌탈과 판매는 각각 독립이라 둘 다 켤 수 있습니다. '
+                           '대표장비는 해당 미터급 목록 맨 위에 고정됩니다.',
+        }),
+        ('예전 방식 대표 사진 (사용하지 않아도 됩니다)', {
+            'fields': ('image', 'image_preview'),
+            'classes': ('collapse',),
+            'description': '아래 "사진" 표에서 여러 장을 올리는 방식을 사용하세요. '
+                           '이 칸은 예전에 쓰던 한 장짜리 대표 사진입니다.',
+        }),
+        ('기록', {
+            'fields': ('created_at',),
+            'classes': ('collapse',),
         }),
     )
 
-    # ── 커스텀 컬럼: 등록된 이미지 수 (렌탈/판매) ────
-    @admin.display(description='이미지')
-    def image_count(self, obj):
+    @admin.display(description='사진')
+    def thumb(self, obj):
+        first = obj.images.order_by('order', 'id').first()
+        for candidate in (first.image if first else None, obj.image):
+            if candidate:
+                try:
+                    return _thumb(candidate.url, 44)
+                except ValueError:
+                    continue
+        return _muted('없음')
+
+    @admin.display(description='등록 사진')
+    def photo_summary(self, obj):
         rental = obj.images.filter(image_type='rental').count()
         sales = obj.images.filter(image_type='sales').count()
-        return f'렌탈 {rental} · 판매 {sales}'
+        if not rental and not sales:
+            return format_html('<span style="color:#c62828;">없음</span>')
+        return format_html('렌탈 <b>{}</b> · 판매 <b>{}</b>', rental, sales)
 
-    # ── 커스텀 필드: 이미지 미리보기 ────────────────
-    @admin.display(description='현재 사진 미리보기')
+    @admin.display(description='노출')
+    def exposure(self, obj):
+        """One column instead of three checkboxes — faster to scan down a list."""
+        if not obj.is_active:
+            return format_html('<span style="color:#c62828;">숨김</span>')
+        tags = [label for flag, label in
+                ((obj.is_for_rent, '렌탈'), (obj.is_for_sale, '판매'), (obj.is_flagship, '대표'))
+                if flag]
+        return ' · '.join(tags) or _muted('어디에도 노출 안 됨')
+
+    @admin.display(description='현재 사진')
     def image_preview(self, obj):
         if obj.image:
-            return format_html(
-                '<img src="{}" style="max-height:220px; max-width:360px; '
-                'border-radius:8px; border:1px solid #dee2e6; margin-top:6px;" />',
-                obj.image.url,
-            )
-        return format_html('<span style="color:#999;">등록된 사진이 없습니다.</span>')
+            try:
+                return _thumb(obj.image.url, 200)
+            except ValueError:
+                pass
+        return _muted('등록된 사진이 없습니다.')
 
-    # ── help_text를 위한 get_form 오버라이드 ─────────
+    def get_queryset(self, request):
+        # photo_summary/thumb hit the image table for every row.
+        return super().get_queryset(request).prefetch_related('images')
+
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         helps = {
-            'max_work_height':     '예: 7.62m',
-            'max_platform_height': '예: 5.79m',
-            'equipment_weight':    '예: 1,312kg',
-            'max_load':            '예: 227kg',
-            'equipment_size':      '예: 1.78 x 0.81 x 1.99m',
-            'platform_size':       '예: 1.63 x 0.66m',
+            'name':                '예: LGMG AS1413E',
+            'max_work_height':     '예: 15.8m',
+            'max_platform_height': '예: 13.8m',
+            'equipment_weight':    '예: 3,570kg',
+            'max_load':            '예: 320kg',
+            'equipment_size':      '가로 x 세로 x 높이 — 예: 2.8 x 1.3 x 2.74m',
+            'platform_size':       '가로 x 세로 — 예: 2.64 x 1.12m',
             'power_type':          '예: 배터리 / 디젤',
+            'description':         '장비 상세에 들어갈 설명입니다. 비워두어도 됩니다.',
         }
-        for field_name, help_text in helps.items():
-            if field_name in form.base_fields:
-                form.base_fields[field_name].help_text = help_text
+        for name, text in helps.items():
+            if name in form.base_fields:
+                form.base_fields[name].help_text = text
         return form
