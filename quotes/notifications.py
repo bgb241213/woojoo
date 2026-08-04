@@ -83,6 +83,8 @@ def _kakao_lines(lines, header, link):
 
     text = header
     for line in lines:
+        if not line:
+            continue  # A field the customer left blank adds nothing but a gap.
         candidate = f'{text}\n{line}'
         if len(candidate) > kakao.TEXT_LIMIT:
             break
@@ -142,7 +144,9 @@ def send_quote_notification(quote):
         equipment += f' 외 {len(items) - 2}종'
     _kakao_lines(
         [
-            _fmt(quote.phone),
+            # `who` already falls back to the phone number when the customer
+            # gave neither a company nor a name — don't print it twice.
+            quote.phone if who != quote.phone else '',
             f'구분 {quote.get_inquiry_type_display()}' if quote.inquiry_type else '',
             f'작업고 {quote.work_height_class}' if quote.work_height_class else '',
             f'기간 {period}' if period != '-' else '',
