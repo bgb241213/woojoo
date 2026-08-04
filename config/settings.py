@@ -97,6 +97,41 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# ---------------------------------------------------------------------------
+# Email — enquiry notifications
+#
+# Credentials come from the environment so they never reach the repository.
+# Without EMAIL_HOST_USER nothing is configured, and mail is printed to the
+# console instead: local development and a misconfigured deploy both keep
+# working, they simply do not deliver.
+# ---------------------------------------------------------------------------
+EMAIL_HOST          = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT          = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_SSL       = os.environ.get('EMAIL_USE_SSL', 'False') == 'True'
+EMAIL_USE_TLS       = not EMAIL_USE_SSL and os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+# A hung SMTP connection would hold the customer's request open; fail fast and
+# let quotes.notifications log it.
+EMAIL_TIMEOUT       = 10
+
+EMAIL_BACKEND = (
+    'django.core.mail.backends.smtp.EmailBackend' if EMAIL_HOST_USER
+    else 'django.core.mail.backends.console.EmailBackend'
+)
+
+# Many providers reject a From: that is not the authenticated mailbox.
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL') or EMAIL_HOST_USER or 'noreply@woojoorental.co.kr'
+
+ENQUIRY_NOTIFICATION_EMAILS = [
+    addr.strip() for addr in
+    os.environ.get('ENQUIRY_NOTIFICATION_EMAILS', 'woojoo66666@daum.net').split(',')
+    if addr.strip()
+]
+
+# Used to build the "open in admin" link inside notification emails.
+SITE_BASE_URL = os.environ.get('SITE_BASE_URL', 'https://woojoorental.co.kr')
+
 LANGUAGE_CODE = 'ko-kr'
 TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True

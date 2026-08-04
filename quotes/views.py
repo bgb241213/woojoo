@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from equipment.models import Equipment
 from .models import QuoteRequest, QuoteItem, CallbackRequest
+from .notifications import send_callback_notification, send_quote_notification
 
 
 class QuoteCreateView(View):
@@ -115,6 +116,10 @@ class QuoteCreateView(View):
             except (Equipment.DoesNotExist, KeyError, ValueError):
                 pass
 
+        # Sent after the items exist so the mail can list them. Never raises —
+        # the enquiry is already saved and the customer must not see an error.
+        send_quote_notification(quote)
+
         return redirect('quotes:complete')
 
 
@@ -136,9 +141,10 @@ class CallbackCreateView(View):
         if not data.get('privacy_agree'):
             return JsonResponse({'success': False, 'error': '개인정보 수집·이용에 동의해 주세요.'}, status=400)
 
-        CallbackRequest.objects.create(
+        callback = CallbackRequest.objects.create(
             phone=phone,
             message=data.get('message', '').strip(),
             privacy_agreed_at=timezone.now(),
         )
+        send_callback_notification(callback)
         return JsonResponse({'success': True})
