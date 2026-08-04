@@ -15,6 +15,13 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 ALLOWED_HOSTS += ['.railway.app', 'woojoorental.co.kr', 'www.woojoorental.co.kr']
 
+# Railway terminates TLS at its edge and forwards to gunicorn over plain HTTP,
+# so without this Django believes every request is insecure and builds http://
+# absolute URLs — which is what made Kakao reject the OAuth redirect (KOE006).
+# Only trusted behind that proxy; locally there is no such header to honour.
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 CSRF_TRUSTED_ORIGINS = [
     'https://*.railway.app',
     'https://woojoorental.co.kr',
