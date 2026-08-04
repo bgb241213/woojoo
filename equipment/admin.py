@@ -69,7 +69,7 @@ class EquipmentAdmin(admin.ModelAdmin):
     list_per_page = 30
     save_on_top = True
 
-    readonly_fields = ('created_at', 'image_preview')
+    readonly_fields = ('created_at',)
     inlines = [EquipmentImageInline]
 
     fieldsets = (
@@ -90,17 +90,21 @@ class EquipmentAdmin(admin.ModelAdmin):
                            '렌탈과 판매는 각각 독립이라 둘 다 켤 수 있습니다. '
                            '대표장비는 해당 미터급 목록 맨 위에 고정됩니다.',
         }),
-        ('예전 방식 대표 사진 (사용하지 않아도 됩니다)', {
-            'fields': ('image', 'image_preview'),
-            'classes': ('collapse',),
-            'description': '아래 "사진" 표에서 여러 장을 올리는 방식을 사용하세요. '
-                           '이 칸은 예전에 쓰던 한 장짜리 대표 사진입니다.',
-        }),
         ('기록', {
             'fields': ('created_at',),
             'classes': ('collapse',),
         }),
     )
+
+    # The legacy single `image` field is deliberately absent from the fieldsets
+    # above: nothing on the site renders it. Its last reference is in
+    # equipment/detail.html, and that template is dead too — EquipmentDetailView
+    # is a RedirectView that sends /equipment/<id>/ to the list anchor instead of
+    # rendering anything. Offering it alongside the photo inline only made staff
+    # wonder which of the two inputs actually mattered.
+    #
+    # The column stays: dropping it would orphan the three files still stored in
+    # R2 and buys nothing, since the field is now unreachable from the UI.
 
     @admin.display(description='사진')
     def thumb(self, obj):
@@ -130,15 +134,6 @@ class EquipmentAdmin(admin.ModelAdmin):
                 ((obj.is_for_rent, '렌탈'), (obj.is_for_sale, '판매'), (obj.is_flagship, '대표'))
                 if flag]
         return ' · '.join(tags) or _muted('어디에도 노출 안 됨')
-
-    @admin.display(description='현재 사진')
-    def image_preview(self, obj):
-        if obj.image:
-            try:
-                return _thumb(obj.image.url, 200)
-            except ValueError:
-                pass
-        return _muted('등록된 사진이 없습니다.')
 
     def get_queryset(self, request):
         # photo_summary/thumb hit the image table for every row.
