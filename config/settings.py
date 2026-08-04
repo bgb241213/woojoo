@@ -132,6 +132,10 @@ ENQUIRY_NOTIFICATION_EMAILS = [
 # Used to build the "open in admin" link inside notification emails.
 SITE_BASE_URL = os.environ.get('SITE_BASE_URL', 'https://woojoorental.co.kr')
 
+# KakaoTalk "나에게 보내기" alerts. Only the app key lives here — the per-account
+# authorisation is granted in a browser and stored in quotes.KakaoAccount.
+KAKAO_REST_API_KEY = os.environ.get('KAKAO_REST_API_KEY', '')
+
 LANGUAGE_CODE = 'ko-kr'
 TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
@@ -206,6 +210,14 @@ JAZZMIN_SETTINGS = {
     'copyright': '우주렌탈',
     'show_sidebar': True,
     'navigation_expanded': True,
+    'custom_links': {
+        'quotes': [{
+            'name': '카카오톡 알림 연결',
+            'url': 'quotes:kakao_status',
+            'icon': 'fas fa-comment-dots',
+            'permissions': ['quotes.view_quoterequest'],
+        }],
+    },
     # Ordered by how often staff use them, not alphabetically: enquiries first
     # (checked daily), equipment next (changed occasionally), accounts last.
     'order_with_respect_to': [

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}카카오톡 알림 연결 - 우주렌탈 관리{% endblock %}
+
+{% block content %}
+<div class="dc-container" style="max-width:760px;padding-top:70px;padding-bottom:90px;">
+  <h1 style="font-size:30px;font-weight:800;color:#1F286F;margin:0 0 8px;">카카오톡 알림 연결</h1>
+  <p style="font-size:17px;color:#6B7080;margin:0 0 32px;word-break:keep-all;">
+    견적·콜백 신청이 들어오면 연결된 카카오 계정의 "나와의 채팅"으로 알림이 갑니다.
+  </p>
+
+  {% if message %}
+  <div style="padding:14px 18px;border-radius:10px;background:#e8f5e9;color:#2e7d32;font-weight:600;margin-bottom:18px;word-break:keep-all;">{{ message }}</div>
+  {% endif %}
+  {% if error %}
+  <div style="padding:14px 18px;border-radius:10px;background:#ffebee;color:#c62828;font-weight:600;margin-bottom:18px;word-break:keep-all;">{{ error }}</div>
+  {% endif %}
+
+  {% if not configured %}
+    <div style="padding:20px;border:1px solid #E4E7F0;border-radius:12px;background:#F4F5FA;">
+      <b style="color:#c62828;">아직 설정되지 않았습니다.</b>
+      <p style="margin:10px 0 0;font-size:16px;line-height:1.8;color:#2B2F38;">
+        Railway 환경변수에 <code>KAKAO_REST_API_KEY</code>를 넣은 뒤 다시 열어주세요.
+      </p>
+    </div>
+  {% else %}
+    <div style="padding:20px;border:1px solid #E4E7F0;border-radius:12px;margin-bottom:22px;">
+      {% if account and account.refresh_token %}
+        <div style="font-size:18px;font-weight:700;color:#2e7d32;">연결됨</div>
+        <table style="margin-top:12px;font-size:16px;line-height:2;color:#2B2F38;">
+          <tr><td style="color:#9296A8;padding-right:18px;">카카오 계정</td><td><b>{{ account.nickname|default:'(닉네임 없음)' }}</b></td></tr>
+          <tr><td style="color:#9296A8;">연결 일시</td><td>{{ account.updated_at|date:'Y-m-d H:i' }}</td></tr>
+          <tr><td style="color:#9296A8;">마지막 발송</td><td>{{ account.last_sent_at|date:'Y-m-d H:i'|default:'없음' }}</td></tr>
+          {% if account.last_error %}
+          <tr><td style="color:#9296A8;">마지막 오류</td><td style="color:#c62828;">{{ account.last_error }}</td></tr>
+          {% endif %}
+        </table>
+      {% else %}
+        <div style="font-size:18px;font-weight:700;color:#b26a00;">연결되지 않음</div>
+        <p style="margin:10px 0 0;font-size:16px;line-height:1.8;color:#2B2F38;word-break:keep-all;">
+          아래 버튼을 누르면 카카오 로그인 화면이 열립니다. 알림을 받을 계정으로 로그인하고
+          "카카오톡 메시지 전송"에 동의해 주세요.
+        </p>
+      {% endif %}
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:12px;">
+      <a href="{% url 'quotes:kakao_connect' %}"
+         style="display:inline-flex;align-items:center;padding:14px 26px;border-radius:999px;background:#FEE500;color:#191600;font-weight:700;font-size:16px;">
+        {% if account and account.refresh_token %}다른 계정으로 다시 연결{% else %}카카오 계정 연결하기{% endif %}
+      </a>
+      {% if account and account.refresh_token %}
+      <form method="post" action="{% url 'quotes:kakao_test' %}" style="margin:0;">
+        {% csrf_token %}
+        <button type="submit"
+                style="padding:14px 26px;border-radius:999px;border:1px solid #C6CBE0;background:#fff;color:#1F286F;font-weight:700;font-size:16px;cursor:pointer;">
+          테스트 메시지 보내기
+        </button>
+      </form>
+      {% endif %}
+      <a href="/admin/"
+         style="display:inline-flex;align-items:center;padding:14px 26px;border-radius:999px;border:1px solid #C6CBE0;color:#1F286F;font-weight:600;font-size:16px;">
+        관리자로 돌아가기
+      </a>
+    </div>
+
+    <p style="margin-top:26px;font-size:15px;color:#9296A8;line-height:1.8;word-break:keep-all;">
+      카카오 개발자 사이트의 Redirect URI에 아래 주소가 등록되어 있어야 합니다.<br>
+      <code style="color:#1F286F;">{{ redirect_uri }}</code>
+    </p>
+  {% endif %}
+</div>
+{% endblock %}

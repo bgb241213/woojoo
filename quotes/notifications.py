@@ -66,6 +66,24 @@ def _send(subject, body, reply_to=None):
         return False
 
 
+def _kakao_lines(lines, header, link):
+    """Send a compact KakaoTalk alert, dropping trailing lines that do not fit.
+
+    The 200-character cap means the message cannot mirror the email. Lines are
+    ordered most useful first so that whatever survives truncation is what staff
+    actually need to act: who it is and how to reach them.
+    """
+    from . import kakao
+
+    text = header
+    for line in lines:
+        candidate = f'{text}\n{line}'
+        if len(candidate) > kakao.TEXT_LIMIT:
+            break
+        text = candidate
+    return kakao.send_to_me(text, link_url=link, button_title='관리자에서 보기')
+
+
 def send_quote_notification(quote):
     """Notify the office about a new 견적 신청."""
     who = ' '.join(x for x in (quote.company_name, quote.name) if x) or quote.phone
@@ -111,7 +129,24 @@ def send_quote_notification(quote):
     if link:
         parts.append(f'{_LINE}\n관리자 페이지에서 보기\n{link}')
 
-    return _send(subject, '\n\n'.join(parts), reply_to=quote.email or None)
+    sent = _send(subject, '\n\n'.join(parts), reply_to=quote.email or None)
+
+    equipment = ', '.join(i.equipment.name for i in items[:2]) if items else ''
+    if items and len(items) > 2:
+        equipment += f' 외 {len(items) - 2}종'
+    _kakao_lines(
+        [
+            _fmt(quote.phone),
+            f'구분 {quote.get_inquiry_type_display()}' if quote.inquiry_type else '',
+            f'작업고 {quote.work_height_class}' if quote.work_height_class else '',
+            f'기간 {period}' if period != '-' else '',
+            f'장비 {equipment}' if equipment else '',
+            f'현장 {quote.delivery_address}' if quote.delivery_address else '',
+        ],
+        header=f'[우주렌탈] 견적 신청\n{who}',
+        link=link,
+    )
+    return sent
 
 
 def send_callback_notification(callback):
@@ -135,4 +170,11 @@ def send_callback_notification(callback):
     if link:
         parts.append(f'{_LINE}\n관리자 페이지에서 보기\n{link}')
 
-    return _send(subject, '\n\n'.join(parts))
+    sent = _send(subject, '\n\n'.join(parts))
+
+    _kakao_lines(
+        [callback.message] if callback.message else [],
+        header=f'[우주렌탈] 콜백 신청\n{callback.phone}\n(영업시간 외 · 다음 영업일 연락)',
+        link=link,
+    )
+    return sent

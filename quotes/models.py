@@ -59,6 +59,40 @@ class CallbackRequest(models.Model):
         return f'{self.phone} ({self.created_at.strftime("%Y-%m-%d %H:%M")})'
 
 
+class KakaoAccount(models.Model):
+    """The one Kakao account that enquiry alerts are pushed to.
+
+    "나에게 보내기" delivers to whoever authorised the app, so exactly one row is
+    ever needed — hence the fixed primary key. The refresh token has to live in
+    the database rather than an environment variable because Kakao hands back a
+    replacement as it nears expiry, and the site must be able to store it.
+    """
+    SINGLETON_PK = 1
+
+    refresh_token     = models.TextField(verbose_name='갱신 토큰')
+    access_token      = models.TextField(blank=True, verbose_name='접속 토큰')
+    access_expires_at = models.DateTimeField(null=True, blank=True, verbose_name='접속 토큰 만료')
+    nickname          = models.CharField(max_length=100, blank=True, verbose_name='연결된 카카오 계정')
+    last_sent_at      = models.DateTimeField(null=True, blank=True, verbose_name='마지막 발송')
+    last_error        = models.TextField(blank=True, verbose_name='마지막 오류')
+    updated_at        = models.DateTimeField(auto_now=True, verbose_name='수정일시')
+
+    class Meta:
+        verbose_name = '카카오톡 알림 연결'
+        verbose_name_plural = '카카오톡 알림 연결'
+
+    def __str__(self):
+        return self.nickname or '카카오톡 알림'
+
+    def save(self, *args, **kwargs):
+        self.pk = self.SINGLETON_PK
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def current(cls):
+        return cls.objects.filter(pk=cls.SINGLETON_PK).first()
+
+
 class QuoteItem(models.Model):
     quote     = models.ForeignKey(QuoteRequest, on_delete=models.CASCADE, related_name='items', verbose_name='견적')
     equipment = models.ForeignKey(Equipment, on_delete=models.PROTECT, verbose_name='장비')
