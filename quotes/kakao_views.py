@@ -71,7 +71,7 @@ class KakaoTestView(View):
     def post(self, request):
         status = reverse('quotes:kakao_status')
         ok = kakao.send_to_me(
-            '[우주렌탈] 알림 연결 테스트\n이 메시지가 보이면 정상입니다.',
+            '[알림 연결 테스트]\n이 메시지가 보이면 정상입니다.\n견적·콜백 신청이 들어오면 여기로 알림이 옵니다.',
             link_url=request.build_absolute_uri('/admin/'),
             button_title='관리자 열기',
         )

@@ -153,7 +153,7 @@ def send_quote_notification(quote):
             f'장비 {equipment}' if equipment else '',
             f'현장 {quote.delivery_address}' if quote.delivery_address else '',
         ],
-        header=f'[우주렌탈] 견적 신청\n{who}',
+        header=f'[견적신청알림]\n{who}',
         link=link,
     )
     return sent
@@ -184,7 +184,7 @@ def send_callback_notification(callback):
 
     _kakao_lines(
         [callback.message] if callback.message else [],
-        header=f'[우주렌탈] 콜백 신청\n{callback.phone}\n(영업시간 외 · 다음 영업일 연락)',
+        header=f'[콜백 알림]\n{callback.phone}\n(영업시간 외 · 다음 영업일 연락)',
         link=link,
     )
     return sent
