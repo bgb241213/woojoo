@@ -67,6 +67,15 @@ def authorize_url(redirect_uri):
     return f'{AUTHORIZE_URL}?{urllib.parse.urlencode(params)}'
 
 
+def _token_request(data):
+    """Kakao turns 클라이언트 시크릿 on by default for new REST API keys, and
+    then rejects every token call that omits it. Sent only when configured so
+    an app with the feature switched off still works."""
+    if settings.KAKAO_CLIENT_SECRET:
+        data = {**data, 'client_secret': settings.KAKAO_CLIENT_SECRET}
+    return _request(TOKEN_URL, data)
+
+
 def _store_tokens(account, payload):
     """Persist a token response. Kakao only returns a refresh token when it
     issues a new one, so the existing value must be kept otherwise."""
@@ -82,7 +91,7 @@ def complete_connection(code, redirect_uri):
     """Exchange the one-time code for tokens and save them. Returns the account."""
     from .models import KakaoAccount
 
-    payload = _request(TOKEN_URL, {
+    payload = _token_request({
         'grant_type': 'authorization_code',
         'client_id': settings.KAKAO_REST_API_KEY,
         'redirect_uri': redirect_uri,
@@ -106,7 +115,7 @@ def complete_connection(code, redirect_uri):
 def _valid_access_token(account):
     if account.access_token and account.access_expires_at and account.access_expires_at > timezone.now():
         return account.access_token
-    payload = _request(TOKEN_URL, {
+    payload = _token_request({
         'grant_type': 'refresh_token',
         'client_id': settings.KAKAO_REST_API_KEY,
         'refresh_token': account.refresh_token,

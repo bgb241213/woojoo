@@ -135,6 +135,9 @@ SITE_BASE_URL = os.environ.get('SITE_BASE_URL', 'https://woojoorental.co.kr')
 # KakaoTalk "나에게 보내기" alerts. Only the app key lives here — the per-account
 # authorisation is granted in a browser and stored in quotes.KakaoAccount.
 KAKAO_REST_API_KEY = os.environ.get('KAKAO_REST_API_KEY', '')
+# Kakao enables 클라이언트 시크릿 by default on new REST API keys; leave blank
+# only if it has been switched off on the app.
+KAKAO_CLIENT_SECRET = os.environ.get('KAKAO_CLIENT_SECRET', '')
 
 LANGUAGE_CODE = 'ko-kr'
 TIME_ZONE = 'Asia/Seoul'
