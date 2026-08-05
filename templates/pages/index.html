@@ -67,12 +67,10 @@ body { background: #0A0D24; }
    multi-column blocks so nothing runs off a phone screen. */
 @media (max-width: 767.98px) {
   [data-wj="greet"], [data-wj="index"], [data-wj="more"] { grid-template-columns: 1fr !important; }
-  /* Greeting: drop the portrait photo and move the signature below the
-     greeting text instead of above it. */
-  .greet-photo { display: none !important; }
-  .greet-media { order: 2; }
-  .greet-body { order: 1; }
-  .greet-sign { margin-top: 28px !important; }
+  /* Greeting: the portrait and the "우주렌탈 일동" signature are both dropped on
+     a phone, so the whole media column goes rather than leaving an empty box
+     under the text. */
+  .greet-media { display: none !important; }
   [data-wj="steps"] { grid-template-columns: 1fr 1fr !important; }
   /* Height chart: tighten the axis and gutters so all seven machines fit a
      phone without the last column running off screen. At seven columns a cell
