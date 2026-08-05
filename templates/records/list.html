@@ -28,7 +28,9 @@
 @media (max-width: 600px)  { .masonry { grid-template-columns: repeat(2, 1fr); } }
 
 .rec { position: relative; border-radius: 10px; overflow: hidden; display: block; background: var(--tint); }
-.rec__ph { width: 100%; aspect-ratio: 4 / 3; background-size: cover; background-position: center; transition: transform .4s ease; }
+/* An <img> rather than a background so the browser can defer photos below the
+   fold — the wall holds well over a hundred of them. */
+.rec__ph { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .4s ease; }
 .rec:hover .rec__ph { transform: scale(1.04); }
 .rec__cap {
   position: absolute; left: 0; right: 0; bottom: 0; padding: 1.4rem 0.75rem 0.6rem;
@@ -61,8 +63,9 @@
 <section class="rec-wall dc-container">
   <div class="masonry">
     {% for t in tiles %}
-    <div class="rec" data-src="{{ t.src }}" data-model="{{ t.model }}" data-date="{{ t.date }}">
-      <div class="rec__ph" style="background-image:url('{{ t.src }}');"></div>
+    <div class="rec" data-src="{{ t.full }}" data-model="{{ t.model }}" data-date="{{ t.date }}">
+      <img class="rec__ph" src="{{ t.src }}" alt="{{ t.model }} 출고 사진"
+           loading="lazy" decoding="async" width="640" height="480">
       <div class="rec__cap"><b>{{ t.model }}</b><span>{{ t.date }} 출고</span></div>
     </div>
     {% empty %}

@@ -73,8 +73,32 @@ def sale_photos(equipment_id):
 
 
 def record_photos(record_id):
-    """Sales-record photos for a record id (may be empty)."""
-    return list(_scan('records', record_id, '.jpg'))
+    """Sales-record photos for a record id (may be empty).
+
+    Only the originals — the ``_t``/``_c`` derivatives written by
+    ``make_photo_thumbs`` live alongside them and must not be listed as
+    separate photos.
+    """
+    return [u for u in _scan('records', record_id, '.jpg')
+            if not _DERIVATIVE.search(u)]
+
+
+# Matches the suffixes make_photo_thumbs appends.
+import re as _re
+_DERIVATIVE = _re.compile(r'_[tc]\.jpg$')
+
+
+def display_variant(url, suffix):
+    """The `_t`/`_c` copy of a static record photo, or the original if absent.
+
+    Admin-uploaded photos live in R2 and have no derivatives, so they are
+    returned untouched.
+    """
+    if not url.endswith('.jpg') or '/images/records/' not in url:
+        return url
+    candidate = url[:-4] + suffix + '.jpg'
+    relative = candidate.split('/images/records/', 1)[1]
+    return candidate if (_IMAGES_ROOT / 'records' / relative).exists() else url
 
 
 @lru_cache(maxsize=1)
