@@ -10,12 +10,38 @@ Formatting is plain text on purpose: it renders identically in Daum, Naver and
 mobile clients, and there is nothing here that HTML would make clearer.
 """
 import logging
+import threading
 
 from django.conf import settings
 from django.core.mail import EmailMessage
+from django.db import close_old_connections
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
+
+
+def _in_background(fn, *args):
+    """Run a notification off the request thread.
+
+    Notifications talk to third-party servers, and the customer must not wait on
+    them: an unreachable SMTP host held the quote form open for twelve seconds
+    before the timeout fired. The enquiry is already saved by this point, so
+    nothing here affects what the customer sees.
+
+    Daemon thread on purpose — a redeploy mid-send may drop a notification, but
+    it must never hold the worker open.
+    """
+    def run():
+        try:
+            fn(*args)
+        except Exception:
+            logger.exception('Background notification crashed')
+        finally:
+            # The thread gets its own DB connection; leaving it open leaks one
+            # per enquiry.
+            close_old_connections()
+
+    threading.Thread(target=run, daemon=True).start()
 
 _LINE = '─' * 34
 
@@ -93,6 +119,16 @@ def _kakao_lines(lines, header, link):
 
 
 def send_quote_notification(quote):
+    """Notify the office about a new 견적 신청, without blocking the response."""
+    _in_background(_quote_notification, quote)
+
+
+def send_callback_notification(callback):
+    """Notify the office about a new 콜백 신청, without blocking the response."""
+    _in_background(_callback_notification, callback)
+
+
+def _quote_notification(quote):
     """Notify the office about a new 견적 신청."""
     who = ' '.join(x for x in (quote.company_name, quote.name) if x) or quote.phone
     subject = f'[우주렌탈] 견적 신청 - {who}'
@@ -159,8 +195,7 @@ def send_quote_notification(quote):
     return sent
 
 
-def send_callback_notification(callback):
-    """Notify the office about a new 콜백 신청 (left outside business hours)."""
+def _callback_notification(callback):
     subject = f'[우주렌탈] 콜백 신청 - {callback.phone}'
 
     parts = [
