@@ -74,10 +74,10 @@ def _admin_link(path):
 
 def _send(subject, body, reply_to=None):
     # Email is opt-in: alerts go out over KakaoTalk, and mail only joins in once
-    # a sending mailbox is configured. Without this guard Django would fall back
+    # a sending route is configured. Without this guard Django would fall back
     # to the console backend and print the customer's name, phone and address
     # into the deploy log on every enquiry.
-    if not settings.EMAIL_HOST_USER:
+    if not settings.EMAIL_ENABLED:
         return False
     recipients = settings.ENQUIRY_NOTIFICATION_EMAILS
     if not recipients:

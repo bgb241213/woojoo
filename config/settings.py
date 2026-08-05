@@ -122,10 +122,20 @@ EMAIL_USE_TLS       = not EMAIL_USE_SSL and os.environ.get('EMAIL_USE_TLS', 'Tru
 # let quotes.notifications log it.
 EMAIL_TIMEOUT       = 10
 
-EMAIL_BACKEND = (
-    'django.core.mail.backends.smtp.EmailBackend' if EMAIL_HOST_USER
-    else 'django.core.mail.backends.console.EmailBackend'
-)
+# Railway blocks outbound SMTP (see quotes/email_backends.py), so the API route
+# is preferred whenever a key is present. SMTP stays available for a host that
+# allows it — a self-managed server, or local testing.
+BREVO_API_KEY = os.environ.get('BREVO_API_KEY', '')
+
+if BREVO_API_KEY:
+    EMAIL_BACKEND = 'quotes.email_backends.BrevoAPIBackend'
+elif EMAIL_HOST_USER:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Notifications stay silent until one of the two routes is actually configured.
+EMAIL_ENABLED = bool(BREVO_API_KEY or EMAIL_HOST_USER)
 
 # Many providers reject a From: that is not the authenticated mailbox.
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL') or EMAIL_HOST_USER or 'noreply@woojoorental.co.kr'
