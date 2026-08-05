@@ -38,17 +38,15 @@ def _scan(subdir, obj_id, ext):
     return tuple(static(f'images/{subdir}/{obj_id}/{p.name}') for p in files)
 
 
-def _db_images(equipment_id, image_type):
-    """[(url, row)] of admin-managed images that have a file, ordered.
+def _rows_to_images(rows):
+    """[(url, row)] for rows that actually have a file.
 
     Photo URLs and baseline overrides are both indexed off this one sequence —
     building them separately lets their indices drift apart the moment a row
     is missing its file.
     """
-    from .models import EquipmentImage
-    qs = EquipmentImage.objects.filter(equipment_id=equipment_id, image_type=image_type)
     images = []
-    for img in qs.order_by('order', 'id'):
+    for img in rows:
         try:
             url = img.image.url
         except ValueError:  # row without a file
@@ -57,19 +55,51 @@ def _db_images(equipment_id, image_type):
     return images
 
 
-def _db_photos(equipment_id, image_type):
-    """URLs of admin-managed images for one equipment, ordered."""
-    return [url for url, _ in _db_images(equipment_id, image_type)]
+def _db_images(equipment_id, image_type):
+    """[(url, row)] of admin-managed images for one machine, ordered."""
+    from .models import EquipmentImage
+    rows = EquipmentImage.objects.filter(
+        equipment_id=equipment_id, image_type=image_type,
+    ).order_by('order', 'id')
+    return _rows_to_images(rows)
 
 
-def rental_photos(equipment_id):
+def bulk_db_images(equipment_ids, image_type):
+    """{equipment_id: [(url, row)]} for many machines in a single query.
+
+    The list pages render thirty machines at once; asking per machine meant
+    thirty round trips, and the compare page doubled that by fetching the same
+    rows again for the baselines. Cheap locally, but each one carries the
+    network latency of a managed database in production — enough to put that
+    page over ten seconds.
+    """
+    from .models import EquipmentImage
+    grouped = {}
+    rows = EquipmentImage.objects.filter(
+        equipment_id__in=list(equipment_ids), image_type=image_type,
+    ).order_by('equipment_id', 'order', 'id')
+    for row in rows:
+        grouped.setdefault(row.equipment_id, []).append(row)
+    return {eq_id: _rows_to_images(rs) for eq_id, rs in grouped.items()}
+
+
+def _images(equipment_id, image_type, prefetched=None):
+    """Admin images for one machine, from a bulk fetch when one was passed."""
+    if prefetched is not None:
+        return prefetched.get(equipment_id, [])
+    return _db_images(equipment_id, image_type)
+
+
+def rental_photos(equipment_id, prefetched=None):
     """Rental gallery photos for an equipment id (may be empty)."""
-    return _db_photos(equipment_id, 'rental') or list(_scan('rental', equipment_id, '.png'))
+    urls = [url for url, _ in _images(equipment_id, 'rental', prefetched)]
+    return urls or list(_scan('rental', equipment_id, '.png'))
 
 
-def sale_photos(equipment_id):
+def sale_photos(equipment_id, prefetched=None):
     """Sale gallery photos for an equipment id (may be empty)."""
-    return _db_photos(equipment_id, 'sales') or list(_scan('sale', equipment_id, '.png'))
+    urls = [url for url, _ in _images(equipment_id, 'sales', prefetched)]
+    return urls or list(_scan('sale', equipment_id, '.png'))
 
 
 def record_photos(record_id):
@@ -110,7 +140,7 @@ def _baselines():
         return {}
 
 
-def _admin_baselines(equipment_id, image_type):
+def _admin_baselines(equipment_id, image_type, prefetched=None):
     """{index: fraction} for admin-managed photos.
 
     Covers both the value detected when the photo was uploaded and any manual
@@ -118,14 +148,14 @@ def _admin_baselines(equipment_id, image_type):
     added through the admin therefore need no separate command run.
     """
     result = {}
-    for index, (_, row) in enumerate(_db_images(equipment_id, image_type)):
+    for index, (_, row) in enumerate(_images(equipment_id, image_type, prefetched)):
         value = row.effective_baseline
         if value is not None:
             result[index] = value / 100
     return result
 
 
-def photo_baselines(equipment_id, kind, count):
+def photo_baselines(equipment_id, kind, count, prefetched=None):
     """Wheel-line fraction per photo, index-aligned with the photo URL list.
 
     ``kind`` is the ``static/images`` subdirectory ('rental' or 'sale').
@@ -136,7 +166,7 @@ def photo_baselines(equipment_id, kind, count):
     detected = table.get(kind, {}).get(str(equipment_id), {})
     defaults = table.get('_defaults', {})
     image_type = 'sales' if kind == 'sale' else kind
-    overrides = _admin_baselines(equipment_id, image_type)
+    overrides = _admin_baselines(equipment_id, image_type, prefetched)
 
     values = []
     for index in range(count):

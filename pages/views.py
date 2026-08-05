@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from equipment.models import Equipment
-from equipment.photos import rental_photos, PLACEHOLDER
+from equipment.photos import bulk_db_images, rental_photos, PLACEHOLDER
 from equipment.views import catalog_order
 
 
@@ -12,9 +12,12 @@ def flagship_index():
     """The landing page's equipment index — one representative machine per
     meter class, in catalog order, with its card photo."""
     items = []
-    qs = Equipment.objects.filter(is_active=True, is_for_rent=True, is_flagship=True)
-    for e in catalog_order(qs):
-        photos = rental_photos(e.id)
+    machines = catalog_order(
+        Equipment.objects.filter(is_active=True, is_for_rent=True, is_flagship=True)
+    )
+    rental = bulk_db_images([e.id for e in machines], 'rental')
+    for e in machines:
+        photos = rental_photos(e.id, rental)
         items.append({
             'name': e.name,
             'category': e.get_category_display(),

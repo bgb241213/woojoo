@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import Equipment
-from .photos import photo_baselines, rental_photos, sale_photos
+from .photos import bulk_db_images, photo_baselines, rental_photos, sale_photos
 
 # Meter-class labels — single source of truth is the model's choices.
 CATEGORY_LABEL = dict(Equipment.CATEGORY_CHOICES)
@@ -79,8 +79,9 @@ class EquipmentListView(ListView):
     context_object_name = 'equipments'
 
     def get_queryset(self):
-        qs = Equipment.objects.filter(is_active=True, is_for_rent=True)
-        return [decorate(e, rental_photos(e.id), RENTAL_SPECS) for e in catalog_order(qs)]
+        machines = catalog_order(Equipment.objects.filter(is_active=True, is_for_rent=True))
+        rental = bulk_db_images([e.id for e in machines], 'rental')
+        return [decorate(e, rental_photos(e.id, rental), RENTAL_SPECS) for e in machines]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -102,12 +103,18 @@ class EquipmentCompareView(View):
 
     def get(self, request):
         equipment = catalog_order(Equipment.objects.filter(is_active=True, is_for_rent=True))
+        ids = [e.id for e in equipment]
+        # Two queries for the whole page. Fetching per machine — and again for
+        # the baselines — was what made this the slowest page on the site.
+        rental_images = bulk_db_images(ids, 'rental')
+        sale_images = bulk_db_images(ids, 'sales')
+
         models = []
         for e in equipment:
             # Baselines are keyed by photo library, so track which one won.
-            photos, kind = rental_photos(e.id), 'rental'
+            photos, kind, images = rental_photos(e.id, rental_images), 'rental', rental_images
             if not photos:
-                photos, kind = sale_photos(e.id), 'sale'
+                photos, kind, images = sale_photos(e.id, sale_images), 'sale', sale_images
             models.append({
                 'id': e.id,
                 'name': e.name,
@@ -116,7 +123,7 @@ class EquipmentCompareView(View):
                 'isForSale': e.is_for_sale,
                 'isFlagship': e.is_flagship,
                 'photos': photos,
-                'baselines': photo_baselines(e.id, kind, len(photos)),
+                'baselines': photo_baselines(e.id, kind, len(photos), images),
                 'specs': {
                     '작업가능높이': e.max_work_height,
                     '발판최대높이': e.max_platform_height,
