@@ -83,7 +83,14 @@ body { background: #0A0D24; }
     background: linear-gradient(180deg, rgba(10,13,36,.9) 0%, rgba(10,13,36,.84) 50%,
                                         rgba(10,13,36,.92) 100%) !important;
   }
-  .as-band__inner { position: static !important; padding: 46px 22px 50px !important; }
+  /* Relative, not static: the photo and veil above it are absolutely
+     positioned, so an in-flow box would be painted underneath them and the
+     copy would vanish. Relative keeps it in flow — which is what lets the band
+     size to its content — while z-index puts it back on top. */
+  .as-band__inner {
+    position: relative !important; z-index: 1;
+    padding: 46px 22px 50px !important;
+  }
   .as-band__box { max-width: 100% !important; }
   .as-band__head { flex-direction: column !important; align-items: flex-start !important; gap: 7px !important; }
   .as-band__rule { display: none !important; }
