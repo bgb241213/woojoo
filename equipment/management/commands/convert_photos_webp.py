@@ -11,19 +11,12 @@ reads every file back out of R2 and would overwrite ``baseline_detected`` from
 a lossily re-encoded copy. The geometry is unchanged by the re-encode, so the
 existing baselines stay correct.
 """
-import io
-
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
-from PIL import Image
 
+from equipment.imaging import MAX_EDGE, QUALITY, encode_webp, webp_name
 from equipment.models import EquipmentImage
-
-# Tiles render at ~150px on a phone and the lightbox at ~1100px, so anything
-# above this is detail no one ever sees.
-MAX_EDGE = 1000
-QUALITY = 82
 
 
 class Command(BaseCommand):
@@ -54,7 +47,7 @@ class Command(BaseCommand):
             try:
                 with row.image.open('rb') as fh:
                     original = fh.read()
-                data, size = self._encode(original, quality, max_edge)
+                data, size = encode_webp(original, quality, max_edge)
             except Exception as exc:  # noqa: BLE001 — one bad file must not stop the run
                 failed += 1
                 self.stderr.write(self.style.WARNING(f'  건너뜀 {name}: {exc}'))
@@ -69,7 +62,7 @@ class Command(BaseCommand):
             if dry:
                 continue
 
-            new_name = default_storage.save(name.rsplit('.', 1)[0] + '.webp', ContentFile(data))
+            new_name = default_storage.save(webp_name(name), ContentFile(data))
             EquipmentImage.objects.filter(pk=row.pk).update(image=new_name)
             if not options['keep_originals']:
                 default_storage.delete(name)
@@ -84,18 +77,3 @@ class Command(BaseCommand):
                 f'{before / 1048576:.1f}MB → {after / 1048576:.1f}MB '
                 f'({after / before * 100:.0f}%, {(before - after) / 1048576:.1f}MB 절감)'
             ))
-
-    @staticmethod
-    def _encode(payload, quality, max_edge):
-        """WebP bytes for one image, downscaled to fit max_edge."""
-        im = Image.open(io.BytesIO(payload))
-        # Palette images can hide an alpha channel; flattening those to RGB
-        # would turn transparent margins black behind the white card.
-        if im.mode in ('RGBA', 'LA') or (im.mode == 'P' and 'transparency' in im.info):
-            im = im.convert('RGBA')
-        else:
-            im = im.convert('RGB')
-        im.thumbnail((max_edge, max_edge), Image.LANCZOS)
-        buf = io.BytesIO()
-        im.save(buf, 'WEBP', quality=quality, method=6)
-        return buf.getvalue(), im.size

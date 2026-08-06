@@ -5,15 +5,19 @@ Uploads every ``static/images/rental/<id>/*.png`` and
 (local ``media/`` when DEBUG, Cloudflare R2 in production) under a
 deterministic path, and upserts the matching ``EquipmentImage`` row.
 
+Photos are stored as WebP — see equipment/imaging.py for why. The source
+library stays PNG because that is what the design hand-off produced.
+
 Idempotent: existing storage objects are not re-uploaded and existing rows
 are not duplicated, so it is safe to run on every deploy.
 """
 from django.conf import settings
-from django.core.files.base import File
+from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 
 from equipment.baseline import detect_baseline
+from equipment.imaging import encode_webp, webp_name
 from equipment.models import Equipment, EquipmentImage
 
 # (static subdir, EquipmentImage.image_type, storage subdir)
@@ -47,14 +51,20 @@ class Command(BaseCommand):
                     key=lambda p: int(p.stem) if p.stem.isdigit() else 99,
                 )
                 for order, path in enumerate(files):
-                    name = f'equipment/design/{storage_sub}/{eq_id}/{path.name}'
-                    if not default_storage.exists(name):
-                        with path.open('rb') as fh:
-                            default_storage.save(name, File(fh))
-                        uploaded += 1
+                    legacy = f'equipment/design/{storage_sub}/{eq_id}/{path.name}'
+                    name = webp_name(legacy)
+                    # Rows imported before the WebP switch still point at the
+                    # PNG. Matching both names is what keeps this idempotent
+                    # across that change: miss the legacy row and every deploy
+                    # would upload a second copy and duplicate the gallery.
                     row = EquipmentImage.objects.filter(
-                        equipment_id=eq_id, image_type=image_type, image=name,
+                        equipment_id=eq_id, image_type=image_type,
+                        image__in=[name, legacy],
                     ).first()
+                    if row is None and not default_storage.exists(name):
+                        data, _ = encode_webp(path.read_bytes())
+                        default_storage.save(name, ContentFile(data))
+                        uploaded += 1
                     if row is None:
                         # Detect from the local file and hand the answer over, so
                         # the model does not fetch the copy back out of R2. Local
