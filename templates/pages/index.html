@@ -366,9 +366,15 @@ body { background: #0A0D24; }
       <div style="position:sticky;top:110px;">
         <div style="position:relative;aspect-ratio:1/1;background:linear-gradient(160deg,#FFFFFF 0%,#E9ECF6 100%);overflow:hidden;">
           <div style="position:absolute;inset:0;background:radial-gradient(70% 55% at 50% 46%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 70%);"></div>
+          {% comment %}
+            Only the first layer carries a URL up front. The rest are filled on
+            hover/select — an opacity-0 background is still downloaded, so
+            inline URLs meant every flagship photo loaded on page open.
+          {% endcomment %}
           {% for e in flagships %}
           <div class="wj-eq-layer{% if forloop.first %} is-on{% endif %}" data-i="{{ forloop.counter0 }}"
-               style="background-image:url('{{ e.photo }}')"></div>
+               data-src="{{ e.photo }}"
+               {% if forloop.first %}style="background-image:url('{{ e.photo }}')"{% endif %}></div>
           {% endfor %}
           <div style="position:absolute;left:26px;bottom:24px;right:26px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;">
             <div>
@@ -586,7 +592,13 @@ body { background: #0A0D24; }
       if (row.classList.contains('is-on')) return;
       var i = Number(row.dataset.i);
       rows.forEach(function (r) { r.classList.toggle('is-on', r === row); });
-      layers.forEach(function (l) { l.classList.toggle('is-on', Number(l.dataset.i) === i); });
+      layers.forEach(function (l) {
+        var on = Number(l.dataset.i) === i;
+        if (on && l.dataset.src && !l.style.backgroundImage) {
+          l.style.backgroundImage = "url('" + l.dataset.src + "')";
+        }
+        l.classList.toggle('is-on', on);
+      });
       if (elName) elName.textContent = row.querySelector('.wj-eq-name').textContent;
       if (elHeight) elHeight.textContent = row.querySelector('.wj-eq-h').textContent;
     };

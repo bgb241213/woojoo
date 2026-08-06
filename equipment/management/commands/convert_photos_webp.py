@@ -1,0 +1,101 @@
+"""Re-encode equipment photos as WebP.
+
+The design library arrived as ~1200px PNGs averaging 360KB, and the rental
+list shows every machine's gallery, so that page pulled 43MB of images. The
+photos are studio shots on white, which WebP compresses to roughly 7% of the
+PNG at a quality no one can tell apart on a phone.
+
+Rows are updated with ``queryset.update()`` rather than ``instance.save()`` on
+purpose: saving re-runs wheel-line detection (see EquipmentImage.save), which
+reads every file back out of R2 and would overwrite ``baseline_detected`` from
+a lossily re-encoded copy. The geometry is unchanged by the re-encode, so the
+existing baselines stay correct.
+"""
+import io
+
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.core.management.base import BaseCommand
+from PIL import Image
+
+from equipment.models import EquipmentImage
+
+# Tiles render at ~150px on a phone and the lightbox at ~1100px, so anything
+# above this is detail no one ever sees.
+MAX_EDGE = 1000
+QUALITY = 82
+
+
+class Command(BaseCommand):
+    help = '장비 사진을 WebP로 변환해 용량을 줄입니다.'
+
+    def add_arguments(self, parser):
+        parser.add_argument('--dry-run', action='store_true',
+                            help='변환하지 않고 예상 절감량만 출력합니다.')
+        parser.add_argument('--quality', type=int, default=QUALITY)
+        parser.add_argument('--max-edge', type=int, default=MAX_EDGE)
+        parser.add_argument('--keep-originals', action='store_true',
+                            help='변환 후 원본 파일을 지우지 않습니다.')
+
+    def handle(self, *args, **options):
+        dry = options['dry_run']
+        quality = options['quality']
+        max_edge = options['max_edge']
+
+        rows = EquipmentImage.objects.exclude(image='').order_by('equipment_id', 'order', 'id')
+        before = after = 0
+        converted = skipped = failed = 0
+
+        for row in rows:
+            name = row.image.name
+            if name.lower().endswith('.webp'):
+                skipped += 1
+                continue
+            try:
+                with row.image.open('rb') as fh:
+                    original = fh.read()
+                data, size = self._encode(original, quality, max_edge)
+            except Exception as exc:  # noqa: BLE001 — one bad file must not stop the run
+                failed += 1
+                self.stderr.write(self.style.WARNING(f'  건너뜀 {name}: {exc}'))
+                continue
+
+            before += len(original)
+            after += len(data)
+            converted += 1
+            self.stdout.write(
+                f'  {name}  {len(original) // 1024}KB → {len(data) // 1024}KB  {size[0]}x{size[1]}'
+            )
+            if dry:
+                continue
+
+            new_name = default_storage.save(name.rsplit('.', 1)[0] + '.webp', ContentFile(data))
+            EquipmentImage.objects.filter(pk=row.pk).update(image=new_name)
+            if not options['keep_originals']:
+                default_storage.delete(name)
+
+        self.stdout.write('')
+        verb = '변환 예정' if dry else '변환 완료'
+        self.stdout.write(self.style.SUCCESS(
+            f'{verb}: {converted}장 | 이미 WebP: {skipped}장 | 실패: {failed}장'
+        ))
+        if before:
+            self.stdout.write(self.style.SUCCESS(
+                f'{before / 1048576:.1f}MB → {after / 1048576:.1f}MB '
+                f'({after / before * 100:.0f}%, {(before - after) / 1048576:.1f}MB 절감)'
+            ))
+
+    @staticmethod
+    def _encode(payload, quality, max_edge):
+        """WebP bytes for one image, downscaled to fit max_edge."""
+        im = Image.open(io.BytesIO(payload))
+        # Palette images can hide an alpha channel; flattening those to RGB
+        # would turn transparent margins black behind the white card.
+        if im.mode in ('RGBA', 'LA') or (im.mode == 'P' and 'transparency' in im.info):
+            im = im.convert('RGBA')
+        else:
+            im = im.convert('RGB')
+        im.thumbnail((max_edge, max_edge), Image.LANCZOS)
+        buf = io.BytesIO()
+        im.save(buf, 'WEBP', quality=quality, method=6)
+        return buf.getvalue(), im.size
