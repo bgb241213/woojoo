@@ -98,18 +98,23 @@ class EquipmentImage(models.Model):
     skip_baseline_detection = False
 
     def save(self, *args, **kwargs):
-        """Re-detect the wheel line whenever the image file changes.
+        """Compress to WebP and re-detect the wheel line when the file changes.
 
         Detection reads the file, which is a network round-trip to R2 in
-        production — so it only runs when the file is actually new or replaced,
-        never on an ordinary edit of the order/type fields.
+        production — so both steps only run when the file is actually new or
+        replaced, never on an ordinary edit of the order/type fields.
         """
         from .baseline import detect_percent_for_file
+        from .imaging import compress_upload
 
         changed = self.pk is None
         if not changed:
             previous = EquipmentImage.objects.filter(pk=self.pk).values_list('image', flat=True).first()
             changed = previous != self.image.name
+        # Convert before the file lands in storage, so R2 never holds the
+        # multi-megabyte original and no second pass is needed later.
+        if changed and self.image:
+            compress_upload(self.image)
         super().save(*args, **kwargs)
         if changed and self.image and not self.skip_baseline_detection:
             detected = detect_percent_for_file(self.image)

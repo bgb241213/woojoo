@@ -48,6 +48,23 @@ class SalesRecordImage(models.Model):
     def __str__(self):
         return f'{self.record} - {self.order}'
 
+    def save(self, *args, **kwargs):
+        """Compress a newly uploaded photo to WebP before it reaches storage.
+
+        Site photos come off a phone at several megabytes each and the records
+        page shows well over a hundred of them. Only a new or replaced file is
+        converted — re-saving a row to fix its order must not touch the file.
+        """
+        from equipment.imaging import compress_upload
+
+        changed = self.pk is None
+        if not changed:
+            previous = SalesRecordImage.objects.filter(pk=self.pk).values_list('image', flat=True).first()
+            changed = previous != self.image.name
+        if changed and self.image:
+            compress_upload(self.image)
+        super().save(*args, **kwargs)
+
 
 # ── Keep the storage backend (R2 in production) in sync with the admin ──
 from django.db.models.signals import post_delete, pre_save  # noqa: E402
