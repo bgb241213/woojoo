@@ -538,7 +538,7 @@ a { text-decoration: none; color: inherit; }
 .site-footer h4 { font-weight: 700; color: #fff; margin: 0 0 0.6rem; font-size: 1.4rem; }
 .site-footer a { color: rgba(255,255,255,.68); }
 .site-footer a:hover { color: #fff; }
-.site-footer b { color: #fff; font-weight: 700; }
+.site-footer b { color: #fff; font-weight: 700; word-break: keep-all; }
 /* Follows the contact column instead of being pushed to the far edge — the
    normal column gap keeps it grouped with the text rather than stranded.
    align-self drops it to the contact block's last line. Kept small and muted
@@ -650,4 +650,8 @@ a { text-decoration: none; color: inherit; }
     margin-top: 1.15rem !important; margin-left: 0; padding-top: 0 !important;
     border-top: 0 !important; font-size: 0.95rem;
   }
+  /* The address is the one line long enough to wrap, and where it wrapped
+     depended on the handset — often stranding "130-5" on its own. Breaking it
+     at the district instead gives the same two lines on every phone. */
+  .site-footer .fw-break { display: block; height: 0; }
 }
