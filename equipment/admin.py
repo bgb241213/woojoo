@@ -85,7 +85,7 @@ class EquipmentAdmin(admin.ModelAdmin):
                            '단위(m, kg)까지 함께 적어주세요.',
         }),
         ('노출 설정', {
-            'fields': ('is_active', 'is_for_rent', 'is_for_sale', 'is_flagship'),
+            'fields': ('is_active', 'is_for_rent', 'is_for_sale', 'is_flagship', 'is_bestseller'),
             'description': '노출 여부를 끄면 홈페이지 어디에도 나오지 않습니다. '
                            '렌탈과 판매는 각각 독립이라 둘 다 켤 수 있습니다. '
                            '대표장비는 해당 미터급 목록 맨 위에 고정됩니다.',
@@ -131,7 +131,8 @@ class EquipmentAdmin(admin.ModelAdmin):
         if not obj.is_active:
             return format_html('<span style="color:#c62828;">숨김</span>')
         tags = [label for flag, label in
-                ((obj.is_for_rent, '렌탈'), (obj.is_for_sale, '판매'), (obj.is_flagship, '대표'))
+                ((obj.is_for_rent, '렌탈'), (obj.is_for_sale, '판매'),
+                 (obj.is_flagship, '대표'), (obj.is_bestseller, '최다문의'))
                 if flag]
         return ' · '.join(tags) or _muted('어디에도 노출 안 됨')
 

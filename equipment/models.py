@@ -40,6 +40,15 @@ class Equipment(models.Model):
     is_for_sale         = models.BooleanField(default=False, verbose_name='판매 노출')
     # Pinned to the top of its meter class on every listing.
     is_flagship         = models.BooleanField(default=False, verbose_name='대표장비')
+    # Opens the landing page's "많이 찾는 장비" list, ahead of meter order —
+    # that section leads with what actually rents most, not with the smallest
+    # machine. A flag rather than a hardcoded model name so it moves from the
+    # admin when the best seller changes.
+    is_bestseller       = models.BooleanField(
+        default=False, verbose_name='최다 문의 장비',
+        help_text='랜딩 페이지 "많이 찾는 장비" 목록 맨 앞에 나옵니다. '
+                  '보통 한 대만 체크합니다.',
+    )
     created_at          = models.DateTimeField(auto_now_add=True, verbose_name='등록일')
 
     class Meta:

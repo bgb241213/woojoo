@@ -15,6 +15,10 @@ def flagship_index():
     machines = catalog_order(
         Equipment.objects.filter(is_active=True, is_for_rent=True, is_flagship=True)
     )
+    # The section is "많이 찾는 장비", so it leads with the machine that actually
+    # rents most rather than with the smallest meter class. Stable sort:
+    # everything else keeps its catalog order.
+    machines.sort(key=lambda e: not e.is_bestseller)
     rental = bulk_db_images([e.id for e in machines], 'rental')
     for e in machines:
         photos = rental_photos(e.id, rental)
