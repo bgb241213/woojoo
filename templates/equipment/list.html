@@ -58,18 +58,24 @@
 
 /* `align-self: center` keeps the cell square: stretching it to the spec panel
    would make `aspect-ratio` moot and crop the sides off the dimension drawings. */
-.eqp-photos { flex: 1; min-width: 0; align-self: center; aspect-ratio: 1 / 1; position: relative; background: #fff; border-radius: 16px; overflow: hidden; }
-.eqp-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 1; }
+/* No white fill anywhere in the photo cell: the drawings are on solid white,
+   so `mix-blend-mode: multiply` lets whatever the row is tinted with show
+   through instead. White times any colour is that colour, and the artwork is
+   dark enough that multiplying it against a pale tint leaves it unchanged.
+   The row colour varies (plain, is-shade, is-hl), which is why this has to be
+   a blend rather than a matching background. */
+.eqp-photos { flex: 1; min-width: 0; align-self: center; aspect-ratio: 1 / 1; position: relative; border-radius: 16px; overflow: hidden; }
+.eqp-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 1; mix-blend-mode: multiply; }
 .eqp-slide.is-active { opacity: 1; pointer-events: auto; z-index: 2; }
-.eqp-slide--photo { background-color: #fff; background-size: contain; background-position: center; background-repeat: no-repeat; cursor: zoom-in; }
-.eqp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; background: #ECEDF3; width: 100%; height: 100%; }
+.eqp-slide--photo { background-size: contain; background-position: center; background-repeat: no-repeat; cursor: zoom-in; }
+.eqp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; background: rgba(31,40,111,.07); width: 100%; height: 100%; }
 .eqp-grid.n1 { grid-template-columns: 1fr; }
 .eqp-grid.n2, .eqp-grid.n4 { grid-template-columns: repeat(2, 1fr); }
 /* An <img> rather than a background so the browser can defer the tiles below
    the fold — a CSS background has no lazy-loading equivalent. object-fit
    reproduces what background-size: contain did. */
-.eqp-tile { background: #fff; display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; cursor: zoom-in; }
-.eqp-empty { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; color: #9296A8; font-size: 17.5px; background: #fff; }
+.eqp-tile { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; cursor: zoom-in; }
+.eqp-empty { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; color: #9296A8; font-size: 17.5px; }
 .eqp-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.92); border: 1px solid #E6E8F0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--navy); font-size: 22px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.12); z-index: 3; user-select: none; }
 .eqp-arrow.l { left: 12px; } .eqp-arrow.r { right: 12px; }
 .eqp-dots { position: absolute; left: 0; right: 0; bottom: 12px; z-index: 3; display: flex; justify-content: center; gap: 6px; }
