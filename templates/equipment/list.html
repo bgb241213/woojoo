@@ -133,10 +133,12 @@
   .eqp-arrow { width: 34px; height: 34px; font-size: 19px; }
   .eqp-arrow.l { left: 10px; } .eqp-arrow.r { right: 10px; }
   .eqp-dots { bottom: 10px; gap: 5px; }
-  .eqp-info { padding: 16px 16px 20px; }
-  .eqp-name { font-size: 27px; margin-top: 9px; }
-  .eqp-specs { margin-top: 14px; }
-  .eqp-spec { gap: 14px; padding: 12px 0; }
+  /* Eight spec rows plus the model name have to sit in one phone screen under
+     the sticky tabs, so the row padding carries the trim rather than the type. */
+  .eqp-info { padding: 14px 16px 16px; }
+  .eqp-name { font-size: 27px; margin-top: 6px; }
+  .eqp-specs { margin-top: 10px; }
+  .eqp-spec { gap: 14px; padding: 7px 0; }
   .eqp-spec .lbl { font-size: 21px; }
   .eqp-spec .val { font-size: 23px; }
   .eqp-spec--main .val { font-size: 26px; }
