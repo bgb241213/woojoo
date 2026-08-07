@@ -18,14 +18,31 @@
 /* ── Height comparison chart ───────────────────────────────── */
 .eqp-chart { padding: 26px 0 6px; }
 .eqp-chart__note { font-size: 18px; color: #6B7080; margin-bottom: 14px; word-break: keep-all; }
-.eqp-chart__wrap { position: relative; width: 100%; border: 1px solid #ECEDF3; border-radius: 14px; overflow: hidden; }
-.eqp-chart__wrap img { display: block; width: 100%; height: auto; }
-.eqp-zone { position: absolute; top: 0; bottom: 0; box-sizing: border-box; border-bottom: 3px solid transparent; transition: background .15s ease, border-color .15s ease; cursor: not-allowed; }
-.eqp-zone.clickable { cursor: pointer; }
-.eqp-zone.clickable:hover { background: rgba(31,40,111,.07); border-bottom-color: rgba(31,40,111,.45); }
-.eqp-zone.is-active { background: rgba(31,40,111,.13); border-bottom-color: var(--navy); }
-.eqp-zone__tip { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; font-size: 17.5px; font-weight: 700; padding: 4px 11px; border-radius: 999px; white-space: nowrap; pointer-events: none; display: none; box-shadow: 0 4px 12px rgba(31,40,111,.3); }
-.eqp-zone.clickable:hover .eqp-zone__tip { display: block; }
+.eqp-chart__note b { color: var(--navy); font-weight: 700; box-shadow: inset 0 -2px 0 var(--coral); }
+.eqp-scale { display: grid; grid-template-columns: clamp(34px,3.4vw,48px) 1fr; gap: 0 clamp(6px,1vw,14px);
+             border: 1px solid #ECEDF3; border-radius: 14px; background: #fff; padding: 20px 18px 14px; }
+/* One shared height drives the axis, the rules and the artwork, so the three
+   can never fall out of alignment. */
+.eqp-scale__axis, .eqp-scale__grid, .eqp-zone__art { height: clamp(190px, 22vw, 330px); }
+.eqp-scale__axis { position: relative; }
+.eqp-scale__axis span { position: absolute; right: 0; transform: translateY(-50%); font-size: 13px; font-weight: 700; color: #9296A8; white-space: nowrap; }
+.eqp-scale__plot { position: relative; min-width: 0; }
+.eqp-scale__grid { position: absolute; left: 0; right: 0; top: 0; pointer-events: none; }
+.eqp-scale__grid i { position: absolute; left: 0; right: 0; border-top: 1px dashed #D8DCEA; }
+.eqp-scale__cols { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(3px,.6vw,10px); }
+.eqp-zone { display: block; width: 100%; padding: 0 0 8px; border: 1px solid transparent; border-radius: 11px;
+            background: transparent; font: inherit; text-align: center; cursor: pointer;
+            transition: background .2s ease, border-color .2s ease, transform .25s cubic-bezier(.16,1,.3,1); }
+.eqp-zone:hover, .eqp-zone:focus-visible { background: rgba(31,40,111,.05); border-color: #D5DAEC; transform: translateY(-3px); }
+.eqp-zone.is-active { background: rgba(31,40,111,.10); border-color: var(--navy); }
+.eqp-zone:disabled { cursor: not-allowed; opacity: .38; }
+.eqp-zone:disabled:hover { background: transparent; border-color: transparent; transform: none; }
+.eqp-zone__art { display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+.eqp-zone__art img { width: auto; max-width: 100%; object-fit: contain; object-position: bottom; display: block; }
+.eqp-zone__cap { display: block; margin-top: 9px; padding-top: 9px; border-top: 1px solid #E6E8F0; }
+.eqp-zone__cap b { display: block; font-size: clamp(14px,1.3vw,19px); font-weight: 800; color: var(--navy); letter-spacing: -0.02em; }
+.eqp-zone__cap i { display: block; margin-top: 3px; font-style: normal; font-size: clamp(11px,1vw,15px); color: #9296A8; }
+.eqp-zone.is-active .eqp-zone__cap b { color: var(--coral); }
 
 /* ── Segmented group tabs ──────────────────────────────────── */
 /* Solid tinted band so the tab strip reads as its own zone against the white
@@ -168,12 +185,64 @@
   </div>
 </div>
 
+{% comment %}
+  Drawn from the individual lift PNGs rather than one flat chart image, the
+  same way the landing page's height-range section is built. The old image was
+  a low-resolution export whose columns had to be hit with percentage overlays
+  to be clickable; here every column is a real button, so the hit areas can
+  never drift out of step with the artwork.
+
+  Percentages are measured, not eyeballed: each image height is that machine's
+  reach as a fraction of the 16M column, and each rule sits where the operator's
+  hand actually starts inside its PNG. Same numbers as the landing section.
+{% endcomment %}
 <div class="eqp-chart dc-container">
-  <div class="eqp-chart__note">미터별 작업 높이를 한눈에 비교해 보세요.<br>원하는 미터을 클릭하면 아래 목록이 해당 장비로 바뀝니다.</div>
-  <div class="eqp-chart__wrap" id="heightChart">
-    <img src="{% static 'images/height-chart.webp' %}" alt="미터급별 작업 높이 비교"
-         width="1376" height="768">
-    <!-- zones injected by JS -->
+  <div class="eqp-chart__note"><b>아래 미터급을 누르면</b> 목록이 해당 장비로 바뀝니다.<br>미터별 작업 높이를 한눈에 비교해 보세요.</div>
+  <div class="eqp-scale">
+    <div class="eqp-scale__axis">
+      <span style="top:61.75%">6M</span>
+      <span style="top:54.95%">7M</span>
+      <span style="top:38.82%">10M</span>
+      <span style="top:26.53%">12M</span>
+      <span style="top:13.52%">14M</span>
+      <span style="top:4.23%">16M</span>
+    </div>
+    <div class="eqp-scale__plot">
+      <div class="eqp-scale__grid" aria-hidden="true">
+        <i style="top:61.75%"></i><i style="top:54.95%"></i><i style="top:38.82%"></i>
+        <i style="top:26.53%"></i><i style="top:13.52%"></i><i style="top:4.23%"></i>
+      </div>
+      <div class="eqp-scale__cols" id="heightChart">
+        <button type="button" class="eqp-zone" data-cats="5m">
+          <span class="eqp-zone__art"><img src="{% static 'images/lifts/m6.png' %}" alt="1인승 고소작업대" style="height:38.4%"></span>
+          <span class="eqp-zone__cap"><b>1인승</b><i>최대 5.7m</i></span>
+        </button>
+        <button type="button" class="eqp-zone" data-cats="6m">
+          <span class="eqp-zone__art"><img src="{% static 'images/lifts/m7.png' %}" alt="미니(6M급) 고소작업대" style="height:39.4%"></span>
+          <span class="eqp-zone__cap"><b>미니(6M)</b><i>최대 6.5m</i></span>
+        </button>
+        <button type="button" class="eqp-zone" data-cats="7m">
+          <span class="eqp-zone__art"><img src="{% static 'images/lifts/m7.png' %}" alt="7M급 고소작업대" style="height:46.4%"></span>
+          <span class="eqp-zone__cap"><b>7M</b><i>최대 7.8m</i></span>
+        </button>
+        <button type="button" class="eqp-zone" data-cats="10m">
+          <span class="eqp-zone__art"><img src="{% static 'images/lifts/m10.png' %}" alt="10M급 고소작업대" style="height:62.5%"></span>
+          <span class="eqp-zone__cap"><b>10M</b><i>최대 10m</i></span>
+        </button>
+        <button type="button" class="eqp-zone" data-cats="12m">
+          <span class="eqp-zone__art"><img src="{% static 'images/lifts/m12.png' %}" alt="12M급 고소작업대" style="height:75%"></span>
+          <span class="eqp-zone__cap"><b>12M</b><i>최대 12m</i></span>
+        </button>
+        <button type="button" class="eqp-zone" data-cats="14m">
+          <span class="eqp-zone__art"><img src="{% static 'images/lifts/m14.png' %}" alt="14M급 고소작업대" style="height:88.8%"></span>
+          <span class="eqp-zone__cap"><b>14M</b><i>최대 14.2m</i></span>
+        </button>
+        <button type="button" class="eqp-zone" data-cats="16m">
+          <span class="eqp-zone__art"><img src="{% static 'images/lifts/m16.png' %}" alt="16M급 고소작업대" style="height:98.1%"></span>
+          <span class="eqp-zone__cap"><b>16M</b><i>최대 15.7m</i></span>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -309,33 +378,18 @@ document.querySelectorAll('.eqp-photos').forEach(function (car) {
     return cats.map(function (c) { return CLS_LABEL[c] || c; }).join(' · ');
   };
 
-  /* Chart zones — bounds are % positions of each column on the chart image,
-     taken as the midpoints between the machines' caption centres. A zone holds
-     a list because a column may cover more than one class. */
-  const zoneDefs = [
-    { cats: [],       bound: 0,     next: 4.8 },    /* y-axis labels */
-    { cats: ['5m'],   bound: 4.8,   next: 21.02 },  /* 1인승 */
-    { cats: ['6m'],   bound: 21.02, next: 35.12 },  /* 미니(6M급) */
-    { cats: ['7m'],   bound: 35.12, next: 48.67 },  /* 7M급 */
-    { cats: ['10m'],  bound: 48.67, next: 61.77 },  /* 10M급 */
-    { cats: ['12m'],  bound: 61.77, next: 74.16 },  /* 12M급 */
-    { cats: ['14m'],  bound: 74.16, next: 86.12 },  /* 14M급 */
-    { cats: ['16m'],  bound: 86.12, next: 100 },    /* 16M급 */
-  ];
+  /* The scale columns are real buttons in the markup, so there is nothing to
+     position here — only to disable the classes we hold no stock in. */
   const present = new Set(rows.map(function (r) { return r.dataset.cat; }));
-  const chart = document.getElementById('heightChart');
-  zoneDefs.forEach(function (z) {
-    const cats = z.cats.filter(function (c) { return present.has(c); });
-    const el = document.createElement('div');
-    el.className = 'eqp-zone' + (cats.length ? ' clickable' : '');
-    el.style.left = z.bound + '%';
-    el.style.width = (z.next - z.bound) + '%';
-    if (cats.length) {
-      el.dataset.cats = cats.join(',');
-      el.innerHTML = '<div class="eqp-zone__tip">' + catLabel(cats) + ' 선택</div>';
-      el.addEventListener('click', function () { apply(cats); });
+  document.querySelectorAll('.eqp-zone').forEach(function (el) {
+    const cats = el.dataset.cats.split(',').filter(function (c) { return present.has(c); });
+    if (!cats.length) {
+      el.disabled = true;
+      el.title = '현재 보유 장비가 없습니다';
+      return;
     }
-    chart.appendChild(el);
+    el.dataset.cats = cats.join(',');
+    el.addEventListener('click', function () { apply(cats); });
   });
 
   function setEmpty(on, title, sub) {
