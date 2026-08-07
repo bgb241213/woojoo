@@ -88,27 +88,6 @@
 .cmp-colhead__cat { font-size: 17.5px; color: #9296A8; margin-top: 3px; }
 .cmp-thead__label { font-size: 20px; font-weight: 800; color: var(--navy); line-height: 1.3; }
 .cmp-thead__sub { font-size: 17.5px; color: #9296A8; margin-top: 4px; line-height: 1.3; }
-/* ── Height comparison (drawn from specs, not from the drawings) ──
-   Both cells share one scale: the tallest work height is 100% of the plot, so
-   a bar's height is its metres straight off the spec sheet. */
-.cmp-hcell { position: relative; aspect-ratio: 1 / 1; background: #fff; overflow: hidden; }
-.cmp-hplot { position: absolute; left: 24px; right: 24px; top: 40px; bottom: 34px; }
-.cmp-hbar { position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; width: 44%;
-            border-radius: 5px 5px 0 0; background: rgba(31,40,111,.10); }
-.cmp-hbar--plat { background: rgba(230,80,60,.16); }
-/* bottom:N% puts the element's bottom edge on the line, so the rule is a
-   bottom border and the label sits directly above it. */
-.cmp-hmark { position: absolute; left: 0; right: 0; display: flex; align-items: flex-end; gap: 7px;
-             padding-bottom: 4px; border-bottom: 1px dashed #C3C8DA; pointer-events: none; }
-.cmp-hmark b { font-size: 21px; font-weight: 800; letter-spacing: -0.01em; }
-.cmp-hmark span { font-size: 15px; color: #9296A8; padding-bottom: 2px; }
-.cmp-hmark--work { border-bottom-color: var(--navy); }
-.cmp-hmark--work b { color: var(--navy); }
-.cmp-hmark--plat { border-bottom-color: var(--coral); }
-.cmp-hmark--plat b { color: var(--coral); }
-.cmp-hground { position: absolute; left: 0; right: 0; bottom: 0; border-bottom: 2px solid #2B2F38; }
-.cmp-hground span { position: absolute; left: 0; top: 5px; font-size: 15px; color: #9296A8; }
-
 /* Machines are shifted down so every wheel line in a row meets; the dimension
    band below the wheels is what gets clipped. */
 .cmp-photocell { aspect-ratio: 1 / 1; background: #fff; overflow: hidden; }
@@ -151,10 +130,6 @@
   .cmp-colhead__x { top: 8px; right: 8px; width: 24px; height: 24px; font-size: 16px; }
   .cmp-colhead__name { font-size: 17px; }
   .cmp-colhead__cat { font-size: 15.5px; margin-top: 2px; }
-  .cmp-hplot { left: 14px; right: 14px; top: 32px; bottom: 26px; }
-  .cmp-hmark b { font-size: 17px; }
-  .cmp-hmark span { font-size: 13px; }
-  .cmp-hground span { font-size: 13px; }
   .cmp-speccell { height: 50px; padding: 0 13px; font-size: 16.5px; }
   .cmp-speccell.em { font-size: 19px; }
   .cmp-specrow .cmp-thead { font-size: 15px; font-weight: 700; }
@@ -219,15 +194,8 @@ const MODELS = {{ models_json|safe }};
 
 (function () {
   const MAX = 2;
-  /* The extended-height drawing used to be a photo row scaled by 작업가능높이.
-     It was dropped because the drawings carry their own dimension arrows at
-     scales that disagree: measured on the library, JLG ES1530L prints 4.5m and
-     JCPT0607DCS prints 3.6m at within 1% of the same length, because one
-     drawing runs 123 px/m on that arrow and the other 176 px/m. Scaling the
-     artwork moves both arrows together, so no scale factor can make those two
-     numbers read correctly against each other. The height row is drawn from the
-     spec figures instead — see heightRow. */
   const PHOTO_VIEWS = [
+    { label: '최대 높이', sub: '작업 높이 기준', key: '작업가능높이', mode: 'num', idx: 1 },
     { label: '정면', sub: '실제 높이 기준', key: '장비크기', mode: 'h', idx: 2 },
     { label: '측면', sub: '실제 높이 기준', key: '장비크기', mode: 'h', idx: 3 },
   ];
@@ -261,35 +229,6 @@ const MODELS = {{ models_json|safe }};
   const byId = id => MODELS.find(m => m.id === id);
   const dimVal = (m, v) => v.mode === 'h' ? sizeH(m.specs[v.key]) : parseNum(m.specs[v.key]);
   const specVal = (m, d) => d.key === '__cat' ? m.category : (m.specs[d.key] || '–');
-
-  /* Height comparison built from the spec figures, so both machines share one
-     metres-per-pixel scale by construction. The tallest work height fills the
-     plot; every other bar and rule is a fraction of that same number. */
-  function heightRow(sel) {
-    const works = sel.map(m => parseNum(m.specs['작업가능높이']));
-    const top = Math.max.apply(null, works.concat(0.0001));
-    const cells = sel.map((m, i) => {
-      const plat = parseNum(m.specs['발판최대높이']);
-      const wp = Math.max(0, Math.min(100, works[i] / top * 100));
-      const pp = Math.max(0, Math.min(100, plat / top * 100));
-      const platBar = plat
-        ? `<div class="cmp-hbar cmp-hbar--plat" style="height:${pp.toFixed(2)}%"></div>` : '';
-      const platMark = plat
-        ? `<div class="cmp-hmark cmp-hmark--plat" style="bottom:${pp.toFixed(2)}%">
-             <b>${esc(m.specs['발판최대높이'])}</b><span>발판</span></div>` : '';
-      return `<div class="cmp-col"><div class="cmp-hcell"><div class="cmp-hplot">
-        <div class="cmp-hbar" style="height:${wp.toFixed(2)}%"></div>
-        ${platBar}
-        ${platMark}
-        <div class="cmp-hmark cmp-hmark--work" style="bottom:${wp.toFixed(2)}%">
-          <b>${esc(m.specs['작업가능높이'])}</b><span>작업</span></div>
-        <div class="cmp-hground"><span>지면</span></div>
-      </div></div></div>`;
-    }).join('');
-    return `<div class="cmp-trow"><div class="cmp-thead">
-      <div class="cmp-thead__label">높이 비교</div>
-      <div class="cmp-thead__sub">스펙 기준 · 같은 축척</div></div>${cells}</div>`;
-  }
 
   /* Wheel line of the photo this view actually renders, as a fraction of the
      cell height. Mirrors the photo fallback below so the two never disagree. */
@@ -357,7 +296,6 @@ const MODELS = {{ models_json|safe }};
         <div class="cmp-colhead__name">${esc(m.name)}</div>
         <div class="cmp-colhead__cat">${esc(m.category)}</div>
       </div></div>`).join('') + '</div>';
-    html += heightRow(sel);
     /* Photo rows scaled relative to the tallest machine in each view, then
        shifted so every machine's wheels rest on one line — otherwise scaling
        shrinks each drawing's dimension band by a different amount and the
