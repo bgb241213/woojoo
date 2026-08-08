@@ -44,14 +44,17 @@
 .cmp-group__body { padding: 14px; }
 .cmp-group:not(.is-open) .cmp-group__body { display: none; }
 
-.cmp-pick__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.cmp-item { border: 1px solid #E6E9F2; background: #fff; border-radius: 11px; padding: 16px 18px; cursor: pointer; transition: border-color .2s, background .2s; }
+/* minmax(0,…), not 1fr: 1fr floors at the track's min-content width, so a long
+   model name would push the column past the panel — which has no horizontal
+   scroll, so the card simply got clipped. */
+.cmp-pick__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.cmp-item { min-width: 0; border: 1px solid #E6E9F2; background: #fff; border-radius: 11px; padding: 16px 18px; cursor: pointer; transition: border-color .2s, background .2s; }
 .cmp-item:hover { border-color: #C9CEE4; }
 .cmp-item.is-sel { border-color: var(--navy); background: #EEF0F8; }
-.cmp-item__top { display: flex; align-items: center; gap: 11px; }
+.cmp-item__top { display: flex; align-items: center; gap: 11px; min-width: 0; }
 .cmp-box { flex: none; width: 22px; height: 22px; border-radius: 6px; border: 1px solid #C9CEE4; background: #fff; display: flex; align-items: center; justify-content: center; }
 .cmp-item.is-sel .cmp-box { border-color: var(--navy); background: var(--navy); }
-.cmp-item__name { font-size: 24px; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cmp-item__name { min-width: 0; font-size: 24px; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cmp-item__flag { flex: none; font-size: 14px; font-weight: 800; color: var(--coral); border: 1px solid var(--coral); border-radius: 999px; padding: 2px 8px; }
 .cmp-item__cat { font-size: 20px; color: #9296A8; margin-top: 8px; padding-left: 33px; }
 @media (max-width: 767px) {
@@ -65,7 +68,7 @@
   .cmp-group__title { font-size: 20px; }
   .cmp-group__sel { font-size: 14.5px; padding: 4px 11px; }
   .cmp-group__body { padding: 10px; }
-  .cmp-pick__grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cmp-pick__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .cmp-item { padding: 12px 13px; }
   .cmp-item__name { font-size: 18px; }
   .cmp-item__cat { font-size: 16px; margin-top: 6px; padding-left: 29px; }
