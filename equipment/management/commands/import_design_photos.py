@@ -10,6 +10,9 @@ library stays PNG because that is what the design hand-off produced.
 
 Idempotent: existing storage objects are not re-uploaded and existing rows
 are not duplicated, so it is safe to run on every deploy.
+
+A machine whose photos were uploaded by hand in the admin is left alone
+entirely — see DESIGN_PREFIX below.
 """
 from django.conf import settings
 from django.core.files.base import ContentFile
@@ -25,6 +28,11 @@ SOURCES = [
     ('rental', 'rental', 'rental'),
     ('sale', 'sales', 'sale'),
 ]
+
+# Everything this command writes lives under here; anything outside it came
+# from the admin's own upload path (EquipmentImage.image uses upload_to
+# 'equipment/', so a hand-uploaded file lands as equipment/<original name>).
+DESIGN_PREFIX = 'equipment/design/'
 
 
 class Command(BaseCommand):
@@ -45,6 +53,19 @@ class Command(BaseCommand):
                 eq_id = int(folder.name)
                 if eq_id not in equipment_ids:
                     self.stdout.write(f'  ! skip photos for unknown equipment id {eq_id}')
+                    continue
+                # Staff replacing a machine's photos by hand is a deliberate
+                # override, so the library must not push its copies back in
+                # beside them. Without this the two sets interleave and the
+                # gallery shows every drawing twice — and deleting the library
+                # rows in the admin does nothing, because the next deploy
+                # recreates them.
+                if EquipmentImage.objects.filter(
+                    equipment_id=eq_id, image_type=image_type,
+                ).exclude(image__startswith=DESIGN_PREFIX).exists():
+                    self.stdout.write(
+                        f'  · equipment {eq_id} ({image_type}): 직접 올린 사진이 있어 건너뜁니다'
+                    )
                     continue
                 files = sorted(
                     (p for p in folder.iterdir() if p.suffix.lower() == '.png'),
