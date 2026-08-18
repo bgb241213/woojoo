@@ -3,7 +3,7 @@ builder = "NIXPACKS"
 
 [deploy]
 # NOTE: this overrides the Procfile — keep both in sync.
-startCommand = "python manage.py migrate && python manage.py ensure_fixtures && python manage.py import_design_records && python manage.py import_design_photos && python manage.py collectstatic --noinput && python manage.py ensure_admin && python manage.py purge_expired_personal_data && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT"
+startCommand = "python manage.py migrate && python manage.py ensure_fixtures && python manage.py import_design_records && python manage.py import_design_photos && python manage.py import_option_photos && python manage.py collectstatic --noinput && python manage.py ensure_admin && python manage.py purge_expired_personal_data && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT"
 healthcheckPath = "/"
 # First boot against an empty database runs migrations, seeds the catalogue and
 # syncs ~140 photos to R2 before gunicorn answers. The 5-minute default cut that
