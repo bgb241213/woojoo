@@ -138,3 +138,40 @@ function woojooSwipe(el, onPrev, onNext) {
        footer actually rises into it */
   }, { threshold: 0, rootMargin: '0px 0px -90px 0px' }).observe(footer);
 })();
+
+/* ── 복사·이미지 저장 차단 ─────────────────────────────────── */
+/* CSS 의 user-select 만으로는 Ctrl+A 후 복사나 우클릭 메뉴가 남는다.
+   여기서 그 경로를 함께 닫되, 입력란과 연락처처럼 복사돼야 하는 곳은
+   빠져나가게 둔다 — 판단 기준은 main.css 의 같은 목록과 맞춰 둔다. */
+(function () {
+  var ALLOW = 'input, textarea, select, [contenteditable="true"], ' +
+              '.site-footer, .call-modal, .ab-company__info, .qf-side, ' +
+              '.opt-cta__tel, [data-copyable]';
+
+  function allowed(node) {
+    var el = node && node.nodeType === 3 ? node.parentElement : node;
+    return !!(el && el.closest && el.closest(ALLOW));
+  }
+
+  ['copy', 'cut'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      /* 입력란 안의 선택은 document.getSelection() 에 잡히지 않는다. 이벤트가
+         난 자리를 먼저 보지 않으면 사용자가 방금 자기 손으로 쓴 글자조차
+         복사하지 못한다. */
+      if (allowed(e.target) || allowed(document.activeElement)) return;
+      var sel = document.getSelection();
+      if (sel && sel.rangeCount && allowed(sel.getRangeAt(0).commonAncestorContainer)) return;
+      e.preventDefault();
+    });
+  });
+
+  /* 우클릭은 사진에서만 막는다. 페이지 전체에서 막으면 새 탭으로 열기나
+     뒤로 가기 같은 평범한 동작까지 사라져 쓰기 불편해진다. */
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+  });
+
+  document.addEventListener('dragstart', function (e) {
+    if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+  });
+})();
