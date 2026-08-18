@@ -306,7 +306,14 @@ const MODELS = {{ models_json|safe }};
     PHOTO_VIEWS.forEach(v => {
       const dims = sel.map(m => dimVal(m, v));
       const maxDim = Math.max.apply(null, dims.concat(0.0001));
-      const ks = sel.map((m, i) => Math.max(0.65, Math.min(1, dims[i] / maxDim)));
+      /* 작은 쪽이 읽을 수 없을 만큼 쪼그라들지 않게 막는 하한. 0.65에서 0.5로
+         내렸다 — 발판 3.66m와 13m처럼 차이가 큰 조합에서 실제 비율 0.28이
+         0.65로 끌어올려져, 정작 키를 비교하는 행에서 키 차이가 뭉개졌다.
+
+         0.5면 큰 쪽이 작은 쪽의 두 배 이내인 조합은 실제 비율 그대로 그린다.
+         그보다 벌어지면 여전히 압축되지만, 그림이 알아볼 수 없게 작아지는 것과
+         맞바꾼 값이다. 정확한 수치는 아래 스펙 표에 그대로 있다. */
+      const ks = sel.map((m, i) => Math.max(0.5, Math.min(1, dims[i] / maxDim)));
       const grounds = sel.map(m => photoBaseline(m, v));
       // Lowest wheel line wins, so cells only ever move down and no machine
       // can lose its top — the part being compared.
