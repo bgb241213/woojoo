@@ -4,29 +4,27 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from equipment.models import Equipment
-from equipment.photos import bulk_db_images, rental_photos, PLACEHOLDER
 from equipment.views import catalog_order
 
 
 def flagship_index():
     """The landing page's equipment index — one representative machine per
-    meter class, in catalog order, with its card photo."""
-    items = []
+    meter class, in catalog order.
+
+    No photo here: the index sits under the height scale, which already carries
+    the artwork, so the rows are text only. That drops the EquipmentImage query
+    this used to make on every landing page render.
+    """
     machines = catalog_order(
         Equipment.objects.filter(is_active=True, is_for_rent=True, is_flagship=True)
     )
-    rental = bulk_db_images([e.id for e in machines], 'rental')
-    for e in machines:
-        photos = rental_photos(e.id, rental)
-        items.append({
-            'name': e.name,
-            'category': e.get_category_display(),
-            'type': e.get_type_display(),
-            'height': e.max_work_height,
-            'photo': photos[0] if photos else PLACEHOLDER,
-            'href': f"{reverse('equipment:list')}#cls-{e.category}",
-        })
-    return items
+    return [{
+        'name': e.name,
+        'category': e.get_category_display(),
+        'type': e.get_type_display(),
+        'height': e.max_work_height,
+        'href': f"{reverse('equipment:list')}#cls-{e.category}",
+    } for e in machines]
 
 
 class HomeView(View):
