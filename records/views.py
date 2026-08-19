@@ -1,3 +1,5 @@
+import random
+
 from django.views.generic import TemplateView
 
 from equipment.photos import display_variant
@@ -15,7 +17,6 @@ class RecordsListView(TemplateView):
         tiles = []
         for r in records:
             model = r.model_name or '고소작업대'
-            date = r.shipped_date.strftime('%Y.%m.%d')
             for src in r.photo_urls():
                 # The wall renders these ~220px wide; the originals are up to
                 # 2880px. `full` stays for the lightbox.
@@ -23,8 +24,11 @@ class RecordsListView(TemplateView):
                     'src': display_variant(src, '_c'),
                     'full': src,
                     'model': model,
-                    'date': date,
                 })
+        # 출고일 순으로 두면 같은 날 나간 장비가 뭉쳐 벽 한 구역이 비슷한 사진만
+        # 채운다. 섞어서 전체가 고르게 보이도록 하고, 다시 들어와도 같은 그림이
+        # 아니게 한다. 매 요청마다 섞이므로 새로고침하면 배열이 달라진다.
+        random.shuffle(tiles)
         ctx['tiles'] = tiles
         ctx['record_count'] = records.count()
         ctx['photo_count'] = len(tiles)

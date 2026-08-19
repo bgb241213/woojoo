@@ -39,13 +39,11 @@
 }
 .rec:hover .rec__cap { opacity: 1; }
 .rec__cap b { display: block; font-size: 0.95rem; font-weight: 800; color: #fff; letter-spacing: -0.01em; }
-.rec__cap span { display: block; font-size: 0.85rem; color: rgba(255,255,255,.82); margin-top: 2px; }
 /* Tiles drop to two columns here and the caption is always shown rather than
    revealed on hover, so it steps down once more to stay out of the photo. */
 @media (max-width: 600px) {
   .rec__cap { opacity: 1; padding: 1rem 0.6rem 0.55rem; }
   .rec__cap b { font-size: 0.85rem; }
-  .rec__cap span { font-size: 0.76rem; }
 }
 
 </style>
@@ -63,10 +61,10 @@
 <section class="rec-wall dc-container">
   <div class="masonry">
     {% for t in tiles %}
-    <div class="rec" data-src="{{ t.full }}" data-model="{{ t.model }}" data-date="{{ t.date }}">
+    <div class="rec" data-src="{{ t.full }}" data-model="{{ t.model }}">
       <img class="rec__ph" src="{{ t.src }}" alt="{{ t.model }} 출고 사진"
            loading="lazy" decoding="async" width="640" height="480">
-      <div class="rec__cap"><b>{{ t.model }}</b><span>{{ t.date }} 출고</span></div>
+      <div class="rec__cap"><b>{{ t.model }}</b></div>
     </div>
     {% empty %}
     <p style="color:var(--muted-2);">등록된 실적이 없습니다.</p>
