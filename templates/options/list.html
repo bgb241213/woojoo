@@ -38,11 +38,22 @@
 /* Stacked, because a column can hold more than one view of the same fitting —
    the anti-crush guard is photographed from the side and from above. */
 .opt-col__shots { display: grid; gap: clamp(12px,1.4vw,18px); margin-top: clamp(14px,1.6vw,20px); }
-/* No fixed aspect: the catalogue photos run from 936x750 to 766x949, so any
-   single ratio either crops the fitting out of frame or letterboxes it. Each
-   photo keeps its own shape and the column simply grows. */
-.opt-shot { margin: 0; background: #fff; border: 1px solid #E6E8F0; border-radius: 14px; overflow: hidden; }
-.opt-shot img { width: 100%; height: auto; display: block; }
+/* 아래에 붙은 상세 사진이 앞 사진의 꼬리처럼 보여 그냥 지나치기 쉬웠다.
+   무엇을 찍은 사진인지 한 줄로 얹어 구분한다. 줄마다 상자 높이가 같으니
+   이 줄도 좌우가 나란히 맞는다. */
+.opt-shot__cap { display: flex; align-items: center; gap: 9px; margin-top: 6px;
+                 font-size: 15px; font-weight: 700; color: var(--navy); letter-spacing: -.01em; }
+.opt-shot__cap::before { content: ''; flex: none; width: 14px; height: 2px; background: var(--coral); }
+/* 칸마다 사진 상자를 같은 크기로 맞춘다. 나란히 놓았을 때 높이가 어긋나면
+   비교하는 그림으로 읽히지 않는다. 지금 사진은 전부 세로이고 비율이
+   0.65~0.83 사이라 3:4 상자가 무리 없이 받는다.
+
+   cover 가 아니라 contain 이다. 잘라내면 부착물이 프레임 밖으로 나가는데,
+   그 부착물을 보여주려고 싣는 사진이다. 대신 남는 자리가 여백으로 생긴다. */
+.opt-shot { margin: 0; aspect-ratio: 3 / 4; background: #fff; border: 1px solid #E6E8F0; border-radius: 14px; overflow: hidden; }
+/* 줄마다 계산된 값이 인라인으로 덮어쓴다. 위의 3/4 은 치수를 아직 모르는
+   사진을 위한 기본값이다. */
+.opt-shot img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 /* ── Closing CTA ───────────────────────────────────────────── */
 .opt-cta { background: #0A0D24; padding: clamp(56px,5.6vw,88px) 0; }
@@ -94,9 +105,11 @@
         </div>
         <div class="opt-col__shots">
           {% for p in col.photos %}
-          <figure class="opt-shot">
+          {% if p.caption %}<div class="opt-shot__cap">{{ p.caption }}</div>{% endif %}
+          <figure class="opt-shot"{% if p.box_ratio %} style="aspect-ratio:{{ p.box_ratio }}"{% endif %}>
             <img src="{{ p.image.url }}" alt="{{ d.title }} · {{ col.label }}"
-                 loading="lazy" decoding="async">
+                 loading="lazy" decoding="async"
+                 {% if p.image_width %}width="{{ p.image_width }}" height="{{ p.image_height }}"{% endif %}>
           </figure>
           {% endfor %}
         </div>

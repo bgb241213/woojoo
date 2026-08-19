@@ -19,7 +19,7 @@ def _muted(text):
 class OptionPhotoInline(admin.TabularInline):
     model = OptionPhoto
     extra = 2
-    fields = ['preview', 'image', 'column_label', 'column_tag', 'order']
+    fields = ['preview', 'image', 'column_label', 'column_tag', 'caption', 'order']
     readonly_fields = ['preview']
     verbose_name = '사진'
     verbose_name_plural = '사진 — 칸 이름이 같은 사진끼리 한 칸에 묶여 나옵니다'
