@@ -19,7 +19,6 @@ def flagship_index():
         Equipment.objects.filter(is_active=True, is_for_rent=True, is_flagship=True)
     )
     return [{
-        'name': e.name,
         'category': e.get_category_display(),
         'type': e.get_type_display(),
         'height': e.max_work_height,
