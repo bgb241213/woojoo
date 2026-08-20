@@ -68,9 +68,15 @@
   .cmp-group__title { font-size: 20px; }
   .cmp-group__sel { font-size: 14.5px; padding: 4px 11px; }
   .cmp-group__body { padding: 10px; }
-  .cmp-pick__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  /* One card per row. Two columns left roughly 90px for the model name once
+     the checkbox and the 대표 badge took their share, so almost every name was
+     cut to "JLG19…" — the one thing the picker exists to show. Groups here are
+     collapsed until tapped, so the taller list costs little scrolling. */
+  .cmp-pick__grid { grid-template-columns: 1fr; gap: 8px; }
   .cmp-item { padding: 12px 13px; }
-  .cmp-item__name { font-size: 18px; }
+  /* Nothing is truncated at this width, but a long name should fold rather
+     than disappear if a longer model is added later. */
+  .cmp-item__name { font-size: 18px; white-space: normal; overflow-wrap: anywhere; line-height: 1.25; }
   .cmp-item__cat { font-size: 16px; margin-top: 6px; padding-left: 29px; }
 }
 
