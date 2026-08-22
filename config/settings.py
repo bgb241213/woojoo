@@ -248,6 +248,9 @@ JAZZMIN_SETTINGS = {
         'equipment',
         'equipment.equipment',
         'records',
+        'records.salesrecord',
+        'options',
+        'options.optiondevice',
         'auth',
     ],
     'icons': {
@@ -258,13 +261,20 @@ JAZZMIN_SETTINGS = {
         'equipment.equipment':      'fas fa-truck-loading',
         'equipment.equipmentimage': 'fas fa-image',
         'records':                  'fas fa-clipboard-check',
+        'records.salesrecord':      'fas fa-clipboard-list',
+        'options':                  'fas fa-shield-alt',
+        'options.optiondevice':     'fas fa-toolbox',
+        'options.optionphoto':      'fas fa-image',
         'auth':                     'fas fa-users-cog',
         'auth.user':                'fas fa-user',
         'auth.group':               'fas fa-users',
     },
     # The tabbed change form hides fieldset descriptions behind clicks, which is
     # where the guidance for non-technical staff lives.
-    'hide_models': ['equipment.equipmentimage'],
+    # 사진은 장비·실적·옵션 안에서만 다룬다. 사진만 따로 모아 놓은 화면은
+    # 어느 장비 사진인지 알 수 없어 직원에게 도움이 되지 않는다.
+    'hide_models': ['equipment.equipmentimage', 'options.optionphoto',
+                    'options.optioncolumn'],
     'default_icon_parents':  'fas fa-chevron-circle-right',
     'default_icon_children': 'fas fa-circle',
     'related_modal_active': True,
@@ -273,6 +283,10 @@ JAZZMIN_SETTINGS = {
     # page. Tabs hid the descriptions behind clicks nobody made.
     'changeform_format': 'single',
     'language_chooser': False,
+    # 안내문·사진·삭제 체크만 손본 얇은 CSS. static/css/admin.css 참고.
+    'custom_css': 'css/admin.css',
+    # 목록의 노출 버튼을 눌렀을 때 그 자리에서 저장되게 한다.
+    'custom_js': 'js/admin.js',
 }
 
 JAZZMIN_UI_TWEAKS = {

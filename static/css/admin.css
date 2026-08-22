@@ -1,0 +1,275 @@
+/* 우주렌탈 관리자 화면 손질.
+
+   쓰는 사람이 개발자가 아니다. 기본 화면은 안내문이 본문과 같은 회색 잔글씨로
+   묻히고, 사진 미리보기가 작고, 무엇을 지우는 중인지 알기 어렵다. 여기서
+   고치는 건 그 세 가지다 — 색이나 모양 취향이 아니라 읽고 누르는 데 걸리는
+   부분만 건드린다. */
+
+/* ── 안내문 ───────────────────────────────────────────────
+   묶음마다 "이 칸이 화면 어디에 나오는지" 를 적어 두었는데, 기본값은 작은
+   회색 글씨라 아무도 읽지 않았다. 눈에 걸리도록 상자로 세운다. */
+.module .description,
+fieldset .description {
+  margin: 0 0 1.1rem;
+  padding: 0.85rem 1rem;
+  background: #F2F5FC;
+  border-left: 4px solid #1F286F;
+  border-radius: 6px;
+  color: #2C3358;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+
+/* 사진 묶음의 제목에도 같은 안내가 들어간다 (verbose_name_plural). 길어서
+   줄이 접히므로 한 줄 높이를 넉넉히 준다. */
+.inline-group h2,
+.inline-group .card-header {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+/* ── 입력 칸 ───────────────────────────────────────────── */
+.form-group label,
+.form-row label {
+  font-weight: 700;
+  color: #1F286F;
+}
+/* 칸 아래 예시 문구 — "예: LGMG AS1413E" 같은 것들 */
+.help-block, .form-text, .help {
+  color: #6B7080;
+  font-size: 0.9rem;
+}
+
+/* ── 목록 ─────────────────────────────────────────────── */
+/* 썸네일이 들어가는 줄이라 기본 높이로는 사진이 눌린다. */
+#result_list td, #result_list th {
+  vertical-align: middle;
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+}
+#result_list tbody tr:hover {
+  background: #F5F7FD;
+}
+
+/* ── 사진 입력칸 ───────────────────────────────────────
+   equipment/admin_widgets.PhotoInput. 기본 위젯은 "현재: options/design/1/0.webp"
+   처럼 저장소 경로를 보여줬는데, 옆에 미리보기가 이미 있어 같은 사진을 두 번
+   말하는 셈이었다. */
+.wj-photo-input { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.wj-photo-input__state {
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #E8F5E9;
+  color: #2E7D32;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.wj-photo-input__clear {
+  margin: 0;
+  color: #C62828;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.wj-photo-input input[type="file"] { max-width: 100%; font-size: 0.85rem; }
+
+/* ── 인라인(사진) ────────────────────────────────────────
+   칸이 많은 인라인은 화면 밖으로 밀려 오른쪽 칸이 잘렸다. 표는 제 너비를
+   지키게 두고, 넘칠 때 그 상자 안에서만 옆으로 밀리게 한다. */
+.inline-group .table-responsive,
+.inline-group > .card > .card-body,
+.inline-group .djn-items { overflow-x: auto; }
+.inline-group table { min-width: 100%; }
+.inline-group td, .inline-group th { vertical-align: middle; }
+.inline-group input[type="text"],
+.inline-group input[type="number"],
+.inline-group select { min-width: 8.5rem; }
+
+.inline-related .form-group {
+  margin-bottom: 0.6rem;
+}
+/* 삭제 체크는 되돌릴 수 없는 동작인데 다른 칸과 똑같이 생겼다. */
+.inline-group .delete label,
+.inline-related .delete label {
+  color: #C62828;
+  font-weight: 700;
+}
+.inline-group input[type="checkbox"][name$="-DELETE"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #C62828;
+}
+
+/* ── 저장 버튼 ─────────────────────────────────────────── */
+.submit-row input[name="_save"],
+.submit-row .btn-primary {
+  font-weight: 700;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+}
+
+/* ── 노출 버튼 ─────────────────────────────────────────
+   equipment/admin_toggle.py + static/js/admin.js. 지금 켜져 있으면 "노출 안
+   하기"(끌 수 있다는 뜻)라 글자와 색이 반대로 읽히기 쉽다. 그래서 색은 글자가
+   아니라 "지금 상태"를 나타내게 뒀다 — 켜진 줄은 남색, 꺼진 줄은 회색. */
+.wj-toggle {
+  min-width: 96px;
+  padding: 5px 12px;
+  border: 1px solid #1F286F;
+  border-radius: 999px;
+  background: #1F286F;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.wj-toggle:hover { background: #2A3486; border-color: #2A3486; }
+.wj-toggle.is-off {
+  background: #fff;
+  border-color: #C7CEE4;
+  color: #8A90A8;
+}
+.wj-toggle.is-off:hover { background: #F2F5FC; border-color: #9AA1BC; }
+.wj-toggle:disabled { opacity: 0.55; cursor: default; }
+
+/* 삭제는 되돌릴 수 없으니 노출 버튼과 한눈에 구분돼야 한다. 다만 목록 전체가
+   빨간 버튼으로 뒤덮이면 그것대로 눌리기 쉬워, 평소에는 글자만 붉게 두고
+   가져다 댔을 때 버튼처럼 채운다. */
+.wj-delete {
+  display: inline-block;
+  padding: 5px 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: #C62828;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.4;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.wj-delete:hover {
+  text-decoration: none;
+  background: #C62828;
+  border-color: #C62828;
+  color: #fff;
+}
+
+/* 꺼진 장비는 줄 전체가 한 톤 내려가야 목록을 훑을 때 걸러진다. */
+#result_list tr:has(.wj-toggle.is-off) > th,
+#result_list tr:has(.wj-toggle.is-off) > td { opacity: 0.62; }
+#result_list tr:has(.wj-toggle.is-off) .wj-toggle { opacity: 1; }
+
+/* ── 첫 화면 ───────────────────────────────────────────
+   templates/admin/index.html 전용. 로그인하면 제일 먼저 보이는 곳이라
+   "지금 몇 건 밀려 있는지" 가 글자 크기로 바로 읽혀야 한다. */
+.wj-dash__h {
+  margin: 1.9rem 0 0.85rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1F286F;
+  letter-spacing: -0.01em;
+}
+.wj-dash__h:first-child { margin-top: 0.4rem; }
+
+.wj-todo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+.wj-todo__card {
+  display: block;
+  padding: 1.1rem 1.25rem;
+  background: #fff;
+  border: 1px solid #E3E7F2;
+  border-left: 5px solid #C7CEE4;
+  border-radius: 10px;
+  color: #1A1A2E;
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+.wj-todo__card:hover {
+  text-decoration: none;
+  color: #1A1A2E;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(31, 40, 111, 0.12);
+}
+/* 0건이면 조용히, 남아 있으면 눈에 걸리게 — 색 하나로 구분한다. */
+.wj-todo__card.is-urgent { border-left-color: #E6503C; }
+.wj-todo__card.is-urgent .wj-todo__count { color: #E6503C; }
+.wj-todo__label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4A5070;
+}
+.wj-todo__count {
+  display: block;
+  margin: 0.35rem 0 0.3rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #9AA1BC;
+}
+.wj-todo__count em {
+  font-style: normal;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-left: 3px;
+}
+.wj-todo__hint {
+  display: block;
+  font-size: 0.85rem;
+  color: #8A90A8;
+  word-break: keep-all;
+}
+
+.wj-quick {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+.wj-quick__card {
+  display: block;
+  padding: 1rem 1.15rem;
+  background: #F7F9FE;
+  border: 1px solid #E3E7F2;
+  border-radius: 10px;
+  color: #1A1A2E;
+  transition: background .18s ease, border-color .18s ease;
+}
+.wj-quick__card:hover {
+  text-decoration: none;
+  color: #1A1A2E;
+  background: #EEF2FC;
+  border-color: #C7CEE4;
+}
+.wj-quick__card i {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  color: #1F286F;
+}
+.wj-quick__card b {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.wj-quick__card span {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.85rem;
+  color: #8A90A8;
+  word-break: keep-all;
+}
+
+.wj-log { list-style: none; margin: 0; padding: 0; }
+.wj-log li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #EEF0F6;
+  font-size: 0.92rem;
+}
+.wj-log li:last-child { border-bottom: 0; }
+.wj-log i { width: 1.1rem; }
+.wj-log__t { color: #9AA1BC; font-size: 0.82rem; margin-left: 0.3rem; }

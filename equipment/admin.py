@@ -7,6 +7,7 @@ concepts (wheel line, ordering) are either automated or explained inline.
 from django.contrib import admin
 from django.utils.html import format_html
 
+from .admin_actions import RowActionsMixin
 from .models import Equipment, EquipmentImage
 
 _THUMB = ('height:{}px;width:auto;border-radius:6px;border:1px solid #dee2e6;'
@@ -58,12 +59,11 @@ class EquipmentImageInline(admin.TabularInline):
 
 
 @admin.register(Equipment)
-class EquipmentAdmin(admin.ModelAdmin):
+class EquipmentAdmin(RowActionsMixin, admin.ModelAdmin):
     list_display = ('thumb', 'name', 'category', 'type', 'photo_summary',
-                    'exposure', 'is_active')
+                    'exposure', 'active_toggle', 'row_delete')
     list_display_links = ('thumb', 'name')
     list_filter = ('is_active', 'is_for_rent', 'is_for_sale', 'category', 'type')
-    list_editable = ('is_active',)
     search_fields = ('name',)
     ordering = ('category', 'name')
     list_per_page = 30
