@@ -17,7 +17,7 @@ from django.core.management.base import BaseCommand
 from PIL import Image
 
 from equipment.imaging import encode_webp, webp_name
-from options.models import OptionDevice, OptionPhoto
+from options.models import OptionColumn, OptionDevice, OptionPhoto
 
 
 def measure(path):
@@ -76,6 +76,21 @@ class Command(BaseCommand):
                 device.save(update_fields=['lead', 'note'])
                 relabelled += 1
 
+            # 칸을 먼저 세운다 — 사진은 칸에 붙는다. SEED 의 칸 이름이 기준이라
+            # 여기서 고치면 이미 있는 칸의 문구도 따라온다.
+            columns = {}
+            for position, (label, tag) in enumerate(
+                    dict.fromkeys((label, tag) for _, label, tag, _ in shots)):
+                column, _ = OptionColumn.objects.get_or_create(
+                    device=device, label=label,
+                    defaults={'tag': tag, 'order': position},
+                )
+                if (column.tag, column.order) != (tag, position):
+                    column.tag, column.order = tag, position
+                    column.save(update_fields=['tag', 'order'])
+                    relabelled += 1
+                columns[label] = column
+
             # 직접 올린 사진이 하나라도 있으면 이 섹션은 사람이 관리 중이다.
             if device.photos.exclude(image__startswith=DESIGN_PREFIX).exists():
                 self.stdout.write(f'  · {title}: 직접 올린 사진이 있어 건너뜁니다')
@@ -93,10 +108,10 @@ class Command(BaseCommand):
                     # 이미 등록된 사진에도 반영돼야 하고, 그러지 않으면 문구를
                     # 바꿀 때마다 어드민에서 같은 값을 손으로 또 고쳐야 한다.
                     fields = []
-                    if (exists.column_label, exists.column_tag, exists.caption) != (label, tag, caption):
-                        exists.column_label, exists.column_tag = label, tag
+                    if (exists.column_id, exists.caption) != (columns[label].pk, caption):
+                        exists.column = columns[label]
                         exists.caption = caption
-                        fields += ['column_label', 'column_tag', 'caption']
+                        fields += ['column', 'device', 'caption']
                     # 치수 필드가 생기기 전에 등록된 행은 비어 있다. 원본에서
                     # 재서 채운다 — 저장된 파일을 열면 운영에서는 R2 왕복이다.
                     if not exists.image_width:
@@ -112,8 +127,8 @@ class Command(BaseCommand):
                     default_storage.save(name, ContentFile(data))
                     uploaded += 1
                 width, height = measure(source)
-                photo = OptionPhoto(device=device, image=name, column_label=label,
-                                    column_tag=tag, caption=caption, order=index,
+                photo = OptionPhoto(device=device, column=columns[label], image=name,
+                                    caption=caption, order=index,
                                     image_width=width, image_height=height)
                 # image 는 이미 저장소에 있는 경로다. save() 의 변환기를 태우면
                 # 이름이 upload_to 를 한 번 더 거쳐 경로가 중첩된다.

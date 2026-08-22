@@ -1,0 +1,15 @@
+{# equipment/admin_widgets.PhotoInput — 저장소 경로 대신 상태 한 마디만. #}
+<div class="wj-photo-input">
+  {% if widget.is_initial %}
+    <span class="wj-photo-input__state">등록됨</span>
+    {% if not widget.required %}
+      <label class="wj-photo-input__clear">
+        <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
+        사진 지우기
+      </label>
+    {% endif %}
+  {% endif %}
+  <input type="{{ widget.type }}" name="{{ widget.name }}"
+         {% if widget.attrs.id %}id="{{ widget.attrs.id }}"{% endif %}
+         {% for name, value in widget.attrs.items %}{% if name != 'id' %}{{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %} {% endif %}{% endfor %}>
+</div>
