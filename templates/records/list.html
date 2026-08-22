@@ -61,7 +61,7 @@
 <section class="rec-wall dc-container">
   <div class="masonry">
     {% for t in tiles %}
-    <div class="rec" data-src="{{ t.full }}" data-model="{{ t.model }}">
+    <div class="rec" data-model="{{ t.model }}">
       <img class="rec__ph" src="{{ t.src }}" alt="{{ t.model }} 출고 사진"
            loading="lazy" decoding="async" width="640" height="480">
       <div class="rec__cap"><b>{{ t.model }}</b></div>
