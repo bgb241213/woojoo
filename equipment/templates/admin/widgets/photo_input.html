@@ -1,4 +1,8 @@
-{# equipment/admin_widgets.PhotoInput — 저장소 경로 대신 상태 한 마디만. #}
+{# equipment/admin_widgets.PhotoInput — 저장소 경로 대신 상태 한 마디만.
+
+   속성은 반드시 장고의 attrs.html 로 찍는다. 직접 돌리면 disabled 나 checked
+   처럼 값이 False 인 속성까지 `disabled="False"` 로 나가고, HTML 에서는 값이
+   무엇이든 붙어 있기만 하면 잠긴 것으로 읽혀 파일을 고를 수 없게 된다. #}
 <div class="wj-photo-input">
   {% if widget.is_initial %}
     <span class="wj-photo-input__state">등록됨</span>
@@ -9,7 +13,5 @@
       </label>
     {% endif %}
   {% endif %}
-  <input type="{{ widget.type }}" name="{{ widget.name }}"
-         {% if widget.attrs.id %}id="{{ widget.attrs.id }}"{% endif %}
-         {% for name, value in widget.attrs.items %}{% if name != 'id' %}{{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %} {% endif %}{% endfor %}>
+  <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
 </div>
