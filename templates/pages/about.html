@@ -20,7 +20,7 @@
 .ab-band--dark  { background: #0A0D24; }
 
 /* ── Hero banner ───────────────────────────────────────────── */
-.ab-hero { position: relative; height: 440px; background-image: url('{% static "images/hero/hero2.jpeg" %}'); background-size: cover; background-position: center; }
+.ab-hero { position: relative; height: 440px; background-image: url('{% static "images/hero/hero2.webp" %}'); background-size: cover; background-position: center; }
 .ab-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,26,66,.5) 0%, rgba(20,26,66,.72) 100%); }
 .ab-hero__inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
 .ab-hero__eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .18em; color: rgba(255,255,255,.62); margin-bottom: 14px; }
@@ -248,16 +248,16 @@
   <h2>사업 분야</h2>
   <p class="ab-biz__sub">우주렌탈이 제공하는 네 가지 서비스입니다.</p>
   <div class="ab-biz__grid">
-    <a class="ab-biz__card" href="{% url 'equipment:list' %}" style="background-image:url('{% static 'images/hero/hero3.jpeg' %}');">
+    <a class="ab-biz__card" href="{% url 'equipment:list' %}" style="background-image:url('{% static 'images/hero/hero3.webp' %}');">
       <div class="ab-biz__label">고소작업대<br>렌탈</div>
     </a>
-    <a class="ab-biz__card" href="{% url 'quotes:form' %}" style="background-image:url('{% static 'images/hero/as-service.jpeg' %}');">
+    <a class="ab-biz__card" href="{% url 'quotes:form' %}" style="background-image:url('{% static 'images/hero/as-service.webp' %}');">
       <div class="ab-biz__label">장비<br>AS / 수리</div>
     </a>
-    <div class="ab-biz__card" style="background-image:url('{% static 'images/hero/tools.jpeg' %}');">
+    <div class="ab-biz__card" style="background-image:url('{% static 'images/hero/tools.webp' %}');">
       <div class="ab-biz__label">부품 · 부속<br>판매</div>
     </div>
-    <a class="ab-biz__card" href="{% url 'sales:list' %}" style="background-image:url('{% static 'images/hero/hero1.jpeg' %}');">
+    <a class="ab-biz__card" href="{% url 'sales:list' %}" style="background-image:url('{% static 'images/hero/hero1.webp' %}');">
       <div class="ab-biz__label">고소작업대<br>판매</div>
     </a>
   </div>
