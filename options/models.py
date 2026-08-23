@@ -36,7 +36,8 @@ class OptionDevice(models.Model):
         섞이는 건 줄이 다른 경우다.
         """
         grouped = [
-            {'label': col.label, 'tag': col.tag, 'photos': list(col.photos.all())}
+            {'label': col.label, 'tag': col.tag,
+             'photos': [p for p in col.photos.all() if p.is_active]}
             for col in self.columns_set.all()
         ]
         grouped = [c for c in grouped if c['photos']]
@@ -94,6 +95,8 @@ class OptionPhoto(models.Model):
     image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     order        = models.PositiveIntegerField(default=0, verbose_name='순서',
                                                help_text='한 칸 안에서 위에서 아래 순입니다.')
+    # 지우지 않고 잠깐 내려두는 길. 다시 켜면 파일을 새로 올릴 필요가 없다.
+    is_active    = models.BooleanField(default=True, verbose_name='노출 여부')
 
     class Meta:
         verbose_name = '옵션 장치 사진'

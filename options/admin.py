@@ -50,8 +50,8 @@ class OptionColumnInline(admin.TabularInline):
 class OptionPhotoInline(admin.TabularInline):
     model = OptionPhoto
     extra = 2
-    fields = ['preview', 'image', 'column', 'caption', 'order']
-    readonly_fields = ['preview']
+    fields = ['preview', 'image', 'column', 'caption', 'order', 'is_active', 'shown']
+    readonly_fields = ['preview', 'shown']
     verbose_name = '사진'
     verbose_name_plural = '② 사진 — 사진을 고르고, 어느 칸에 넣을지만 정하면 됩니다'
 
@@ -65,6 +65,25 @@ class OptionPhotoInline(admin.TabularInline):
             except ValueError:
                 pass
         return _muted('저장하면 보입니다')
+
+    @admin.display(description='지금 상태')
+    def shown(self, obj):
+        """끈 사진이 화면에서 어떻게 되는지 말해준다.
+
+        한 칸의 사진을 모두 끄면 그 칸이 통째로 사라진다 — 좌우로 비교하는
+        화면이라 한쪽만 남으면 눈에 띄게 이상해지는데, 체크박스만 보고는
+        그렇게 될 줄 알 수 없다.
+        """
+        if not obj.pk:
+            return _muted('—')
+        if obj.is_active:
+            return format_html('<span style="color:#2E7D32;font-weight:700;">화면에 나옵니다</span>')
+        siblings = [p for p in obj.column.photos.all() if p.is_active]
+        if not siblings:
+            return format_html(
+                '<span style="color:#C62828;font-weight:700;">숨김 — 이 칸에 남은 사진이 '
+                '없어 <u>{}</u> 칸이 통째로 사라집니다</span>', obj.column.label)
+        return _muted('숨김')
 
     def get_formset(self, request, obj=None, **kwargs):
         # 칸 목록을 이 장치 것으로만 좁히려면 지금 편집 중인 장치를 알아야 한다.

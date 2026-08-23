@@ -62,6 +62,8 @@ class EquipmentImage(models.Model):
     image      = models.ImageField(upload_to='equipment/', verbose_name='이미지')
     image_type = models.CharField(max_length=10, choices=IMAGE_TYPE_CHOICES, verbose_name='이미지 용도')
     order      = models.PositiveIntegerField(default=0, verbose_name='순서')
+    # 지우지 않고 잠깐 내려두는 길. 다시 켜면 파일을 새로 올릴 필요가 없다.
+    is_active  = models.BooleanField(default=True, verbose_name='노출 여부')
     # Two separate numbers on purpose: `baseline_detected` is refreshed by the
     # machine every time the file changes, `baseline` is what a human typed and
     # must never be overwritten. See equipment/baseline.py.

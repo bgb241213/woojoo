@@ -59,7 +59,7 @@ def _db_images(equipment_id, image_type):
     """[(url, row)] of admin-managed images for one machine, ordered."""
     from .models import EquipmentImage
     rows = EquipmentImage.objects.filter(
-        equipment_id=equipment_id, image_type=image_type,
+        equipment_id=equipment_id, image_type=image_type, is_active=True,
     ).order_by('order', 'id')
     return _rows_to_images(rows)
 
@@ -76,7 +76,7 @@ def bulk_db_images(equipment_ids, image_type):
     from .models import EquipmentImage
     grouped = {}
     rows = EquipmentImage.objects.filter(
-        equipment_id__in=list(equipment_ids), image_type=image_type,
+        equipment_id__in=list(equipment_ids), image_type=image_type, is_active=True,
     ).order_by('equipment_id', 'order', 'id')
     for row in rows:
         grouped.setdefault(row.equipment_id, []).append(row)

@@ -25,8 +25,9 @@ def _muted(text):
 class EquipmentImageInline(admin.TabularInline):
     model = EquipmentImage
     extra = 3
-    fields = ['preview', 'image', 'image_type', 'order', 'baseline_status', 'baseline']
-    readonly_fields = ['preview', 'baseline_status']
+    fields = ['preview', 'image', 'image_type', 'order', 'is_active', 'shown',
+              'baseline_status', 'baseline']
+    readonly_fields = ['preview', 'shown', 'baseline_status']
     verbose_name = '사진'
     verbose_name_plural = '사진 — 파일을 고르고 용도만 지정하면 됩니다'
 
@@ -38,6 +39,25 @@ class EquipmentImageInline(admin.TabularInline):
             except ValueError:
                 pass
         return _muted('저장하면 보입니다')
+
+    @admin.display(description='지금 상태')
+    def shown(self, obj):
+        """끈 사진이 화면에서 어떻게 되는지 말해준다.
+
+        같은 용도의 사진을 모두 끄면 그 갤러리가 비어 기본 썸네일로 떨어진다.
+        체크박스만 보고는 그렇게 될 줄 알 수 없다.
+        """
+        if not obj.pk:
+            return _muted('—')
+        if obj.is_active:
+            return format_html('<span style="color:#2E7D32;font-weight:700;">화면에 나옵니다</span>')
+        siblings = [i for i in obj.equipment.images.all()
+                    if i.image_type == obj.image_type and i.is_active]
+        if not siblings:
+            return format_html(
+                '<span style="color:#C62828;font-weight:700;">숨김 — 남은 {} 사진이 없어 '
+                '기본 이미지가 나옵니다</span>', obj.get_image_type_display())
+        return _muted('숨김')
 
     @admin.display(description='바퀴선 인식')
     def baseline_status(self, obj):
