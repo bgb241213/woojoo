@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}우주렌탈 - 고소작업장비 렌탈·판매 전문{% endblock %}</title>
 
+  {% block robots %}{% endblock %}
+
   <!-- Favicon -->
   <link rel="icon" href="{% static 'images/favicon.ico' %}" sizes="any">
   <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
@@ -34,12 +36,13 @@
   <header class="site-header">
     <nav class="site-nav {% block nav_variant %}{% endblock %}" id="siteNav">
       <div class="site-nav__inner">
-        <a class="site-nav__logo" href="{% url 'pages:index' %}" aria-label="우주렌탈 홈">
+        <a class="site-nav__logo" href="{% block nav_logo_url %}{% url 'pages:index' %}{% endblock %}" aria-label="우주렌탈 홈">
           <img class="logo-dark"  src="{% static 'images/logo.png' %}" alt="우주렌탈">
           <img class="logo-white" src="{% static 'images/logo-white.png' %}" alt="우주렌탈">
         </a>
 
         <div class="site-nav__menu">
+          {% block nav_menu %}
           <a href="{% url 'pages:index' %}"       class="{% block nav_home %}{% endblock %}">홈</a>
           <a href="{% url 'pages:about' %}"        class="{% block nav_about %}{% endblock %}">회사 소개</a>
           <a href="{% url 'equipment:list' %}"     class="{% block nav_equipment %}{% endblock %}">장비 렌탈</a>
@@ -47,10 +50,11 @@
           <a href="{% url 'equipment:compare' %}"  class="{% block nav_compare %}{% endblock %}">장비 비교</a>
           <a href="{% url 'sales:list' %}"         class="{% block nav_sales %}{% endblock %}">장비 판매</a>
           <a href="{% url 'records:list' %}"       class="{% block nav_records %}{% endblock %}">판매 실적</a>
+          {% endblock %}
         </div>
 
         <div class="site-nav__right">
-          <a href="{% url 'quotes:form' %}" class="site-nav__cta">견적문의</a>
+          {% block nav_cta %}<a href="{% url 'quotes:form' %}" class="site-nav__cta">견적문의</a>{% endblock %}
         </div>
 
         <div class="site-nav__mtools">
@@ -64,6 +68,7 @@
       </div>
 
       <div class="site-nav__mobile" id="navMobile">
+        {% block nav_menu_mobile %}
         <a href="{% url 'pages:index' %}"      class="{% block mnav_home %}{% endblock %}">홈</a>
         <a href="{% url 'pages:about' %}"       class="{% block mnav_about %}{% endblock %}">회사 소개</a>
         <a href="{% url 'equipment:list' %}"    class="{% block mnav_equipment %}{% endblock %}">장비 렌탈</a>
@@ -71,6 +76,7 @@
         <a href="{% url 'equipment:compare' %}" class="{% block mnav_compare %}{% endblock %}">장비 비교</a>
         <a href="{% url 'sales:list' %}"        class="{% block mnav_sales %}{% endblock %}">장비 판매</a>
         <a href="{% url 'records:list' %}"      class="{% block mnav_records %}{% endblock %}">판매 실적</a>
+        {% endblock %}
       </div>
     </nav>
   </header>
@@ -96,7 +102,7 @@
       <!-- 개인정보보호법 시행령 §31②: 처리방침은 홈페이지에 지속적으로 게재해야 하므로
            모든 페이지 하단에서 접근 가능해야 한다. -->
       <div class="site-footer__legal">
-        <a href="{% url 'pages:privacy' %}">개인정보처리방침</a>
+        {% block footer_legal %}<a href="{% url 'pages:privacy' %}">개인정보처리방침</a>{% endblock %}
       </div>
     </div>
   </footer>

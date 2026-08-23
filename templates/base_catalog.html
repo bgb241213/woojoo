@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% comment %}
+  판매 카탈로그용 껍데기 — 영업 상황에서 링크 하나로 건네는 화면이다.
+
+  홈페이지 전체를 보여주는 자리가 아니므로 바깥으로 나가는 통로를 전부 막는다:
+  메뉴는 판매 장비·판매 실적 둘뿐이고, 로고도 홈이 아니라 카탈로그 첫 화면으로
+  간다. 견적문의 버튼도 뺐다 — 견적 페이지에는 온전한 메뉴가 달려 있어 거기서
+  카탈로그 밖으로 새어 나간다.
+
+  연락은 전화로만 받는다. 우측 하단 [전화 상담] 버튼과 영업시간 모달은 base.html
+  것을 그대로 쓴다 — 영업시간 외에는 번호를 남기는 폼이 뜨고, 그 폼은 이 페이지
+  안에서 처리되므로 카탈로그를 벗어나지 않는다.
+{% endcomment %}
+
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block nav_logo_url %}{% url 'catalog:sales' %}{% endblock %}
+
+{% block nav_menu %}
+  <a href="{% url 'catalog:sales' %}"   class="{% block nav_sales %}{% endblock %}">장비 판매</a>
+  <a href="{% url 'catalog:records' %}" class="{% block nav_records %}{% endblock %}">판매 실적</a>
+{% endblock %}
+
+{% block nav_menu_mobile %}
+  <a href="{% url 'catalog:sales' %}"   class="{% block mnav_sales %}{% endblock %}">장비 판매</a>
+  <a href="{% url 'catalog:records' %}" class="{% block mnav_records %}{% endblock %}">판매 실적</a>
+{% endblock %}
+
+{% block nav_cta %}<a href="tel:031-973-6661" class="site-nav__cta">031-973-6661</a>{% endblock %}
+
+{% comment %}
+  개인정보처리방침은 개인정보보호법 시행령 §31② 상 홈페이지에 지속적으로
+  게재해야 한다. 카탈로그에서도 링크는 남기되 새 탭으로 띄워, 보던 카탈로그가
+  다른 화면으로 바뀌지 않게 한다.
+{% endcomment %}
+{% block footer_legal %}
+  <a href="{% url 'pages:privacy' %}" target="_blank" rel="noopener">개인정보처리방침</a>
+{% endblock %}

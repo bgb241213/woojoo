@@ -11,6 +11,8 @@ urlpatterns = [
     path('options/', include('options.urls')),
     path('sales/', include('sales.urls')),
     path('records/', include('records.urls')),
+    # 영업용 판매 카탈로그. 같은 화면을 메뉴만 걷어낸 껍데기로 다시 낸다.
+    path('catalog/', include('catalog.urls')),
 ]
 
 if settings.DEBUG:
