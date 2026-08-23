@@ -48,11 +48,20 @@ def encode_webp(payload, quality=QUALITY, max_edge=MAX_EDGE):
     return buf.getvalue(), im.size
 
 
+def probe_size(field_file):
+    """(가로, 세로) — 아직 저장 전인 업로드 파일을 메모리에서 잰다."""
+    field_file.open('rb')
+    with Image.open(io.BytesIO(field_file.read())) as im:
+        return ImageOps.exif_transpose(im).size
+
+
 def compress_upload(field_file):
     """Re-encode a just-uploaded image as WebP before it reaches storage.
 
     Admin uploads come straight off a phone — several megabytes each — and
-    would otherwise be served at full size. Returns True when it converted.
+    would otherwise be served at full size. 변환했으면 (가로, 세로) 를, 이미
+    WebP 라 손대지 않았으면 None 을 돌려준다 — 부르는 쪽이 그 값을 그대로
+    저장해 두면 화면에서 파일을 다시 열 일이 없다.
 
     Only safe for a file that is new or replaced: saving routes the name back
     through the field's ``upload_to``, so calling this for a file already in
@@ -60,8 +69,8 @@ def compress_upload(field_file):
     """
     name = (field_file.name or '').rsplit('/', 1)[-1]
     if not name or name.lower().endswith('.webp'):
-        return False
+        return None
     field_file.open('rb')
-    data, _ = encode_webp(field_file.read())
+    data, size = encode_webp(field_file.read())
     field_file.save(webp_name(name), ContentFile(data), save=False)
-    return True
+    return size

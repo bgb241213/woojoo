@@ -87,10 +87,13 @@ class OptionPhoto(models.Model):
                                      help_text='위에서 만든 칸 중 하나를 고르세요.')
     caption      = models.CharField(max_length=100, blank=True, verbose_name='사진 위 설명',
                                     help_text='선택. 사진 바로 위에 붙습니다. 예: 측면사진')
-    image        = models.ImageField(upload_to='options/', verbose_name='사진',
-                                     width_field='image_width', height_field='image_height')
-    # 사진 비율로 상자 모양을 정하는데, 그때마다 파일을 열면 운영에서는 R2 를
-    # 왕복한다. 저장할 때 한 번 재서 넣어 두고 화면에서는 숫자만 쓴다.
+    image        = models.ImageField(upload_to='options/', verbose_name='사진')
+    # 사진 비율로 상자 모양을 정한다. 값은 저장할 때 우리가 채운다.
+    #
+    # ImageField 의 width_field/height_field 는 쓰지 않는다. 그걸 걸면 장고가
+    # post_init 에 붙어, 치수가 비어 있는 행을 만들 때마다 파일을 열어 잰다 —
+    # 운영에서는 사진 한 장이 R2 왕복 한 번이 되어 목록을 그릴 때마다 몇 초가
+    # 그냥 사라졌다.
     image_width  = models.PositiveIntegerField(null=True, blank=True, editable=False)
     image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     order        = models.PositiveIntegerField(default=0, verbose_name='순서',
@@ -121,6 +124,8 @@ class OptionPhoto(models.Model):
         """
         from equipment.imaging import compress_upload
 
+        from equipment.imaging import probe_size
+
         if self.column_id:
             self.device_id = self.column.device_id
 
@@ -129,7 +134,10 @@ class OptionPhoto(models.Model):
             previous = OptionPhoto.objects.filter(pk=self.pk).values_list('image', flat=True).first()
             changed = previous != self.image.name
         if changed and self.image:
-            compress_upload(self.image)
+            # 변환하면서 이미 잰 크기를 쓴다. 이미 WebP 라 손대지 않았을 때만
+            # 따로 재는데, 그때도 아직 업로드 중인 메모리 위의 파일이다.
+            size = compress_upload(self.image) or probe_size(self.image)
+            self.image_width, self.image_height = size
         super().save(*args, **kwargs)
 
 
